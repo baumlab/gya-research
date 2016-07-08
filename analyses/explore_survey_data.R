@@ -4,4 +4,11 @@
 
 setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 
+setwd("/Users/kristina........fill in here  /Documents/gya-research")
+
+
 ## read data
+survey<-read.csv("data/July-7-2016-7pm-Toronto.csv")
+
+
+
