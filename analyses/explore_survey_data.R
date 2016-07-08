@@ -4,7 +4,8 @@
 
 setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 
-setwd("/Users/kristina........fill in here  /Documents/gya-research")
+setwd("/Users/kristinatietjen/Documents/gya-research")
+
 
 
 ## read data
