@@ -10,7 +10,7 @@ setwd("/Users/kristinatietjen/Documents/gya-research")
 
 ## read data
 survey<-read.csv("data/July-7-2016-7pm-Toronto.csv", header=FALSE)
-survey<-survey[-1,]
+colnames(survey)<-as.character(survey[1,])
 
 ## remove some unnecessary columns
 survey$Username<-NULL
