@@ -4,7 +4,7 @@
 
 setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 
-setwd("/Users/kristinatietjen/Documents/gya-research")
+setwd("/Users/kristinatietjen/Documents/Git_Hub/gya-research")
 
 
 
