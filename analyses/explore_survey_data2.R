@@ -32,7 +32,7 @@ survey<-survey[survey$Status=="Complete",]
 colnames(survey)
 
 survey<-subset(survey, select=c("Location",  "gender", "field_research", "Country_work", "PhD_Year"))
-
+?subset
 
 states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
           "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",
@@ -55,35 +55,33 @@ survey$Country<-as.factor(survey$Country)
 survey.table<-table(survey$Country,survey$gender)
 
 
-locations<-aggregate(gender ~ Country, survey, length)
+
 gender<-aggregate(Location ~ gender, survey, length)
 field<-aggregate(Location ~ field_research, survey, length)
 country_work<-aggregate(gender ~ Country_work, survey, length)
 
+head(locations)
 
 
 
 
 require(ggplot2)
 ## Now plotting results
-qplot(x=Country, y=gender, data=locations, geom="bar", )
+qplot(x=Country, y=gender, data=locations, geom="point")
+qplot(x=Country, y=gender, data=locations, geom="boxplot", col=Country_work)
+qplot(y=Location, data=survey, geom="boxplot", col=field_research)
+
+head(survey)
+
+ggplot(data=field, aes(x=Country_work, y=Location, fill=field_research)) + geom_bar(stat='identity')
 
 
 
 
-
-
-
-
-
-
+## change default background to white
 theme_set(theme_bw())
 
-## plot countries with number of responses
-ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
-  geom_text(aes(label=gender), vjust=-0.25) +
-geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
+
 
 ## plot fields of research with number of responses
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -91,7 +89,14 @@ ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_r
   geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8))
   
   
+  
+# Figure 1 - response by country
+## count number of response by country
+locations<-aggregate(gender ~ Country, survey, length)
 
-
-
-
+## 
+## plot countries with number of responses
+ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
+  geom_text(aes(label=gender), vjust=-0.25) +
+  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
