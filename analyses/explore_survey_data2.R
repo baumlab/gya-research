@@ -31,8 +31,8 @@ survey<-survey[survey$Status=="Complete",]
 
 colnames(survey)
 
-survey<-subset(survey, select=c("Location",  "gender", "field_research", "Country_work", "PhD_Year"))
-?subset
+survey<-subset(survey, select=c("Location",  "gender", "field_research", "Country_work", "PhD_Year", "what_participant_group"))
+
 
 states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
           "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",
@@ -57,46 +57,110 @@ survey.table<-table(survey$Country,survey$gender)
 
 
 gender<-aggregate(Location ~ gender, survey, length)
-field<-aggregate(Location ~ field_research, survey, length)
+
 country_work<-aggregate(gender ~ Country_work, survey, length)
 
-head(locations)
 
 
 
 
 require(ggplot2)
 ## Now plotting results
-qplot(x=Country, y=gender, data=locations, geom="point")
-qplot(x=Country, y=gender, data=locations, geom="boxplot", col=Country_work)
-qplot(y=Location, data=survey, geom="boxplot", col=field_research)
+qplot(x=Country, y=gender, data=locations, geom="point", col=Country )
 
-head(survey)
-
-ggplot(data=field, aes(x=Country_work, y=Location, fill=field_research)) + geom_bar(stat='identity')
+qplot(x=Country, y=gender, data=locations, geom="boxplot" )
 
 
+qplot(x=field_research, y=Location, data=survey, geom="point", col=field_research )
 
 
-## change default background to white
+ggplot(data=field, aes(x=field_research, y=Location, fill=field_research)) + geom_bar(stat='identity')
+
+## change default background
 theme_set(theme_bw())
 
-
-
-## plot fields of research with number of responses
-ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8))
-  
-  
-  
-# Figure 1 - response by country
-## count number of response by country
-locations<-aggregate(gender ~ Country, survey, length)
-
-## 
 ## plot countries with number of responses
 ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
   geom_text(aes(label=gender), vjust=-0.25) +
-  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
+geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
+
+
+
+
+
+
+
+
+  
+  
+##1 # of responses by country
+locations<-aggregate(gender ~ Country, survey, length)
+
+ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
+  geom_text(aes(label=gender), vjust=-0.25) +
+  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) + theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))
+
+
+##2a # of responses by field research 
+field<-aggregate(Location ~ field_research, survey, length)
+
+ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") + 
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), 
+  axis.title=element_text(size=16)) + guides(fill=guide_legend(reverse=TRUE))
+
+
+
+##2b # of responses by field research for canada
+canada<-subset(survey, Country=="Canada")
+
+field<-aggregate(Location ~ field_research, canada, length)
+head(field)
+
+ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") +
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=16), 
+  legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))+ guides(fill=guide_legend(reverse=TRUE))
+
+
+##3a # of responses by participant group 
+experience<-aggregate(Location ~ what_participant_group, survey, length)
+
+ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
+  labs(y="Number of responses", x="") +  theme(legend.position=c(0.68, 0.85)) + theme(axis.text.x=element_blank()) + 
+  geom_text(aes(label=Location), vjust=-0.25) + guides(fill=guide_legend(reverse=TRUE)) + scale_fill_discrete(name="Participant Group") + 
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=14))
+ 
+
+##3b # of responses by participant group for canada
+canada<-subset(survey, Country=="Canada")
+
+experience<-aggregate(Location ~ what_participant_group, canada, length)
+
+ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
+  labs(y="Number of responses", x="") +  theme(legend.position=c(0.775, 0.85)) + theme(axis.text.x=element_blank()) + 
+  geom_text(aes(label=Location), vjust=-0.25)+ guides(fill=guide_legend(reverse=TRUE)) + scale_fill_discrete(name="Participant Group") + 
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))
+
+
+
+
+##4a type of research 50% or greater of fundemental
+
+
+
+##4b canada
+canada<-subset(survey, Country=="Canada")
+
+
+
+##5a box plot of percent of each type of research by field
+
+
+##5b canada
+canada<-subset(survey, Country=="Canada")
+
+
+
