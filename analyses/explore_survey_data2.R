@@ -136,15 +136,25 @@ experience<-aggregate(Location ~ what_participant_group, canada, length)
 ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
   labs(y="Number of responses", x="") +  theme(legend.position=c(0.775, 0.85)) + theme(axis.text.x=element_blank()) + 
   geom_text(aes(label=Location), vjust=-0.25)+ guides(fill=guide_legend(reverse=TRUE)) + scale_fill_discrete(name="Participant Group") + 
-  theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=14))
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))
 
 
 
 
 ##4a type of research 50% or greater of fundemental
+
+
+
 ##4b canada
+canada<-subset(survey, Country=="Canada")
+
+
+
 ##5a box plot of percent of each type of research by field
+
+
 ##5b canada
+canada<-subset(survey, Country=="Canada")
 
 
 
