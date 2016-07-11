@@ -52,7 +52,8 @@ survey$Country<-as.factor(survey$Country)
 ################################
 #### Summary statistics ########
 ################################
-table(survey$Country)
+survey.table<-table(survey$Country,survey$gender)
+
 
 locations<-aggregate(gender ~ Country, survey, length)
 gender<-aggregate(Location ~ gender, survey, length)
@@ -62,10 +63,20 @@ country_work<-aggregate(gender ~ Country_work, survey, length)
 
 
 
-locations[order(locations$gender, locations$Country, decreasing=TRUE),]
-
 
 require(ggplot2)
+## Now plotting results
+qplot(x=Country, y=gender, data=locations, geom="bar", )
+
+
+
+
+
+
+
+
+
+
 theme_set(theme_bw())
 
 ## plot countries with number of responses
