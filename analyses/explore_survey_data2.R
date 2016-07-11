@@ -92,7 +92,8 @@ geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300))
 
 
 
-  
+## add a line that saves the plots in a pdf
+pdf(file="figures/first_survey_responses.pdf", height=7, width=11)
   
 ##1 # of responses by country
 locations<-aggregate(gender ~ Country, survey, length)
@@ -100,7 +101,7 @@ locations<-aggregate(gender ~ Country, survey, length)
 ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
   geom_text(aes(label=gender), vjust=-0.25) +
-  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) + theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))
+  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) + theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))
 
 
 ##2a # of responses by field research 
@@ -108,8 +109,8 @@ field<-aggregate(Location ~ field_research, survey, length)
 
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") + 
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), 
-  axis.title=element_text(size=16)) + guides(fill=guide_legend(reverse=TRUE))
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), 
+  axis.title=element_text(size=14)) + guides(fill=guide_legend(reverse=TRUE))
 
 
 
@@ -121,17 +122,17 @@ head(field)
 
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") +
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=16), 
-  legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))+ guides(fill=guide_legend(reverse=TRUE))
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=12), 
+  legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))+ guides(fill=guide_legend(reverse=TRUE))
 
 
 ##3a # of responses by participant group 
 experience<-aggregate(Location ~ what_participant_group, survey, length)
 
 ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="") +  theme(legend.position=c(0.68, 0.85)) + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location), vjust=-0.25) + guides(fill=guide_legend(reverse=TRUE)) + scale_fill_discrete(name="Participant Group") + 
-  theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=14))
+  labs(y="Number of responses", x="") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
+  geom_text(aes(label=Location),size=5, vjust=-0.25) + guides(fill=guide_legend(reverse=TRUE, nrow=6)) + scale_fill_discrete(name="Participant Group") + 
+  theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=14))
  
 
 ##3b # of responses by participant group for canada
@@ -140,16 +141,21 @@ canada<-subset(survey, Country=="Canada")
 experience<-aggregate(Location ~ what_participant_group, canada, length)
 
 ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="") +  theme(legend.position=c(0.775, 0.85)) + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location), vjust=-0.25)+ guides(fill=guide_legend(reverse=TRUE)) + scale_fill_discrete(name="Participant Group") + 
-  theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))
+  labs(y="Number of responses", x="") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
+  geom_text(aes(label=Location),size=5, vjust=-0.25)+ guides(fill=guide_legend(reverse=TRUE, nrow=6)) + scale_fill_discrete(name="Participant Group") + 
+  theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))
 
 
+## read in non-subsetted data again
+survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+## 1. change all relevant variables to characters.......
+survey$percent_Applied_Research_past<-as.character(survey$percent_Applied_Research_past)
 
+require(stringr)
+## remove all % symbols 
+survey$percent_Applied_Research_past<-str_replace_all().........
 
 ##4a type of research 50% or greater of fundemental
-
-
 
 ##4b canada
 canada<-subset(survey, Country=="Canada")
@@ -164,3 +170,4 @@ canada<-subset(survey, Country=="Canada")
 
 
 
+dev.off()
