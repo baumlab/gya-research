@@ -100,14 +100,18 @@ locations<-aggregate(gender ~ Country, survey, length)
 ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
   geom_text(aes(label=gender), vjust=-0.25) +
-  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
+  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) + theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))
+
 
 ##2a # of responses by field research 
 field<-aggregate(Location ~ field_research, survey, length)
 
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8))
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") + 
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=16), legend.text=element_text(size=14), axis.text=element_text(size=14), 
+  axis.title=element_text(size=16)) + guides(fill=guide_legend(reverse=TRUE))
+
+
 
 ##2b # of responses by field research for canada
 canada<-subset(survey, Country=="Canada")
@@ -116,8 +120,10 @@ field<-aggregate(Location ~ field_research, canada, length)
 head(field)
 
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8))
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") +
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8)) + theme(legend.title=element_text(size=16), 
+  legend.text=element_text(size=14), axis.text=element_text(size=14), axis.title=element_text(size=16))+ guides(fill=guide_legend(reverse=TRUE))
+
 
 ##3a # of responses by participant group 
 experience<-aggregate(Location ~ what_participant_group, survey, length)
