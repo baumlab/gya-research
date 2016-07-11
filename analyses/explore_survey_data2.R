@@ -55,9 +55,9 @@ survey$Country<-as.factor(survey$Country)
 survey.table<-table(survey$Country,survey$gender)
 
 
-locations<-aggregate(gender ~ Country, survey, length)
+
 gender<-aggregate(Location ~ gender, survey, length)
-field<-aggregate(Location ~ field_research, survey, length)
+
 country_work<-aggregate(gender ~ Country_work, survey, length)
 
 
@@ -66,17 +66,17 @@ country_work<-aggregate(gender ~ Country_work, survey, length)
 
 require(ggplot2)
 ## Now plotting results
-qplot(x=Country, y=gender, data=locations, geom="bar", )
+qplot(x=Country, y=gender, data=locations, geom="point", col=Country )
+
+qplot(x=Country, y=gender, data=locations, geom="boxplot" )
 
 
+qplot(x=field_research, y=Location, data=survey, geom="point", col=field_research )
 
 
+ggplot(data=field, aes(x=field_research, y=Location, fill=field_research)) + geom_bar(stat='identity')
 
-
-
-
-
-
+## change default background
 theme_set(theme_bw())
 
 ## plot countries with number of responses
@@ -85,13 +85,45 @@ ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar
   geom_text(aes(label=gender), vjust=-0.25) +
 geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
 
-## plot fields of research with number of responses
+
+
+
+
+
+
+
+  
+  
+##1 countries responses
+locations<-aggregate(gender ~ Country, survey, length)
+
+ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
+  geom_text(aes(label=gender), vjust=-0.25) +
+  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
+
+##2a field research responses
+field<-aggregate(Location ~ field_research, survey, length)
+
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
   geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8))
-  
-  
 
+##2b canada
+canada<-subset(survey, Country=="Canada")
+
+field<-aggregate(Location ~ field_research, canada, length)
+
+ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8))
+
+##3a participant group responses
+##3b canada
+##4a type of research 50% or greater of fundemental
+##4b canada
+##5a box plot of percent of each type of research by field
+##5b canada
 
 
 
