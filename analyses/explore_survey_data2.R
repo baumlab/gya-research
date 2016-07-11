@@ -19,6 +19,8 @@ head(survey)
 #survey$'Updated At'<-NULL
 #survey'Number of Saves'<-NULL
 
+## check number of complete vs. incomplete
+table(survey$Status)
 
 ### keep complete data only
 survey<-survey[survey$Status=="Complete",]
@@ -29,7 +31,7 @@ survey<-survey[survey$Status=="Complete",]
 
 colnames(survey)
 
-survey<-subset(survey, select=c("Location",  "gender", "field_research", "Country_work"))
+survey<-subset(survey, select=c("Location",  "gender", "field_research", "Country_work", "PhD_Year"))
 
 
 states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
@@ -50,6 +52,7 @@ survey$Country<-as.factor(survey$Country)
 ################################
 #### Summary statistics ########
 ################################
+table(survey$Country)
 
 locations<-aggregate(gender ~ Country, survey, length)
 gender<-aggregate(Location ~ gender, survey, length)
@@ -63,9 +66,21 @@ locations[order(locations$gender, locations$Country, decreasing=TRUE),]
 
 
 require(ggplot2)
-country_work<-transform(country_work, 
-          Country_work = reorder(Country_work, gender))
-ggplot(country_work, aes(Country_work, gender)) + geom_bar(stat='identity') + 
-  theme(axis.text.x=element_text(angle=90)) + labs(y="Number of responses") 
+theme_set(theme_bw())
+
+## plot countries with number of responses
+ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
+  geom_text(aes(label=gender), vjust=-0.25) +
+geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
+
+## plot fields of research with number of responses
+ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.8, 0.8))
+  
+  
+
+
 
 
