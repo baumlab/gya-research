@@ -49,148 +49,88 @@ survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
 survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
 survey$Country<-as.factor(survey$Country)
 
-################################
-#### Summary statistics ########
-################################
-survey.table<-table(survey$Country,survey$gender)
+write.csv(survey, file="data/gya-country-responses.csv")
 
 
 
-gender<-aggregate(Location ~ gender, survey, length)
-head(gender)
-
-country_work<-aggregate(gender ~ Country_work, survey, length)
-
-
-
-
-
-require(ggplot2)
-## Now plotting results
-qplot(x=Country, y=gender, data=locations, geom="point", col=Country )
-
-qplot(x=Country, y=gender, data=locations, geom="boxplot" )
-
-
-qplot(x=field_research, y=Location, data=survey, geom="point", col=field_research )
-
-
-ggplot(data=field, aes(x=field_research, y=Location, fill=field_research)) + geom_bar(stat='identity')
-
-## change default background
-theme_set(theme_bw())
-
-## plot countries with number of responses
-ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
-  geom_text(aes(label=gender), vjust=-0.25) +
-geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) 
-
-
-
-
-
-
-
-
-## add a line that saves the plots in a pdf
-pdf(file="figures/first_survey_responses.pdf", height=7, width=11)
-  
-##1 # of responses by country
-locations<-aggregate(gender ~ Country, survey, length)
-
-ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses", x="")  + 
-  geom_text(aes(label=gender), vjust=-0.25, hjust=0.25) +
-  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) + theme(legend.title=element_text(size=12), 
-  legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16)) + 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-
-
-##2a # of responses by field research 
-field<-aggregate(Location ~ field_research, survey, length)
-
-ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") + 
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.78, 0.8)) + theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), 
-  axis.title=element_text(size=14)) + guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-
-
-##2b # of responses by field research for canada
-canada<-subset(survey, Country=="Canada")
-
-field<-aggregate(Location ~ field_research, canada, length)
-
-
-ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") +
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.78, 0.8)) + theme(legend.title=element_text(size=12), 
-  legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))+ 
-  guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-
-
-##3a # of responses by participant group 
-experience<-aggregate(Location ~ what_participant_group, survey, length)
-
-ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location),size=4, vjust=-0.25) + guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=6)) + scale_fill_discrete(name="Participant Group") + 
-  theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), 
-  axis.title=element_text(size=14))+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
- 
-
-##3b # of responses by participant group for canada
-canada<-subset(survey, Country=="Canada")
-
-experience<-aggregate(Location ~ what_participant_group, canada, length)
-
-ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location),size=4, vjust=-0.25)+ guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=6)) + scale_fill_discrete(name="Participant Group") + 
-  theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 
 ## read in non-subsetted data again
 survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+### keep complete data only
+survey<-survey[survey$Status=="Complete",]
 ## 1. change all relevant variables to characters.......
 survey$percent_Applied_Research_past<-as.character(survey$percent_Applied_Research_past)
+survey$percent_Applied_Research_current<-as.character(survey$percent_Applied_Research_current)
+survey$percent_fundemental_research_current<-as.character(survey$percent_fundemental_research_current)
+survey$percent_Fundamental_Research_past<-as.character(survey$percent_Fundamental_Research_past)
+survey$percent_Use_inspired_Research_current<-as.character(survey$percent_Use_inspired_Research_current)
+survey$percent_Use_inspired_Research_past<-as.character(survey$percent_Use_inspired_Research_past)
+
+colnames(survey)
+
+
+
+
+
 
 require(stringr)
 ## remove all % symbols 
-survey$percent_Applied_Research_past<-str_replace_all(survey$percent_Applied_Research_past, "[%]", "")
+#survey$percent_Applied_Research_past<-str_replace_all(survey$percent_Applied_Research_past, "[%]", "")
+survey$percent_Applied_Research_current<-str_replace_all(survey$percent_Applied_Research_current, "[%]", "")
+survey$percent_Use_inspired_Research_current<-str_replace_all(survey$percent_Use_inspired_Research_current, "[%]", "")
+survey$percent_fundemental_research_current<-str_replace_all(survey$percent_fundemental_research_current, "[%]", "")
+#survey$percent_Fundamental_Research_past
+
+#survey$percent_Use_inspired_Research_past
 
 survey<-subset(survey, select=c("Location",  "gender", "percent_fundemental_research_current", "percent_Applied_Research_current", 
                                 "percent_Use_inspired_Research_current"))
 
 
-##4a type of research 50% or greater of fundemental ---?
 
 
 
-
-
-##4b canada
-canada<-subset(survey, Country=="Canada")
-
-
-
-##5a box plot of percent of each type of research by field
 fundemental<-aggregate(Location ~ percent_fundemental_research_current, survey, length)
 applied<-aggregate(Location ~ percent_Applied_Research_current, survey, length)
 use<-aggregate(Location ~ percent_Use_inspired_Research_current, survey, length)
+## everything's fixed. % are gone.
 
-ggplot()
+### now we are going to standardise the % for each survey
+## 1. if every category is blank, turn to NA
+head(survey, 20)
 
+survey$percent_fundemental_research_current[survey$percent_fundemental_research_current=="" & 
+              survey$percent_Applied_Research_current=="" & survey$percent_Use_inspired_Research_current==""]<-NA
+survey$percent_Applied_Research_current[is.na(survey$percent_fundemental_research_current) & 
+              survey$percent_Applied_Research_current=="" & survey$percent_Use_inspired_Research_current==""]<-NA
+survey$percent_Use_inspired_Research_current[is.na(survey$percent_fundemental_research_current) &
+              is.na(survey$percent_Applied_Research_current) & survey$percent_Use_inspired_Research_current==""]<-NA
+  
+## 2. categories with answers and blanks, turn blanks to 0
+survey$percent_fundemental_research_current[survey$percent_fundemental_research_current==""]<-0
+survey$percent_Applied_Research_current[survey$percent_Applied_Research_current==""]<-0
+survey$percent_Use_inspired_Research_current[survey$percent_Use_inspired_Research_current==""]<-0
 
+survey<-survey[!is.na(survey$percent_fundemental_research_current),]
+survey<-survey[!(survey$percent_fundemental_research_current==0 & survey$percent_Applied_Research_current==0 & survey$percent_Use_inspired_Research_current==0),]
 
-##5b canada
-canada<-subset(survey, Country=="Canada")
+## 3. Standardise % values > 100 in total
+survey$percent_Applied_Research_current<-as.numeric(survey$percent_Applied_Research_current)
+survey$percent_fundemental_research_current<-as.numeric(survey$percent_fundemental_research_current)
+survey$percent_Use_inspired_Research_current<-as.numeric(survey$percent_Use_inspired_Research_current)
+survey$total_research<-rowSums(survey[,3:5])
 
+head(survey[survey$total_research>100,])
+## need to change 64 surveys that are over 100%
+survey$percent_Applied_Research_current<-ifelse(survey$total_research>100,(survey$percent_Applied_Research_current/survey$total_research)*100, survey$percent_Applied_Research_current)
+survey$percent_fundemental_research_current<-ifelse(survey$total_research>100,(survey$percent_fundemental_research_current/survey$total_research)*100, survey$percent_fundemental_research_current)
+survey$percent_Use_inspired_Research_current<-ifelse(survey$total_research>100,(survey$percent_Use_inspired_Research_current/survey$total_research)*100, survey$percent_Use_inspired_Research_current)
 
+## switch to long format
+require(tidyr)
+survey.long<-gather(survey, research, percent, -Location, -gender)
 
-dev.off()
+## save research % file as csv
+write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv")
