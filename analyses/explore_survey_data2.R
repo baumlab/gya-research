@@ -60,6 +60,13 @@ write.csv(survey, file="data/gya-country-responses.csv")
 survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
 ### keep complete data only
 survey<-survey[survey$Status=="Complete",]
+
+
+survey$Country<-as.character(survey$Location)
+survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
+survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
+survey$Country<-as.factor(survey$Country)
+
 ## 1. change all relevant variables to characters.......
 survey$percent_Applied_Research_past<-as.character(survey$percent_Applied_Research_past)
 survey$percent_Applied_Research_current<-as.character(survey$percent_Applied_Research_current)
@@ -85,7 +92,7 @@ survey$percent_fundemental_research_current<-str_replace_all(survey$percent_fund
 
 #survey$percent_Use_inspired_Research_past
 
-survey<-subset(survey, select=c("Location",  "gender", "percent_fundemental_research_current", "percent_Applied_Research_current", 
+survey<-subset(survey, select=c("Location","Country",  "gender", "percent_fundemental_research_current", "percent_Applied_Research_current", 
                                 "percent_Use_inspired_Research_current"))
 
 
@@ -120,7 +127,7 @@ survey<-survey[!(survey$percent_fundemental_research_current==0 & survey$percent
 survey$percent_Applied_Research_current<-as.numeric(survey$percent_Applied_Research_current)
 survey$percent_fundemental_research_current<-as.numeric(survey$percent_fundemental_research_current)
 survey$percent_Use_inspired_Research_current<-as.numeric(survey$percent_Use_inspired_Research_current)
-survey$total_research<-rowSums(survey[,3:5])
+survey$total_research<-rowSums(survey[,4:6])
 
 head(survey[survey$total_research>100,])
 ## need to change 64 surveys that are over 100%
@@ -130,7 +137,7 @@ survey$percent_Use_inspired_Research_current<-ifelse(survey$total_research>100,(
 
 ## switch to long format
 require(tidyr)
-survey.long<-gather(survey, research, percent, -Location, -gender)
+survey.long<-gather(survey, type, percent, -Location, -gender, -Country)
 
 ## save research % file as csv
 write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv")

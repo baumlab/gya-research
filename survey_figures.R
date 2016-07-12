@@ -6,6 +6,8 @@ setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
+
+
 survey<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 
@@ -119,7 +121,7 @@ ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location,
 
 
 
-##4a type of research 50% or greater of fundemental ---?
+##4a fundamental
 
 
 
@@ -131,14 +133,28 @@ canada<-subset(survey, Country=="Canada")
 
 
 
+
+research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
+research.wo.total<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current"))
 ##5a box plot of percent of each type of research by field
 
+ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot() + theme(axis.text.x = element_blank()) +
+  theme(axis.title.x = element_blank())
 
 
+#5b   average bar plots
+type.avg<-aggregate(percent~ type + Country, research.wo.total, mean)
 
-##5b canada
-canada<-subset(survey, Country=="Canada")
 
+ggplot(type.avg, aes(Country, percent)) + geom_bar(stat="identity", aes(fill=factor(type))) + theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+##5c canada
+canada<-subset(research.wo.total, Country=="Canada")
+summary(canada)
+
+ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
+
+##5d Canada bar
 
 
 dev.off()
