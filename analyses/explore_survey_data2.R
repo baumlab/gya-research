@@ -100,8 +100,8 @@ pdf(file="figures/first_survey_responses.pdf", height=7, width=11)
 locations<-aggregate(gender ~ Country, survey, length)
 
 ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + 
-  geom_text(aes(label=gender), vjust=-0.25) +
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses", x="")  + 
+  geom_text(aes(label=gender), vjust=-0.25, hjust=0.25) +
   geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) + theme(legend.title=element_text(size=12), 
   legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16)) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
