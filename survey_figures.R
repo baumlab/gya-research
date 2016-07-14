@@ -10,6 +10,9 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 survey<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
+research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
+research.change<-read.csv(file="data/gya-change-reason.csv")
+
 
 ################################
 #### Summary statistics ########
@@ -58,6 +61,11 @@ ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar
 ## add a line that saves the plots in a pdf
 pdf(file="figures/first_survey_responses.pdf", height=7, width=11)
 
+###############
+####Part5#####
+###############
+
+
 ##1 # of responses by country
 locations<-aggregate(gender ~ Country, survey, length)
 
@@ -93,6 +101,9 @@ ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_r
   guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
+##############
+####Part1#####
+##############
 
 ##3a # of responses by participant group 
 experience<-aggregate(Location ~ what_participant_group, survey, length)
@@ -116,45 +127,107 @@ ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location,
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
-
-
-
-
-
-##4a fundamental
-
-
-
-
-
-##4b canada
-canada<-subset(survey, Country=="Canada")
-
-
-
-
-
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
+
 research.wo.total<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current"))
-##5a box plot of percent of each type of research by field
+
+##4a box plot of percent of each type of research by field
 
 ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot() + theme(axis.text.x = element_blank()) +
   theme(axis.title.x = element_blank())
 
 
-#5b   average bar plots
+#4b   average bar plots
 type.avg<-aggregate(percent~ type + Country, research.wo.total, mean)
 
 
 ggplot(type.avg, aes(Country, percent)) + geom_bar(stat="identity", aes(fill=factor(type))) + theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
-##5c canada
+##4c canada
 canada<-subset(research.wo.total, Country=="Canada")
 summary(canada)
 
 ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
 
-##5d Canada bar
+##### now for past#####
+
+
+## 5 Change in type of research in the last 10yrs
+research.change<-read.csv(file="data/gya-change-reason.csv")
+yes.no<-subset(research.change, select=c("Location","Country",  "gender", "changed_10yrs"))
+
+ggplot(data=yes.no, aes(x=changed_10yrs, y=changed_10yrs, fill=changed_10yrs)) + geom_bar(stat='identity')
+
+#####
+
+research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
+research.wo.past.total<-subset(research.past, type_past%in%c("percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+
+## 6a type of research in the past  box
+
+ggplot(research.wo.past.total, aes(type_past, percent_past, fill=type_past)) + geom_boxplot() + theme(axis.text.x = element_blank()) +
+  theme(axis.title.x = element_blank())
+
+
+## 6b Type of research in the past  bar
+
+type.avg.past<-aggregate(percent_past~ type_past + Country, research.wo.past.total, mean)
+
+
+ggplot(type.avg.past, aes(Country, percent_past)) + geom_bar(stat="identity", aes(fill=factor(type_past))) + theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+
+## 6c  Canada
+canada<-subset(research.wo.past.total, Country=="Canada")
+summary(canada)
+
+ggplot(research.wo.past.total, aes(type_past, percent_past, fill=type_past)) + geom_boxplot()
+
+
+
+## 7a  Reason for change
+research.change<-read.csv(file="data/gya-change-reason.csv")
+
+reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
+                                       "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
+                                       "Main_reason_change_Other"))
+
+
+## switch to long format
+require(tidyr)
+reason.long<-gather(reason, reason.change, yes, -Location, -gender, -Country)
+
+ggplot(data=reason.long, aes(x=reason.change, y=yes, fill=reason.change)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+## 7b canada
+canada<-subset(research.wo.past.total, Country=="Canada")
+
+ggplot(data=reason.long, aes(x=reason.change, y=yes, fill=reason.change)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+
+###############
+####Part4######
+###############
+
+## 8  fundamental research important to your gov in your country
+
+
+## 9  What type of research is higher priority for your gov
+
+###############
+####Part2######
+###############
+
+
+###############
+####Part3######
+###############
+
+
+
+
 
 
 dev.off()
