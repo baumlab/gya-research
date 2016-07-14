@@ -319,28 +319,66 @@ ggplot(data=high.priority, aes(x=what.type, higher.priority, fill=what.type)) + 
 
 
 ######10a  Availiability of research funding will change in your country of work in the next 5 yrs
+availiability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
+                                      "available_funding_use_inspired", "available_funding_applied"))
+View(availiability.change)
 
+## switch to long format
+require(tidyr)
+availiability.change.long<-gather(availiability.change, what.type, level, -Location, -gender, -Country)
+head(availiability.change.long)
+availiability<-aggregate(gender~what.type+level, 
+                         availiability.change.long,length)
 
+# remove non-response
+availiability<-availiability[!availiability$level=="",]
 
+ggplot(data=availiability, aes(x=what.type, gender, fill=level))+ geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
+##10b countries ????????????????????????????????????????????????????????????????????????????????????????
+availiability<-aggregate(gender~what.type+level+Country, 
+                         availiability.change.long,length)
 
- 
+# remove non-response
+availiability<-availiability[!availiability$level=="",]
+
 
 
 ###10c-Canada
+availiability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
+                                             "available_funding_use_inspired", "available_funding_applied"))
+canada<-subset(availiability.change, Country=="Canada")
 
 
 ##fundamental pie
+fundamental<-subset(canada, select=c("gender", "available_funding_fundamental"))
+fun<-aggregate(gender~available_funding_fundamental, fundamental,length)
+head(fun)  
+# remove non-response
+fun<-fun[!fun$available_funding_fundamental=="",]
+pie(fun$gender, labels=fun$available_funding_fundamental, col=c("green","blue","deep pink","purple","red","yellow"))
 
 
 
 ##use inspired pie
+use.inspired<-subset(canada, select=c("gender", "available_funding_use_inspired"))
+use<-aggregate(gender~available_funding_use_inspired, use.inspired,length)
+ 
+# remove non-response
+use<-use[!use$available_funding_use_inspired=="",]
+pie(use$gender, labels=use$available_funding_use_inspired, col=c("green","blue","deep pink","purple","red","yellow"))
+
+
 
 ##applied pie
 
+applied<-subset(canada, select=c("gender", "available_funding_applied"))
+app<-aggregate(gender~available_funding_applied, applied,length)
 
-
-
+# remove non-response
+app<-app[!app$available_funding_applied=="",]
+pie(app$gender, labels=app$available_funding_applied, col=c("green","blue","deep pink","purple","red","yellow"))
 
 
 
