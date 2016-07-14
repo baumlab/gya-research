@@ -226,6 +226,8 @@ survey.long.past<-gather(survey, type_past, percent_past, -Location, -gender, -C
 
 #read in non subsetted data again
 survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+### keep complete data only
+survey<-survey[survey$Status=="Complete",]
 
 states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
           "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",

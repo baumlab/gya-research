@@ -156,7 +156,19 @@ ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
 research.change<-read.csv(file="data/gya-change-reason.csv")
 yes.no<-subset(research.change, select=c("Location","Country",  "gender", "changed_10yrs"))
 
-ggplot(data=yes.no, aes(x=changed_10yrs, y=changed_10yrs, fill=changed_10yrs)) + geom_bar(stat='identity')
+## using table to count cases of each category
+sum.yesno<-data.frame(table(yes.no$changed_10yrs))
+# remove non-response
+sum.yesno<-sum.yesno[!sum.yesno$Var1=="",]
+
+# for countries
+data.frame(table(yes.no$changed_10yrs, yes.no$Country))
+
+
+
+
+
+ggplot(data=sum.yesno, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity') + guides(fill=FALSE)
 
 #####
 
@@ -197,7 +209,10 @@ reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_
 require(tidyr)
 reason.long<-gather(reason, reason.change, yes, -Location, -gender, -Country)
 
-ggplot(data=reason.long, aes(x=reason.change, y=yes, fill=reason.change)) + geom_bar(stat='identity')+ 
+sum.reason<-data.frame(table(reason.long$reason.change, reason.long$yes))
+head(sum.reason)
+
+ggplot(data=sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 ## 7b canada
