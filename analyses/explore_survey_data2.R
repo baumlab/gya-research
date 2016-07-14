@@ -13,7 +13,7 @@ survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
 #colnames(survey)<-as.character(unlist(survey[1,]))
 #survey<-survey[-1,]
 
-head(survey)
+
 ## remove some unnecessary columns
 #survey$Username<-NULL
 #survey$'Updated At'<-NULL
@@ -251,9 +251,37 @@ survey.change<-subset(survey, select=c("Location","Country",  "gender", "changed
 
 
 
+#############
+####Part4####
+#############
+
+#read in non subsetted data again
+survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+### keep complete data only
+survey<-survey[survey$Status=="Complete",]
+
+colnames(survey)
+
+states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
+          "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",
+          "Wisconsin", "Virginia", "Utah", "Ohio", "North Carolina", "New Jersey", "New Hampshire", 
+          "Maine", "Louisiana", "Indiana", "Hawaii", "Alabama", "Tennessee", "Oklahoma", "New Mexico",
+          "Missouri", "Mississippi", "Iowa", "Delaware", "Colorado", "Illinois")
+
+prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New Brunswick", 
+        "Newfoundland and Labrador", "Manitoba", "Saskatchewan", "Prince Edward Island", "Yukon Territory", 
+        "Nunavut")
+
+survey$Country<-as.character(survey$Location)
+survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
+survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
+survey$Country<-as.factor(survey$Country)
 
 
-
+survey.part4<-subset(survey, select=c("Location","Country", "gender","opinion_fundamental_important",  
+                               "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
+                               "high_priority_no_change", "available_funding_fundamental", "available_funding_use_inspired", "available_funding_applied",
+                               "next_generation"))
 
 
 
@@ -269,3 +297,5 @@ write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv")
 write.csv(survey.long.past, file="data/gya-surveys-cleaned-research-past.csv")
 
 write.csv(survey.change, file="data/gya-change-reason.csv")
+
+write.csv(survey.part4, file="data/gya-survey-part4")

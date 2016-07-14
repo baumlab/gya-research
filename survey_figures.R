@@ -12,6 +12,7 @@ survey<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
 research.change<-read.csv(file="data/gya-change-reason.csv")
+part4<-read.csv(file="data/gya-survey-part4")
 
 
 ################################
@@ -90,7 +91,6 @@ ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_r
 
 ##2b # of responses by field research for canada
 canada<-subset(survey, Country=="Canada")
-
 field<-aggregate(Location ~ field_research, canada, length)
 
 
@@ -144,7 +144,7 @@ type.avg<-aggregate(percent~ type + Country, research.wo.total, mean)
 ggplot(type.avg, aes(Country, percent)) + geom_bar(stat="identity", aes(fill=factor(type))) + theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 ##4c canada
-canada<-subset(research.wo.total, Country=="Canada")
+canada<-subset(research, Country=="Canada")
 summary(canada)
 
 ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
@@ -152,7 +152,7 @@ ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
 ##### now for past#####
 
 
-## 5 Change in type of research in the last 10yrs
+## 5a Change in type of research in the last 10yrs
 research.change<-read.csv(file="data/gya-change-reason.csv")
 yes.no<-subset(research.change, select=c("Location","Country",  "gender", "changed_10yrs"))
 
@@ -161,14 +161,21 @@ sum.yesno<-data.frame(table(yes.no$changed_10yrs))
 # remove non-response
 sum.yesno<-sum.yesno[!sum.yesno$Var1=="",]
 
-# for countries
-data.frame(table(yes.no$changed_10yrs, yes.no$Country))
-
-
-
-
 
 ggplot(data=sum.yesno, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity') + guides(fill=FALSE)
+
+# 5b  for countries
+country.sum.yesno<-data.frame(table(yes.no$changed_10yrs, yes.no$Country))
+# remove non-response
+country.sum.yesno<-country.sum.yesno[!country.sum.yesno$Var1=="",]
+
+head(country.sum.yesno)
+ggplot(data=country.sum.yesno, aes(x=Var1, y=Freq, fill=Var2)) + geom_bar(stat='identity') +  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+ggplot(data=country.sum.yesno, aes(x=Var2, y=Freq, fill=Var1)) + geom_bar(stat='identity') +  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+
+
 
 #####
 
@@ -190,7 +197,7 @@ ggplot(type.avg.past, aes(Country, percent_past)) + geom_bar(stat="identity", ae
 
 
 ## 6c  Canada
-canada<-subset(research.wo.past.total, Country=="Canada")
+canada<-subset(research.change, Country=="Canada")
 summary(canada)
 
 ggplot(research.wo.past.total, aes(type_past, percent_past, fill=type_past)) + geom_boxplot()
@@ -213,23 +220,160 @@ sum.reason<-data.frame(table(reason.long$reason.change, reason.long$yes))
 head(sum.reason)
 
 ggplot(data=sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)
 
 ## 7b canada
-canada<-subset(research.wo.past.total, Country=="Canada")
+research.change<-read.csv(file="data/gya-change-reason.csv")
 
-ggplot(data=reason.long, aes(x=reason.change, y=yes, fill=reason.change)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
+                                         "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
+                                         "Main_reason_change_Other"))
+
+canada<-subset(reason, Country=="Canada")
+
+## switch to long format
+require(tidyr)
+canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country)
+
+## using table to count cases of each category
+sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
+
+# remove non-response
+sum.canada<-sum.canada[!sum.canada$Var1=="",]
+
+ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)
 
 
 ###############
 ####Part4######
 ###############
 
-## 8  fundamental research important to your gov in your country
+part4<-read.csv(file="data/gya-survey-part4")
+colnames(part4)
+
+## 8a  fundamental research important to your gov in your country
+important<-subset(part4, select=c("Location","Country", "gender","opinion_fundamental_important"))
+## using table to count cases of each category
+sum.important<-data.frame(table(important$opinion_fundamental_important))
+# remove non-response
+sum.important<-sum.important[!sum.important$Var1=="",]
+
+ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+## 8b  Canada
+canada<-subset(sum.important, Country=="Canada")
+head(canada)
+ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+##8c  countries
+country.sum.important<-data.frame(table(important$opinion_fundamental_important, important$Country))
+# remove non-response
+country.sum.important<-country.sum.important[!country.sum.important$Var1=="",]
+
+head(country.sum.important)
+ggplot(data=country.sum.important, aes(x=Var1, y=Freq, fill=Var2)) + geom_bar(stat='identity') +  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+ggplot(data=country.sum.important, aes(x=Var2, y=Freq, fill=Var1)) + geom_bar(stat='identity') +  theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 
-## 9  What type of research is higher priority for your gov
+
+## 9a  What type of research is higher priority for your gov
+priority<-subset(part4, select=c("Location","Country", "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
+                                                                 "high_priority_no_change"))
+
+## switch to long format
+require(tidyr)
+priority.long<-gather(priority, what.type, higher.priority, -Location, -gender, -Country)
+head(priority.long)
+
+#high.priority<-aggregate(higher.priority~ what.type, priority.long, length)
+high.priority<-aggregate(higher.priority~ what.type, priority.long, sum)
+
+ggplot(data=high.priority, aes(x=what.type, higher.priority, fill=what.type)) + geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+## 9c  countries
+country.high.priority<-aggregate(higher.priority~ what.type + Country, priority.long, sum)
+
+
+ggplot(data=country.high.priority, aes(x=Country, y=higher.priority, fill=what.type)) + geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+
+## 9b Canada
+priority<-subset(part4, select=c("Location","Country", "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
+                                 "high_priority_no_change"))
+canada<-subset(priority, Country=="Canada")
+## switch to long format
+require(tidyr)
+priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country)
+head(priority.long)
+
+high.priority<-aggregate(higher.priority~ what.type, priority.long, sum)
+
+ggplot(data=high.priority, aes(x=what.type, higher.priority, fill=what.type)) + geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+
+
+######10a  Availiability of research funding will change in your country of work in the next 5 yrs
+
+
+
+
+
+ 
+
+
+###10c-Canada
+
+
+##fundamental pie
+
+
+
+##use inspired pie
+
+##applied pie
+
+
+
+
+
+
+
+##11a changes in funding influence the next generation
+
+next.generation<-subset(part4, select=c("Location", "Country", "gender","next_generation"))
+# remove non-response
+next.generation<-next.generation[!next.generation$next_generation=="",]
+
+impact<-aggregate(gender~ next_generation, next.generation, length)
+head(impact)
+ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation)) + geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+##11b countries
+country.impact<-aggregate(gender~ next_generation + Country, next.generation, length)
+# remove non-response
+country.impact<-country.impact[!country.impact$next_generation=="",]
+
+ggplot(data=country.impact, aes(x=Country, y=gender, fill=next_generation)) + geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+##11c Canada
+next.generation<-subset(part4, select=c("Location", "Country", "gender","next_generation"))
+# remove non-response
+next.generation<-next.generation[!next.generation$next_generation=="",]
+canada<-subset(next.generation, Country=="Canada")
+head(canada)
+impact<-aggregate(gender~ next_generation, canada, length)
+head(impact)
+ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation)) + geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
 
 ###############
 ####Part2######
