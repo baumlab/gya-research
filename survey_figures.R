@@ -321,7 +321,6 @@ ggplot(data=high.priority, aes(x=what.type, higher.priority, fill=what.type)) + 
 ######10a  Availiability of research funding will change in your country of work in the next 5 yrs
 availiability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
                                       "available_funding_use_inspired", "available_funding_applied"))
-View(availiability.change)
 
 ## switch to long format
 require(tidyr)
@@ -336,50 +335,50 @@ availiability<-availiability[!availiability$level=="",]
 ggplot(data=availiability, aes(x=what.type, gender, fill=level))+ geom_bar(stat='identity') +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
-##10b countries ????????????????????????????????????????????????????????????????????????????????????????
-availiability<-aggregate(gender~what.type+level+Country, 
+##10b countries 
+availiability.cont<-aggregate(gender~what.type+level+Country, 
                          availiability.change.long,length)
 
 # remove non-response
-availiability<-availiability[!availiability$level=="",]
+availiability.cont<-availiability.cont[!availiability.cont$level=="",]
+
+ggplot(data=availiability.cont, aes(x=what.type, gender, fill=level))+ geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) + facet_wrap(~ Country)
+
+###subset out the countries with more than ~5 responses
+########################not done###################
+##################################################
+##################################################
+availiability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
+                                             "available_funding_use_inspired", "available_funding_applied"))
+head(availiability.change)
+#five.countries<-subset(availiability.change, Country=="USA","United Kingdom","Canada","Israel","Italy")
+?subset
+
+
+
+
 
 
 
 ###10c-Canada
+
 availiability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
                                              "available_funding_use_inspired", "available_funding_applied"))
 canada<-subset(availiability.change, Country=="Canada")
 
-
-##fundamental pie
-fundamental<-subset(canada, select=c("gender", "available_funding_fundamental"))
-fun<-aggregate(gender~available_funding_fundamental, fundamental,length)
-head(fun)  
+## switch to long format
+require(tidyr)
+availiability.change.long.ca<-gather(canada, what.type, level, -Location, -gender, -Country)
+head(availiability.change.long)
+availiability.ca<-aggregate(gender~what.type+level, 
+                         availiability.change.long.ca,length)
+head(availiability.ca)
 # remove non-response
-fun<-fun[!fun$available_funding_fundamental=="",]
-pie(fun$gender, labels=fun$available_funding_fundamental, col=c("green","blue","deep pink","purple","red","yellow"))
+availiability.ca<-availiability.ca[!availiability.ca$level=="",]
 
-
-
-##use inspired pie
-use.inspired<-subset(canada, select=c("gender", "available_funding_use_inspired"))
-use<-aggregate(gender~available_funding_use_inspired, use.inspired,length)
- 
-# remove non-response
-use<-use[!use$available_funding_use_inspired=="",]
-pie(use$gender, labels=use$available_funding_use_inspired, col=c("green","blue","deep pink","purple","red","yellow"))
-
-
-
-##applied pie
-
-applied<-subset(canada, select=c("gender", "available_funding_applied"))
-app<-aggregate(gender~available_funding_applied, applied,length)
-
-# remove non-response
-app<-app[!app$available_funding_applied=="",]
-pie(app$gender, labels=app$available_funding_applied, col=c("green","blue","deep pink","purple","red","yellow"))
-
+ggplot(data=availiability.ca, aes(x=what.type, gender, fill=level))+ geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 
 ##11a changes in funding influence the next generation
