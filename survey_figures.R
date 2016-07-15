@@ -84,7 +84,7 @@ field<-aggregate(Location ~ field_research, survey, length)
 
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") + 
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.78, 0.8)) + theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), 
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.78, 0.7)) + theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), 
                                                                                             axis.title=element_text(size=14)) + guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
@@ -96,7 +96,7 @@ field<-aggregate(Location ~ field_research, canada, length)
 
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") +
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.78, 0.8)) + theme(legend.title=element_text(size=12), 
+  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.85, 0.75)) + theme(legend.title=element_text(size=12), 
                                                                                             legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))+ 
   guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
@@ -261,6 +261,9 @@ sum.important<-sum.important[!sum.important$Var1=="",]
 
 ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+
+
 ## 8b  Canada
 canada<-subset(sum.important, Country=="Canada")
 head(canada)
