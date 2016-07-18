@@ -265,8 +265,14 @@ ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='iden
 
 
 ## 8b  Canada
-canada<-subset(sum.important, Country=="Canada")
-head(canada)
+important<-subset(part4, select=c("Location","Country", "gender","opinion_fundamental_important"))
+
+canada<-subset(important, Country=="Canada")
+## using table to count cases of each category
+sum.important<-data.frame(table(canada$opinion_fundamental_important))
+# remove non-response
+sum.important<-sum.important[!sum.important$Var1=="",]
+
 ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
@@ -356,7 +362,7 @@ availiability.change<-subset(part4, select=c("Location", "Country", "gender", "a
                                              "available_funding_use_inspired", "available_funding_applied"))
 head(availiability.change)
 #five.countries<-subset(availiability.change, Country=="USA","United Kingdom","Canada","Israel","Italy")
-?subset
+
 
 
 
