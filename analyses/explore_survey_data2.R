@@ -9,7 +9,7 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 
 ## read data
-#survey.simp<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+survey.simp<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
 survey<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
 
 
@@ -73,8 +73,7 @@ survey<-survey[survey$Status=="Complete",]
 ####Part5####
 #############
 
-survey<-subset(survey, select=c("Location",  "gender", "field_research", "Country_work", "PhD_Year", "what_participant_group"))
-
+survey.what<-subset(survey, select=c("Location",  "gender", "field_research", "Country_work", "PhD_Year", "what_participant_group"))
 
 states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
           "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",
@@ -86,10 +85,10 @@ prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New 
         "Newfoundland and Labrador", "Manitoba", "Saskatchewan", "Prince Edward Island", "Yukon Territory", 
         "Nunavut")
 
-survey$Country<-as.character(survey$Location)
-survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
-survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
-survey$Country<-as.factor(survey$Country)
+survey.what$Country<-as.character(survey.what$Location)
+survey.what$Country<-ifelse(survey.what$Country%in%states, 'USA', survey.what$Country)
+survey.what$Country<-ifelse(survey.what$Country%in%prov, 'Canada', survey.what$Country)
+survey.what$Country<-as.factor(survey.what$Country)
 
 ###saved
 
@@ -133,28 +132,29 @@ survey$percent_fundemental_research_current<-str_replace_all(survey$percent_fund
 #survey$percent_Fundamental_Research_past
 #survey$percent_Use_inspired_Research_past
 
-survey<-subset(survey, select=c("Location","Country",  "gender", "percent_fundemental_research_current", "percent_Applied_Research_current", 
+survey.type<-subset(survey, select=c("Location","Country",  "gender", "percent_fundemental_research_current", "percent_Applied_Research_current", 
                                 "percent_Use_inspired_Research_current"))
 
 
 
 
 
-fundemental<-aggregate(Location ~ percent_fundemental_research_current, survey, length)
-applied<-aggregate(Location ~ percent_Applied_Research_current, survey, length)
-use<-aggregate(Location ~ percent_Use_inspired_Research_current, survey, length)
+fundemental<-aggregate(Location ~ percent_fundemental_research_current, survey.type, length)
+applied<-aggregate(Location ~ percent_Applied_Research_current, survey.type, length)
+use<-aggregate(Location ~ percent_Use_inspired_Research_current, survey.type, length)
 ## everything's fixed. % are gone.
 
 ### now we are going to standardise the % for each survey
 ## 1. if every category is blank, turn to NA
-head(survey, 20)
+head(survey.type, 20)
 
-survey$percent_fundemental_research_current[survey$percent_fundemental_research_current=="" & 
-              survey$percent_Applied_Research_current=="" & survey$percent_Use_inspired_Research_current==""]<-NA
-survey$percent_Applied_Research_current[is.na(survey$percent_fundemental_research_current) & 
-              survey$percent_Applied_Research_current=="" & survey$percent_Use_inspired_Research_current==""]<-NA
-survey$percent_Use_inspired_Research_current[is.na(survey$percent_fundemental_research_current) &
-              is.na(survey$percent_Applied_Research_current) & survey$percent_Use_inspired_Research_current==""]<-NA
+survey$percent_fundemental_research_current[survey.type$percent_fundemental_research_current=="" & 
+                                              survey.type$percent_Applied_Research_current=="" & survey.type$percent_Use_inspired_Research_current==""]<-NA
+survey$percent_Applied_Research_current[is.na(survey.type$percent_fundemental_research_current) & 
+                                          
+                                          survey.type$percent_Applied_Research_current=="" & survey.type$percent_Use_inspired_Research_current==""]<-NA
+survey$percent_Use_inspired_Research_current[is.na(survey.type$percent_fundemental_research_current) &
+              is.na(survey.type$percent_Applied_Research_current) & survey.type$percent_Use_inspired_Research_current==""]<-NA
   
 ## 2. categories with answers and blanks, turn blanks to 0
 survey$percent_fundemental_research_current[survey$percent_fundemental_research_current==""]<-0
@@ -165,6 +165,7 @@ survey<-survey[!is.na(survey$percent_fundemental_research_current),]
 survey<-survey[!(survey$percent_fundemental_research_current==0 & survey$percent_Applied_Research_current==0 & survey$percent_Use_inspired_Research_current==0),]
 
 ## 3. Standardise % values > 100 in total
+
 survey$percent_Applied_Research_current<-as.numeric(survey$percent_Applied_Research_current)
 survey$percent_fundemental_research_current<-as.numeric(survey$percent_fundemental_research_current)
 survey$percent_Use_inspired_Research_current<-as.numeric(survey$percent_Use_inspired_Research_current)
@@ -280,6 +281,7 @@ prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New 
 
 survey$Country<-as.character(survey$Location)
 survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
+
 survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
 survey$Country<-as.factor(survey$Country)
 
@@ -324,12 +326,9 @@ survey.part4<-subset(survey, select=c("Location","Country", "gender","opinion_fu
 
 
 
-
-
-
 ############ save file as csv#############################
 
-write.csv(survey, file="data/gya-country-responses.csv")
+write.csv(survey.what, file="data/gya-country-responses.csv")
 
 write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv")
 
@@ -338,3 +337,4 @@ write.csv(survey.long.past, file="data/gya-surveys-cleaned-research-past.csv")
 write.csv(survey.change, file="data/gya-change-reason.csv")
 
 write.csv(survey.part4, file="data/gya-survey-part4")
+
