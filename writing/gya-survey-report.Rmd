@@ -1,0 +1,94 @@
+---
+title: "gya-survey-report"
+author: "James Robinson; Kristina Tietjen"
+date: "18 July 2016"
+output: html_document
+---
+
+```{r, echo=FALSE}
+## load in survey data
+setwd()
+survey<-read.csv("data/")
+
+## load required packages
+require(gridExtra); require(tidyr)
+```
+
+### GYA surveys: summary statistics
+
+As of `r date()`, `r, dim(surveys)[1]` from `r, length(unique(surveys$Country_work))` countries have been completed.
+
+The majority of surveys were completed by researchers based in Canada (n = `r, length(surveys[surveys$Country_work=="Canada",])[1]`), followed by USA (n = `r, length(surveys[surveys$Country_work=="USA",])[1]`) and the UK (n = `r, length(surveys[surveys$Country_work=="UK",])[1]`).
+
+```{r, echo=FALSE, fig.cap="Survey responses by country"}
+ggplot........
+```
+
+```{r, echo=FALSE, fig.cap="Survey responses by field of research (global and Canada)"}
+g1<-ggplot........
+
+g2<-ggplot........
+
+grid.arrange(g1, g2)
+```
+
+### GYA surveys: Canada
+
+#### Part 1 - Type of Research Conducted
+```{r, echo=FALSE, fig.cap="Current vs. past research type (Canada)"}
+## make sure that Use-inspired is the middle level in the legend
+g1<-ggplot()
+
+
+g2<-ggplot()
+
+grid.arrange(g1, g2)
+```
+
+```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years (Canada)"}
+## order bars from highest to lowest
+
+# Change in the past 10 years? (yes, no, can't comment)
+g1<-ggplot()
+
+# What is your main reason for change?
+g2<-ggplot()
+
+grid.arrange(g1, g2, nrow=1)
+```
+
+
+#### Part 4 - Funding Trends
+
+```{r, echo=FALSE, fig.cap="Perceived importance of fundamental research to Canada"}
+## order bars from very important (left) to can't comment (right)
+ggplot()
+
+```
+
+
+```{r, echo=FALSE, fig.cap="Perceived change in research priority by Canadian government"}
+## order bars into applied > use > fundamental > no change
+ggplot()
+
+```
+
+
+```{r, echo=FALSE, fig.cap="Anticipated change in research funding in next 5 years "}
+## change in funding on the x-axis, and colours = type of research
+## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
+ggplot()
+
+```
+
+
+```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation"}
+
+## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
+ggplot()
+
+```
+
+
+
+ADD GENDER TO PLOTS.....
