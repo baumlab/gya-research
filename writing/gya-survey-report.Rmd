@@ -8,10 +8,11 @@ output: html_document
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
 
-#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
-setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 
-survey<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
+survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
+survey<-read.csv(file="data/gya-without-incomplete.csv")
 survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
@@ -32,10 +33,10 @@ locations<-aggregate(gender ~ Country, survey.what, length)
 
 As of `r date()`, `r dim(survey.what)[1]` surveys from `r length(unique(survey.what$Country_work))` countries have been completed.
 
-The majority of surveys were completed by researchers based in Canada (n = `r country_work$gender[country_work$Country_work=="Canada"]`), followed by Israel (n = `r country_work$gender[country_work$Country_work=="Israel"]`) then by USA (n = `r country_work$gender[country_work$Country_work=="United States"]`) and the UK (n = `r country_work$gender[country_work$Country_work=="United Kingdom"]`). `r country_work$gender[country_work$Country_work==""]` surveys did not identify their place of work.
+The majority of surveys were completed by researchers based in Canada (n = `r country_work$gender[country_work$Country_work=="Canada"]`), followed by Israel (n = `r country_work$gender[country_work$Country_work=="Israel"]`) then by the UK (n = `r country_work$gender[country_work$Country_work=="United Kingdom"]`) and the USA (n = `r country_work$gender[country_work$Country_work=="United States"]`). `r country_work$gender[country_work$Country_work==""]` surveys did not identify their place of work.
 
 ```{r, echo=FALSE, fig.cap="Survey responses by country", warning=FALSE}
- 
+
 ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
   geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
   #geom_text(aes(label=Country_work), angle=90, hjust=-0.5) 

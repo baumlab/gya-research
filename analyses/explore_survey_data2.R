@@ -10,8 +10,8 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 ## read data
 survey.simp<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
-survey<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
-
+survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
+dim(survey.all)
 
 suveycols<-c("Status","Location"	,"what_participant_group",
   "percent_fundemental_research_current",	"percent_Use_inspired_Research_current"	,
@@ -38,32 +38,32 @@ suveycols<-c("Status","Location"	,"what_participant_group",
   "available_funding_use_inspired",	"available_funding_applied",	"next_generation",	"next_generation_Comments",
   "field_research",	"PhD_Year",	"Country_work",	"gender")
 ## remove some unnecessary columns
-survey$Username<-NULL
-survey$'Updated_At'<-NULL
-survey$'Number_of_Saves'<-NULL
-survey$'Internal_ID'<-NULL
-survey$'Language'<-NULL
-survey$'Created_At'<-NULL
-survey$'GET_Variables'<-NULL
-survey$'Referrer'<-NULL
-survey$'Weighted_Score'<-NULL
-survey$'Completion_Time'<-NULL
-survey$'IP_Address'<-NULL
-survey$'Invite_Code'<-NULL
-survey$'Invite_Email'<-NULL
-survey$'Invite_Name'<-NULL
-survey$'Collector'<-NULL
-survey$'final_comments'<-NULL
+survey.all$'Username'<-NULL
+survey.all$'Updated_At'<-NULL
+survey.all$'Number_of_Saves'<-NULL
+survey.all$'Internal_ID'<-NULL
+survey.all$'Language'<-NULL
+survey.all$'Created_At'<-NULL
+survey.all$'GET_Variables'<-NULL
+survey.all$'Referrer'<-NULL
+survey.all$'Weighted_Score'<-NULL
+survey.all$'Completion_Time'<-NULL
+survey.all$'IP_Address'<-NULL
+survey.all$'Invite_Code'<-NULL
+survey.all$'Invite_Email'<-NULL
+survey.all$'Invite_Name'<-NULL
+survey.all$'Collector'<-NULL
+survey.all$'final_comments'<-NULL
 ##change column names
 
-colnames(survey)<-suveycols
+colnames(survey.all)<-suveycols
 
 ## check number of complete vs. incomplete
-table(survey$Status)
+table(survey.all$Status)
 
 ### keep complete data only
-survey<-survey[survey$Status=="Complete",]
-
+survey<-survey.all[survey.all$Status=="Complete",]
+dim(survey)
 # add 'date column'
 #require(stringr)
 #survey$date<-str_split_fixed(survey$'Completed At', " ", 1)
@@ -98,9 +98,8 @@ survey.what$Country<-as.factor(survey.what$Country)
 ##############
 
 ## read in non-subsetted data again
-survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
-### keep complete data only
-survey<-survey[survey$Status=="Complete",]
+survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
+
 
 
 survey$Country<-as.character(survey$Location)
@@ -328,6 +327,8 @@ survey.part4<-subset(survey, select=c("Location","Country", "gender","opinion_fu
 
 ############ save file as csv#############################
 
+write.csv(survey, file="data/gya-without-incomplete.csv")
+dim(survey)
 write.csv(survey.what, file="data/gya-country-responses.csv")
 
 write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv")
@@ -337,4 +338,6 @@ write.csv(survey.long.past, file="data/gya-surveys-cleaned-research-past.csv")
 write.csv(survey.change, file="data/gya-change-reason.csv")
 
 write.csv(survey.part4, file="data/gya-survey-part4")
+
+
 
