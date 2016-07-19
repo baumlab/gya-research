@@ -1,14 +1,15 @@
 ---
-title: "gya-survey-report"
+title: "GYA surveys"
 author: "James Robinson; Kristina Tietjen"
 date: "18 July 2016"
 output: html_document
 ---
 
-```{r, echo=FALSE, hide=TRUE}
+```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
 
-setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 
 survey<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
 survey.what<-read.csv(file="data/gya-country-responses.csv")
@@ -18,69 +19,92 @@ research.change<-read.csv(file="data/gya-change-reason.csv")
 part4<-read.csv(file="data/gya-survey-part4")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer)
 theme_set(theme_bw())
+
+gender<-aggregate(Location ~ gender, survey, length)
+country_work<-aggregate(gender ~ Country_work, survey, length)
+locations<-aggregate(gender ~ Country, survey.what, length)
+
 ```
 
-### GYA surveys: summary statistics
+### Summary statistics
 
-As of `r date()`, `r dim(survey.what)[1]` from `r length(unique(survey.what$Country_work))` countries have been completed.
+As of `r date()`, `r dim(survey.what)[1]` surveys from `r length(unique(survey.what$Country_work))` countries have been completed.
 
-The majority of surveys were completed by researchers based in Canada (n = `r dim(survey.what[survey.what$Country_work=="Canada",])[1]`), followed by Israel (n = `r dim(survey.what[survey.what$Country_work=="Israel",])[1]`) then by USA (n = `r dim(survey.what[survey.what$Country_work=="United States",])[1]`) and the UK (n = `r dim(survey.what[survey.what$Country_work=="United Kingdom",])[1]`).
+The majority of surveys were completed by researchers based in Canada (n = `r country_work$gender[country_work$Country_work=="Canada"]`), followed by Israel (n = `r country_work$gender[country_work$Country_work=="Israel"]`) then by USA (n = `r country_work$gender[country_work$Country_work=="United States"]`) and the UK (n = `r country_work$gender[country_work$Country_work=="United Kingdom"]`). `r country_work$gender[country_work$Country_work==""]` surveys did not identify their place of work.
 
-```{r, echo=FALSE, fig.cap="Survey responses by country"}
-gender<-aggregate(Location ~ gender, survey, length)
-
-country_work<-aggregate(gender ~ Country_work, survey, length)
-
- locations<-aggregate(gender ~ Country, survey.what, length)
-ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses", x="")  + 
-  geom_text(aes(label=gender), vjust=-0.25, hjust=0.25) +
-  geom_text(aes(label=Country_work), angle=90, hjust=-0.5) + lims(y=c(0, 1300)) + theme(legend.title=element_text(size=12), 
-                                                                                        legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16)) + 
+```{r, echo=FALSE, fig.cap="Survey responses by country", warning=FALSE}
+ 
+ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
+  geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
+  #geom_text(aes(label=Country_work), angle=90, hjust=-0.5) 
+   lims(y=c(0, 1600)) + theme(legend.title=element_text(size=12), 
+    legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-                               
+```                               
 
-```{r, echo=FALSE, fig.cap="Survey responses by field of research (global and Canada)"}
+```{r, echo=FALSE, fig.cap="Survey responses by field of research (global and Canada)", warning=FALSE}
+## setting colour scale to keep colours identical between similar plots
+myColors <- brewer.pal(8,"Set1")
+names(myColors) <- levels(survey.what$field_research)
+colScale <- scale_fill_manual(name = "field_research",values = myColors)
+
 field<-aggregate(Location ~ field_research, survey.what, length)
-g1<-ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") + 
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.78, 0.7)) + theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), 
-                                                                                            axis.title=element_text(size=14)) + guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+## remove 1 case of no field recorded
+field<-field[!field$field_research=="",]
 
 
-canada<-subset(survey.what, Country=="Canada")
-field<-aggregate(Location ~ field_research, canada, length)
-g2<-ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") +
-  geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.85, 0.75)) + theme(legend.title=element_text(size=12), 
-                                                                                            legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))+ 
-  guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+g1<-ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + ylim(c(0, 650)) + 
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="", title="Global")  +
+  geom_text(aes(label=Location), vjust=-0.25) + theme( axis.text=element_text(size=14), 
+                                                                                            axis.title=element_text(size=10)) + guides(fill=FALSE) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale
 
 
-grid.arrange(g1, g2)
 
-```{r, echo=FALSE, fig.cap="Survey responses by years of experience (global and Canada)"}
+field.can<-aggregate(Location ~ field_research, survey.what[survey.what$Country=="Canada",], length)
+
+g2<-ggplot(field.can, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + ylim(c(0, 400)) +
+  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="", title="Canada")  +
+  geom_text(aes(label=Location), vjust=-0.25) + theme( axis.text=element_text(size=14), axis.title=element_text(size=10),
+                                                       legend.position="bottom", legend.title=element_blank(), legend.text=element_text(size=9))+ 
+  guides(fill=guide_legend(nrow=4)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ colScale
+
+
+grid.arrange(g1, g2, layout_matrix=rbind(1,2,2))
+
+
+```
+
+
+
+```{r, echo=FALSE, fig.cap="Survey responses by years of experience (global and Canada)", warning=FALSE}
+## setting colour scale to keep colours identical between similar plots
+myColors <- brewer.pal(6,"Set1")
+names(myColors) <- levels(survey.what$what_participant_group)
+colScale <- scale_fill_manual(name = "what_participant_group",values = myColors, labels=c("Senior academic researcher", "Postdoc or RA", "Non-academic researcher <10 yrs experience", "Non-academic researcher >10yrs experience", "Early career academic researcher"))
+
+
 experience<-aggregate(Location ~ what_participant_group, survey.what, length)
+experience<-experience[!experience$what_participant_group=="",]
 
 g3<-ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location),size=4, vjust=-0.25) + guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=6)) + scale_fill_discrete(name="Participant Group") + 
-  theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), 
-        axis.title=element_text(size=14))+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+  labs(y="Number of responses", x="", title="Global") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
+  geom_text(aes(label=Location),size=4, vjust=-0.25) + guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=6)) + 
+  theme( axis.text=element_text(size=14), axis.title=element_text(size=10),panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ guides(fill=FALSE) + ylim(c(0, 1300))
 
-canada<-subset(survey.what, Country=="Canada")
 
-experience<-aggregate(Location ~ what_participant_group, canada, length)
 
-g4<-ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location),size=4, vjust=-0.25)+ guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=6)) + scale_fill_discrete(name="Participant Group") + 
-  theme(legend.title=element_text(size=12), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+experience_can<-aggregate(Location ~ what_participant_group, survey.what[survey.what$Country=="Canada",], length)
+experience_can<-experience_can[!experience_can$what_participant_group=="",]
 
-grid.arrange(g3, g4)
+g4<-ggplot(experience_can, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
+  labs(y="Number of responses", x="", title="Canada") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
+  geom_text(aes(label=Location),size=4, vjust=-0.25)+ guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
+  theme(legend.title=element_blank(), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=10))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ ylim(c(0, 800))
+
+grid.arrange(g3, g4, layout_matrix=rbind(1,2,2))
 
 ```
 
@@ -91,25 +115,23 @@ grid.arrange(g3, g4)
 
 ## make sure that Use-inspired is the middle level in the legend
 
-research.wo.total<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current"))
-research.wo.total$percent<-as.numeric(as.character(research.wo.total$percent))
-type.avg<-aggregate(percent~ type + Country, research.wo.total, mean)
-
-canada<-subset(research, Country=="Canada")
-
-g1<-ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
-
-
-
-research.wo.past.total<-subset(research.past, type_past%in%c("percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
-type.avg.past<-aggregate(percent_past~ type_past + Country, research.wo.past.total, mean)
-
-canada<-subset(research.change, Country=="Canada")
-
-g2<-ggplot(research.wo.past.total, aes(type_past, percent_past, fill=type_past)) + geom_boxplot()
+res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
+res.plot$percent<-as.numeric(as.character(res.plot$percent))
+res.plot$type<-as.character(res.plot$type)
+# add time variable
+res.plot$time<-ifelse(grepl( "current", res.plot$type),"Current", "Past")
+res.plot$type[res.plot$type=="percent_Applied_Research_past"]<-"Applied"
+res.plot$type[res.plot$type=="percent_Applied_Research_current"]<-"Applied"
+res.plot$type[res.plot$type=="percent_Fundamental_Research_past"]<-"Fundamental"
+res.plot$type[res.plot$type=="percent_fundemental_research_current"]<-"Fundamental"
+res.plot$type[res.plot$type=="percent_Use_inspired_Research_past"]<-"Use inspired"
+res.plot$type[res.plot$type=="percent_Use_inspired_Research_current"]<-"Use inspired"
 
 
-grid.arrange(g1, g2)
+ggplot(res.plot[res.plot$Country=="Canada",], aes(type, percent, fill=time)) + geom_boxplot() +guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=2)) +
+  labs(x="Research type", y="% research", title="Canada")
+
 ```
 
 ```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years (Canada)"}
