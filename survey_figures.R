@@ -7,7 +7,8 @@ setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 
-
+survey<-read.csv(file="data/gya-without-incomplete.csv")
+dim(survey)
 survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
@@ -53,7 +54,7 @@ pdf(file="figures/first_survey_responses.pdf", height=7, width=11)
 
 ##1 # of responses by country
 locations<-aggregate(gender ~ Country, survey.what, length)
-locations
+
 ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
   geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
   #geom_text(aes(label=Country_work), angle=90, hjust=-0.5) 
@@ -61,6 +62,28 @@ ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar
                              legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
+##1b  top 20+
+country.list<-c("Canada" , "France",
+                    "Germany","United Kingdom","Italy","Japan",
+                      "United States","Australia","Austria","Belgium",
+                      "Ireland","Brazil", "Poland","Finland",
+                       "Netherlands","New Zealand","Norway",
+                      "Spain","Sweden","Switzerland","Turkey","Israel",
+                      "India","Bangladesh","Uruguay","Malaysia","New Zealand")
+country.top<-survey[survey$Country_work %in% country.list,]
+head(country.top)
+locations.top<-aggregate(gender ~ Country_work, country.top, length)
+locations.top
+gender.top<-aggregate(Country_work ~ gender, country.top, length)
+gender.top
+quartz()
+ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
+  theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
+  geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
+  #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
+  lims(y=c(0, 1600)) + theme(legend.title=element_text(size=12), 
+                             legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ##2a # of responses by field research 
 field<-aggregate(Location ~ field_research, survey.what, length)
