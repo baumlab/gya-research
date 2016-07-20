@@ -182,11 +182,14 @@ important<-subset(part4, select=c("Location","Country", "gender","opinion_fundam
 
 canada<-subset(important, Country=="Canada")
 ## using table to count cases of each category
-sum.important<-data.frame(table(canada$opinion_fundamental_important))
+sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$gender))
+temp<-aggregate(Freq ~ Var2, sum.important, sum)
+
 # remove non-response
 sum.important<-sum.important[!sum.important$Var1=="",]
+sum.important
 
-ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity', position='dodge')+ 
   theme(axis.text.x = element_text(), legend.position=c(0.8, 0.8), legend.title=element_blank())  + labs(x="", y="Number of responses") + scale_x_discrete(limits=rev(levels(sum.important$Var1))) + guides(fill=FALSE)
 
 ```
