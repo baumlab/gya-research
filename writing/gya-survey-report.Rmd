@@ -3,10 +3,10 @@ title: "GYA surveys"
 author: "James Robinson; Kristina Tietjen"
 date: "18 July 2016"
 output:
-  pdf_document: null
-  fig_width: 10
   html_document: default
+  fig_width: 10
   fig_height: 4
+  pdf_document: null
 ---
 
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
@@ -24,7 +24,7 @@ research.change<-read.csv(file="data/gya-change-reason.csv")
 part4<-read.csv(file="data/gya-survey-part4")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix)
 theme_set(theme_bw())
 
 gender<-aggregate(Location ~ gender, survey, length)
@@ -48,6 +48,26 @@ ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar
     legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```                               
+
+```{r, echo=FALSE, fig.cap="Survey responses of the top 20 responding countries, G8 countries, and the top spenders in R & D from OECD data"}
+country.list<-c("Canada" , "France",
+                    "Germany","United Kingdom","Italy","Japan", "Russia","Korea, South",
+                      "United States","Australia","Austria","Belgium",
+                      "Ireland","Brazil", "Poland","Finland",
+                       "Netherlands","New Zealand","Norway",
+                      "Spain","Sweden","Switzerland","Turkey","Israel",
+                      "India","Bangladesh","Uruguay","Malaysia","New Zealand","Taiwan","Denmark")
+
+country.top<-survey[survey$Country_work %in% country.list,]
+locations.top<-aggregate(gender ~ Country_work, country.top, length)
+gender.top<-aggregate(Country_work ~ gender, country.top, length)
+locations.top[order(match(locations.top,gender.top))]
+barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)]
+par(mar=c(7,4,4,2))
+gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(201,1200),horiz=F, xaxlab=barlabs, xlab="", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200, 1242,1300),las=2, col=c(blue2red(29)))  
+
+```
 
 ```{r, echo=FALSE, fig.cap="Survey responses by field of research (global and Canada)", warning=FALSE}
 ## setting colour scale to keep colours identical between similar plots
