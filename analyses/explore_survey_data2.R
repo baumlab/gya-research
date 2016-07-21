@@ -9,7 +9,7 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 
 ## read data
-survey.simp<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+
 survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
 dim(survey.all)
 
@@ -67,7 +67,7 @@ dim(survey)
 # add 'date column'
 #require(stringr)
 #survey$date<-str_split_fixed(survey$'Completed At', " ", 1)
-
+write.csv(survey, file="data/gya-without-incomplete.csv")
 
 #############
 ####Part5####
@@ -327,7 +327,7 @@ survey.part4<-subset(survey, select=c("Location","Country", "gender","opinion_fu
 
 ############ save file as csv#############################
 
-write.csv(survey, file="data/gya-without-incomplete.csv")
+
 dim(survey)
 write.csv(survey.what, file="data/gya-country-responses.csv")
 

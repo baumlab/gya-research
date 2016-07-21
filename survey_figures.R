@@ -63,27 +63,35 @@ ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ##1b  top 20+
+require(plotrix)
 country.list<-c("Canada" , "France",
-                    "Germany","United Kingdom","Italy","Japan",
+                    "Germany","United Kingdom","Italy","Japan", "Russia","Korea, South",
                       "United States","Australia","Austria","Belgium",
                       "Ireland","Brazil", "Poland","Finland",
                        "Netherlands","New Zealand","Norway",
                       "Spain","Sweden","Switzerland","Turkey","Israel",
-                      "India","Bangladesh","Uruguay","Malaysia","New Zealand")
+                      "India","Bangladesh","Uruguay","Malaysia","New Zealand","Taiwan","Denmark")
+
 country.top<-survey[survey$Country_work %in% country.list,]
 head(country.top)
 locations.top<-aggregate(gender ~ Country_work, country.top, length)
 locations.top
 gender.top<-aggregate(Country_work ~ gender, country.top, length)
-gender.top
+locations.top[order(match(locations.top,gender.top))]
+
+locations.top<-droplevels(locations.top)
+#########not done###############
 quartz()
-ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
-  geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
+gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(200,1000),horiz=F)+barlabels(1,1,labels=NULL,cex=1,prop=0.5,miny=0,offset=0)
+
+
+#ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
+ # theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
+  #geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
   #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
-  lims(y=c(0, 1600)) + theme(legend.title=element_text(size=12), 
-                             legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  #lims(y=c(0, 1600)) + theme(legend.title=element_text(size=12), 
+   #                          legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
+  #theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ##2a # of responses by field research 
 field<-aggregate(Location ~ field_research, survey.what, length)
