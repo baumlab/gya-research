@@ -96,7 +96,7 @@ experience<-experience[!experience$what_participant_group=="",]
 g3<-ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
   labs(y="Number of responses", x="", title="Global") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
   geom_text(aes(label=Location),size=4, vjust=-0.25) + guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=6)) + 
-  theme( axis.text=element_text(size=14), axis.title=element_text(size=10),panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ guides(fill=FALSE) + ylim(c(0, 1300))
+  theme( axis.text=element_text(size=14), axis.title=element_text(size=10),panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ guides(fill=FALSE) + ylim(c(0, 1500)) 
 
 
 
@@ -107,7 +107,7 @@ g4<-ggplot(experience_can, aes(x = reorder(what_participant_group, -Location), L
   labs(y="Number of responses", x="", title="Canada") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
   geom_text(aes(label=Location),size=4, vjust=-0.25)+ guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(legend.title=element_blank(), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=10))+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ ylim(c(0, 800))
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ ylim(c(0, 800)) 
 
 grid.arrange(g3, g4, layout_matrix=rbind(1,2,2))
 
@@ -133,9 +133,13 @@ res.plot$type[res.plot$type=="percent_fundemental_research_current"]<-"Fundament
 res.plot$type[res.plot$type=="percent_Use_inspired_Research_past"]<-"Use inspired"
 res.plot$type[res.plot$type=="percent_Use_inspired_Research_current"]<-"Use inspired"
 
+# change order of the levels
+res.plot$time<-as.factor(res.plot$time)
+res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(2,1)])
 
-ggplot(res.plot[res.plot$Country=="Canada",], aes(type, percent, fill=time)) + geom_boxplot() +guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=2)) +
-  labs(x="Research type", y="% research", title="Canada")
+
+ggplot(res.plot[res.plot$Country=="Canada",], aes(type, percent, fill=time)) + geom_boxplot() +guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+  labs(x="Research type", y="% research", title="Canada")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ```
 
@@ -149,7 +153,7 @@ canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
 canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
 
 g1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE) + 
-  labs(x="", y="Number of responses",title="Change in research in past 10 years?")
+  labs(x="", y="Number of responses",title="Change in research in past \n 10 years?")+scale_x_discrete(labels=c( "Can't comment \n (new researcher)", "No","Yes"))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 # What is your main reason for change?
 reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
@@ -169,7 +173,7 @@ sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
 sum.canada<-sum.canada[!sum.canada$Var1=="",]
 
 g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=90, vjust=0.5)) + theme(legend.position=c(0.8, 0.8), axis.text.x=element_blank(), legend.title=element_blank()) + scale_fill_discrete(labels=c("Career", "Funding", "Interest", "Other", "Social")) + labs(x="", y="", title="Reason for change in research type")
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) + theme(legend.position=c(0.8, 0.8), axis.text.x=element_blank(), legend.title=element_blank()) + scale_fill_discrete(labels=c("Career", "Funding", "Interest", "Other", "Social")) + labs(x="", y="", title="Reason for change in \n research type")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 grid.arrange(g1, g2, nrow=1)
 ```
@@ -269,9 +273,8 @@ gender.perceive$level<-factor(gender.perceive$level, levels(gender.perceive$leve
 gender.perceive$what.type<-factor(gender.perceive$what.type, levels(gender.perceive$what.type)[c(2,3,1)])
 
 
-ggplot(data=gender.perceive, aes(x=level, Location, fill=what.type))+geom_bar(stat="identity", position="dodge")+facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied"))
-
-
+ggplot(data=gender.perceive, aes(x=level, Location, fill=what.type))+geom_bar(stat="identity", position="dodge")+facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + scale_x_discrete(labels=c("Increase Considerably", "Increase Slightly", "Stay the Same", "Decrease Slightly", "Decrease Considerably", "Can't Comment"))
+                                                                                                                                                                                                                                                                                                                                                                                                                     
 ```
 
 
@@ -292,9 +295,8 @@ impact$next_generation<-as.factor(impact$next_generation)
 impact$next_generation<-factor(impact$next_generation, factor(impact$next_generation)[c(4,5,6,3,2,1 )])
 
 
-ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation))+ geom_bar(stat='identity', position="dodge") +  
-  theme(axis.text.x = element_text(angle=0), legend.title=element_blank(), legend.position=c(0.8, 0.8)) + scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + guides(fill=FALSE) +
- labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5))
+ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation))+ geom_bar(stat='identity', position="dodge") + scale_x_discrete(labels=c("Increase Considerably", "Increase Slightly", "Stay the Same", "Decrease Slightly", "Decrease Considerably", "Can't Comment")) + guides(fill=FALSE) +
+ labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 
