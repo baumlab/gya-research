@@ -78,13 +78,27 @@ locations.top<-aggregate(gender ~ Country_work, country.top, length)
 locations.top
 gender.top<-aggregate(Country_work ~ gender, country.top, length)
 locations.top[order(match(locations.top,gender.top))]
-
+locations.top
 locations.top<-droplevels(locations.top)
 #########not done###############
 quartz()
-gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(200,1000),horiz=F)+barlabels(1,1,labels=NULL,cex=1,prop=0.5,miny=0,offset=0)
+barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)]
+cols<-ifelse(locations.top$Country_work=country.list,"black",)
+gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(201,1200),horiz=F, xaxlab=barlabs, xlab="", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200, 1242,1300), col=cols,las=2)  
+  
+?all
+#barlabels(1:29,535,labels=barlabs,cex=1,prop=0.5,miny=0,offset=0, srt=90, border=FALSE)
+
+nrow(locations.top$Country_work)
+locations.top$Country_work
+?barlabels
 
 
+
+new <-sort.int(locations.top$gender, decreasing=TRUE)
+new
+?order
 #ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
  # theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
   #geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
