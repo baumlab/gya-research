@@ -21,7 +21,11 @@ survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
 research.change<-read.csv(file="data/gya-change-reason.csv")
-part4<-read.csv(file="data/gya-survey-part4")
+part4<-read.csv(file="data/gya-survey-part4.csv")
+part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
+part2.change<-read.csv(file="data/gya-part2.change.csv")
+part2.reason<-read.csv(file="data/gya-part2.reason.csv")
+part2.view<-read.csv(file="data/gya-part2.view.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix)
@@ -139,7 +143,6 @@ grid.arrange(g3, g4, layout_matrix=rbind(1,2,2))
 ```{r, echo=FALSE, fig.cap="Current vs. past research type (Canada)", message=FALSE, warning=FALSE}
 
 ## make sure that Use-inspired is the middle level in the legend
-
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
@@ -198,6 +201,59 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 grid.arrange(g1, g2, nrow=1)
 ```
 
+#### Part 2 - External Partnerships
+```{r, echo=FALSE, fig.cap="Current vs past level of partnership outside of academia (Canada)", warning=FALSE}
+b.part<-aggregate(gender~  partnership_outside_before, part2.b.a, length)
+colnames(b.part)[1]<-"partnership_outside"
+b.part$time<-"Past"
+a.part<-aggregate(gender~ partnership_outside, part2.b.a, length)
+a.part$time<-"Current"
+
+part<-rbind(a.part, b.part)
+
+# change order of the levels
+part$partnership_outside<-as.factor(part$partnership_outside)
+part$partnership_outside<-factor(part$partnership_outside, levels(part$partnership_outside)[c(1,4,3,2)])
+
+ggplot() + 
+  geom_bar(data=part, aes(x=partnership_outside, y=gender, fill = time), stat='identity', position="dodge") +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Number of Responses", fill="")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+```
+
+```{r, echo=FALSE, fig.cap="Reason for change over the past 10 years (Canada)", warning=FALSE}
+### was there change
+canada<-subset(part2.change, Country=="Canada")
+change.part.ca<-aggregate(gender~ partnership_change_10yrs, canada, length)
+
+g1<-ggplot(data=change.part.ca, aes(x=partnership_change_10yrs, gender, fill=partnership_change_10yrs))+geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5))+labs(title="Change in past 10yrs", x="", y="Number of Responses", fill="")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ guides(fill=FALSE)+scale_x_discrete(labels=c("Can't comment n\ (new researcher)", "No", "Yes"))
+
+### reason
+require(tidyr)
+reason.pt.long<-gather(part2.reason, change.reason, yes, -Country, -gender, -Location)
+sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
+
+g2<-ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(title= "Reason for Change", x="", y="Number of Responses")+
+  scale_x_discrete(labels=c("Funding Related", "Interest Related", "Career Related", "Socially Related", "Other"))
+
+grid.arrange(g1, g2, nrow=1)
+```
+
+```{r, echo=FALSE, fig.cap="View of Change in partnership", warning=FALSE}
+canada<-subset(part2.view, Country=="Canada")
+view<-aggregate(gender~ view_change_partnership, canada, length)
+# change order of the levels
+view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(5,3,1,2,4)])
+
+ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_partnership)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(x="", y="Number of Responses")
+```
 
 #### Part 4 - Funding Trends
 

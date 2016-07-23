@@ -13,8 +13,11 @@ survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
 research.change<-read.csv(file="data/gya-change-reason.csv")
-part4<-read.csv(file="data/gya-survey-part4")
-
+part4<-read.csv(file="data/gya-survey-part4.csv")
+part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
+part2.change<-read.csv(file="data/gya-part2.change.csv")
+part2.reason<-read.csv(file="data/gya-part2.reason.csv")
+part2.view<-read.csv(file="data/gya-part2.view.csv")
 
 ################################
 #### Summary statistics ########
@@ -78,7 +81,7 @@ locations.top<-aggregate(gender ~ Country_work, country.top, length)
 gender.top<-aggregate(Country_work ~ gender, country.top, length)
 locations.top[order(match(locations.top,gender.top))]
 locations.top<-droplevels(locations.top)
-quartz()
+
 require(colorRamps)
 barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)]
 
@@ -238,11 +241,11 @@ research.change<-read.csv(file="data/gya-change-reason.csv")
 reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
                                        "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
                                        "Main_reason_change_Other"))
-
+head(reason)
 ## switch to long format
 require(tidyr)
 reason.long<-gather(reason, reason.change, yes, -Location, -gender, -Country)
-
+head(reason.long)
 sum.reason<-data.frame(table(reason.long$reason.change, reason.long$yes))
 head(sum.reason)
 
@@ -450,6 +453,102 @@ ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation)) + geom
 ###############
 ####Part2######
 ###############
+
+###12a current partnership
+
+b.part<-aggregate(gender~  partnership_outside_before, part2.b.a, length)
+colnames(b.part)[1]<-"partnership_outside"
+b.part$time<-"Past"
+a.part<-aggregate(gender~ partnership_outside, part2.b.a, length)
+a.part$time<-"Current"
+
+part<-rbind(a.part, b.part)
+
+# change order of the levels
+part$partnership_outside<-as.factor(part$partnership_outside)
+part$partnership_outside<-factor(part$partnership_outside, levels(part$partnership_outside)[c(1,4,3,2)])
+
+ggplot() + 
+  geom_bar(data=part, aes(x=partnership_outside, y=gender, fill = time), stat='identity', position="dodge") +
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Number of Responses", fill="")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+
+###12b canada
+canada<-subset(part2.current, Country=="Canada")
+current.part.ca<-aggregate(gender~ partnership_outside, canada, length)
+
+# change order of the levels
+current.part.ca$partnership_outside<-as.factor(current.part.ca$partnership_outside)
+current.part.ca$partnership_outside<-factor(current.part.ca$partnership_outside, levels(current.part.ca$partnership_outside)[c(1,4,3,2)])
+
+ggplot(data=current.part.ca, aes(x=partnership_outside, gender, fill=partnership_outside))+geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Number of Responses", fill="")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ guides(fill=FALSE)
+
+####13a  change in partnership
+head(part2.change)
+change.part<-aggregate(gender~ partnership_change_10yrs, part2.change, length)
+
+ggplot(data=change.part, aes(x=partnership_change_10yrs, gender, fill=partnership_change_10yrs))+geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5))+labs(x="", y="Number of Responses", fill="")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ guides(fill=FALSE)
+
+###13b Canada
+canada<-subset(part2.change, Country=="Canada")
+change.part.ca<-aggregate(gender~ partnership_change_10yrs, canada, length)
+
+ggplot(data=change.part.ca, aes(x=partnership_change_10yrs, gender, fill=partnership_change_10yrs))+geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5))+labs(title="Change in past 10yrs", x="", y="Number of Responses", fill="")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ guides(fill=FALSE)
+
+###14a Reason for change
+head(part2.reason)
+
+
+require(tidyr)
+reason.pt.long<-gather(part2.reason, change.reason, yes, -Country, -gender, -Location)
+unique(reason.pt.long$change.reason)
+sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
+
+ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(title= "Reason for Change", x="", y="Number of Responses")+
+  scale_x_discrete(labels=c("Funding Related", "Interest Related", "Career Related", "Socially Related", "Other"))
+
+### 14b Canada
+canada<-subset(part2.reason, Country=="Canada")
+
+require(tidyr)
+reason.pt.long<-gather(canada, change.reason, yes, -Country, -gender, -Location)
+unique(reason.pt.long$change.reason)
+sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
+
+ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(title= "Reason for Change", x="", y="Number of Responses")+
+  scale_x_discrete(labels=c("Funding Related", "Interest Related", "Career Related", "Socially Related", "Other"))
+
+####15a View of Change
+view<-aggregate(gender~ view_change_partnership, part2.view, length)
+
+# change order of the levels
+view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(5,3,1,2,4)])
+
+ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_partnership)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(title= "View of Change", x="", y="Number of Responses")
+  
+
+###15b Canada
+canada<-subset(part2.view, Country=="Canada")
+view<-aggregate(gender~ view_change_partnership, canada, length)
+# change order of the levels
+view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(5,3,1,2,4)])
+
+ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_partnership)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(x="", y="Number of Responses")
 
 
 ###############

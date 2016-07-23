@@ -64,9 +64,23 @@ table(survey.all$Status)
 ### keep complete data only
 survey<-survey.all[survey.all$Status=="Complete",]
 dim(survey)
-# add 'date column'
-#require(stringr)
-#survey$date<-str_split_fixed(survey$'Completed At', " ", 1)
+### change Canada and USA
+states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
+          "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",
+          "Wisconsin", "Virginia", "Utah", "Ohio", "North Carolina", "New Jersey", "New Hampshire", 
+          "Maine", "Louisiana", "Indiana", "Hawaii", "Alabama", "Tennessee", "Oklahoma", "New Mexico",
+          "Missouri", "Mississippi", "Iowa", "Delaware", "Colorado", "Illinois")
+
+prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New Brunswick", 
+        "Newfoundland and Labrador", "Manitoba", "Saskatchewan", "Prince Edward Island", "Yukon Territory", 
+        "Nunavut")
+
+survey$Country<-as.character(survey$Location)
+survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
+survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
+survey$Country<-as.factor(survey$Country)
+head (survey)
+
 write.csv(survey, file="data/gya-without-incomplete.csv")
 
 #############
@@ -323,12 +337,41 @@ survey.part4<-subset(survey, select=c("Location","Country", "gender","opinion_fu
                                "high_priority_no_change", "available_funding_fundamental", "available_funding_use_inspired", "available_funding_applied",
                                "next_generation"))
 
+#######################
+#######Part 2##########
+#######################
+
+#read in unsubsetted data again
+survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
+part2<-subset(survey, select=c("Country","Country_work", "gender", "Location", "partnership_outside", "partnership_change_10yrs",
+                               "partnership_outside_before", "reason_partnership_change_interest", "reason_partnership_change_career", 
+                               "reason_partnership_change_socially",  "reason_partnership_change_funding", "reason_partnership_change_other",
+                               "view_change_partnership"))
+
+#### level of partnership that your reserach currently has outside of academia before and after
+part2.b.a<-subset(part2, select=c("Country", "gender", "Location", "partnership_outside","partnership_outside_before"))
+#remove non responses
+part2.b.a<-part2.b.a[!part2.b.a$partnership_outside=="",]
+part2.b.a<-part2.b.a[!part2.b.a$partnership_outside_before=="",]
+
+####Level of partnership change in past 10 yrs
+part2.change<-subset(part2, select=c("Country","Country_work", "gender", "Location","partnership_change_10yrs"))
+#remove non responses
+part2.change<-part2.change[!part2.change$partnership_change_10yrs=="",]
+
+####Reason for change
+part2.reason<-subset(part2, select=c("Country", "gender", "Location","reason_partnership_change_interest", "reason_partnership_change_career", 
+                                     "reason_partnership_change_socially",  "reason_partnership_change_funding", "reason_partnership_change_other"))
+
+#### View of Change
+part2.view<-subset(part2, select=c("Country", "gender", "Location","view_change_partnership"))
+
+#remove non responses
+part2.view<-part2.view[!part2.view$view_change_partnership=="",]
 
 
 ############ save file as csv#############################
 
-
-dim(survey)
 write.csv(survey.what, file="data/gya-country-responses.csv")
 
 write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv")
@@ -337,7 +380,13 @@ write.csv(survey.long.past, file="data/gya-surveys-cleaned-research-past.csv")
 
 write.csv(survey.change, file="data/gya-change-reason.csv")
 
-write.csv(survey.part4, file="data/gya-survey-part4")
+write.csv(survey.part4, file="data/gya-survey-part4.csv")
 
+write.csv(part2.b.a, file="data/gya-part2.before.after.csv")
 
+write.csv(part2.change, file="data/gya-part2.change.csv")
+
+write.csv(part2.reason, file="data/gya-part2.reason.csv", row.names=FALSE)
+
+write.csv(part2.view, file="data/gya-part2.view.csv", row.names = FALSE)
 
