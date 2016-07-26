@@ -201,7 +201,7 @@ survey.long<-gather(survey, type, percent, -Location, -gender, -Country)
 #####do same as above but for past data
 
 ## read in non-subsetted data again
-survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+survey<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
 ### keep complete data only
 survey<-survey[survey$Status=="Complete",]
 
@@ -319,7 +319,7 @@ part1.view<-subset(survey, select=c("Location","Country",  "gender", "view_chang
 #############
 
 #read in non subsetted data again
-survey<-read.csv("data/July-7-2016-7pm-Toronto_simplified.csv", header=TRUE)
+survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
 ### keep complete data only
 survey<-survey[survey$Status=="Complete",]
 
@@ -379,6 +379,136 @@ part2.view<-subset(part2, select=c("Country", "gender", "Location","view_change_
 part2.view<-part2.view[!part2.view$view_change_partnership=="",]
 
 
+##################
+##### Part 3 #####
+##################
+
+#read in non subsetted data again
+survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
+#subset data needed for this part
+part3<-subset(survey, select=c("Country","Country_work", "gender", "Location","external_pi_grant_11_15_fundamental" , "external_pi_grant_11_15_use" ,              
+                                "external_pi_grant_11_15_applied",            "external_pi_grant_6_10_fundamental",        
+                               "external_pi_grant_6_10_use"     ,            "external_pi_grant_6_10_applied"   ,         
+                               "successful_grants_11_15_fundamental"  ,      "successful_grants_11_15_use"     ,          
+                               "successful_grants_11_15_applied",            "successful_grants_6_10_fundamental"   ,     
+                               "successful_grants_6_10_use"  ,               "successful_grants_6_10_applied"   ,         
+                              "practical_applications_important_11_15"  ,   "practical_applications_important_6_10" ,    
+                                "include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10" ,
+                                "distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government" ,     
+                                "distriution_funding_11_15_for_profit",       "distriution_funding_11_15_nongov" ,         
+                                "distriution_funding_11_15_other"   ,         "distriution_funding_11_15_other_text",      
+                                "distriution_funding_6_10_internal" ,         "distriution_funding_6_10_government" ,      
+                               "distriution_funding_6_10_for_profit" ,       "distriution_funding_6_10_nongov"  ,         
+                               "distriution_funding_6_10_other"   ,          "distriution_funding_6_10_other_text" ,      
+                                "success_change_10yrs_fundamental"  ,        "success_change_10yrs_use"   ,               
+                               "success_change_10yrs_applied"))
+
+
+## number of grant applications 
+part3.grants<-subset(part3, select = c("Country","Country_work", "gender", "Location","external_pi_grant_11_15_fundamental" , "external_pi_grant_11_15_use" ,              
+                                          "external_pi_grant_11_15_applied", "external_pi_grant_6_10_fundamental",        
+                                       "external_pi_grant_6_10_use"     ,            "external_pi_grant_6_10_applied"))
+##clean data
+#get ranges to not be dates
+part3.grants<-data.frame(lapply(part3.grants, function(x) {  gsub("6-Apr", "4-6", x)  }))
+part3.grants<-data.frame(lapply(part3.grants, function(x) {  gsub("3-Jan", "1-3", x)  }))
+part3.grants<-data.frame(lapply(part3.grants, function(x) {  gsub("9-Jul", "7-9", x)  }))
+part3.grants<-data.frame(lapply(part3.grants, function(x) {  gsub("12-Oct", "10-12", x)  }))
+
+unique(part3.grants$external_pi_grant_6_10_use)
+
+# fill blanks with 0 for people who were too lazy to click 0
+part3.grants$external_pi_grant_11_15_fundamental[part3.grants$external_pi_grant_11_15_fundamental==""]<-0
+part3.grants$external_pi_grant_11_15_use[part3.grants$external_pi_grant_11_15_use==""]<-0
+part3.grants$external_pi_grant_11_15_applied[part3.grants$external_pi_grant_11_15_applied==""]<-0
+part3.grants$external_pi_grant_6_10_fundamental[part3.grants$external_pi_grant_6_10_fundamental==""]<-0
+part3.grants$external_pi_grant_6_10_use[part3.grants$external_pi_grant_6_10_use==""]<-0
+part3.grants$external_pi_grant_6_10_applied[part3.grants$external_pi_grant_6_10_applied==""]<-0
+
+head(part3.grants)
+
+#change to long format
+require(tidyr)
+part3.grants.long<-gather(part3.grants, type.grant, number, -Location, -gender, -Country, -Country_work)
+head(part3.grants.long)
+
+
+
+
+
+
+
+
+
+
+
+## percentage of successful grants
+
+part3.success<-subset(part3, select = c("Country", "gender", "Location","successful_grants_11_15_fundamental"  ,      "successful_grants_11_15_use"     ,          
+                                        "successful_grants_11_15_applied",            "successful_grants_6_10_fundamental"   ,     
+                                        "successful_grants_6_10_use"  ,               "successful_grants_6_10_applied" ))
+
+head(part3.success)
+
+
+
+
+
+## important to suggest practical applications
+
+part3.prac.app<-subset(part3, select = c("Country", "gender", "Location","practical_applications_important_11_15"  ,   "practical_applications_important_6_10" ))
+
+
+
+
+
+
+
+
+
+
+##important to include partners from for profit or non gov sectors
+part3.part<-subset(part3, select = c("Country", "gender", "Location","include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10" ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+## distribution of funding
+part3.funding<-subset(part3, select = c("Country", "gender", "Location","distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government" ,     
+                                        "distriution_funding_11_15_for_profit",       "distriution_funding_11_15_nongov" ,         
+                                        "distriution_funding_11_15_other"   ,      
+                                        "distriution_funding_6_10_internal" ,         "distriution_funding_6_10_government" ,      
+                                        "distriution_funding_6_10_for_profit" ,       "distriution_funding_6_10_nongov"  ,         
+                                        "distriution_funding_6_10_other"))
+
+
+
+
+
+
+## grant success rates change over past 10 yrs
+part3.change<-subset(part3, select = c("Country", "gender", "Location", "success_change_10yrs_fundamental"  ,        "success_change_10yrs_use"   ,               
+                                       "success_change_10yrs_applied"))
+head(part3.change)
+
+
+
+
+
+
+
+
+
+
 ############ save file as csv#############################
 
 write.csv(survey.what, file="data/gya-country-responses.csv")
@@ -400,4 +530,8 @@ write.csv(part2.change, file="data/gya-part2.change.csv")
 write.csv(part2.reason, file="data/gya-part2.reason.csv", row.names=FALSE)
 
 write.csv(part2.view, file="data/gya-part2.view.csv", row.names = FALSE)
+
+write.csv(part3.grants.long, file="data/gya-part3.grants.long.csv", row.names = FALSE)
+
+write.csv(part3.change, file="data/gya-part3.change.csv", row.names = FALSE)
 

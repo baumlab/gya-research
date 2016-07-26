@@ -19,6 +19,8 @@ part2.change<-read.csv(file="data/gya-part2.change.csv")
 part2.reason<-read.csv(file="data/gya-part2.reason.csv")
 part2.view<-read.csv(file="data/gya-part2.view.csv")
 part1.view<-read.csv(file="data/gya-part1.view.csv")
+part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
+part3.change<-read.csv(file="data/gya-part3.change.csv")
 
 ################################
 #### Summary statistics ########
@@ -588,8 +590,45 @@ ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_part
 ####Part3######
 ###############
 
+## 17a  grant applications  all countries
+
+head(part3.grants.long)
 
 
+
+
+
+## 17b  canada
+
+
+
+
+## percent of applications successful
+
+
+
+
+
+
+## grant success rates change in last 10 yrs
+head(part3.change)
+require(tidyr)
+##switch to long format
+change.long<-gather(part3.change, type, level, -Location, -gender, -Country)
+head(change.long)
+
+change<-aggregate(gender~type+level, change.long, length)
+
+# remove non-response
+change<-change[!change$level=="",]
+
+ggplot(data=change, aes(x=type, gender, fill=level))+ geom_bar(stat='identity') +  
+  theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+###################not done#####################################
+####################################
+####################################
+############################
 
 
 
