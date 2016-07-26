@@ -304,6 +304,15 @@ survey.change<-subset(survey, select=c("Location","Country",  "gender", "changed
                                 "Main_reason_change_Other"))
 
 
+#### how do you view this cahnge in the type of research?
+survey<-read.csv(file="data/gya-without-incomplete.csv")
+colnames(survey)
+part1.view<-subset(survey, select=c("Location","Country",  "gender", "view_change_of_type"))
+
+
+
+
+
 
 #############
 ####Part4####
@@ -379,6 +388,8 @@ write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv")
 write.csv(survey.long.past, file="data/gya-surveys-cleaned-research-past.csv")
 
 write.csv(survey.change, file="data/gya-change-reason.csv")
+
+write.csv(part1.view, file="data/gya-part1.view.csv", row.names = FALSE)
 
 write.csv(survey.part4, file="data/gya-survey-part4.csv")
 

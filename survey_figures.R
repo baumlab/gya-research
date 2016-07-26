@@ -18,6 +18,7 @@ part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
 part2.change<-read.csv(file="data/gya-part2.change.csv")
 part2.reason<-read.csv(file="data/gya-part2.reason.csv")
 part2.view<-read.csv(file="data/gya-part2.view.csv")
+part1.view<-read.csv(file="data/gya-part1.view.csv")
 
 ################################
 #### Summary statistics ########
@@ -273,6 +274,37 @@ sum.canada<-sum.canada[!sum.canada$Var1=="",]
 
 ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)
+
+
+## 16a  View change
+# remomve non-response
+part1.view<-part1.view[!part1.view$view_change_of_type=="",]
+part1.view<-droplevels(part1.view)
+
+change.view<-aggregate(gender~ view_change_of_type, part1.view, length)
+
+# change order of the levels
+change.view$view_change_of_type<-factor(change.view$view_change_of_type, 
+                                        levels(change.view$view_change_of_type)[c(5,3,1,2,4)])
+
+ggplot(change.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")
+
+# 16b Canada
+canada<-subset(part1.view, Country=="Canada")
+canada<-canada[!canada$view_change_of_type=="",]
+
+change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
+
+# change order of the levels
+change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
+                                        levels(change.view.ca$view_change_of_type)[c(5,3,1,2,4)])
+
+ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")
+
 
 
 ###############
@@ -531,9 +563,9 @@ ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + geom_b
 
 ####15a View of Change
 view<-aggregate(gender~ view_change_partnership, part2.view, length)
-
+levels(view$view_change_partnership)
 # change order of the levels
-view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(5,3,1,2,4)])
+view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(6,4,2,3,5)])
 
 ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_partnership)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
@@ -543,8 +575,9 @@ ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_part
 ###15b Canada
 canada<-subset(part2.view, Country=="Canada")
 view<-aggregate(gender~ view_change_partnership, canada, length)
+levels(view$view_change_partnership)
 # change order of the levels
-view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(5,3,1,2,4)])
+view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(6,4,2,3,5)])
 
 ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_partnership)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+

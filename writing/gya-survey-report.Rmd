@@ -26,6 +26,7 @@ part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
 part2.change<-read.csv(file="data/gya-part2.change.csv")
 part2.reason<-read.csv(file="data/gya-part2.reason.csv")
 part2.view<-read.csv(file="data/gya-part2.view.csv")
+part1.view<-read.csv(file="data/gya-part1.view.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix)
@@ -201,6 +202,24 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 grid.arrange(g1, g2, nrow=1)
 ```
 
+```{r, echo=FALSE, fig.cap="View of change in research over past 10 years (Canada)"}
+
+canada<-subset(part1.view, Country=="Canada")
+canada<-canada[!canada$view_change_of_type=="",]
+
+change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
+
+# change order of the levels
+change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
+                                        levels(change.view.ca$view_change_of_type)[c(6,4,2,3,5)])
+
+ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")
+
+
+```
+
 #### Part 2 - External Partnerships
 ```{r, echo=FALSE, fig.cap="Current vs past level of partnership outside of academia (Canada)", warning=FALSE}
 b.part<-aggregate(gender~  partnership_outside_before, part2.b.a, length)
@@ -248,7 +267,7 @@ grid.arrange(g1, g2, nrow=1)
 canada<-subset(part2.view, Country=="Canada")
 view<-aggregate(gender~ view_change_partnership, canada, length)
 # change order of the levels
-view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(5,3,1,2,4)])
+view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(6,4,2,3,5)])
 
 ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_partnership)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
