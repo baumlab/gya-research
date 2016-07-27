@@ -449,6 +449,10 @@ part3.success<-subset(part3, select = c("Country", "gender", "Location","success
                                         "successful_grants_6_10_use"  ,               "successful_grants_6_10_applied" ))
 
 head(part3.success)
+#remove non responses
+part3.success<-part3.success[!(part3.success$successful_grants_11_15_fundamental=="" & part3.success$successful_grants_11_15_use=="" & part3.success$successful_grants_11_15_applied=="") &
+                               part3.success$successful_grants_6_10_fundamental=="" &part3.success$successful_grants_6_10_use=="" &part3.success$successful_grants_6_10_applied=="",]
+
 
 
 

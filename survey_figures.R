@@ -8,7 +8,6 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 
 survey<-read.csv(file="data/gya-without-incomplete.csv")
-dim(survey)
 survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
@@ -593,14 +592,58 @@ ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_part
 ## 17a  grant applications  all countries
 
 head(part3.grants.long)
+str(part3.grants.long)
+part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
+
+#add time variable
+part3.grants.long$time<-ifelse(grepl("11_15", part3.grants.long$type.grant), "2011-2015", "2006-2010")
+part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
+part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
+part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
+part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
+part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
+part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
+
+
+grants<-aggregate(gender~ type.grant+time+number, part3.grants.long, length)
+
+grants$type.grant<-as.factor(grants$type.grant)
+
+#change order of levels
+grants$number<-factor(grants$number, levels(grants$number)[c(1,2,6,7,3,4,5)])
+grants$type.grant<-factor(grants$type.grant, levels(grants$type.grant)[c(2,3,1)])
 
 
 
+ggplot(grants, aes(type.grant, gender, fill=number)) + geom_bar(stat="identity", position = "dodge")+facet_wrap(~time) +guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+  labs(x="Number of grant applications", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 ## 17b  canada
+canada<-subset(part3.grants.long, Country=="Canada")
+head(canada)
+canada$type.grant<-as.character(canada$type.grant)
 
 
+#add time variable
+canada$time<-ifelse(grepl("11_15", canada$type.grant), "2011-2015", "2006-2010")
+canada$type.grant[canada$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
+canada$type.grant[canada$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
+canada$type.grant[canada$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
+canada$type.grant[canada$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
+canada$type.grant[canada$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
+canada$type.grant[canada$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
+
+canada<-aggregate(gender~ type.grant+time+number, canada, length)
+
+grants.ca$type.grant<-as.factor(grants.ca$type.grant)
+
+#change order of levels
+grants.ca$number<-factor(grants.ca$number, levels(grants.ca$number)[c(1,2,6,7,3,4,5)])
+grants.ca$type.grant<-factor(grants.ca$type.grant, levels(grants.ca$type.grant)[c(2,3,1)])
+
+ggplot(grants.ca, aes(type.grant, gender, fill=number)) + geom_bar(stat="identity", position = "dodge")+facet_wrap(~time) +guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+  labs(x="Number of grant applications", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 ## percent of applications successful
@@ -622,13 +665,53 @@ change<-aggregate(gender~type+level, change.long, length)
 # remove non-response
 change<-change[!change$level=="",]
 
-ggplot(data=change, aes(x=type, gender, fill=level))+ geom_bar(stat='identity') +  
+ggplot(data=change, aes(x=level, gender, fill=type))+ geom_bar(stat='identity', position = "dodge") +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
-###################not done#####################################
-####################################
-####################################
-############################
+
+## Canada  by gender
+canada<-subset(part3.change, Country=="Canada")
+require(tidyr)
+##switch to long format
+change.long.ca<-gather(canada, type, level, -Location, -gender, -Country)
+head(change.long.ca)
+
+gender.change<-aggregate(Location~type+gender+level, change.long.ca, length)
+head(gender.change)
+#remove no response
+gender.change<-gender.change[!gender.change$gender=="",]
+gender.change<-gender.change[!gender.change$level=="",]
+
+# turn to percents
+male<-subset(gender.change, gender=="Male")
+female<-subset(gender.change, gender=="Female")
+other<-subset(gender.change, gender=="Other")
+gender.change$Location<-ifelse(gender.change$gender=="Male", (gender.change$Location/sum(male$Location))*100, gender.change$Location)
+gender.change$Location<-ifelse(gender.change$gender=="Female", (gender.change$Location/sum(female$Location))*100, gender.change$Location)
+gender.change$Location<-ifelse(gender.change$gender=="Other", (gender.change$Location/sum(other$Location))*100, gender.change$Location)
+
+str(gender.change)
+
+# change type to factor with levels
+gender.change$type<-as.factor(gender.change$type)
+gender.change$level<-str_replace_all(gender.change$level, "Will", "")
+gender.change$level<-as.factor(gender.change$level)
+
+
+#change order of levels
+gender.change$level<-factor(gender.change$level, levels(gender.change$level)[c(1,3,2,6,4,5)])
+gender.change$type<-factor(gender.change$type, levels(gender.change$type)[c(2,3,1)])
+
+ggplot(data=gender.change, aes(x=level, Location, fill=type))+geom_bar(stat="identity", position="dodge")+ scale_x_discrete(limits = rev(levels(gender.change$level)))+
+  facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+
+  scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+
+
+
+
+
+
 
 
 
