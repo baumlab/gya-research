@@ -19,7 +19,7 @@ survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
-research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
+#research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
 research.change<-read.csv(file="data/gya-change-reason.csv")
 part4<-read.csv(file="data/gya-survey-part4.csv")
 part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
@@ -29,6 +29,7 @@ part2.view<-read.csv(file="data/gya-part2.view.csv")
 part1.view<-read.csv(file="data/gya-part1.view.csv")
 part3.change<-read.csv(file="data/gya-part3.change.csv")
 part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
+part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix)
@@ -147,9 +148,11 @@ grid.arrange(g3, g4, layout_matrix=rbind(1,2,2))
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
 res.plot$type<-as.character(res.plot$type)
+
 # add time variable
 res.plot$time<-ifelse(grepl( "current", res.plot$type),"Current", "Past")
 res.plot$type[res.plot$type=="percent_Applied_Research_past"]<-"Applied"
@@ -265,7 +268,7 @@ g2<-ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + ge
 grid.arrange(g1, g2, nrow=1)
 ```
 
-```{r, echo=FALSE, fig.cap="View of Change in partnership", warning=FALSE}
+```{r, echo=FALSE, fig.cap="View of Change in partnership (Canada)", warning=FALSE}
 canada<-subset(part2.view, Country=="Canada")
 view<-aggregate(gender~ view_change_partnership, canada, length)
 # change order of the levels
@@ -278,9 +281,8 @@ ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_part
 
 #### Part 3 - Grant Application History
 
-```{r, echo=FALSE, fig.cap="Number of external research grant applications", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Number of external research grant applications (Canada)", warning=FALSE}
 canada<-subset(part3.grants.long, Country=="Canada")
-head(canada)
 canada$type.grant<-as.character(canada$type.grant)
 
 
@@ -293,7 +295,7 @@ canada$type.grant[canada$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspire
 canada$type.grant[canada$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
 canada$type.grant[canada$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
 
-canada<-aggregate(gender~ type.grant+time+number, canada, length)
+grants.ca<-aggregate(gender~ type.grant+time+number, canada, length)
 
 grants.ca$type.grant<-as.factor(grants.ca$type.grant)
 
@@ -309,7 +311,7 @@ ggplot(grants.ca, aes(type.grant, gender, fill=number)) + geom_bar(stat="identit
 
 ```
 
-```{r, echo=FALSE, fig.cap="Grant success rates change over the past 10 years", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Grant success rates change over the past 10 years (Canada)", warning=FALSE}
 canada<-subset(part3.change, Country=="Canada")
 require(tidyr)
 ##switch to long format
@@ -341,6 +343,33 @@ gender.change$type<-factor(gender.change$type, levels(gender.change$type)[c(2,3,
 ggplot(data=gender.change, aes(x=level, Location, fill=type))+geom_bar(stat="identity", position="dodge")+ scale_x_discrete(limits = rev(levels(gender.change$level)))+
   facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+
   scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+```
+
+```{r, echo=FALSE, fig.cap="Percentage of research grant application success (Canada)", warning=FALSE}
+canada<-subset(part3.success.long, Country=="Canada")
+
+canada$type<-as.character(canada$type)
+
+#add time variable
+canada$time<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada$type[canada$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_11_15_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_6_10_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_11_15_applied"]<-"Applied"
+canada$type[canada$type=="successful_grants_6_10_applied"]<-"Applied"
+
+success.ca<-aggregate(gender~type+percent+time, canada, length)
+
+#change order of types
+success.ca$type<-as.factor(success.ca$type)
+success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
+
+
+ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+  labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ```
 
@@ -403,7 +432,7 @@ ggplot(data=gender.perceive, aes(x=what.type, higher.priority, fill=gender))+geo
 ```
 
 
-```{r, echo=FALSE, fig.cap="Anticipated change in research funding in next 5 years "}
+```{r, echo=FALSE, fig.cap="Anticipated change in research funding in next 5 years in Canada "}
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 availability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
@@ -443,7 +472,7 @@ ggplot(data=gender.perceive, aes(x=level, Location, fill=what.type))+geom_bar(st
 ```
 
 
-```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation"}
+```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation (Canada)"}
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 next.generation<-subset(part4, select=c("Location", "Country", "gender","next_generation"))

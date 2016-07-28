@@ -10,7 +10,7 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
-research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
+#research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
 research.change<-read.csv(file="data/gya-change-reason.csv")
 part4<-read.csv(file="data/gya-survey-part4.csv")
 part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
@@ -20,6 +20,7 @@ part2.view<-read.csv(file="data/gya-part2.view.csv")
 part1.view<-read.csv(file="data/gya-part1.view.csv")
 part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
 part3.change<-read.csv(file="data/gya-part3.change.csv")
+part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
 
 ################################
 #### Summary statistics ########
@@ -212,28 +213,31 @@ ggplot(data=country.sum.yesno, aes(x=Var2, y=Freq, fill=Var1)) + geom_bar(stat='
 
 #####
 
-research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
-research.wo.past.total<-subset(research.past, type_past%in%c("percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+research.past<-read.csv(file="data/gya-surveys-cleaned-research.csv")
+research.wo.past.total<-subset(research.past, type%in%c("percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 ## 6a type of research in the past  box
 
-ggplot(research.wo.past.total, aes(type_past, percent_past, fill=type_past)) + geom_boxplot() + theme(axis.text.x = element_blank()) +
+ggplot(research.wo.past.total, aes(type, percent, fill=type)) + geom_boxplot() + theme(axis.text.x = element_blank()) +
   theme(axis.title.x = element_blank())
 
 
 ## 6b Type of research in the past  bar
 
-type.avg.past<-aggregate(percent_past~ type_past + Country, research.wo.past.total, mean)
+type.avg.past<-aggregate(percent~ type + Country, research.wo.past.total, mean)
 
 
-ggplot(type.avg.past, aes(Country, percent_past)) + geom_bar(stat="identity", aes(fill=factor(type_past))) + theme(axis.text.x = element_text(angle=90, vjust=0.5))
+ggplot(type.avg.past, aes(Country, percent)) + geom_bar(stat="identity", aes(fill=factor(type))) + theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 
 ## 6c  Canada
-canada<-subset(research.change, Country=="Canada")
-summary(canada)
+canada<-subset(research.past, Country=="Canada")
+research.wo.past.total.ca<-subset(research.past, type%in%c("percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
-ggplot(research.wo.past.total, aes(type_past, percent_past, fill=type_past)) + geom_boxplot()
+
+ggplot(research.wo.past.total.ca, aes(type, percent, fill=type)) + geom_boxplot() + theme(axis.text.x = element_blank()) +
+  theme(axis.title.x = element_blank())
+
 
 
 
@@ -508,7 +512,7 @@ ggplot() +
   
 
 ###12b canada
-canada<-subset(part2.current, Country=="Canada")
+canada<-subset(part2.b.a, Country=="Canada")
 current.part.ca<-aggregate(gender~ partnership_outside, canada, length)
 
 # change order of the levels
@@ -621,7 +625,7 @@ ggplot(grants, aes(type.grant, gender, fill=number)) + geom_bar(stat="identity",
 
 ## 17b  canada
 canada<-subset(part3.grants.long, Country=="Canada")
-head(canada)
+
 canada$type.grant<-as.character(canada$type.grant)
 
 
@@ -634,8 +638,7 @@ canada$type.grant[canada$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspire
 canada$type.grant[canada$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
 canada$type.grant[canada$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
 
-canada<-aggregate(gender~ type.grant+time+number, canada, length)
-
+grants.ca<-aggregate(gender~ type.grant+time+number, canada, length)
 grants.ca$type.grant<-as.factor(grants.ca$type.grant)
 
 #change order of levels
@@ -646,8 +649,53 @@ ggplot(grants.ca, aes(type.grant, gender, fill=number)) + geom_bar(stat="identit
   labs(x="Number of grant applications", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
-## percent of applications successful
+#### 18a percent of applications successful
+part3.success.long$type<-as.character(part3.success.long$type)
 
+#add time variable
+part3.success.long$time<-ifelse(grepl("11_15", part3.success.long$type), "2011-2015", "2006-2010")
+part3.success.long$type[part3.success.long$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
+part3.success.long$type[part3.success.long$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
+part3.success.long$type[part3.success.long$type=="successful_grants_11_15_use"]<-"Use-Inspired"
+part3.success.long$type[part3.success.long$type=="successful_grants_6_10_use"]<-"Use-Inspired"
+part3.success.long$type[part3.success.long$type=="successful_grants_11_15_applied"]<-"Applied"
+part3.success.long$type[part3.success.long$type=="successful_grants_6_10_applied"]<-"Applied"
+
+success<-aggregate(gender~type+percent+time, part3.success.long, length)
+
+#change order of types
+success$type<-as.factor(success$type)
+success$type<-factor(success$type, levels(success$type)[c(2,3,1)])
+
+
+ggplot(success, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+  labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+## 18b canada
+canada<-subset(part3.success.long, Country=="Canada")
+
+canada$type<-as.character(canada$type)
+
+#add time variable
+canada$time<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada$type[canada$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_11_15_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_6_10_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_11_15_applied"]<-"Applied"
+canada$type[canada$type=="successful_grants_6_10_applied"]<-"Applied"
+
+success.ca<-aggregate(gender~type+percent+time, canada, length)
+
+#change order of types
+success.ca$type<-as.factor(success.ca$type)
+success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
+
+
+ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+  labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 
