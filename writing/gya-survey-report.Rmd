@@ -1,13 +1,37 @@
 ---
 title: "GYA surveys"
 author: "James Robinson; Kristina Tietjen"
-date: "18 July 2016"
+date: "28 July 2016"
 output:
   html_document: default
   fig_width: 10
   fig_height: 4
   pdf_document: null
 ---
+
+Intro -
+explain the difference between applied, use inspired and fundamental research..... 
+insert photo of Pasteur's quadrant - likely in the Intro chapter of the overall report. 
+
+**Methods**
+In addition the official data presented in earlier chapters, we also developed and ran a quantitative online survey to query Canadian researchers about their perceptions of, and experiences with, funding for fundamental research. The survey gathered information about gender, discipline, career stage and year PhD was obtained for each researcher, along with detailed information oabout....  An important aim of the survey was to provide an understanding "of trends and central issues relevant to careers in science in a glboal context" 
+
+The online survey was open from the end of May through early August 2016. To disseminate the survey to Canadian researchers, we gathered email addresses from university websites for as many faculty members as possible and emailed them directly. The survey was also shared broadly on social media, through the Global Young Academy network, on scientific list serves, and through personal connections.
+
+**Results**
+In total, 1242 Canadian researchers completed the online survey. KT: INSERT SENTENCE ABOUT GENDER Eg. X per cent of survey respondents were male and X per cent female. Almost half of the responses came from either the natural or physical sciences (49%; Figure 2). The remaining responses were spread amongst the medical and life sciences (17%), engineering (11%), interdisciplinary science and social science or humanities). KT: THIS DOES NOT ADD UP TO 100% - did many people not list their discipline?? Over half of the respondents were early career academic researchers, defined as those researchers with less than ten years expereince applying for research grants since completion of their PhD. Another one quarter were senior academic researchers. KT: Again this does not add up to 100% - what is going on?
+
+Overall, respondents reported that 70% of their 
+
+
+
+
+**NOTES ON FIGURES:**
+PLEASE REMOVE THE GLOBAL FIGURES THROUGHOUT - THIS IS ONLY THE CANADA REPORT. MOVE GLOBAL FIGURES INTO A DIFFERENT FILE.
+FIGURE 1. REMOVE.
+FIGURE 2. ADD CATEGORY FOR 'UNKNOWN' OR 'NOT STATED'.
+FIGURE 3. PLEASE ORDER IN ORDER OF CAREER I.E. POSTDOC THEN EARLY CAREER THEN SENIOR ACADEMIC, THEN PUT THE TWO NON-ACADEMICS TO THE RIGHT.
+FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents reported percentages 
 
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
