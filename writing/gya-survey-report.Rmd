@@ -30,6 +30,8 @@ part1.view<-read.csv(file="data/gya-part1.view.csv")
 part3.change<-read.csv(file="data/gya-part3.change.csv")
 part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
 part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
+part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
+part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix)
@@ -311,6 +313,76 @@ ggplot(grants.ca, aes(type.grant, gender, fill=number)) + geom_bar(stat="identit
 
 ```
 
+```{r, echo=FALSE, fig.cap="Percentage of research grant application success (Canada)", warning=FALSE}
+canada<-subset(part3.success.long, Country=="Canada")
+
+canada$type<-as.character(canada$type)
+
+#add time variable
+canada$time<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada$type[canada$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_11_15_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_6_10_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_11_15_applied"]<-"Applied"
+canada$type[canada$type=="successful_grants_6_10_applied"]<-"Applied"
+
+success.ca<-aggregate(gender~type+percent+time, canada, length)
+
+#change order of types
+success.ca$type<-as.factor(success.ca$type)
+success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
+
+
+ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+  labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+```
+
+```{r, echo=FALSE, fig.cap="Importance of suggesting practical applications of the research for the grant to be successful (Canada)", warning=FALSE}
+canada<-subset(part3.prac.long, Country=="Canada")
+
+canada$year<-as.character(canada$year)
+
+canada$year[canada$year=="practical_applications_important_11_15"]<-"2011-2015"
+canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
+
+prac.ca<-aggregate(gender~year+level, canada, length)
+
+#change order of levels
+prac.ca$level<-factor(prac.ca$level, levels(prac.ca$level)[c(2,6,4,5,3,1)])
+
+
+ggplot(prac.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
+
+```
+
+```{r, echo=FALSE, fig.cap="Importance of including partners from for-profit or non-governmental sectors in grant success (Canada)", warning=FALSE}
+canada<-subset(part3.part.long, Country=="Canada")
+
+canada$year<-as.character(canada$year)
+
+canada$year[canada$year=="practical_applications_important_11_15"]<-"2011-2015"
+canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
+
+part.ca<-aggregate(gender~year+level, canada, length)
+
+#change order of levels
+part.ca$level<-factor(part.ca$level, levels(part.ca$level)[c(2,5,6,4,3,1)])
+
+
+ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
+
+```
+
+```{r, echo=FALSE, fig.cap="Distribution of research funding (Canada)", warning=FALSE}
+
+```
+
+
 ```{r, echo=FALSE, fig.cap="Grant success rates change over the past 10 years (Canada)", warning=FALSE}
 canada<-subset(part3.change, Country=="Canada")
 require(tidyr)
@@ -346,32 +418,7 @@ ggplot(data=gender.change, aes(x=level, Location, fill=type))+geom_bar(stat="ide
 
 ```
 
-```{r, echo=FALSE, fig.cap="Percentage of research grant application success (Canada)", warning=FALSE}
-canada<-subset(part3.success.long, Country=="Canada")
 
-canada$type<-as.character(canada$type)
-
-#add time variable
-canada$time<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
-canada$type[canada$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
-canada$type[canada$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
-canada$type[canada$type=="successful_grants_11_15_use"]<-"Use-Inspired"
-canada$type[canada$type=="successful_grants_6_10_use"]<-"Use-Inspired"
-canada$type[canada$type=="successful_grants_11_15_applied"]<-"Applied"
-canada$type[canada$type=="successful_grants_6_10_applied"]<-"Applied"
-
-success.ca<-aggregate(gender~type+percent+time, canada, length)
-
-#change order of types
-success.ca$type<-as.factor(success.ca$type)
-success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
-
-
-ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
-  guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-  labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-```
 
 #### Part 4 - Funding Trends
 

@@ -21,6 +21,8 @@ part1.view<-read.csv(file="data/gya-part1.view.csv")
 part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
 part3.change<-read.csv(file="data/gya-part3.change.csv")
 part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
+part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
+part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
 
 ################################
 #### Summary statistics ########
@@ -696,6 +698,78 @@ success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
 ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
   labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+
+#### 19a suggesting practical applications
+part3.prac.long$year<-as.character(part3.prac.long$year)
+
+part3.prac.long$year[part3.prac.long$year=="practical_applications_important_11_15"]<-"2011-2015"
+part3.prac.long$year[part3.prac.long$year=="practical_applications_important_6_10"]<-"2006-2010"
+
+prac<-aggregate(gender~year+level, part3.prac.long, length)
+
+#change order of levels
+prac$level<-factor(prac$level, levels(prac$level)[c(2,6,4,5,3,1)])
+
+
+ggplot(prac, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
+
+
+## 19b Canada
+canada<-subset(part3.prac.long, Country=="Canada")
+
+canada$year<-as.character(canada$year)
+
+canada$year[canada$year=="practical_applications_important_11_15"]<-"2011-2015"
+canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
+
+prac.ca<-aggregate(gender~year+level, canada, length)
+
+#change order of levels
+prac.ca$level<-factor(prac.ca$level, levels(prac.ca$level)[c(2,6,4,5,3,1)])
+
+
+ggplot(prac.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
+
+
+#####20a include partners from for profit or non gov sectors
+part3.part.long$year<-as.character(part3.part.long$year)
+
+part3.part.long$year[part3.part.long$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
+part3.part.long$year[part3.part.long$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
+head(part3.part.long)
+partner<-aggregate(gender~year+level, part3.part.long, length)
+
+#change order of levels
+partner$level<-factor(partner$level, levels(partner$level)[c(2,5,6,4,3,1)])
+
+
+ggplot(partner, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
+
+## 20b Canada
+canada<-subset(part3.part.long, Country=="Canada")
+
+canada$year<-as.character(canada$year)
+
+canada$year[canada$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
+canada$year[canada$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
+
+part.ca<-aggregate(gender~year+level, canada, length)
+
+#change order of levels
+part.ca$level<-factor(part.ca$level, levels(part.ca$level)[c(2,5,6,4,3,1)])
+
+
+ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
+
+
+#### 21a distribution of funding
+
+
 
 
 
