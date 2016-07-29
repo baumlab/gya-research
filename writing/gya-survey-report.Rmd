@@ -3,10 +3,10 @@ title: "GYA surveys"
 author: "James Robinson; Kristina Tietjen"
 date: "28 July 2016"
 output:
-  pdf_document: null
-  fig_width: 10
   html_document: default
+  fig_width: 10
   fig_height: 4
+  pdf_document: null
 ---
 
 
@@ -37,7 +37,7 @@ FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
 ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 
 survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
@@ -62,7 +62,7 @@ p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
 myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[-c(1:2)]
+#myColors<-myColors[-c(1:2)]
 theme_set(theme_bw())
 
 gender<-aggregate(Location ~ gender, survey, length)
@@ -127,6 +127,7 @@ myColors
 ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   geom_text(aes(label=Freq, vjust=-1))+
+  scale_x_discrete(labels=c("Senior academic researcher", "Early career academic researcher", "Postdoc or RA", "Non-academic research\n > 10 yrs experience", "Non-academic researcher\n < 10 yrs experience")) +
   labs(y="No. of responses", x="") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(legend.title=element_blank(), 
@@ -166,11 +167,17 @@ res.plot$type[res.plot$type=="percent_Use_inspired_Research_current"]<-"Use insp
 # change order of the levels
 res.plot$time<-as.factor(res.plot$time)
 res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(2,1)])
+head(res.plot)
 
-
-ggplot(res.plot[res.plot$Country=="Canada",], aes(type, percent, fill=time)) + geom_boxplot() +guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-  labs(x="Research type", y="% research", title="Canada")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
+#ggplot(res.plot[res.plot$Country=="Canada",], aes( y=percent, fill=time)) + 
+#    geom_histogram(stat='identity',position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+#    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+#    labs(x="Research type", y="% research", title="")+
+#    theme(panel.grid.major = element_blank(),
+#          panel.grid.minor = element_blank(),
+#          legend.position=c(0.8, 0.2)) + 
+#    facet_wrap(~type, nrow=3) 
+#head(res.plot)
 ```
 
 ```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years (Canada)"}
