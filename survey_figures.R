@@ -94,7 +94,7 @@ barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)
 
 par(mar=c(7,4,4,2))
 gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(201,1200),horiz=F, xaxlab=barlabs, xlab="", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200, 1242,1300),las=2, col=c(blue2red(29)))
+            ylab="Number of responses", ytics=c(0,50,100,150,200, 1265,1300),las=2, col=c(blue2red(29)))
 
 
 #ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
