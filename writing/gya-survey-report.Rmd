@@ -1,7 +1,7 @@
 ---
-title: "GYA surveys"
+title: "Canadian Online Survey"
 author: "James Robinson; Kristina Tietjen"
-date: "28 July 2016"
+date: "29 July 2016"
 output:
   html_document: default
   fig_width: 10
@@ -9,27 +9,43 @@ output:
   pdf_document: null
 ---
 
-
 Intro -
 explain the difference between applied, use inspired and fundamental research..... 
 insert photo of Pasteur's quadrant - likely in the Intro chapter of the overall report. 
 
 **Methods**
-In addition the official data presented in earlier chapters, we also developed and ran a quantitative online survey to query Canadian researchers about their perceptions of, and experiences with, funding for fundamental research. The survey gathered information about gender, discipline, career stage and year PhD was obtained for each researcher, along with detailed information oabout....  An important aim of the survey was to provide an understanding "of trends and central issues relevant to careers in science in a glboal context" 
+In addition to the official data presented in earlier chapters, we also developed and ran a quantitative online survey to query Canadian researchers about their perceptions of, and experiences with, funding for fundamental research. The survey first gathered basic information from each respondent about gender, discipline, career stage and the year their PhD was obtained, before moving on to detailed information about the types of research they conduct (fundamental, use-inspired, applied), their grant success rates, the extent of external partnerships in their research, and how each of these factors have changed over time. In addition, the survey asked respondents how important they perceive fundamental research is to the Canadian federal government, and future prospects for fundamental research in Canada. An important aim of the survey was to provide an understanding researcher's personal experiences and outlook on the research funding landscape in  Canada. 
 
-The online survey was open from the end of May through early August 2016. To disseminate the survey to Canadian researchers, we gathered email addresses from university websites for as many faculty members as possible and emailed them directly. The survey was also shared broadly on social media, through the Global Young Academy network, on scientific list serves, and through personal connections.
+The online survey was open from the end of May through early August 2016. To disseminate the survey to Canadian researchers, we gathered email addresses from university websites for as many faculty members as possible and emailed them directly. The survey also was shared broadly on social media, through the Global Young Academy network, on scientific list serves, and through personal connections.
+
+
+### -- Note: We defined 'Canadian' respondents as those who reported 'Canada' as their country of work AND those who did not report a country of work (i.e. field was blank) but their location was within Canada. 
+
 
 **Results**
-In total, 1242 Canadian researchers completed the online survey. KT: INSERT SENTENCE ABOUT GENDER Eg. X per cent of survey respondents were male and X per cent female. Almost half of the responses came from either the natural or physical sciences (49%; Figure 2). The remaining responses were spread amongst the medical and life sciences (17%), engineering (11%), interdisciplinary science and social science or humanities). KT: THIS DOES NOT ADD UP TO 100% - did many people not list their discipline?? Over half of the respondents were early career academic researchers, defined as those researchers with less than ten years expereince applying for research grants since completion of their PhD. Another one quarter were senior academic researchers. KT: Again this does not add up to 100% - what is going on?
+In total, 1283 Canadian researchers completed the online survey. Of these, almost three quarters were male (74%) and one quarter were female (25%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (94%) were either senior academics (66%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (29%) (Figure X). 
+
+  Sixty per cent of responses came from either the natural or physical sciences (Figure 2). The remaining responses were spread amongst the medical and life sciences (20%), engineering (13%), interdisciplinary research (5%), and social sciences and humanities (3%). 
+
+```
+## -- Female 318 / 1283; Male 946/1283
+## -- ECR: 367 / 1283; Non-academic ECR: 7; Non-academic >10yrs: 15; Post-doc: 48; Senior: 841 (65.5%); 5 no responses; 
+## -- Engineering 163 (12.7%); Inter 70 (5.48%); Med/Life Sci 251(19.65%); Natural 377 (29.5%); Other 3; Phys 382 (29.9%); Social 37. For some unknown reason this totals 1277; 
+```
+
+
 
 Overall, respondents reported that 70% of their 
+
+*External Partnerships* The 
+
+
+Funding Trends - 
 
 
 
 
 **NOTES ON FIGURES:**
-PLEASE REMOVE THE GLOBAL FIGURES THROUGHOUT - THIS IS ONLY THE CANADA REPORT. MOVE GLOBAL FIGURES INTO A DIFFERENT FILE.
-FIGURE 1. REMOVE.
 FIGURE 2. ADD CATEGORY FOR 'UNKNOWN' OR 'NOT STATED'.
 FIGURE 3. PLEASE ORDER IN ORDER OF CAREER I.E. POSTDOC THEN EARLY CAREER THEN SENIOR ACADEMIC, THEN PUT THE TWO NON-ACADEMICS TO THE RIGHT.
 FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents reported percentages 
