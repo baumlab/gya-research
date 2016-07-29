@@ -37,8 +37,9 @@ FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
 ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 #setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
 
 survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
 survey<-read.csv(file="data/gya-without-incomplete.csv")
