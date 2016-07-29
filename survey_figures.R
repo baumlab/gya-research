@@ -13,6 +13,7 @@ research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
 #research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
 research.change<-read.csv(file="data/gya-change-reason.csv")
 part4<-read.csv(file="data/gya-survey-part4.csv")
+colnames(p3_master)
 part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
 part2.change<-read.csv(file="data/gya-part2.change.csv")
 part2.reason<-read.csv(file="data/gya-part2.reason.csv")
@@ -185,7 +186,7 @@ ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
 
 ## 5a Change in type of research in the last 10yrs
 research.change<-read.csv(file="data/gya-change-reason.csv")
-yes.no<-subset(research.change, select=c("Location","Country",  "gender", "changed_10yrs"))
+yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
 
 ## using table to count cases of each category
 sum.yesno<-data.frame(table(yes.no$changed_10yrs))
@@ -248,13 +249,13 @@ ggplot(research.wo.past.total.ca, aes(type, percent, fill=type)) + geom_boxplot(
 ## 7a  Reason for change
 research.change<-read.csv(file="data/gya-change-reason.csv")
 
-reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
+reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related", 
                                        "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
                                        "Main_reason_change_Other"))
 head(reason)
 ## switch to long format
 require(tidyr)
-reason.long<-gather(reason, reason.change, yes, -Location, -gender, -Country)
+reason.long<-gather(reason, reason.change, yes, -Location, -gender, -Country_work, -Country)
 head(reason.long)
 sum.reason<-data.frame(table(reason.long$reason.change, reason.long$yes))
 head(sum.reason)
@@ -265,15 +266,15 @@ ggplot(data=sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identit
 ## 7b canada
 research.change<-read.csv(file="data/gya-change-reason.csv")
 
-reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
+reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related", 
                                          "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
                                          "Main_reason_change_Other"))
 
 canada<-subset(reason, Country=="Canada")
-
+head(canada)
 ## switch to long format
 require(tidyr)
-canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country)
+canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country_work, -Country)
 
 ## using table to count cases of each category
 sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
@@ -320,11 +321,11 @@ ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_
 ####Part4######
 ###############
 
-part4<-read.csv(file="data/gya-survey-part4")
+
 colnames(part4)
 
 ## 8a  fundamental research important to your gov in your country
-important<-subset(part4, select=c("Location","Country", "gender","opinion_fundamental_important"))
+important<-subset(part4, select=c("Location","Country","Country_work", "gender","opinion_fundamental_important"))
 ## using table to count cases of each category
 sum.important<-data.frame(table(important$opinion_fundamental_important))
 # remove non-response
@@ -443,16 +444,16 @@ head(availiability.change)
 
 ###10c-Canada
 
-availiability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
+availiability.change<-subset(part4, select=c("Location", "Country", "Country_work", "gender", "available_funding_fundamental",  
                                              "available_funding_use_inspired", "available_funding_applied"))
 canada<-subset(availiability.change, Country=="Canada")
 
 ## switch to long format
 require(tidyr)
-availiability.change.long.ca<-gather(canada, what.type, level, -Location, -gender, -Country)
+availiability.change.long.ca<-gather(canada, what.type, level, -Location, -gender, -Country_work, -Country)
 availiability.ca<-aggregate(gender~what.type+level, 
                          availiability.change.long.ca,length)
-head(availiability.ca)
+
 # remove non-response
 availiability.ca<-availiability.ca[!availiability.ca$level=="",]
 

@@ -37,8 +37,8 @@ FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
 ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
-setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 
 survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
 survey<-read.csv(file="data/gya-without-incomplete.csv")
@@ -532,7 +532,7 @@ availiability.ca$level<-factor(availiability.ca$level, levels(availiability.ca$l
 availiability.ca$what.type<-factor(availiability.ca$what.type, levels(availiability.ca$what.type)[c(2,3,1)])
 
 
-ggplot(data=availiability.ca, aes(x=what.type, gender, fill=level))+geom_bar(stat="identity", position="dodge")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+labs(x="", y="No. of responses", fill="")+scale_fill_discrete(labels=c("Increase Considerably", "Increase Slightly", "Stay the Same", "Decrease Slightly", "Decrease Considerably", "Can't Comment"))+scale_x_discrete(labels=c("Fundamental", "Use-inspired", "Applied"))+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggplot(data=availiability.ca, aes(x=what.type, gender, fill=level))+geom_bar(stat="identity", position="dodge")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+labs(x="", y="No. of responses", fill="")+scale_fill_discrete(labels=c("Increase Considerably", "Increase Slightly", "Stay the Same", "Decrease Slightly", "Decrease Considerably", "Can't Comment"))+scale_x_discrete(labels=c("Fundamental", "Use-inspired", "Applied"))+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+geom_text(aes(label=gender), vjust=-0.5, hjust=1)
 
                                                                                                                                                                                                                                                                                                                                                                                                                     
 ```
@@ -556,7 +556,7 @@ impact$next_generation<-factor(impact$next_generation, factor(impact$next_genera
 
 
 ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation))+ geom_bar(stat='identity', position="dodge") + scale_x_discrete(labels=c("Decrease Considerably","Decrease Slightly","Stay the Same","Increase Slightly","Increase Considerably", "Can't Comment")) + guides(fill=FALSE) +
- labs(x="", y="No. of responses")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ labs(x="", y="No. of responses")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+geom_text(aes(label=gender), vjust=-0.5)
 
 
 
