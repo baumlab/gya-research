@@ -560,7 +560,7 @@ head(p3_11.15[p3_11.15$total.funding>100,])
 p3_11.15$distribution_funding_11_15_internal<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distribution_funding_11_15_internal/p3_11.15$total.funding)*100, p3_11.15$distribution_funding_11_15_internal)
 p3_11.15$distriution_funding_11_15_government<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_government/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_government)
 p3_11.15$distriution_funding_11_15_for_profit<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_for_profit/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_for_profit)
-p3_11.15$distriution_funding_11_15_nongov<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distribution_funding_11_15_internal/p3_11.15$total.funding)*100, p3_11.15$distribution_funding_11_15_internal)
+p3_11.15$distriution_funding_11_15_nongov<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_nongov/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_nongov)
 p3_11.15$distriution_funding_11_15_other<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_other/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_other)
 p3_6.10$distriution_funding_6_10_internal<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_internal/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_internal)
 p3_6.10$distriution_funding_6_10_government<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_government/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_government)
@@ -568,35 +568,31 @@ p3_6.10$distriution_funding_6_10_for_profit<-ifelse(p3_6.10$total.funding>100,(p
 p3_6.10$distriution_funding_6_10_nongov<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_nongov/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_nongov)
 p3_6.10$distriution_funding_6_10_other<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_other/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_other)
 
-head(p3_11.15[p3_11.15$total.funding>100,])
+head(p3_6.10[p3_6.10$total.funding>100,])
 
+colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_for_profit"]<-"For-Profit"
+colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_government"]<-"Government"
+colnames(p3_11.15)[colnames(p3_11.15)=="distribution_funding_11_15_internal"]<-"Internal"
+colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_nongov"]<-"Non-governmental"
+colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_other"]<-"Other"
 
-####################not done##############
-##########################################
+colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_for_profit"]<-"For-Profit"
+colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_government"]<-"Government"
+colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_internal"]<-"Internal"
+colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_nongov"]<-"Non-governmental"
+colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_other"]<-"Other"
 
-p3_11.15$sum<-....
-
-colnames(p3_6.10)<-c("")
-
+head(p3_6.10)
 
 p3_master<-rbind(p3_6.10, p3_11.15)
-ggplot(....)
 
-
-
-
-
-
-
-
-head(survey.type[survey.type$total_research>100,])
-
+head(p3_master)
 
 ## switch to long format
 require(tidyr)
-survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country)
+p3_master.long<-gather(p3_master, type, percent,-info, -year, -survey, -total.funding, -Location, -gender, -Country)
 
-
+head(p3_master.long)
 
 
 
@@ -649,4 +645,8 @@ write.csv(part3.success.long, file="data/gya-part3.success.long.csv", row.names 
 write.csv(part3.prac.long, file="data/gya-part3.prac.long.csv", row.names = FALSE)
 
 write.csv(part3.part.long, file="data/gya-part3.part.long.csv", row.names = FALSE)
+
+write.csv(p3_master.long, file="data/gya-p3_master.long.csv", row.names = FALSE)
+
+write.csv(p3_master, file="data/gya-p3_master.csv", row.names = FALSE)
 

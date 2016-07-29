@@ -23,6 +23,8 @@ part3.change<-read.csv(file="data/gya-part3.change.csv")
 part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
 part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
 part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
+p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
+p3_master<-read.csv(file="data/gya-p3_master.csv")
 
 ################################
 #### Summary statistics ########
@@ -769,7 +771,17 @@ ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", positi
 
 #### 21a distribution of funding
 
+head(p3_master.long)
 
+ggplot(p3_master.long, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
+
+
+
+## 21b
+
+canada<-subset(p3_master.long, Country=="Canada")
+
+ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
 
 
 

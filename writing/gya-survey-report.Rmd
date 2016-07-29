@@ -56,6 +56,7 @@ part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
 part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
 part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
 part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
+p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix)
@@ -403,6 +404,9 @@ ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", positi
 ```
 
 ```{r, echo=FALSE, fig.cap="Distribution of research funding (Canada)", warning=FALSE}
+canada<-subset(p3_master.long, Country=="Canada")
+
+ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
 
 ```
 
