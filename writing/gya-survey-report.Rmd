@@ -24,22 +24,39 @@ The online survey was open from the end of May through early August 2016. To dis
 ```
   
 **Results**
-In total, 1283 Canadian researchers completed the online survey. Of these, almost three quarters were male (74%) and one quarter were female (25%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (94%) were either senior academics (66%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (29%) (Figure X). 
-
+In total, 1283 Canadian researchers completed the online survey. Of these, almost three quarters were male (74%) and one quarter were female (25%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (94%) were either senior academics (66%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (29%) (Figure 1). 
+ <! --- 
+Female 318 / 1283; Male 946/1283
+ECR: 367 / 1283; Non-academic ECR: 7; Non-academic >10yrs: 15; Post-doc: 48; Senior: 841 (65.5%); 5 no responses; 
+Engineering 163 (12.7%); Inter 70 (5.48%); Med/Life Sci 251(19.65%); Natural 377 (29.5%); Other 3; Phys 382 (29.9%); Social 37. For some unknown reason this totals 1277; 
+ -->
+ 
 Sixty per cent of responses came from either the natural or physical sciences (Figure 2). The remaining responses were spread amongst the medical and life sciences (20%), engineering (13%), interdisciplinary research (5%), and social sciences and humanities (3%). 
 
-*External Partnerships* The
+*Research Type* SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X). 
 
- ```
- ## -- Female 318 / 1283; Male 946/1283
- ## -- ECR: 367 / 1283; Non-academic ECR: 7; Non-academic >10yrs: 15; Post-doc: 48; Senior: 841 (65.5%); 5 no responses; 
- ## -- Engineering 163 (12.7%); Inter 70 (5.48%); Med/Life Sci 251(19.65%); Natural 377 (29.5%); Other 3; Phys 382 (29.9%); Social 37. For some unknown reason this totals 1277; 
- ```
- 
- 
+*External Partnerships* The extent to which research is conducted with partners outside of academia, including in industry and non-governmental sectors, may also be considered as an indicator of use-inspired or applied research. Almost all respondents reported that their current research is conducted with some external partners, with X% reporting some partnership and X and Y% reporting strong or exclusive partnerships, respectively. In contrast, X% of researchers said that in the past they had no external partners in their research, whereas that number today was much lower..... 
+
+Again, the predominate reason given was funding related (Figure X).
+
+However, very few researchers viewed this change as being very negative. Most researchers regarded it as either slightly negative or slightly positive, and X% viewed it as very positive. 
+
+*Research Grants* 
+[STILL TO COME]
+
+The majority of respondents believe that it is now either mandatory or very important to suggest practical applications of their research in order for their grant applications to be successful. This has shifted over time, with researchers reporting that between 2006 and 2010 it was only somewhat important to do so (Figure X).
+
+Similarly...... including partners from for-profit or non-governmental sectors in grants to be successful (Figure X).
+
+*Perspectives on the State of Fundamental Research in Canada*
+Over half of Canadian researchers who responded said that fundamental research is either very important or somewhat important to our government. Differences by career stage, discipline,ggender....
+
+At the same time, almost three-quarters of respondents said that applied research became a higher priority for our government over the past decade. 
+
+Summarize finding on how they think availabiltiy of research funding will change over the next five years: 
   
-FIGURE 3. PLEASE ORDER IN ORDER OF CAREER I.E. POSTDOC THEN EARLY CAREER THEN SENIOR ACADEMIC, THEN PUT THE TWO NON-ACADEMICS TO THE RIGHT.
-FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents reported percentages 
+
+
 
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
