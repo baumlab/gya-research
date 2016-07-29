@@ -8,6 +8,11 @@ output:
   html_document: default
   fig_height: 4
 ---
+```{r, echo=FALSE}
+## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+```
 
 Intro -
 explain the difference between applied, use inspired and fundamental research..... 
@@ -36,9 +41,6 @@ FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
 
-setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
-#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
-
 survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 survey.what<-read.csv(file="data/gya-country-responses.csv")
@@ -59,7 +61,9 @@ part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[-c(1:2)]
 theme_set(theme_bw())
 
 gender<-aggregate(Location ~ gender, survey, length)
@@ -70,91 +74,72 @@ locations<-aggregate(gender ~ Country, survey.what, length)
 
 ### Summary statistics
 
-As of `r date()`, `r dim(survey.what)[1]` surveys from `r length(unique(survey.what$Country_work))` countries have been completed.
 
-The majority of surveys were completed by researchers based in Canada (n = `r country_work$gender[country_work$Country_work=="Canada"]`), followed by Israel (n = `r country_work$gender[country_work$Country_work=="Israel"]`) then by the UK (n = `r country_work$gender[country_work$Country_work=="United Kingdom"]`) and the USA (n = `r country_work$gender[country_work$Country_work=="United States"]`). `r country_work$gender[country_work$Country_work==""]` surveys did not identify their place of work.
 
-```{r, echo=FALSE, fig.cap="Survey responses of the top 20 responding countries, G8 countries, and the top spenders in R & D from OECD data"}
-country.list<-c("Canada" , "France",
-                    "Germany","United Kingdom","Italy","Japan", "Russia","Korea, South",
-                      "United States","Australia","Austria","Belgium",
-                      "Ireland","Brazil", "Poland","Finland",
-                       "Netherlands","New Zealand","Norway",
-                      "Spain","Sweden","Switzerland","Turkey","Israel",
-                      "India","Bangladesh","Uruguay","Malaysia","New Zealand","Taiwan","Denmark")
-
-country.top<-survey[survey$Country_work %in% country.list,]
-locations.top<-aggregate(gender ~ Country_work, country.top, length)
-gender.top<-aggregate(Country_work ~ gender, country.top, length)
-locations.top[order(match(locations.top,gender.top))]
-barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)]
-par(mar=c(7,4,4,2))
-gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(201,1200),horiz=F, xaxlab=barlabs, xlab="", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200, 1242,1300),las=2, col=c(blue2red(29)))  
-
-```
-
-```{r, echo=FALSE, fig.cap="Survey responses by field of research (global and Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Survey responses by field of research", warning=FALSE}
+field.can<-with(survey.what[survey.what$Country=="Canada",],data.frame(table(field_research))) 
+field.can<-field.can[!field.can$field_research=="",]
+field.can$field_research<-reorder(field.can$field_research, field.can$Freq)
+field.can$field_research<-revalue(field.can$field_research, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 ## setting colour scale to keep colours identical between similar plots
-myColors <- brewer.pal(8,"Set1")
 names(myColors) <- levels(survey.what$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors)
 
-field<-aggregate(Location ~ field_research, survey.what, length)
-## remove 1 case of no field recorded
-field<-field[!field$field_research=="",]
+
+ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) +         geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  ylim(c(0, 310)) +
+  labs(y="No. of responses",x="", title="")  +
+  geom_text(aes(label=Freq), vjust=-0.25) + 
+  theme( axis.text=element_text(size=14),
+         axis.text.x=element_text(angle=45, size=10),
+         axis.title=element_text(size=14),
+         panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank()) + 
+  guides(fill=FALSE) + colScale
 
 
-g1<-ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + ylim(c(0, 650)) + 
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="", title="Global")  +
-  geom_text(aes(label=Location), vjust=-0.25) + theme( axis.text=element_text(size=14), 
-                                                                                            axis.title=element_text(size=10)) + guides(fill=FALSE) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale
 
-
-
-field.can<-aggregate(Location ~ field_research, survey.what[survey.what$Country=="Canada",], length)
-
-g2<-ggplot(field.can, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + ylim(c(0, 400)) +
-  theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="", title="Canada")  +
-  geom_text(aes(label=Location), vjust=-0.25) + theme( axis.text=element_text(size=14), axis.title=element_text(size=10),
-                                                       legend.position="bottom", legend.title=element_blank(), legend.text=element_text(size=9))+ 
-  guides(fill=guide_legend(nrow=4)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ colScale
-
-
-grid.arrange(g1, g2, layout_matrix=rbind(1,2,2))
 
 
 ```
 
 
 
-```{r, echo=FALSE, fig.cap="Survey responses by years of experience (global and Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Survey responses by years of experience", warning=FALSE}
 ## setting colour scale to keep colours identical between similar plots
-myColors <- brewer.pal(6,"Set1")
-names(myColors) <- levels(survey.what$what_participant_group)
-colScale <- scale_fill_manual(name = "what_participant_group",values = myColors, labels=c("Senior academic researcher", "Postdoc or RA", "Non-academic researcher <10 yrs experience", "Non-academic researcher >10yrs experience", "Early career academic researcher"))
+#myColors <- brewer.pal(6,"Set1")
+survey.what<-droplevels(survey.what)
+can.field<-survey.what[survey.what$Country=="Canada",]
+head(can.field)
+experience_can<-data.frame(table(survey.what$what_participant_group))
+experience_can<-experience_can[!experience_can$Var1=="",]
+experience_can<-droplevels(experience_can)
+experience_can$Var1<-revalue(experience_can$Var1, c("Early career academic researcher with &lt;10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with &gt;10 years of experience" = "Non-academic research > 10 yrs experience",
+                               "Non-academic researcher conducting or managing research in industry or government with &lt;10 years of experience" = "Non-academic researcher < 10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with &gt;10 years of experience applying for research grants" = "Senior academic researcher"))
+experience_can$Var1<-reorder(experience_can$Var1, experience_can$Freq)
+
+# assign colour scale
+names(myColors)<- levels(experience_can$Var1)
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+myColors
 
 
-experience<-aggregate(Location ~ what_participant_group, survey.what, length)
-experience<-experience[!experience$what_participant_group=="",]
 
-g3<-ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="", title="Global") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location),size=4, vjust=-0.25) + guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=6)) + 
-  theme( axis.text=element_text(size=14), axis.title=element_text(size=10),panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ guides(fill=FALSE) + ylim(c(0, 1500)) 
+ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
+  geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  geom_text(aes(label=Freq, vjust=-1))+
+  labs(y="No. of responses", x="") +
+  guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
+  theme(legend.title=element_blank(), 
+        legend.text=element_text(size=10), 
+        axis.text=element_text(size=14),
+        axis.text.x=element_text(angle=0), 
+        axis.title=element_text(size=15),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) + 
+  colScale+ ylim(c(0, 1200)) + guides(fill=FALSE)
 
 
-
-experience_can<-aggregate(Location ~ what_participant_group, survey.what[survey.what$Country=="Canada",], length)
-experience_can<-experience_can[!experience_can$what_participant_group=="",]
-
-g4<-ggplot(experience_can, aes(x = reorder(what_participant_group, -Location), Location, fill=what_participant_group)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
-  labs(y="Number of responses", x="", title="Canada") +  theme(legend.position="bottom") + theme(axis.text.x=element_blank()) + 
-  geom_text(aes(label=Location),size=4, vjust=-0.25)+ guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
-  theme(legend.title=element_blank(), legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=10))+ 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + colScale+ ylim(c(0, 800)) 
-
-grid.arrange(g3, g4, layout_matrix=rbind(1,2,2))
 
 ```
 
