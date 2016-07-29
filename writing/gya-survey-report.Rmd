@@ -41,7 +41,8 @@ FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
 ## load in survey data
 
-survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
+
+survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 survey.what<-read.csv(file="data/gya-country-responses.csv")
 research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
@@ -425,7 +426,7 @@ ggplot(data=gender.change, aes(x=level, Location, fill=type))+geom_bar(stat="ide
 
 #### Part 4 - Funding Trends
 
-```{r, echo=FALSE, fig.cap="Perceived importance of fundamental research to Canada"}
+```{r, echo=FALSE, fig.cap="Perceived importance of fundamental research to Canada \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything"}
 ## order bars from very important (left) to can't comment (right)
 important<-subset(part4, select=c("Location","Country", "gender","opinion_fundamental_important"))
 
@@ -448,12 +449,12 @@ perceive<-aggregate(Freq~Var1, sum.important, sum)
 #gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Other',(gender.perceive$Freq/sum(other$Freq))*100, gender.perceive$Freq)
 
 
-ggplot(data=perceive, aes(x=Var1, y=Freq)) + geom_bar(stat='identity', position='dodge')+ labs(x="", y="Percentage of responses", fill="")+theme(axis.text.x = element_text(angle=90, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggplot(data=perceive, aes(x=Var1, y=Freq)) + geom_bar(stat='identity', position='dodge')+ labs(x="", y="No. of responses", fill="")+theme(axis.text.x = element_text(angle=45, vjust=0.4))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_x_discrete(limits = rev(levels(perceive$Var1)))+geom_text(aes(label=Freq), vjust=-0.5)
 
 ```
 
 
-```{r, echo=FALSE, fig.cap="Perceived change in research priority by Canadian government"}
+```{r, echo=FALSE, fig.cap="Perceived change in research priority by Canadian government \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything"}
 ## order bars into applied > use > fundamental > no change
 priority<-subset(part4, select=c("Location","Country", "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                  "high_priority_no_change"))
@@ -464,27 +465,29 @@ priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -C
 # remove non-responses
 priority.long<-priority.long[!priority.long$gender=="",]
 
-gender.perceive<-aggregate(higher.priority ~ gender + what.type, priority.long, sum)
+per.change<-aggregate(higher.priority~what.type, priority.long, sum)
+
+#gender.perceive<-aggregate(higher.priority ~ gender + what.type, priority.long, sum)
 # turn to percents
-male<-subset(gender.perceive, gender=="Male")
-female<-subset(gender.perceive, gender=="Female")
-other<-subset(gender.perceive, gender=="Other")
-gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Male',(gender.perceive$higher.priority/sum(male$higher.priority))*100, gender.perceive$higher.priority)
-gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Female',(gender.perceive$higher.priority/sum(female$higher.priority))*100, gender.perceive$higher.priority)
-gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Other',(gender.perceive$higher.priority/sum(other$higher.priority))*100, gender.perceive$higher.priority)
+#male<-subset(gender.perceive, gender=="Male")
+#female<-subset(gender.perceive, gender=="Female")
+#other<-subset(gender.perceive, gender=="Other")
+#gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Male',(gender.perceive$higher.priority/sum(male$higher.priority))*100, #gender.perceive$higher.priority)
+#gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Female',(gender.perceive$higher.priority/sum(female$higher.priority))*100, #gender.perceive$higher.priority)
+#gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Other',(gender.perceive$higher.priority/sum(other$higher.priority))*100, #gender.perceive$higher.priority)
 
 # change order of the levels
-gender.perceive$what.type<-as.factor(gender.perceive$what.type)
-gender.perceive$what.type<-factor(gender.perceive$what.type, levels(gender.perceive$what.type)[c(2,4,1,3)])
+per.change$what.type<-as.factor(per.change$what.type)
+per.change$what.type<-factor(per.change$what.type, levels(per.change$what.type)[c(2,4,1,3)])
 
 
-ggplot(data=gender.perceive, aes(x=what.type, higher.priority, fill=gender))+geom_bar(stat="identity", position='dodge')+ theme(axis.text.x = element_text()) +labs(x="", y="Percent of responses", fill="") + scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggplot(data=per.change, aes(x=what.type, higher.priority))+geom_bar(stat="identity", position='dodge')+ theme(axis.text.x = element_text()) +labs(x="", y="No. of responses", fill="") +theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))+theme(axis.text.x = element_text(angle=45, vjust=0.4))+geom_text(aes(label=higher.priority), vjust=-0.5)
 
 
 ```
 
 
-```{r, echo=FALSE, fig.cap="Anticipated change in research funding in next 5 years in Canada "}
+```{r, echo=FALSE, fig.cap="Anticipated change in research funding in next 5 years in Canada \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything "}
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 availability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
@@ -494,37 +497,43 @@ canada<-subset(availability.change, Country=="Canada")
 require(tidyr)
 availability.change.long.ca<-gather(canada, what.type, level, -gender, -Location, -Country)
 
-gender.perceive<-aggregate(Location ~ what.type + gender+level, availability.change.long.ca, length)
+availiability.ca<-aggregate(gender~what.type+level, availability.change.long.ca, length)
+
+#remove non response
+availiability.ca<-availiability.ca[!availiability.ca$level=="",]
+
+#gender.perceive<-aggregate(Location ~ what.type + gender+level, availability.change.long.ca, length)
 
 #availability.ca<-aggregate(gender~what.type+level, availability.change.long.ca,length)
 # remove non-response
-gender.perceive<-gender.perceive[!gender.perceive$level=="",]
-gender.perceive<-gender.perceive[!gender.perceive$gender=="",]
+#gender.perceive<-gender.perceive[!gender.perceive$level=="",]
+#gender.perceive<-gender.perceive[!gender.perceive$gender=="",]
 
 # turn to percents
-male<-subset(gender.perceive, gender=="Male")
-female<-subset(gender.perceive, gender=="Female")
-other<-subset(gender.perceive, gender=="Other")
-gender.perceive$Location<-ifelse(gender.perceive$gender=='Male',(gender.perceive$Location/sum(male$Location))*100, gender.perceive$Location)
-gender.perceive$Location<-ifelse(gender.perceive$gender=='Female',(gender.perceive$Location/sum(female$Location))*100, gender.perceive$Location)
-gender.perceive$Location<-ifelse(gender.perceive$gender=='Other',(gender.perceive$Location/sum(other$Location))*100, gender.perceive$Location)
+#male<-subset(gender.perceive, gender=="Male")
+#female<-subset(gender.perceive, gender=="Female")
+#other<-subset(gender.perceive, gender=="Other")
+#gender.perceive$Location<-ifelse(gender.perceive$gender=='Male',(gender.perceive$Location/sum(male$Location))*100, gender.perceive$Location)
+#gender.perceive$Location<-ifelse(gender.perceive$gender=='Female',(gender.perceive$Location/sum(female$Location))*100, gender.perceive$Location)
+#gender.perceive$Location<-ifelse(gender.perceive$gender=='Other',(gender.perceive$Location/sum(other$Location))*100, gender.perceive$Location)
 
 ## change type to factor with levels
-gender.perceive$level<-str_replace_all(gender.perceive$level, "Will ", "")
-gender.perceive$what.type<-as.factor(gender.perceive$what.type)
-gender.perceive$level<-as.factor(gender.perceive$level)
+availiability.ca$level<-str_replace_all(availiability.ca$level, "Will ", "")
+availiability.ca$what.type<-as.factor(availiability.ca$what.type)
+availiability.ca$level<-as.factor(availiability.ca$level)
 
 ## change order of levels
-gender.perceive$level<-factor(gender.perceive$level, levels(gender.perceive$level)[c(4,5,6,3,2,1 )])
-gender.perceive$what.type<-factor(gender.perceive$what.type, levels(gender.perceive$what.type)[c(2,3,1)])
+availiability.ca$level<-factor(availiability.ca$level, levels(availiability.ca$level)[c(4,5,6,3,2,1 )])
+availiability.ca$what.type<-factor(availiability.ca$what.type, levels(availiability.ca$what.type)[c(2,3,1)])
 
 
-ggplot(data=gender.perceive, aes(x=level, Location, fill=what.type))+geom_bar(stat="identity", position="dodge")+facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + scale_x_discrete(labels=c("Increase Considerably", "Increase Slightly", "Stay the Same", "Decrease Slightly", "Decrease Considerably", "Can't Comment"))
-                                                                                                                                                                                                                                                                                                                                                                                                                     
+ggplot(data=availiability.ca, aes(x=what.type, gender, fill=level))+geom_bar(stat="identity", position="dodge")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+labs(x="", y="No. of responses", fill="")+scale_fill_discrete(labels=c("Increase Considerably", "Increase Slightly", "Stay the Same", "Decrease Slightly", "Decrease Considerably", "Can't Comment"))+scale_x_discrete(labels=c("Fundamental", "Use-inspired", "Applied"))+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+                                                                                                                                                                                                                                                                                                                                                                                                                    
 ```
 
 
-```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation (Canada)"}
+```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation in Canada \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything"}
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 next.generation<-subset(part4, select=c("Location", "Country", "gender","next_generation"))
@@ -538,11 +547,11 @@ impact<-aggregate(gender~ next_generation, canada, length)
 impact$next_generation<-str_replace_all(impact$next_generation, "Will ", "")
 impact$next_generation<-as.factor(impact$next_generation)
 ## change order of next_generations
-impact$next_generation<-factor(impact$next_generation, factor(impact$next_generation)[c(4,5,6,3,2,1 )])
+impact$next_generation<-factor(impact$next_generation, factor(impact$next_generation)[c(2,3,6,5,4,1 )])
 
 
-ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation))+ geom_bar(stat='identity', position="dodge") + scale_x_discrete(labels=c("Increase Considerably", "Increase Slightly", "Stay the Same", "Decrease Slightly", "Decrease Considerably", "Can't Comment")) + guides(fill=FALSE) +
- labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation))+ geom_bar(stat='identity', position="dodge") + scale_x_discrete(labels=c("Decrease Considerably","Decrease Slightly","Stay the Same","Increase Slightly","Increase Considerably", "Can't Comment")) + guides(fill=FALSE) +
+ labs(x="", y="No. of responses")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 

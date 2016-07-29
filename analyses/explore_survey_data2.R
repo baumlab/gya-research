@@ -10,7 +10,7 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 ## read data
 
-survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
+survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
 
 
 suveycols<-c("Status","Location"	,"what_participant_group",
@@ -220,7 +220,7 @@ survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country)
 #survey$percent_Use_inspired_Research_past<-str_replace_all(survey$percent_Use_inspired_Research_past, "[%]", "")
 
 #part1.past<-subset(survey, select=c("Location","Country",  "gender", "percent_Applied_Research_past", "percent_Fundamental_Research_past", 
-                                "percent_Use_inspired_Research_past"))
+#                                "percent_Use_inspired_Research_past"))
 
 ## everything's fixed. % are gone.
 

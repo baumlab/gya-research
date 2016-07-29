@@ -31,6 +31,8 @@
 "","Female","",1764,"6_10","keep",0,60,20,20,0,100
 "","Female","",1807,"6_10","keep",0,70,30,0,0,100
 "","Female","",1817,"6_10","keep",0,80,20,0,0,100
+"","Female","",2059,"6_10","keep",0,70,10,20,0,100
+"","Female","",2090,"6_10","keep",0,100,0,0,0,100
 "","Male","",41,"6_10","keep",0,0,30,70,0,100
 "","Male","",238,"6_10","keep",0,80,10,10,0,100
 "","Male","",389,"6_10","keep",0,90,10,0,0,100
@@ -95,16 +97,32 @@
 "","Male","",1827,"6_10","keep",0,70,30,0,0,100
 "","Male","",1868,"6_10","keep",0,0,90,10,0,100
 "","Male","",1961,"6_10","keep",0,80,20,0,0,100
+"","Male","",1981,"6_10","keep",10,10,0,10,10,40
+"","Male","",2015,"6_10","keep",20,70,10,0,0,100
+"","Male","",2045,"6_10","keep",20,60,20,0,0,100
+"","Male","",2046,"6_10","keep",30,60,10,0,0,100
+"","Male","",2066,"6_10","keep",50,20,30,0,0,100
+"","Male","",2091,"6_10","keep",10,90,0,0,0,100
 "","Other","",704,"6_10","keep",0,100,0,0,0,100
 "Argentina","Male","Argentina",778,"6_10","keep",20,20,50,10,0,100
 "Australia","Female","Australia",202,"6_10","keep",0,80,20,0,0,100
 "Australia","Female","Australia",256,"6_10","keep",0,70,30,0,0,100
 "Australia","Female","Australia",1818,"6_10","keep",0,90,10,0,0,100
+"Australia","Female","Australia",1992,"6_10","keep",0,0,100,0,0,100
+"Australia","Female","Australia",1994,"6_10","keep",0,80,10,10,0,100
+"Australia","Female","Australia",1996,"6_10","keep",0,70,20,0,0,90
+"Australia","Female","Australia",2070,"6_10","keep",0,90,10,0,0,100
+"Australia","Female","Australia",2071,"6_10","keep",0,50,50,0,0,100
+"Australia","Female","Australia",2074,"6_10","keep",0,70,30,0,0,100
 "Australia","Male","Australia",170,"6_10","keep",0,100,0,0,0,100
 "Australia","Male","Australia",199,"6_10","keep",10,50,30,10,0,100
 "Australia","Male","Australia",813,"6_10","keep",10,70,0,20,0,100
 "Australia","Male","Australia",1278,"6_10","keep",100,0,0,0,0,100
 "Australia","Male","Australia",1566,"6_10","keep",0,30,10,60,0,100
+"Australia","Male","Australia",1990,"6_10","keep",0,30,50,20,0,100
+"Australia","Male","Australia",1991,"6_10","keep",0,90,10,0,0,100
+"Australia","Male","Australia",2002,"6_10","keep",0,90,10,0,0,100
+"Australia","Male","Australia",2038,"6_10","keep",10,80,10,0,0,100
 "Austria","Male","Austria",457,"6_10","keep",0,70,10,20,0,100
 "Austria","Male","Austria",1281,"6_10","keep",10,60,20,0,0,90
 "Belgium","Male","Belgium",163,"6_10","keep",0,0,100,0,0,100
@@ -112,6 +130,7 @@
 "Belgium","Male","Belgium",1622,"6_10","keep",0,90,10,0,0,100
 "Belgium","Male","Belgium",1638,"6_10","keep",0,0,80,0,0,80
 "Belgium","Male","Belgium",1657,"6_10","keep",0,100,0,0,0,100
+"Belgium","Male","Belgium",1999,"6_10","keep",0,70,30,0,0,100
 "Brazil","Female","Brazil",395,"6_10","keep",30,60,10,0,0,100
 "Brazil","Female","Brazil",403,"6_10","keep",0,100,0,0,0,100
 "Brazil","Female","Brazil",412,"6_10","keep",0,70,0,30,0,100
@@ -181,6 +200,8 @@
 "Canada","Female","Manitoba",1637,"6_10","keep",10,90,0,0,0,100
 "Canada","Female","New Brunswick",584,"6_10","keep",0,90,10,0,0,100
 "Canada","Female","New Brunswick",1421,"6_10","keep",0,100,0,0,0,100
+"Canada","Female","New Brunswick",1983,"6_10","keep",0,70,30,0,0,100
+"Canada","Female","New Brunswick",2065,"6_10","keep",0,0,100,0,0,100
 "Canada","Female","Newfoundland and Labrador",1448,"6_10","keep",0,90,10,0,0,100
 "Canada","Female","Newfoundland and Labrador",1639,"6_10","keep",0,90,10,0,0,100
 "Canada","Female","Nova Scotia",447,"6_10","keep",0,10,70,20,0,100
@@ -195,6 +216,7 @@
 "Canada","Female","Nova Scotia",1182,"6_10","keep",0,50,50,0,0,100
 "Canada","Female","Nova Scotia",1538,"6_10","keep",0,70,30,0,0,100
 "Canada","Female","Nova Scotia",1733,"6_10","keep",0,60,40,0,0,100
+"Canada","Female","Nova Scotia",2069,"6_10","keep",0,80,0,0,20,100
 "Canada","Female","Nunavut",1016,"6_10","keep",0,100,0,0,0,100
 "Canada","Female","Ontario",149,"6_10","keep",10,0,90,0,0,100
 "Canada","Female","Ontario",416,"6_10","keep",40,50,10,0,0,100
@@ -263,6 +285,9 @@
 "Canada","Female","Ontario",1762,"6_10","keep",0,100,0,0,0,100
 "Canada","Female","Ontario",1795,"6_10","keep",0,100,0,0,0,100
 "Canada","Female","Ontario",1853,"6_10","keep",0,70,0,30,0,100
+"Canada","Female","Ontario",2042,"6_10","keep",0,80,0,20,0,100
+"Canada","Female","Ontario",2068,"6_10","keep",0,60,0,30,0,90
+"Canada","Female","Ontario",2078,"6_10","keep",0,80,20,0,0,100
 "Canada","Female","Prince Edward Island",436,"6_10","keep",60,0,20,20,0,100
 "Canada","Female","Prince Edward Island",681,"6_10","keep",20,70,10,0,0,100
 "Canada","Female","Prince Edward Island",768,"6_10","keep",10,40,40,10,0,100
@@ -347,6 +372,7 @@
 "Canada","Male","Alberta",1642,"6_10","keep",0,100,0,0,0,100
 "Canada","Male","Alberta",1729,"6_10","keep",40,0,60,0,0,100
 "Canada","Male","Alberta",1835,"6_10","keep",0,70,10,0,0,80
+"Canada","Male","Alberta",2039,"6_10","keep",10,90,0,0,0,100
 "Canada","Male","British Columbia",438,"6_10","keep",0,100,0,0,0,100
 "Canada","Male","British Columbia",441,"6_10","keep",0,100,0,0,0,100
 "Canada","Male","British Columbia",474,"6_10","keep",0,90,10,0,0,100
@@ -400,6 +426,9 @@
 "Canada","Male","British Columbia",1768,"6_10","keep",0,100,0,0,0,100
 "Canada","Male","British Columbia",1794,"6_10","keep",40,60,0,0,0,100
 "Canada","Male","British Columbia",1830,"6_10","keep",0,100,0,0,0,100
+"Canada","Male","British Columbia",2030,"6_10","keep",10,70,20,0,0,100
+"Canada","Male","British Columbia",2037,"6_10","keep",100,0,0,0,0,100
+"Canada","Male","British Columbia",2048,"6_10","keep",30,60,10,0,0,100
 "Canada","Male","Manitoba",560,"6_10","keep",0,100,0,0,0,100
 "Canada","Male","Manitoba",572,"6_10","keep",0,80,0,20,0,100
 "Canada","Male","Manitoba",640,"6_10","keep",0,100,0,0,0,100
@@ -631,6 +660,10 @@
 "Canada","Male","Ontario",1821,"6_10","keep",0,90,0,0,0,90
 "Canada","Male","Ontario",1825,"6_10","keep",0,90,10,0,0,100
 "Canada","Male","Ontario",1848,"6_10","keep",0,90,10,0,0,100
+"Canada","Male","Ontario",1980,"6_10","keep",0,80,10,10,0,100
+"Canada","Male","Ontario",2032,"6_10","keep",10,80,10,0,0,100
+"Canada","Male","Ontario",2036,"6_10","keep",0,100,0,0,0,100
+"Canada","Male","Ontario",2084,"6_10","keep",20,40,40,0,0,100
 "Canada","Male","Prince Edward Island",716,"6_10","keep",0,100,0,0,0,100
 "Canada","Male","Quebec",421,"6_10","keep",0,90,10,0,0,100
 "Canada","Male","Quebec",451,"6_10","keep",0,90,0,10,0,100
@@ -779,6 +812,7 @@
 "Germany","Male","Germany",1822,"6_10","keep",0,80,20,0,0,100
 "Germany","Male","Germany",1917,"6_10","keep",0,70,0,30,0,100
 "Germany","Male","Germany",1978,"6_10","keep",0,100,0,0,0,100
+"Germany","Male","Germany",2016,"6_10","keep",0,80,20,0,0,100
 "Greece","Female","Greece",98,"6_10","keep",0,100,0,0,0,100
 "Greece","Female","Greece",298,"6_10","keep",0,20,80,0,0,100
 "Greece","Female","Greece",853,"6_10","keep",0,90,0,0,0,90
@@ -889,6 +923,7 @@
 "Israel","Male","Israel",1596,"6_10","keep",0,0,0,100,0,100
 "Israel","Male","Israel",1780,"6_10","keep",0,10,90,0,0,100
 "Israel","Male","Israel",1789,"6_10","keep",80,20,0,0,0,100
+"Israel","Male","Israel",2040,"6_10","keep",0,90,10,0,0,100
 "Israel","Other","Israel",1290,"6_10","keep",0,0,90,0,0,90
 "Italy","Female","Italy",90,"6_10","keep",0,50,50,0,0,100
 "Italy","Female","Italy",108,"6_10","keep",0,0,100,0,0,100
@@ -921,6 +956,7 @@
 "Italy","Male","Italy",981,"6_10","keep",0,90,10,0,0,100
 "Italy","Male","Italy",1707,"6_10","keep",0,90,10,0,0,100
 "Italy","Male","Italy",1948,"6_10","keep",0,60,40,0,0,100
+"Italy","Male","Italy",2022,"6_10","keep",0,90.9090909090909,9.09090909090909,0,0,110
 "Japan","Male","Japan",223,"6_10","keep",10,80,0,10,0,100
 "Japan","Male","Japan",819,"6_10","keep",0,50,50,0,0,100
 "Japan","Male","Japan",1805,"6_10","keep",0,80,20,0,0,100
@@ -940,6 +976,8 @@
 "Netherlands","Female","Netherlands",58,"6_10","keep",0,0,100,0,0,100
 "Netherlands","Female","Netherlands",60,"6_10","keep",0,100,0,0,0,100
 "Netherlands","Female","Netherlands",1633,"6_10","keep",0,0,0,100,0,100
+"Netherlands","Female","Netherlands",2026,"6_10","keep",0,20,80,0,0,100
+"Netherlands","Female","Netherlands",2031,"6_10","keep",0,50,50,0,0,200
 "Netherlands","Male","Netherlands",24,"6_10","keep",20,40,40,0,0,100
 "Netherlands","Male","Netherlands",31,"6_10","keep",0,100,0,0,0,100
 "Netherlands","Male","Netherlands",49,"6_10","keep",30,40,30,0,0,100
@@ -951,9 +989,14 @@
 "Netherlands","Male","Netherlands",269,"6_10","keep",0,40,60,0,0,100
 "Netherlands","Male","Netherlands",371,"6_10","keep",0,90,10,0,0,100
 "Netherlands","Male","Netherlands",890,"6_10","keep",0,60,20,0,0,80
+"Netherlands","Male","Netherlands",1998,"6_10","keep",0,0,100,0,0,100
+"Netherlands","Male","Netherlands",2006,"6_10","keep",0,0,100,0,0,100
 "Netherlands","Other","Netherlands",22,"6_10","keep",0,50,50,0,0,100
+"New Zealand","Female","New Zealand",2080,"6_10","keep",0,60,40,0,0,100
+"New Zealand","Female","New Zealand",2083,"6_10","keep",0,80,20,0,0,100
 "New Zealand","Male","New Zealand",33,"6_10","keep",0,80,10,0,10,100
 "New Zealand","Male","New Zealand",1696,"6_10","keep",0,20,10,70,0,100
+"New Zealand","Male","New Zealand",2088,"6_10","keep",0,0,90,0,0,90
 "Nicaragua","Male","Nicaragua",1773,"6_10","keep",0,0,10,30,60,100
 "Nigeria","Female","Nigeria",1787,"6_10","keep",30,30,40,0,0,100
 "Nigeria","Male","Nigeria",1690,"6_10","keep",0,50,50,0,0,100
@@ -970,6 +1013,7 @@
 "Poland","Male","Poland",260,"6_10","keep",50,30,20,0,0,100
 "Portugal","Male","Portugal",153,"6_10","keep",0,100,0,0,0,100
 "Portugal","Male","Portugal",162,"6_10","keep",0,100,0,0,0,100
+"Portugal","Male","Portugal",2082,"6_10","keep",0,100,0,0,0,100
 "Russian Federation","Female","Russian Federation",1778,"6_10","keep",0,60,40,0,0,100
 "Russian Federation","Male","Russian Federation",1797,"6_10","keep",50,50,0,0,0,100
 "Serbia","Female","Serbia",264,"6_10","keep",0,100,0,0,0,100
@@ -995,8 +1039,10 @@
 "Switzerland","Male","Switzerland",1612,"6_10","keep",0,90,0,10,0,100
 "Switzerland","Male","Switzerland",1888,"6_10","keep",0,50,0,0,0,50
 "Switzerland","Male","Switzerland",1894,"6_10","keep",0,60,40,0,0,100
+"Switzerland","Male","Switzerland",2034,"6_10","keep",20,30,10,40,0,100
 "Taiwan","Male","Taiwan",1792,"6_10","keep",0,50,50,0,0,100
 "Turkey","Female","Turkey",39,"6_10","keep",10,20,40,10,20,100
+"United Kingdom","","United Kingdom",1985,"6_10","keep",10,80,10,0,0,100
 "United Kingdom","Female","United Kingdom",55,"6_10","keep",0,100,0,0,0,100
 "United Kingdom","Female","United Kingdom",64,"6_10","keep",0,50,50,0,0,100
 "United Kingdom","Female","United Kingdom",193,"6_10","keep",0,90,10,0,0,100
@@ -1021,6 +1067,9 @@
 "United Kingdom","Female","United Kingdom",1959,"6_10","keep",0,100,0,0,0,100
 "United Kingdom","Female","United Kingdom",1967,"6_10","keep",0,100,0,0,0,100
 "United Kingdom","Female","United Kingdom",1971,"6_10","keep",0,100,0,0,0,100
+"United Kingdom","Female","United Kingdom",2004,"6_10","keep",100,0,0,0,0,100
+"United Kingdom","Female","United Kingdom",2008,"6_10","keep",0,80,10,0,0,90
+"United Kingdom","Female","United Kingdom",2062,"6_10","keep",0,90,10,0,0,100
 "United Kingdom","Male","United Kingdom",27,"6_10","keep",0,100,0,0,0,100
 "United Kingdom","Male","United Kingdom",66,"6_10","keep",0,0,100,0,0,100
 "United Kingdom","Male","United Kingdom",94,"6_10","keep",0,30,10,60,0,100
@@ -1065,6 +1114,20 @@
 "United Kingdom","Male","United Kingdom",1965,"6_10","keep",0,0,0,100,0,100
 "United Kingdom","Male","United Kingdom",1968,"6_10","keep",0,90,0,0,0,90
 "United Kingdom","Male","United Kingdom",1973,"6_10","keep",0,0,0,0,100,100
+"United Kingdom","Male","United Kingdom",1982,"6_10","keep",0,90,10,0,0,100
+"United Kingdom","Male","United Kingdom",1997,"6_10","keep",0,100,0,0,0,100
+"United Kingdom","Male","United Kingdom",2007,"6_10","keep",0,70,20,0,10,100
+"United Kingdom","Male","United Kingdom",2010,"6_10","keep",0,90,10,0,0,100
+"United Kingdom","Male","United Kingdom",2014,"6_10","keep",50,0,50,0,0,100
+"United Kingdom","Male","United Kingdom",2019,"6_10","keep",20,50,30,0,0,100
+"United Kingdom","Male","United Kingdom",2020,"6_10","keep",0,0,100,0,0,100
+"United Kingdom","Male","United Kingdom",2023,"6_10","keep",0,70,30,0,0,100
+"United Kingdom","Male","United Kingdom",2024,"6_10","keep",0,20,0,80,0,100
+"United Kingdom","Male","United Kingdom",2025,"6_10","keep",0,80,20,0,0,100
+"United Kingdom","Male","United Kingdom",2027,"6_10","keep",0,10,70,20,0,100
+"United Kingdom","Male","United Kingdom",2029,"6_10","keep",0,40,10,0,50,100
+"United Kingdom","Male","United Kingdom",2033,"6_10","keep",0,90,10,0,0,100
+"United Kingdom","Male","United Kingdom",2085,"6_10","keep",10,90,0,0,0,100
 "Uruguay","Male","Uruguay",961,"6_10","keep",0,30,40,30,0,100
 "USA","","New York",1284,"6_10","keep",0,90,10,0,0,100
 "USA","Female","Alabama",1854,"6_10","keep",0,90,10,0,0,100
@@ -1078,7 +1141,10 @@
 "USA","Female","California",1842,"6_10","keep",0,0,100,0,0,100
 "USA","Female","Hawaii",1816,"6_10","keep",0,20,30,0,0,50
 "USA","Female","Maryland",1678,"6_10","keep",0,90,10,0,0,100
+"USA","Female","Massachusetts",2049,"6_10","keep",0,100,0,0,0,100
 "USA","Female","Michigan",367,"6_10","keep",0,90,0,10,0,100
+"USA","Female","Nebraska",2044,"6_10","keep",0,100,0,0,0,100
+"USA","Female","New Hampshire",2056,"6_10","keep",0,0,100,0,0,100
 "USA","Female","New York",797,"6_10","keep",0,100,0,0,0,100
 "USA","Female","New York",1616,"6_10","keep",0,100,0,0,0,100
 "USA","Female","New York",1673,"6_10","keep",0,100,0,0,0,100
@@ -1087,6 +1153,7 @@
 "USA","Female","Texas",1615,"6_10","keep",0,60,20,20,0,100
 "USA","Female","Vermont",610,"6_10","keep",0,80,10,10,0,100
 "USA","Female","Vermont",743,"6_10","keep",0,70,30,0,0,100
+"USA","Female","Virginia",2072,"6_10","keep",20,30,10,40,0,100
 "USA","Male","California",28,"6_10","keep",10,80,10,0,0,100
 "USA","Male","California",289,"6_10","keep",10,20,0,70,0,100
 "USA","Male","California",1131,"6_10","keep",0,54.5454545454545,27.2727272727273,18.1818181818182,0,110
@@ -1110,6 +1177,8 @@
 "USA","Male","Maryland",1745,"6_10","keep",0,70,10,20,0,100
 "USA","Male","Massachusetts",1063,"6_10","keep",0,90,10,0,0,100
 "USA","Male","Massachusetts",1796,"6_10","keep",0,40,10,50,0,100
+"USA","Male","Massachusetts",1984,"6_10","keep",0,80,10,10,0,100
+"USA","Male","Massachusetts",2067,"6_10","keep",0,0,100,0,0,100
 "USA","Male","Michigan",278,"6_10","keep",0,80,20,0,0,100
 "USA","Male","Michigan",1537,"6_10","keep",20,70,0,0,0,90
 "USA","Male","Michigan",1760,"6_10","keep",0,90,10,0,0,100
@@ -1187,6 +1256,8 @@
 "","Female","",1843,"11_15","keep",0,100,0,0,0,100
 "","Female","",1855,"11_15","keep",10,30,30,30,0,100
 "","Female","",1929,"11_15","keep",0,50,50,0,0,100
+"","Female","",2059,"11_15","keep",10,90,0,0,0,100
+"","Female","",2090,"11_15","keep",0,70,0,30,0,100
 "","Male","",41,"11_15","keep",0,0,20,80,0,100
 "","Male","",128,"11_15","keep",0,0,20,10,0,30
 "","Male","",176,"11_15","keep",0,81.8181818181818,18.1818181818182,0,0,110
@@ -1292,6 +1363,14 @@
 "","Male","",1961,"11_15","keep",0,50,50,0,0,100
 "","Male","",1963,"11_15","keep",0,30,40,30,0,100
 "","Male","",1966,"11_15","keep",0,0,20,80,0,100
+"","Male","",1981,"11_15","keep",22.5806451612903,29.0322580645161,3.2258064516129,19.3548387096774,25.8064516129032,310
+"","Male","",2015,"11_15","keep",10,80,0,10,0,100
+"","Male","",2045,"11_15","keep",18.1818181818182,45.4545454545455,9.09090909090909,27.2727272727273,0,110
+"","Male","",2046,"11_15","keep",50,40,10,0,0,100
+"","Male","",2050,"11_15","keep",0,0,40,60,0,100
+"","Male","",2054,"11_15","keep",0,100,0,0,0,100
+"","Male","",2066,"11_15","keep",30,40,30,0,0,100
+"","Male","",2091,"11_15","keep",30,70,0,0,0,100
 "","Other","",704,"11_15","keep",0,100,0,0,0,100
 "","Other","",1798,"11_15","keep",0,100,0,0,0,100
 "Argentina","Male","Argentina",92,"11_15","keep",27.2727272727273,36.3636363636364,36.3636363636364,0,0,110
@@ -1302,6 +1381,12 @@
 "Australia","Female","Australia",256,"11_15","keep",0,50,50,0,0,100
 "Australia","Female","Australia",1818,"11_15","keep",0,70,30,0,0,100
 "Australia","Female","Australia",1906,"11_15","keep",70,20,10,0,0,100
+"Australia","Female","Australia",1992,"11_15","keep",0,90,10,0,0,100
+"Australia","Female","Australia",1994,"11_15","keep",0,60,10,30,0,100
+"Australia","Female","Australia",1996,"11_15","keep",0,70,10,20,0,100
+"Australia","Female","Australia",2070,"11_15","keep",0,0,50,50,0,100
+"Australia","Female","Australia",2071,"11_15","keep",0,20,70,10,0,100
+"Australia","Female","Australia",2074,"11_15","keep",0,90,10,0,0,100
 "Australia","Male","Australia",150,"11_15","keep",0,90,10,0,0,100
 "Australia","Male","Australia",169,"11_15","keep",0,70,30,0,0,100
 "Australia","Male","Australia",170,"11_15","keep",0,90,10,0,0,100
@@ -1318,6 +1403,13 @@
 "Australia","Male","Australia",1711,"11_15","keep",0,0,100,0,0,100
 "Australia","Male","Australia",1716,"11_15","keep",0,90,0,0,10,100
 "Australia","Male","Australia",1749,"11_15","keep",0,90,10,0,0,100
+"Australia","Male","Australia",1990,"11_15","keep",0,30,50,20,0,100
+"Australia","Male","Australia",1991,"11_15","keep",0,90,10,0,0,100
+"Australia","Male","Australia",1993,"11_15","keep",0,0,50,50,0,100
+"Australia","Male","Australia",1995,"11_15","keep",10,30,50,10,0,100
+"Australia","Male","Australia",2002,"11_15","keep",0,20,80,0,0,100
+"Australia","Male","Australia",2038,"11_15","keep",0,90,10,0,0,100
+"Australia","Male","Australia",2060,"11_15","keep",10,50,40,0,0,100
 "Austria","Male","Austria",457,"11_15","keep",0,70,10,20,0,100
 "Austria","Male","Austria",1281,"11_15","keep",10,70,20,0,0,100
 "Austria","Male","Austria",1708,"11_15","keep",0,50,50,0,0,100
@@ -1333,6 +1425,8 @@
 "Belgium","Male","Belgium",1622,"11_15","keep",0,80,20,0,0,100
 "Belgium","Male","Belgium",1638,"11_15","keep",0,80,20,0,0,100
 "Belgium","Male","Belgium",1657,"11_15","keep",0,40,0,60,0,100
+"Belgium","Male","Belgium",1999,"11_15","keep",0,50,50,0,0,100
+"Belgium","Male","Belgium",2003,"11_15","keep",0,100,0,0,0,100
 "Brazil","Female","Brazil",395,"11_15","keep",0,60,10,0,0,70
 "Brazil","Female","Brazil",403,"11_15","keep",0,100,0,0,0,100
 "Brazil","Female","Brazil",405,"11_15","keep",0,70,30,0,0,100
@@ -1352,6 +1446,7 @@
 "Brazil","Male","Brazil",869,"11_15","keep",20,0,80,0,0,100
 "Brazil","Male","Brazil",944,"11_15","keep",0,100,0,0,0,100
 "Brazil","Male","Brazil",1203,"11_15","keep",0,70,30,0,0,100
+"Brazil","Male","Brazil",2092,"11_15","keep",10,70,20,0,0,100
 "Cameroon","Male","Cameroon",1247,"11_15","keep",40,50,10,0,0,100
 "Canada","","Alberta",526,"11_15","keep",10,70,20,0,0,100
 "Canada","","British Columbia",501,"11_15","keep",0,100,0,0,0,100
@@ -1439,6 +1534,8 @@
 "Canada","Female","New Brunswick",1421,"11_15","keep",0,100,0,0,0,100
 "Canada","Female","New Brunswick",1540,"11_15","keep",0,0,100,0,0,100
 "Canada","Female","New Brunswick",1601,"11_15","keep",0,50,50,0,0,100
+"Canada","Female","New Brunswick",1983,"11_15","keep",0,70,30,0,0,100
+"Canada","Female","New Brunswick",2065,"11_15","keep",0,0,100,0,0,100
 "Canada","Female","Newfoundland and Labrador",548,"11_15","keep",0,100,0,0,0,100
 "Canada","Female","Newfoundland and Labrador",786,"11_15","keep",0,100,0,0,0,100
 "Canada","Female","Newfoundland and Labrador",1448,"11_15","keep",30,60,10,0,0,100
@@ -1466,6 +1563,7 @@
 "Canada","Female","Nova Scotia",1727,"11_15","keep",0,0,100,0,0,100
 "Canada","Female","Nova Scotia",1733,"11_15","keep",0,70,30,0,0,100
 "Canada","Female","Nova Scotia",1752,"11_15","keep",0,80,20,0,0,100
+"Canada","Female","Nova Scotia",2069,"11_15","keep",0,100,0,0,0,100
 "Canada","Female","Nunavut",1016,"11_15","keep",50,40,0,10,0,100
 "Canada","Female","Ontario",149,"11_15","keep",9.09090909090909,27.2727272727273,54.5454545454545,9.09090909090909,0,110
 "Canada","Female","Ontario",315,"11_15","keep",0,70,30,0,0,100
@@ -1571,6 +1669,9 @@
 "Canada","Female","Ontario",1795,"11_15","keep",0,100,0,0,0,100
 "Canada","Female","Ontario",1813,"11_15","keep",0,0,100,0,0,100
 "Canada","Female","Ontario",1853,"11_15","keep",0,40,10,50,0,100
+"Canada","Female","Ontario",2042,"11_15","keep",0,80,0,20,0,100
+"Canada","Female","Ontario",2068,"11_15","keep",0,50,50,0,0,100
+"Canada","Female","Ontario",2078,"11_15","keep",0,80,20,0,0,100
 "Canada","Female","Prince Edward Island",436,"11_15","keep",50,0,50,0,0,100
 "Canada","Female","Prince Edward Island",681,"11_15","keep",0,100,0,0,0,100
 "Canada","Female","Prince Edward Island",768,"11_15","keep",60,10,30,0,0,100
@@ -1720,6 +1821,7 @@
 "Canada","Male","Alberta",1742,"11_15","keep",0,90,10,0,0,100
 "Canada","Male","Alberta",1835,"11_15","keep",10,60,30,0,0,100
 "Canada","Male","Alberta",1949,"11_15","keep",0,100,0,0,0,100
+"Canada","Male","Alberta",2039,"11_15","keep",0,100,0,0,0,100
 "Canada","Male","British Columbia",281,"11_15","keep",58.3333333333333,41.6666666666667,0,0,0,120
 "Canada","Male","British Columbia",438,"11_15","keep",0,100,0,0,0,100
 "Canada","Male","British Columbia",441,"11_15","keep",0,100,0,0,0,100
@@ -1802,6 +1904,9 @@
 "Canada","Male","British Columbia",1794,"11_15","keep",50,50,0,0,0,100
 "Canada","Male","British Columbia",1829,"11_15","keep",0,100,0,0,0,100
 "Canada","Male","British Columbia",1830,"11_15","keep",0,60,30,10,0,100
+"Canada","Male","British Columbia",2030,"11_15","keep",18.1818181818182,72.7272727272727,9.09090909090909,0,0,110
+"Canada","Male","British Columbia",2037,"11_15","keep",50,50,0,0,0,100
+"Canada","Male","British Columbia",2048,"11_15","keep",70,0,0,30,0,100
 "Canada","Male","Manitoba",560,"11_15","keep",0,90,10,0,0,100
 "Canada","Male","Manitoba",572,"11_15","keep",0,90,10,0,0,100
 "Canada","Male","Manitoba",638,"11_15","keep",0,0,100,0,0,100
@@ -2221,6 +2326,10 @@
 "Canada","Male","Ontario",1832,"11_15","keep",0,100,0,0,0,100
 "Canada","Male","Ontario",1833,"11_15","keep",0,60,20,20,0,100
 "Canada","Male","Ontario",1848,"11_15","keep",0,80,10,10,0,100
+"Canada","Male","Ontario",1980,"11_15","keep",0,70,20,10,0,100
+"Canada","Male","Ontario",2032,"11_15","keep",20,70,10,0,0,100
+"Canada","Male","Ontario",2036,"11_15","keep",0,100,0,0,0,100
+"Canada","Male","Ontario",2084,"11_15","keep",10,90,0,0,0,100
 "Canada","Male","Prince Edward Island",716,"11_15","keep",0,100,0,0,0,100
 "Canada","Male","Quebec",421,"11_15","keep",0,90,10,0,0,100
 "Canada","Male","Quebec",423,"11_15","keep",40,60,0,0,0,100
@@ -2367,6 +2476,11 @@
 "Canada","Male","Quebec",1782,"11_15","keep",20,50,30,0,0,100
 "Canada","Male","Quebec",1849,"11_15","keep",0,80,20,0,0,100
 "Canada","Male","Quebec",1946,"11_15","keep",10,50,10,20,10,100
+"Canada","Male","Quebec",1986,"11_15","keep",40,50,10,0,0,100
+"Canada","Male","Quebec",2043,"11_15","keep",30,50,20,0,0,100
+"Canada","Male","Quebec",2061,"11_15","keep",0,80,20,0,0,100
+"Canada","Male","Quebec",2063,"11_15","keep",20,70,10,0,0,100
+"Canada","Male","Quebec",2086,"11_15","keep",0,80,20,0,0,100
 "Canada","Male","Saskatchewan",437,"11_15","keep",30,50,20,0,0,100
 "Canada","Male","Saskatchewan",465,"11_15","keep",0,60,20,20,0,100
 "Canada","Male","Saskatchewan",675,"11_15","keep",0,50,50,0,0,100
@@ -2395,6 +2509,8 @@
 "China","Male","China",174,"11_15","keep",0,0,100,0,0,100
 "China","Male","China",1907,"11_15","keep",0,60,20,20,0,100
 "Colombia","Male","Colombia",1784,"11_15","keep",0,0,70,0,20,90
+"Connecticut","Female","Connecticut",2053,"11_15","keep",0,10,0,90,0,100
+"Connecticut","Male","Connecticut",2077,"11_15","keep",0,10,80,10,0,100
 "Croatia","Male","Croatia",714,"11_15","keep",0,90,10,0,0,100
 "Cyprus","Female","Cyprus",101,"11_15","keep",0,0,90,0,0,90
 "Cyprus","Male","Cyprus",1706,"11_15","keep",0,0,90,10,0,100
@@ -2403,6 +2519,7 @@
 "Denmark","Male","Denmark",1174,"11_15","keep",40,40,20,0,0,100
 "Denmark","Male","Denmark",1222,"11_15","keep",0,90,10,0,0,100
 "Denmark","Male","Denmark",1591,"11_15","keep",0,100,0,0,0,100
+"District of Columbia","Male","District of Columbia",2081,"11_15","keep",10,60,20,10,0,100
 "Dominican Republic","Male","Dominican Republic",1793,"11_15","keep",0,0,20,0,80,100
 "Egypt","Male","Egypt",135,"11_15","keep",0,80,20,0,0,100
 "Ethiopia","Male","Ethiopia",843,"11_15","keep",40,40,20,0,0,100
@@ -2474,6 +2591,7 @@
 "Germany","Male","Germany",1834,"11_15","keep",0,90.9090909090909,9.09090909090909,0,0,110
 "Germany","Male","Germany",1917,"11_15","keep",0,70,0,30,0,100
 "Germany","Male","Germany",1978,"11_15","keep",0,100,0,0,0,100
+"Germany","Male","Germany",2016,"11_15","keep",10,60,30,0,0,100
 "Greece","Female","Greece",98,"11_15","keep",0,80,0,20,0,100
 "Greece","Female","Greece",298,"11_15","keep",0,80,20,0,0,100
 "Greece","Female","Greece",853,"11_15","keep",0,100,0,0,0,100
@@ -2490,6 +2608,7 @@
 "India","Male","India",1702,"11_15","keep",40,30,20,10,0,100
 "India","Male","India",1779,"11_15","keep",0,20,70,10,0,100
 "India","Male","India",1804,"11_15","keep",0,80,20,0,0,100
+"India","Male","India",2052,"11_15","keep",0,30,20,0,0,50
 "Indonesia","Female","Indonesia",1770,"11_15","keep",0,80,20,0,0,100
 "Indonesia","Male","Indonesia",1801,"11_15","keep",20,70,10,0,0,100
 "Indonesia","Male","Indonesia",1840,"11_15","keep",0,10,90,0,0,100
@@ -2654,6 +2773,7 @@
 "Israel","Male","Israel",1732,"11_15","keep",16.6666666666667,33.3333333333333,33.3333333333333,16.6666666666667,0,120
 "Israel","Male","Israel",1780,"11_15","keep",0,10,90,0,0,100
 "Israel","Male","Israel",1789,"11_15","keep",90,0,0,10,0,100
+"Israel","Male","Israel",2040,"11_15","keep",0,90,10,0,0,100
 "Israel","Other","Israel",1290,"11_15","keep",0,0,80,0,0,80
 "Italy","Female","Italy",54,"11_15","keep",40,10,50,0,0,100
 "Italy","Female","Italy",78,"11_15","keep",0,80,20,0,0,100
@@ -2704,6 +2824,7 @@
 "Italy","Male","Italy",1707,"11_15","keep",0,90,10,0,0,100
 "Italy","Male","Italy",1725,"11_15","keep",0,80,20,0,0,100
 "Italy","Male","Italy",1948,"11_15","keep",0,60,20,20,0,100
+"Italy","Male","Italy",2022,"11_15","keep",0,90,10,0,0,100
 "Japan","Male","Japan",104,"11_15","keep",0,90,0,10,0,100
 "Japan","Male","Japan",124,"11_15","keep",0,60,0,40,0,100
 "Japan","Male","Japan",223,"11_15","keep",30,40,20,10,0,100
@@ -2746,6 +2867,9 @@
 "Netherlands","Female","Netherlands",140,"11_15","keep",0,0,100,0,0,100
 "Netherlands","Female","Netherlands",201,"11_15","keep",0,0,100,0,0,100
 "Netherlands","Female","Netherlands",1633,"11_15","keep",0,80,0,20,0,100
+"Netherlands","Female","Netherlands",2001,"11_15","keep",0,70,30,0,0,100
+"Netherlands","Female","Netherlands",2026,"11_15","keep",0,30,50,20,0,100
+"Netherlands","Female","Netherlands",2031,"11_15","keep",0,50,50,0,0,200
 "Netherlands","Male","Netherlands",10,"11_15","keep",9.09090909090909,36.3636363636364,45.4545454545455,9.09090909090909,0,110
 "Netherlands","Male","Netherlands",12,"11_15","keep",10,80,0,10,0,100
 "Netherlands","Male","Netherlands",15,"11_15","keep",80,20,0,0,0,100
@@ -2768,11 +2892,21 @@
 "Netherlands","Male","Netherlands",890,"11_15","keep",30,40,20,10,0,100
 "Netherlands","Male","Netherlands",1253,"11_15","keep",20,80,0,0,0,100
 "Netherlands","Male","Netherlands",1594,"11_15","keep",0,30,10,60,0,100
+"Netherlands","Male","Netherlands",1998,"11_15","keep",0,0,100,0,0,100
+"Netherlands","Male","Netherlands",2005,"11_15","keep",0,70,10,20,0,100
+"Netherlands","Male","Netherlands",2006,"11_15","keep",30,70,0,0,0,100
+"Netherlands","Male","Netherlands",2009,"11_15","keep",0,100,0,0,0,100
+"Netherlands","Male","Netherlands",2018,"11_15","keep",0,0,90,10,0,100
 "Netherlands","Other","Netherlands",22,"11_15","keep",0,40,60,0,0,100
+"New Zealand","Female","New Zealand",2073,"11_15","keep",50,0,50,0,0,100
+"New Zealand","Female","New Zealand",2080,"11_15","keep",0,70,20,10,0,100
+"New Zealand","Female","New Zealand",2083,"11_15","keep",0,70,30,0,0,100
 "New Zealand","Male","New Zealand",33,"11_15","keep",0,90,10,0,0,100
 "New Zealand","Male","New Zealand",188,"11_15","keep",0,0,100,0,0,100
 "New Zealand","Male","New Zealand",1696,"11_15","keep",10,50,10,30,0,100
 "New Zealand","Male","New Zealand",1705,"11_15","keep",0,0,100,0,0,100
+"New Zealand","Male","New Zealand",2087,"11_15","keep",0,70,30,0,0,100
+"New Zealand","Male","New Zealand",2088,"11_15","keep",0,10,90,0,0,100
 "Nicaragua","Male","Nicaragua",1773,"11_15","keep",30,0,0,40,20,90
 "Nigeria","Female","Nigeria",1787,"11_15","keep",0,30,40,30,0,100
 "Nigeria","Male","Nigeria",1690,"11_15","keep",0,30,70,0,0,100
@@ -2797,9 +2931,11 @@
 "Poland","Male","Poland",349,"11_15","keep",0,80,20,0,0,100
 "Poland","Male","Poland",533,"11_15","keep",30,50,0,20,0,100
 "Poland","Male","Poland",1082,"11_15","keep",40,50,10,0,0,100
+"Portugal","Female","Portugal",2089,"11_15","keep",0,50,50,0,0,100
 "Portugal","Male","Portugal",44,"11_15","keep",0,90,0,10,0,100
 "Portugal","Male","Portugal",153,"11_15","keep",0,70,0,30,0,100
 "Portugal","Male","Portugal",162,"11_15","keep",0,100,0,0,0,100
+"Portugal","Male","Portugal",2082,"11_15","keep",0,80,10,10,0,100
 "Romania","Male","Romania",280,"11_15","keep",0,60,40,0,0,100
 "Russian Federation","Female","Russian Federation",1778,"11_15","keep",0,80,20,0,0,100
 "Russian Federation","Male","Russian Federation",1797,"11_15","keep",60,30,10,0,0,100
@@ -2844,9 +2980,11 @@
 "Switzerland","Male","Switzerland",1888,"11_15","keep",0,50,0,0,0,50
 "Switzerland","Male","Switzerland",1894,"11_15","keep",0,70,30,0,0,100
 "Switzerland","Male","Switzerland",1974,"11_15","keep",20,30,50,0,0,100
+"Switzerland","Male","Switzerland",2034,"11_15","keep",30,30,10,30,0,100
 "Taiwan","Male","Taiwan",1792,"11_15","keep",0,0,100,0,0,100
 "Tanzania","Male","Tanzania",1097,"11_15","keep",0,0,0,0,0,0
 "Turkey","Female","Turkey",39,"11_15","keep",10,30,60,0,0,100
+"United Kingdom","","United Kingdom",1985,"11_15","keep",10,80,10,0,0,100
 "United Kingdom","Female","United Kingdom",55,"11_15","keep",0,80,10,10,0,100
 "United Kingdom","Female","United Kingdom",64,"11_15","keep",30,30,10,30,0,100
 "United Kingdom","Female","United Kingdom",84,"11_15","keep",0,0,100,0,0,100
@@ -2892,6 +3030,13 @@
 "United Kingdom","Female","United Kingdom",1971,"11_15","keep",0,90,10,0,0,100
 "United Kingdom","Female","United Kingdom",1972,"11_15","keep",0,0,70,10,20,100
 "United Kingdom","Female","United Kingdom",1976,"11_15","keep",0,0,10,90,0,100
+"United Kingdom","Female","United Kingdom",2004,"11_15","keep",30,0,10,60,0,100
+"United Kingdom","Female","United Kingdom",2008,"11_15","keep",10,70,10,0,10,100
+"United Kingdom","Female","United Kingdom",2012,"11_15","keep",0,40,30,30,0,100
+"United Kingdom","Female","United Kingdom",2017,"11_15","keep",0,40,20,0,40,100
+"United Kingdom","Female","United Kingdom",2058,"11_15","keep",0,40,10,50,0,100
+"United Kingdom","Female","United Kingdom",2062,"11_15","keep",0,90,10,0,0,100
+"United Kingdom","Female","United Kingdom",2064,"11_15","keep",80,0,20,0,0,100
 "United Kingdom","Male","United Kingdom",27,"11_15","keep",0,50,50,0,0,100
 "United Kingdom","Male","United Kingdom",66,"11_15","keep",0,0,30,70,0,100
 "United Kingdom","Male","United Kingdom",82,"11_15","keep",0,0,100,0,0,100
@@ -2975,6 +3120,30 @@
 "United Kingdom","Male","United Kingdom",1973,"11_15","keep",0,0,0,0,100,100
 "United Kingdom","Male","United Kingdom",1975,"11_15","keep",0,70,30,0,0,100
 "United Kingdom","Male","United Kingdom",1977,"11_15","keep",100,0,0,0,0,100
+"United Kingdom","Male","United Kingdom",1979,"11_15","keep",0,70,0,30,0,100
+"United Kingdom","Male","United Kingdom",1982,"11_15","keep",0,30,70,0,0,100
+"United Kingdom","Male","United Kingdom",1987,"11_15","keep",0,100,0,0,0,100
+"United Kingdom","Male","United Kingdom",1988,"11_15","keep",0,60,40,0,0,100
+"United Kingdom","Male","United Kingdom",1989,"11_15","keep",10,60,30,0,0,100
+"United Kingdom","Male","United Kingdom",1997,"11_15","keep",0,90,0,10,0,100
+"United Kingdom","Male","United Kingdom",2000,"11_15","keep",30,0,0,70,0,100
+"United Kingdom","Male","United Kingdom",2007,"11_15","keep",0,70,20,0,10,100
+"United Kingdom","Male","United Kingdom",2010,"11_15","keep",0,90,10,0,0,100
+"United Kingdom","Male","United Kingdom",2011,"11_15","keep",0,0,0,100,0,100
+"United Kingdom","Male","United Kingdom",2014,"11_15","keep",0,80,20,0,0,100
+"United Kingdom","Male","United Kingdom",2019,"11_15","keep",20,50,30,0,0,100
+"United Kingdom","Male","United Kingdom",2020,"11_15","keep",0,0,100,0,0,100
+"United Kingdom","Male","United Kingdom",2021,"11_15","keep",20,30,20,10,0,80
+"United Kingdom","Male","United Kingdom",2023,"11_15","keep",10,80,10,0,0,100
+"United Kingdom","Male","United Kingdom",2024,"11_15","keep",0,70,20,10,0,100
+"United Kingdom","Male","United Kingdom",2025,"11_15","keep",0,80,20,0,0,100
+"United Kingdom","Male","United Kingdom",2027,"11_15","keep",0,70,0,30,0,100
+"United Kingdom","Male","United Kingdom",2029,"11_15","keep",0,60,10,0,30,100
+"United Kingdom","Male","United Kingdom",2033,"11_15","keep",0,90,10,0,0,100
+"United Kingdom","Male","United Kingdom",2035,"11_15","keep",10,70,10,10,0,100
+"United Kingdom","Male","United Kingdom",2076,"11_15","keep",0,80,20,0,0,100
+"United Kingdom","Male","United Kingdom",2079,"11_15","keep",10,80,10,0,0,100
+"United Kingdom","Male","United Kingdom",2085,"11_15","keep",10,90,0,0,0,100
 "Uruguay","Female","Uruguay",882,"11_15","keep",0,100,0,0,0,100
 "Uruguay","Male","Uruguay",415,"11_15","keep",0,100,0,0,0,100
 "Uruguay","Male","Uruguay",555,"11_15","keep",0,60,40,0,0,100
@@ -2990,6 +3159,7 @@
 "USA","Female","California",1709,"11_15","keep",0,80,10,10,0,100
 "USA","Female","California",1802,"11_15","keep",0,80,10,10,0,100
 "USA","Female","California",1842,"11_15","keep",0,10,90,0,0,100
+"USA","Female","California",2075,"11_15","keep",0,0,50,50,0,100
 "USA","Female","Colorado",1761,"11_15","keep",0,50,10,40,0,100
 "USA","Female","Hawaii",1816,"11_15","keep",10,50,0,10,0,70
 "USA","Female","Hawaii",1839,"11_15","keep",0,100,0,0,0,100
@@ -3000,10 +3170,15 @@
 "USA","Female","Massachusetts",1859,"11_15","keep",50,40,10,0,0,100
 "USA","Female","Massachusetts",1861,"11_15","keep",0,10,90,0,0,100
 "USA","Female","Massachusetts",1875,"11_15","keep",0,60,30,10,0,100
+"USA","Female","Massachusetts",2049,"11_15","keep",0,100,0,0,0,100
 "USA","Female","Michigan",367,"11_15","keep",0,80,0,20,0,100
 "USA","Female","Nebraska",392,"11_15","keep",0,100,0,0,0,100
+"USA","Female","Nebraska",2044,"11_15","keep",10,80,10,0,0,100
+"USA","Female","Nebraska",2047,"11_15","keep",10,70,10,10,0,100
 "USA","Female","New Hampshire",311,"11_15","keep",0,80,20,0,0,100
 "USA","Female","New Hampshire",964,"11_15","keep",0,30,70,0,0,100
+"USA","Female","New Hampshire",2055,"11_15","keep",0,50,50,0,0,100
+"USA","Female","New Hampshire",2056,"11_15","keep",0,80,10,10,0,100
 "USA","Female","New Jersey",1149,"11_15","keep",0,80,10,10,0,100
 "USA","Female","New Mexico",1158,"11_15","keep",0,30,10,60,0,100
 "USA","Female","New York",797,"11_15","keep",0,70,20,10,0,100
@@ -3016,6 +3191,7 @@
 "USA","Female","Texas",1615,"11_15","keep",0,70,10,20,0,100
 "USA","Female","Vermont",610,"11_15","keep",0,80,10,10,0,100
 "USA","Female","Vermont",743,"11_15","keep",0,50,50,0,0,100
+"USA","Female","Virginia",2072,"11_15","keep",0,90,0,10,0,100
 "USA","Female","Wisconsin",161,"11_15","keep",0,0,0,0,100,100
 "USA","Male","California",28,"11_15","keep",20,50,10,20,0,100
 "USA","Male","California",133,"11_15","keep",20,60,20,0,0,100
@@ -3053,11 +3229,14 @@
 "USA","Male","Massachusetts",470,"11_15","keep",0,100,0,0,0,100
 "USA","Male","Massachusetts",1063,"11_15","keep",30,70,0,0,0,100
 "USA","Male","Massachusetts",1796,"11_15","keep",0,40,10,50,0,100
+"USA","Male","Massachusetts",1984,"11_15","keep",0,80,10,10,0,100
+"USA","Male","Massachusetts",2067,"11_15","keep",0,20,80,0,0,100
 "USA","Male","Michigan",278,"11_15","keep",0,90,10,0,0,100
 "USA","Male","Michigan",1537,"11_15","keep",30,60,0,10,0,100
 "USA","Male","Michigan",1760,"11_15","keep",0,90,10,0,0,100
 "USA","Male","Minnesota",1652,"11_15","keep",10,80,0,10,0,100
 "USA","Male","Nebraska",1195,"11_15","keep",20,30,30,20,0,100
+"USA","Male","Nebraska",2051,"11_15","keep",0,0,0,0,0,0
 "USA","Male","Nevada",168,"11_15","keep",0,30,70,0,0,100
 "USA","Male","Nevada",617,"11_15","keep",0,50,0,50,0,100
 "USA","Male","Nevada",623,"11_15","keep",20,30,50,0,0,100
@@ -3070,6 +3249,7 @@
 "USA","Male","New York",1301,"11_15","keep",20,30,0,50,0,100
 "USA","Male","New York",1649,"11_15","keep",30,50,0,20,0,100
 "USA","Male","New York",1740,"11_15","keep",20,30,30,20,0,100
+"USA","Male","New York",2057,"11_15","keep",0,27.2727272727273,54.5454545454545,18.1818181818182,0,110
 "USA","Male","North Carolina",1147,"11_15","keep",20,80,0,0,0,100
 "USA","Male","North Carolina",1860,"11_15","keep",0,10,90,0,0,100
 "USA","Male","Ohio",1644,"11_15","keep",0,100,0,0,0,100
