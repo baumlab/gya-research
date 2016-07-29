@@ -80,8 +80,6 @@ locations<-aggregate(gender ~ Country, survey.what, length)
 
 ### Summary statistics
 
-
-
 ```{r, echo=FALSE, fig.cap="Survey responses by field of research", warning=FALSE, fig.width=14}
 field.can<-with(survey.what[survey.what$Country=="Canada",],data.frame(table(field_research))) 
 field.can<-field.can[!field.can$field_research=="",]
@@ -114,9 +112,6 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
 
 
 ```
-
-
-
 ```{r, echo=FALSE, fig.cap="Survey responses by years of experience", warning=FALSE, fig.width=14}
 ## setting colour scale to keep colours identical between similar plots
 #myColors <- brewer.pal(6,"Set1")
@@ -267,81 +262,141 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) +
 grid.arrange(g1, g2, nrow=1)
 ```
 
-```{r, echo=FALSE, fig.cap="View of change in research over past 10 years (Canada)"}
+```{r, echo=FALSE, fig.cap="View of change in research over past 10 years"}
 
 canada<-subset(part1.view, Country=="Canada")
 canada<-canada[!canada$view_change_of_type=="",]
 
-change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
-
+change.view.ca<-data.frame(table(canada$view_change_of_type))
+change.view.ca<-change.view.ca[!change.view.ca$Var1=="",]
+change.view.ca$Var1<-droplevels(change.view.ca$Var1)
+levels(change.view.ca$Var1)
 # change order of the levels
-change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
-                                        levels(change.view.ca$view_change_of_type)[c(6,4,2,3,5)])
+change.view.ca$Var1<-factor(change.view.ca$Var1, 
+                                        levels(change.view.ca$Var1)[c(5,3,1,2,4)])
 
-ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
-  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 8,7,6,5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
+
+ggplot(change.view.ca, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
+  geom_text(aes(label=Freq, vjust=-1))+
+  guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle=0, vjust=0.5)) + 
+  labs(x="", y="No. of Responses") + colScale
 
 
 ```
 
 #### Part 2 - External Partnerships
-```{r, echo=FALSE, fig.cap="Current vs past level of partnership outside of academia (Canada)", warning=FALSE}
-b.part<-aggregate(gender~  partnership_outside_before, part2.b.a, length)
-colnames(b.part)[1]<-"partnership_outside"
+```{r, echo=FALSE, fig.cap="Current vs past level of partnership outside of academia", warning=FALSE}
+b.part<-data.frame(table(part2.b.a$partnership_outside_before))
 b.part$time<-"Past"
-a.part<-aggregate(gender~ partnership_outside, part2.b.a, length)
+a.part<-data.frame(table(part2.b.a$partnership_outside))
 a.part$time<-"Current"
 
 part<-rbind(a.part, b.part)
+str(part)
+part$Var1<-factor(part$Var1, levels(part$Var1)[c(1,4,3,2)])
 
-# change order of the levels
-part$partnership_outside<-as.factor(part$partnership_outside)
-part$partnership_outside<-factor(part$partnership_outside, levels(part$partnership_outside)[c(1,4,3,2)])
 
-ggplot() + 
-  geom_bar(data=part, aes(x=partnership_outside, y=gender, fill = time), stat='identity', position="dodge") +
-  theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Number of Responses", fill="")+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 6)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
+
+ggplot(part, aes(x=Var1, y=Freq, fill = time)) + 
+  geom_bar( stat='identity', position="dodge") +
+  geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-1) +
+  labs(x="", y="No. of Responses", fill="")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle=0), 
+        legend.position=c(0.9, 0.9), 
+        legend.title=element_blank()) +
+  colScale
   
 ```
 
-```{r, echo=FALSE, fig.cap="Reason for change over the past 10 years (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Reason for change over the past 10 years", warning=FALSE}
 ### was there change
 canada<-subset(part2.change, Country=="Canada")
-change.part.ca<-aggregate(gender~ partnership_change_10yrs, canada, length)
+change.part.ca<-data.frame(table(canada$partnership_change_10yrs))
+change.part.ca$Var1<-revalue(change.part.ca$Var1, c("Can't comment (new researcher)"="Can't comment"))
 
-g1<-ggplot(data=change.part.ca, aes(x=partnership_change_10yrs, gender, fill=partnership_change_10yrs))+geom_bar(stat='identity')+
-  theme(axis.text.x = element_text(angle=0, vjust=0.5))+labs(title="Change in past 10yrs", x="", y="Number of Responses", fill="")+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ guides(fill=FALSE)+scale_x_discrete(labels=c("Can't comment \n (new researcher)", "No", "Yes"))
+change.part.ca$Var1<-factor(change.part.ca$Var1, levels=c("Yes", "No", "Can't comment"))
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 7,5)]
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
+
+
+g1<-ggplot(data=change.part.ca, aes(x=Var1, y=Freq, fill=Var1))+ 
+    geom_bar(stat='identity') + 
+    guides(fill=FALSE) + 
+    labs(x="", y="No. of responses",title="")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) + colScale
 
 ### reason
-require(tidyr)
 reason.pt.long<-gather(part2.reason, change.reason, yes, -Country, -gender, -Location)
-sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
+sum.canada<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
-g2<-ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=90, vjust=0.5)) + guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(title= "Reason for Change", x="", y="Number of Responses")+
-  scale_x_discrete(labels=c("Funding Related", "Interest Related", "Career Related", "Socially Related", "Other"))
+sum.canada$Var1<-revalue(sum.canada$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
+sum.canada$Var1<-reorder(sum.canada$Var1, -sum.canada$Freq)
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 8,7,6,5)]
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
+
+g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
+    geom_bar(stat='identity')+  guides(fill=FALSE) +
+    theme(axis.text.x = element_text(angle=0, vjust=0.5),
+          legend.position=c(0.8, 0.8), 
+          legend.title=element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank()) + 
+  labs(x="", y="", title="")+
+  colScale
+
 
 grid.arrange(g1, g2, nrow=1)
 ```
 
-```{r, echo=FALSE, fig.cap="View of Change in partnership (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="View of Change in partnership", warning=FALSE}
 canada<-subset(part2.view, Country=="Canada")
-view<-aggregate(gender~ view_change_partnership, canada, length)
+view<-data.frame(table(canada$view_change_partnership))
 # change order of the levels
-view$view_change_partnership<-factor(view$view_change_partnership, levels(view$view_change_partnership)[c(6,4,2,3,5)])
 
-ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_partnership)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=0, vjust=0.5)) + guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+labs(x="", y="Number of Responses")
+view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 8,7,6,5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+ggplot(change.view.ca, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
+  geom_text(aes(label=Freq, vjust=-1))+
+  guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle=0, vjust=0.5)) + 
+  labs(x="", y="No. of Responses") + colScale
+
 ```
 
 #### Part 3 - Grant Application History
 
-```{r, echo=FALSE, fig.cap="Number of external research grant applications (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Number of external research grant applications", warning=FALSE}
 canada<-subset(part3.grants.long, Country=="Canada")
 canada$type.grant<-as.character(canada$type.grant)
 
@@ -371,7 +426,7 @@ ggplot(grants.ca, aes(type.grant, gender, fill=number)) + geom_bar(stat="identit
 
 ```
 
-```{r, echo=FALSE, fig.cap="Percentage of research grant application success (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Percentage of research grant application success", warning=FALSE}
 canada<-subset(part3.success.long, Country=="Canada")
 
 canada$type<-as.character(canada$type)
@@ -398,7 +453,7 @@ ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", po
 
 ```
 
-```{r, echo=FALSE, fig.cap="Importance of suggesting practical applications of the research for the grant to be successful (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Importance of suggesting practical applications of the research for the grant to be successful", warning=FALSE}
 canada<-subset(part3.prac.long, Country=="Canada")
 
 canada$year<-as.character(canada$year)
@@ -417,7 +472,7 @@ ggplot(prac.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", positi
 
 ```
 
-```{r, echo=FALSE, fig.cap="Importance of including partners from for-profit or non-governmental sectors in grant success (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Importance of including partners from for-profit or non-governmental sectors in grant success", warning=FALSE}
 canada<-subset(part3.part.long, Country=="Canada")
 
 canada$year<-as.character(canada$year)
@@ -436,7 +491,7 @@ ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", positi
 
 ```
 
-```{r, echo=FALSE, fig.cap="Distribution of research funding (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Distribution of research funding", warning=FALSE}
 canada<-subset(p3_master.long, Country=="Canada")
 
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
@@ -444,7 +499,7 @@ ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
 ```
 
 
-```{r, echo=FALSE, fig.cap="Grant success rates change over the past 10 years (Canada)", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Grant success rates change over the past 10 years", warning=FALSE}
 canada<-subset(part3.change, Country=="Canada")
 require(tidyr)
 ##switch to long format
