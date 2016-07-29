@@ -451,17 +451,19 @@ sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$gen
 sum.important<-sum.important[!sum.important$Var2=="",]
 sum.important<-sum.important[!sum.important$Var1=="",]
 
-gender.perceive<-aggregate(Freq ~ Var2 + Var1, sum.important, sum)
+perceive<-aggregate(Freq~Var1, sum.important, sum)
+
+#gender.perceive<-aggregate(Freq ~ Var2 + Var1, sum.important, sum)
 # turn to percents
-male<-subset(gender.perceive, Var2=="Male")
-female<-subset(gender.perceive, Var2=="Female")
-other<-subset(gender.perceive, Var2=="Other")
-gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Male',(gender.perceive$Freq/sum(male$Freq))*100, gender.perceive$Freq)
-gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Female',(gender.perceive$Freq/sum(female$Freq))*100, gender.perceive$Freq)
-gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Other',(gender.perceive$Freq/sum(other$Freq))*100, gender.perceive$Freq)
+#male<-subset(gender.perceive, Var2=="Male")
+#female<-subset(gender.perceive, Var2=="Female")
+#other<-subset(gender.perceive, Var2=="Other")
+#gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Male',(gender.perceive$Freq/sum(male$Freq))*100, gender.perceive$Freq)
+#gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Female',(gender.perceive$Freq/sum(female$Freq))*100, gender.perceive$Freq)
+#gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Other',(gender.perceive$Freq/sum(other$Freq))*100, gender.perceive$Freq)
 
 
-ggplot(data=gender.perceive, aes(x=Var1, y=Freq, fill=Var2)) + geom_bar(stat='identity', position='dodge')+ labs(x="", y="Percentage of responses", fill="")+theme(axis.text.x = element_text(angle=90, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggplot(data=perceive, aes(x=Var1, y=Freq)) + geom_bar(stat='identity', position='dodge')+ labs(x="", y="Percentage of responses", fill="")+theme(axis.text.x = element_text(angle=90, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ```
 
