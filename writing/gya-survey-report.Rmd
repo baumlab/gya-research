@@ -4,7 +4,7 @@ author: "James Robinson; Kristina Tietjen"
 date: "29 July 2016"
 output:
   html_document: default
-  fig_width: 10
+  fig_width: 18
   fig_height: 4
   pdf_document: null
 ---
@@ -77,8 +77,7 @@ p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
-myColors<-(brewer.pal(9, "Blues"))
-#myColors<-myColors[-c(1:2)]
+
 theme_set(theme_bw())
 
 gender<-aggregate(Location ~ gender, survey, length)
@@ -91,22 +90,28 @@ locations<-aggregate(gender ~ Country, survey.what, length)
 
 
 
-```{r, echo=FALSE, fig.cap="Survey responses by field of research", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Survey responses by field of research", warning=FALSE, fig.width=14}
 field.can<-with(survey.what[survey.what$Country=="Canada",],data.frame(table(field_research))) 
 field.can<-field.can[!field.can$field_research=="",]
 field.can$field_research<-reorder(field.can$field_research, field.can$Freq)
 field.can$field_research<-revalue(field.can$field_research, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
+
+
 ## setting colour scale to keep colours identical between similar plots
-names(myColors) <- levels(survey.what$field_research)
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[-c(1)]
+names(myColors) <- levels(field.can$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors)
 
 
-ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) +         geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  ylim(c(0, 310)) +
+ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
+    geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  ylim(c(0, 315)) +
   labs(y="No. of responses",x="", title="")  +
+  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\n Life Science", "Engineering", "Interdisciplinary\n Science", "Social Science/\n Humanities", "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25) + 
   theme( axis.text=element_text(size=14),
-         axis.text.x=element_text(angle=45, size=10),
+         axis.text.x=element_text(angle=0, size=14),
          axis.title=element_text(size=14),
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank()) + 
@@ -120,23 +125,26 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
 
 
 
-```{r, echo=FALSE, fig.cap="Survey responses by years of experience", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Survey responses by years of experience", warning=FALSE, fig.width=14}
 ## setting colour scale to keep colours identical between similar plots
 #myColors <- brewer.pal(6,"Set1")
 survey.what<-droplevels(survey.what)
 can.field<-survey.what[survey.what$Country=="Canada",]
-head(can.field)
+
 experience_can<-data.frame(table(survey.what$what_participant_group))
 experience_can<-experience_can[!experience_can$Var1=="",]
 experience_can<-droplevels(experience_can)
-experience_can$Var1<-revalue(experience_can$Var1, c("Early career academic researcher with &lt;10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with &gt;10 years of experience" = "Non-academic research > 10 yrs experience",
-                               "Non-academic researcher conducting or managing research in industry or government with &lt;10 years of experience" = "Non-academic researcher < 10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with &gt;10 years of experience applying for research grants" = "Senior academic researcher"))
+
+experience_can$Var1<-revalue(experience_can$Var1, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic research > 10 yrs experience",
+                               "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher < 10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 experience_can$Var1<-reorder(experience_can$Var1, experience_can$Freq)
 
 # assign colour scale
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[-c(1:2)]
 names(myColors)<- levels(experience_can$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors)
-myColors
+
 
 
 
@@ -149,11 +157,11 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   theme(legend.title=element_blank(), 
         legend.text=element_text(size=10), 
         axis.text=element_text(size=14),
-        axis.text.x=element_text(angle=0), 
+        axis.text.x=element_text(angle=0, size=12), 
         axis.title=element_text(size=15),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) + 
-  colScale+ ylim(c(0, 1200)) + guides(fill=FALSE)
+  colScale+ ylim(c(0, 1300)) + guides(fill=FALSE)
 
 
 
@@ -162,7 +170,7 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
 ### GYA surveys: Canada
 
 #### Part 1 - Type of Research Conducted
-```{r, echo=FALSE, fig.cap="Current vs. past research type (Canada)", message=FALSE, warning=FALSE}
+```{r, echo=FALSE, fig.cap="Current vs. past research type", message=FALSE, warning=FALSE, fig.width=14}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -183,31 +191,52 @@ res.plot$type[res.plot$type=="percent_Use_inspired_Research_current"]<-"Use insp
 # change order of the levels
 res.plot$time<-as.factor(res.plot$time)
 res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(2,1)])
-head(res.plot)
 
-#ggplot(res.plot[res.plot$Country=="Canada",], aes( y=percent, fill=time)) + 
-#    geom_histogram(stat='identity',position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
-#    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-#    labs(x="Research type", y="% research", title="")+
-#    theme(panel.grid.major = element_blank(),
-#          panel.grid.minor = element_blank(),
-#          legend.position=c(0.8, 0.2)) + 
-#    facet_wrap(~type, nrow=3) 
-#head(res.plot)
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 5)]
+colScale <- scale_fill_manual(name = "time",values = myColors)
+
+
+ggplot(res.plot[res.plot$Country=="Canada",], aes(percent, fill=time)) +
+    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    labs(x="% funding", y="No. responses", title="")+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          legend.position=c(0.8, 0.2)) + 
+    facet_wrap(~type, nrow=3) + colScale +
+  scale_x_continuous(breaks=seq(0,100,10))
+
 ```
 
-```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years (Canada)"}
+```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years", fig.width=14}
 ## order bars from highest to lowest
 
 # Change in the past 10 years? (yes, no, can't comment)
 yes.no<-subset(research.change, select=c("Location","Country",  "gender", "changed_10yrs"))
 canada<-subset(yes.no, Country=="Canada")
-canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
-canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
+canada.yesno<-data.frame(table(canada$changed_10yrs))
+canada.yesno<-canada.yesno[!canada.yesno$Var1=="",]
+canada.yesno$Var1<-revalue(canada.yesno$Var1, c("Can't comment (new researcher)"="Can't comment"))
 
-g1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE) + 
-  labs(x="", y="Number of responses",title="Change in research in past \n 10 years?")+scale_x_discrete(labels=c( "Can't comment \n (new researcher)", "No","Yes"))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+canada.yesno$Var1<-factor(canada.yesno$Var1, levels=c("Yes", "No", "Can't comment"))
 
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 7,5)]
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
+
+
+g1<-ggplot(data=canada.yesno, aes(x=Var1, y=Freq, fill=Var1))+ 
+    geom_bar(stat='identity') + 
+    guides(fill=FALSE) + 
+    labs(x="", y="No. of responses",title="")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) + colScale
+
+
+## GRAPH PART 2
 # What is your main reason for change?
 reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
                                          "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
@@ -221,12 +250,27 @@ canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Count
 
 ## using table to count cases of each category
 sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
+sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
+sum.canada$Var1<-reorder(sum.canada$Var1, -sum.canada$Freq)
 
-# remove non-response
-sum.canada<-sum.canada[!sum.canada$Var1=="",]
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 8,7,6,5)]
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
 
-g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=90, vjust=0.5)) + theme(legend.position=c(0.8, 0.8), axis.text.x=element_blank(), legend.title=element_blank()) + scale_fill_discrete(labels=c("Career", "Funding", "Interest", "Other", "Social")) + labs(x="", y="", title="Reason for change in \n research type")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+
+g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
+    geom_bar(stat='identity')+  guides(fill=FALSE) +
+    theme(axis.text.x = element_text(angle=0, vjust=0.5),
+          legend.position=c(0.8, 0.8), 
+          legend.title=element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank()) + 
+  labs(x="", y="", title="")+
+  colScale
+
+
+
 
 grid.arrange(g1, g2, nrow=1)
 ```
