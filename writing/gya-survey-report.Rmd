@@ -63,6 +63,7 @@ Summarize finding on how they think availabiltiy of research funding will change
 ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
 #setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 #setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
 
 survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
@@ -484,14 +485,26 @@ canada$year<-as.character(canada$year)
 canada$year[canada$year=="practical_applications_important_11_15"]<-"2011-2015"
 canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
 
-prac.ca<-aggregate(gender~year+level, canada, length)
+
+prac.ca<-data.frame(table(canada$year, canada$level))
 
 #change order of levels
-prac.ca$level<-factor(prac.ca$level, levels(prac.ca$level)[c(2,6,4,5,3,1)])
+prac.ca$Var2<-factor(prac.ca$Var2, levels(prac.ca$Var2)[c(2,6,4,5,3,1)])
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
 
 
-ggplot(prac.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
+ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) + 
+  geom_bar(stat="identity", position = "dodge")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.position=c(0.8, 0.8),
+        axis.text.x = element_text(angle=0, vjust=0.5)) +
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
+  labs(x="", y="No. of responses")+ colScale
+  
 
 ```
 
@@ -503,57 +516,94 @@ canada$year<-as.character(canada$year)
 canada$year[canada$year=="practical_applications_important_11_15"]<-"2011-2015"
 canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
 
-part.ca<-aggregate(gender~year+level, canada, length)
+part.ca<-data.frame(table(canada$year, canada$level))
 
 #change order of levels
-part.ca$level<-factor(part.ca$level, levels(part.ca$level)[c(2,5,6,4,3,1)])
+part.ca$Var2<-factor(part.ca$Var2, levels(part.ca$Var2)[c(2,5,6,4,3,1)])
+
+## add colour scale
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
 
 
-ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
-
+ggplot(part.ca, aes(Var2, Freq, fill=Var1))+ 
+  geom_bar(stat="identity", position = "dodge")+
+    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+    labs(x="", y="No. of responses")+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          legend.position=c(0.8, 0.8)) + colScale
 ```
 
 ```{r, echo=FALSE, fig.cap="Distribution of research funding", warning=FALSE}
 canada<-subset(p3_master.long, Country=="Canada")
 
-ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
+canada$year<-revalue(c("11_15"="2011-2015", "6_10"="2006-2010"))
+
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "year",values = myColors)
+
+ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  + 
+  facet_wrap(~type, nrow=5) + colScale +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.8, 0.1),
+          strip.text.y = element_text(size=12, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white")) +
+  labs(x="% research funding", y = "Frequency")
 
 ```
 
 
 ```{r, echo=FALSE, fig.cap="Grant success rates change over the past 10 years", warning=FALSE}
 canada<-subset(part3.change, Country=="Canada")
-require(tidyr)
-##switch to long format
-change.long.ca<-gather(canada, type, level, -Location, -gender, -Country)
 
-gender.change<-aggregate(Location~type+gender+level, change.long.ca, length)
+##switch to long format
+change.long.ca<-gather(canada, type, level, -Location, -gender, -Country, -Country_work)
+
+gender.change<-with(change.long.ca, data.frame(table(type, level)))
 
 #remove no response
-gender.change<-gender.change[!gender.change$gender=="",]
+dim(gender.change[!gender.change$level=="",])
+## 18 no responses
 gender.change<-gender.change[!gender.change$level=="",]
 
 # turn to percents
-male<-subset(gender.change, gender=="Male")
-female<-subset(gender.change, gender=="Female")
-other<-subset(gender.change, gender=="Other")
-gender.change$Location<-ifelse(gender.change$gender=="Male", (gender.change$Location/sum(male$Location))*100, gender.change$Location)
-gender.change$Location<-ifelse(gender.change$gender=="Female", (gender.change$Location/sum(female$Location))*100, gender.change$Location)
-gender.change$Location<-ifelse(gender.change$gender=="Other", (gender.change$Location/sum(other$Location))*100, gender.change$Location)
+#male<-subset(gender.change, gender=="Male")
+#female<-subset(gender.change, gender=="Female")
+#other<-subset(gender.change, gender=="Other")
+#gender.change$Location<-ifelse(gender.change$gender=="Male", (gender.change$Location/sum(male$Location))*100, gender.change$Location)
+#gender.change$Location<-ifelse(gender.change$gender=="Female", (gender.change$Location/sum(female$Location))*100, gender.change$Location)
+#gender.change$Location<-ifelse(gender.change$gender=="Other", (gender.change$Location/sum(other$Location))*100, gender.change$Location)
 
 # change type to factor with levels
 gender.change$type<-as.factor(gender.change$type)
 gender.change$level<-str_replace_all(gender.change$level, "Will", "")
 gender.change$level<-as.factor(gender.change$level)
 
+# add colour palette
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-(myColors[c(9, 6, 4)])
+colScale <- scale_fill_manual(name = "type",values = myColors, labels=c("Fundamental", "Use-inspired", "Applied"))
+
+#change order of levels
+levels(gender.change$level)
+
 #change order of levels
 gender.change$level<-factor(gender.change$level, levels(gender.change$level)[c(1,3,2,6,4,5)])
-gender.change$type<-factor(gender.change$type, levels(gender.change$type)[c(2,3,1)])
+gender.change$type<-factor(gender.change$type, levels(gender.change$type)[c(3,1,2)])
 
-ggplot(data=gender.change, aes(x=level, Location, fill=type))+geom_bar(stat="identity", position="dodge")+ scale_x_discrete(limits = rev(levels(gender.change$level)))+
-  facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+
-  scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+ggplot(data=gender.change, aes(x=level, Freq, fill=type))+
+  geom_bar(stat="identity", position="dodge")+ 
+  guides(fill=guide_legend(title=NULL)) +
+  scale_x_discrete(limits = rev(levels(gender.change$level)))+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.position=c(0.15, 0.9))+
+  labs(x="", y="Percentage of responses", fill="")+ colScale
 
 ```
 
@@ -574,6 +624,14 @@ sum.important<-sum.important[!sum.important$Var1=="",]
 
 perceive<-aggregate(Freq~Var1, sum.important, sum)
 
+
+### colour palette
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-(myColors[c(9, 7, 6, 4, 2)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
 #gender.perceive<-aggregate(Freq ~ Var2 + Var1, sum.important, sum)
 # turn to percents
 #male<-subset(gender.perceive, Var2=="Male")
@@ -584,7 +642,15 @@ perceive<-aggregate(Freq~Var1, sum.important, sum)
 #gender.perceive$Freq<-ifelse(gender.perceive$Var2=='Other',(gender.perceive$Freq/sum(other$Freq))*100, gender.perceive$Freq)
 
 
-ggplot(data=perceive, aes(x=Var1, y=Freq)) + geom_bar(stat='identity', position='dodge')+ labs(x="", y="No. of responses", fill="")+theme(axis.text.x = element_text(angle=45, vjust=0.4))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_x_discrete(limits = rev(levels(perceive$Var1)))+geom_text(aes(label=Freq), vjust=-0.5)
+ggplot(data=perceive, aes(x=Var1, y=Freq)) + 
+      geom_bar(stat='identity', position='dodge',fill=myColors[2])+ 
+      labs(x="", y="No. of responses", fill="")+
+      geom_text(aes(label=Freq), vjust=-0.5) +
+      theme(axis.text.x = element_text(angle=0, vjust=0.4),
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank()) +
+      scale_x_discrete(limits = rev(levels(perceive$Var1)))#+ colScale
+  
 
 ```
 
@@ -595,10 +661,12 @@ priority<-subset(part4, select=c("Location","Country", "gender", "high_priority_
                                  "high_priority_no_change"))
 canada<-subset(priority, Country=="Canada")
 ## switch to long format
-require(tidyr)
+
 priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country)
-# remove non-responses
-priority.long<-priority.long[!priority.long$gender=="",]
+# remove non-responses (n = 1066)
+dim(priority.long[!priority.long$higher.priority=="",])/4
+
+priority.long<-priority.long[!priority.long$higher.priority=="",]
 
 per.change<-aggregate(higher.priority~what.type, priority.long, sum)
 
@@ -616,7 +684,15 @@ per.change$what.type<-as.factor(per.change$what.type)
 per.change$what.type<-factor(per.change$what.type, levels(per.change$what.type)[c(2,4,1,3)])
 
 
-ggplot(data=per.change, aes(x=what.type, higher.priority))+geom_bar(stat="identity", position='dodge')+ theme(axis.text.x = element_text()) +labs(x="", y="No. of responses", fill="") +theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))+theme(axis.text.x = element_text(angle=45, vjust=0.4))+geom_text(aes(label=higher.priority), vjust=-0.5)
+ggplot(data=per.change, aes(x=what.type, higher.priority))+
+        geom_bar(stat="identity", position='dodge', fill=myColors[2])+ 
+        theme(axis.text.x = element_text(),
+              axis.text.x = element_text(angle=45, vjust=0.4),
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank()) +
+        labs(x="", y="No. of responses", fill="") +
+  scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
+  geom_text(aes(label=higher.priority), vjust=-0.5)
 
 
 ```
@@ -676,17 +752,26 @@ next.generation<-subset(part4, select=c("Location", "Country", "gender","next_ge
 next.generation<-next.generation[!next.generation$next_generation=="",]
 canada<-subset(next.generation, Country=="Canada")
 
-impact<-aggregate(gender~ next_generation, canada, length)
+impact<-data.frame(table(canada$next_generation))
 
 ## change type to factor with levels
-impact$next_generation<-str_replace_all(impact$next_generation, "Will ", "")
-impact$next_generation<-as.factor(impact$next_generation)
-## change order of next_generations
-impact$next_generation<-factor(impact$next_generation, factor(impact$next_generation)[c(2,3,6,5,4,1 )])
+impact$Var1<-str_replace_all(impact$Var1, "Will ", "")
+impact$Var1<-as.factor(impact$Var1)
+impact<-impact[!impact$Var1=="",]
+## change order of Var1s
+impact$Var1<-factor(impact$Var1, levels(impact$Var1)[c(4,5,6,3,2,1)])
+impact<-droplevels(impact)
 
-
-ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation))+ geom_bar(stat='identity', position="dodge") + scale_x_discrete(labels=c("Decrease Considerably","Decrease Slightly","Stay the Same","Increase Slightly","Increase Considerably", "Can't Comment")) + guides(fill=FALSE) +
- labs(x="", y="No. of responses")+theme(axis.text.x = element_text(angle=45, vjust=0.5))+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+geom_text(aes(label=gender), vjust=-0.5)
+ 
+ggplot(data=impact, aes(x=Var1, Freq))+ 
+    geom_bar(stat='identity', position="dodge", fill=myColors[2])  +
+    scale_x_discrete(labels=c("Increase considerably","Increase slightly","Stay the same","Decrease slightly","Decrease considerably", "Can't comment")) + 
+    guides(fill=FALSE) +
+ labs(x="", y="No. of responses")+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())+
+  geom_text(aes(label=Freq), vjust=-0.5)
 
 
 
