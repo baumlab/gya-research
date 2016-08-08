@@ -662,6 +662,7 @@ sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$gen
 # remove non-responses
 sum.important<-sum.important[!sum.important$Var2=="",]
 sum.important<-sum.important[!sum.important$Var1=="",]
+sum.important$Var1<-factor(sum.important$Var1, levels(sum.important$Var1)[c(6,5,4,3,2,1)])
 
 perceive<-aggregate(Freq~Var1, sum.important, sum)
 

@@ -1,5 +1,20 @@
 
+## Script to examine gender differences in survey questions from PART 4
 
+## load in survey data
+## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+#setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
+#setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
+
+
+part4<-read.csv(file="data/gya-survey-part4.csv")
+
+## load required packages
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
+
+theme_set(theme_bw())
 
 #--------------------#--------------------#--------------------
 #### Part4. Question 1. Research priority - fundamental
@@ -9,21 +24,30 @@
 important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
 canada<-important[important$Country_work=="Canada" | (!(important$Country_work=="Canada") & important$Country_work=="" & important$Country=="Canada"),]
+canada<-canada[!canada$opinion_fundamental_important=="",]
+canada<-canada[!canada$gender=="Other",]
+canada$opinion_fundamental_important<-factor(canada$opinion_fundamental_important, levels(canada$opinion_fundamental_important)[c(6,5,4,3,2,1)])
+
+canada<-droplevels(canada)
 
 ## using table to count cases of each category
 sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$gender))
 # remove non-responses
+#sum.important<-sum.important[!sum.important$Var2=="",]
+#sum.important<-sum.important[!sum.important$Var1=="",]
+sum.important<-sum.important[!sum.important$Var2=="Other",]
 sum.important<-sum.important[!sum.important$Var2=="",]
-sum.important<-sum.important[!sum.important$Var1=="",]
-
-perceive<-aggregate(Freq~Var1, sum.important, sum)
 
 
-### colour palette
+#perceive<-aggregate(Freq~Var1, sum.important, sum)
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-(myColors[c(9, 7, 6, 4, 2)])
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
+temp<-with(canada, table(opinion_fundamental_important, gender))
+chisq.test(temp)
+
+
+priority.mod<-(glm(Freq ~ Var1*Var2, sum.important, family="poisson"))
+visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+
 
 
 #--------------------#--------------------#--------------------
@@ -43,22 +67,33 @@ priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -C
 # remove non-responses (n = 1066)
 #dim(priority.long[!priority.long$higher.priority=="",])/4
 
-priority.long<-priority.long[!priority.long$higher.priority=="",]
+priority.long<-priority.long[!is.na(priority.long$higher.priority),]
 
-per.change<-aggregate(higher.priority~what.type, priority.long, sum)
+#per.change<-aggregate(higher.priority~what.type +gender, priority.long, sum)
 
-#gender.perceive<-aggregate(higher.priority ~ gender + what.type, priority.long, sum)
+gender.perceive<-data.frame(table( priority.long$gender , priority.long$what.type))
+
 # turn to percents
-#male<-subset(gender.perceive, gender=="Male")
-#female<-subset(gender.perceive, gender=="Female")
-#other<-subset(gender.perceive, gender=="Other")
-#gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Male',(gender.perceive$higher.priority/sum(male$higher.priority))*100, #gender.perceive$higher.priority)
-#gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Female',(gender.perceive$higher.priority/sum(female$higher.priority))*100, #gender.perceive$higher.priority)
-#gender.perceive$higher.priority<-ifelse(gender.perceive$gender=='Other',(gender.perceive$higher.priority/sum(other$higher.priority))*100, #gender.perceive$higher.priority)
+male<-subset(gender.perceive, Var1=="Male")
+female<-subset(gender.perceive, Var1=="Female")
+other<-subset(gender.perceive, Var1=="Other")
+gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Male',(gender.perceive$Freq/sum(male$Freq))*100, gender.perceive$Freq)
+gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Female',(gender.perceive$Freq/sum(female$Freq))*100, gender.perceive$Freq)
+gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Other',(gender.perceive$Freq/sum(other$Freq))*100, gender.perceive$Freq)
 
 # change order of the levels
-per.change$what.type<-as.factor(per.change$what.type)
-per.change$what.type<-factor(per.change$what.type, levels(per.change$what.type)[c(2,4,1,3)])
+gender.perceive<-gender.perceive[!(gender.perceive$Var1=="Other" | gender.perceive$Var1==""),]
+#gender.perceive$what.type<-factor(gender.perceive$what.type, levels(gender.perceive$what.type)[c(2,4,1,3)])
+
+gender.perceive$Var2<-revalue(gender.perceive$Var2, c("high_priority_fundamental"="Fundamental",
+                                                                'high_priority_use_inspired'='Use-inspired', 'high_priority_applied' = 'Applied',
+                                                          'high_priority_no_change'="No change"))
+
+priority.mod<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
+visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="No. of responses (scaled by gender)", xlab="Gender")
+
+
+
 
 #--------------------#--------------------#--------------------
 #### Part4. Question 3. Change in research funding 
