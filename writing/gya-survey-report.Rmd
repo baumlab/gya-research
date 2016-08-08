@@ -90,16 +90,17 @@ require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(R
 
 theme_set(theme_bw())
 
-gender<-aggregate(Location ~ gender, survey, length)
-country_work<-aggregate(gender ~ Country_work, survey, length)
-locations<-aggregate(gender ~ Country, survey.what, length)
+#gender<-aggregate(Location ~ gender, survey, length)
+#country_work<-aggregate(gender ~ Country_work, survey, length)
+#locations<-aggregate(gender ~ Country, survey.what, length)
 
 ```
 
 ### Summary statistics
 
 ```{r, echo=FALSE, fig.cap="Survey responses by field of research", warning=FALSE, fig.width=14}
-field.can<-with(survey.what[survey.what$Country=="Canada",],data.frame(table(field_research))) 
+#field.can<-with(survey.what[survey.what$Country=="Canada",],data.frame(table(field_research))) 
+field.can<-with(survey.what[survey.what$Country_work=="Canada" | (!(survey.what$Country_work=="Canada") & survey.what$Country_work=="" & survey.what$Country=="Canada"),], data.frame(table(field_research)))
 field.can<-field.can[!field.can$field_research=="",]
 field.can$field_research<-reorder(field.can$field_research, field.can$Freq)
 field.can$field_research<-revalue(field.can$field_research, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
@@ -114,7 +115,7 @@ colScale <- scale_fill_manual(name = "field_research",values = myColors)
 
 ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  ylim(c(0, 315)) +
+  ylim(c(0, 400)) +
   labs(y="No. of responses",x="", title="")  +
   scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\n Life Science", "Engineering", "Interdisciplinary\n Science", "Social Science/\n Humanities", "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25) + 
@@ -131,11 +132,12 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
 
 ```
 
-```{r, echo=FALSE, fig.cap="Survey responses by years of experience", warning=FALSE, fig.width=14}
+```{r, echo=FALSE, fig.cap="Survey responses by participant group", warning=FALSE, fig.width=14}
 ## setting colour scale to keep colours identical between similar plots
 #myColors <- brewer.pal(6,"Set1")
 survey.what<-droplevels(survey.what)
-can.field<-survey.what[survey.what$Country=="Canada",]
+#can.field<-survey.what[survey.what$Country=="Canada",]
+can.field<-survey.what[survey.what$Country_work=="Canada" | (!(survey.what$Country_work=="Canada") & survey.what$Country_work=="" & survey.what$Country=="Canada"),]
 
 experience_can<-data.frame(table(survey.what$what_participant_group))
 experience_can<-experience_can[!experience_can$Var1=="",]
@@ -173,7 +175,7 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
 ### GYA surveys: Canada
 
 #### Part 1 - Type of Research Conducted
-```{r, echo=FALSE, fig.cap="% funding allocated to fundamental, use-inspired and applied research", message=FALSE, warning=FALSE, fig.width=10}
+```{r, echo=FALSE, fig.cap="Funding allocation to fundamental, use-inspired and applied research categories. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -205,8 +207,9 @@ myColors<-(brewer.pal(9, "Blues"))
 myColors<-myColors[c(5,9)]
 colScale <- scale_fill_manual(name = "time",values = myColors)
 
+res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="Canada") & res.plot$Country_work=="" & res.plot$Country=="Canada"),]
 
-ggplot(res.plot[res.plot$Country=="Canada",], aes(percent, fill=time)) +
+ggplot(res.plot, aes(percent, fill=time)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="% funding", y="No. responses", title="")+
@@ -220,12 +223,12 @@ ggplot(res.plot[res.plot$Country=="Canada",], aes(percent, fill=time)) +
 
 ```
 
-```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years", fig.width=14}
+```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years. Researchers were asked if their funding proportions had changed in the past ten years (a), and what the main reason for a change in their research category (b).", fig.width=14}
 ## order bars from highest to lowest
 
 # Change in the past 10 years? (yes, no, can't comment)
-yes.no<-subset(research.change, select=c("Location","Country",  "gender", "changed_10yrs"))
-canada<-subset(yes.no, Country=="Canada")
+yes.no<-subset(research.change, select=c("Location","Country",'Country_work', "gender", "changed_10yrs"))
+canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & yes.no$Country_work=="" & yes.no$Country=="Canada"),]
 canada.yesno<-data.frame(table(canada$changed_10yrs))
 canada.yesno<-canada.yesno[!canada.yesno$Var1=="",]
 canada.yesno$Var1<-revalue(canada.yesno$Var1, c("Can't comment (new researcher)"="Can't comment"))
@@ -240,7 +243,7 @@ g1<-ggplot(data=canada.yesno, aes(x=Var1, y=Freq, fill=Var1))+
     geom_bar(stat='identity') + 
     guides(fill=FALSE) + 
     labs(x="", y="No. of responses",title="")+
-   annotate('text', 3.25,520, label="(a)", size=7)+
+   annotate('text', 3.25,635, label="(a)", size=7)+
   geom_text(aes(label=Freq), vjust=-0.5)+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) + colScale
@@ -248,14 +251,13 @@ g1<-ggplot(data=canada.yesno, aes(x=Var1, y=Freq, fill=Var1))+
 
 ## GRAPH PART 2
 # What is your main reason for change?
-reason<-subset(research.change, select=c("Location","Country",  "gender", "Main_reason_change_interest_related", 
+reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related", 
                                          "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
                                          "Main_reason_change_Other"))
 
-canada<-subset(reason, Country=="Canada")
-
+canada<-reason[reason$Country_work=="Canada" | (!(reason$Country_work=="Canada") & reason$Country_work=="" & reason$Country=="Canada"),]
 ## switch to long format
-canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country)
+canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country,-Country_work)
 
 ## using table to count cases of each category
 sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
@@ -275,20 +277,18 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) +
           legend.title=element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) + 
-   annotate('text', 5,350, label="(b)", size=7)+ ylim(c(0, 350))+
+   annotate('text', 5,415, label="(b)", size=7)+ ylim(c(0, 415))+
   geom_text(aes(label=Freq), vjust=-0.5)+
   labs(x="", y="", title="")+
   colScale
 
-
-
-
 grid.arrange(g1, g2, nrow=1)
 ```
 
-```{r, echo=FALSE, fig.cap="Opinion of change in research over past 10 years"}
+```{r, echo=FALSE, fig.cap="Opinion of change in research over past 10 years. Researchers were asked how they viewed the change in research type."}
 
-canada<-subset(part1.view, Country=="Canada")
+#canada<-subset(part1.view, Country=="Canada")
+canada<-part1.view[part1.view$Country_work=="Canada" | (!(part1.view$Country_work=="Canada") & part1.view$Country_work=="" & part1.view$Country=="Canada"),]
 canada<-canada[!canada$view_change_of_type=="",]
 
 change.view.ca<-data.frame(table(canada$view_change_of_type))
@@ -317,7 +317,9 @@ ggplot(change.view.ca, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 ```
 
 #### Part 2 - External Partnerships
-```{r, echo=FALSE, fig.cap="Current vs past level of partnership outside of academia", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their research had outside of academia, for 10 years ago (past) and for their current research (current).", warning=FALSE}
+part2.b.a<-part2.b.a[part2.b.a$Country_work=="Canada" | (!(part2.b.a$Country_work=="Canada") & part2.b.a$Country_work=="" & part2.b.a$Country=="Canada"),]
+
 b.part<-data.frame(table(part2.b.a$partnership_outside_before))
 b.part$time<-"Past"
 a.part<-data.frame(table(part2.b.a$partnership_outside))
@@ -345,9 +347,12 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time)) +
   
 ```
 
-```{r, echo=FALSE, fig.cap="Reason for change over the past 10 years", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Reasons for change in external partnerships over the past 10 years. Researchers were asked if their level of external partnerships outside of academia, with for-profit or non-governmental sectors, had changed over the past ten years (a) and what the reason for that change was (b).", warning=FALSE}
 ### was there change
-canada<-subset(part2.change, Country=="Canada")
+#canada<-subset(part2.change, Country=="Canada")
+canada<-part2.change[part2.change$Country_work=="Canada" | (!(part2.change$Country_work=="Canada") & part2.change$Country_work=="" & part2.change$Country=="Canada"),]
+
+
 change.part.ca<-data.frame(table(canada$partnership_change_10yrs))
 change.part.ca$Var1<-revalue(change.part.ca$Var1, c("Can't comment (new researcher)"="Can't comment"))
 
@@ -365,9 +370,10 @@ g1<-ggplot(data=change.part.ca, aes(x=Var1, y=Freq, fill=Var1))+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) + 
   scale_fill_manual(name = "Var1",values = myColors) +
-  annotate('text', 3.25,500, label="(a)", size=7)
+  annotate('text', 3.25,606, label="(a)", size=7)
 
 ### reason
+part2.reason<-part2.reason[part2.reason$Country_work=="Canada" | (!(part2.reason$Country_work=="Canada") & part2.reason$Country_work=="" & part2.reason$Country=="Canada"),]
 reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -Location)
 sum.canada<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
@@ -386,7 +392,7 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) +
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) + 
   geom_text(aes(label=Freq), vjust=-0.5)+
-  annotate('text', 5,630, label="(b)", size=7)+ ylim(c(0, 630))+
+  annotate('text', 5,420, label="(b)", size=7)+ ylim(c(0, 420))+
   labs(x="", y="", title="")+scale_fill_manual(name = "Var1",values = myColors)
   
 
@@ -394,8 +400,9 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) +
 grid.arrange(g1, g2, nrow=1)
 ```
 
-```{r, echo=FALSE, fig.cap="View of Change in partnership", warning=FALSE}
-canada<-subset(part2.view, Country=="Canada")
+```{r, echo=FALSE, fig.cap="View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", warning=FALSE}
+#canada<-subset(part2.view, Country=="Canada")
+canada<-part2.view[part2.view$Country_work=="Canada" | (!(part2.view$Country_work=="Canada") & part2.view$Country_work=="" & part2.view$Country=="Canada"),]
 view<-data.frame(table(canada$view_change_partnership))
 # change order of the levels
 
@@ -403,19 +410,20 @@ view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
 
 
 ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
-  geom_text(aes(label=Freq, vjust=-1))+
+  geom_text(aes(label=Freq, vjust=-0.5))+
   guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle=0, vjust=0.5)) + 
+        axis.text.x = element_text(angle=0, vjust=0)) + 
   labs(x="", y="No. of Responses") + colScale
 
 ```
 
 #### Part 3 - Grant Application History
 
-```{r, echo=FALSE, fig.cap="Number of external research grant applications", warning=FALSE, fig.height=12}
-canada<-subset(part3.grants.long, Country=="Canada")
+```{r, echo=FALSE, fig.cap="Number of research grant applications by research category in 2006-2010 and 2011-2015.", warning=FALSE, fig.height=12}
+#canada<-subset(part3.grants.long, Country=="Canada")
+canada<-part3.grants.long[part3.grants.long$Country_work=="Canada" | (!(part3.grants.long$Country_work=="Canada") & part3.grants.long$Country_work=="" & part3.grants.long$Country=="Canada"),]
 canada$type.grant<-as.character(canada$type.grant)
 
 
@@ -457,8 +465,9 @@ ggplot(grants.ca, aes(number, Freq, fill=time)) +
 
 ```
 
-```{r, echo=FALSE, fig.cap="Percentage of research grant application success", warning=FALSE}
-canada<-subset(part3.success.long, Country=="Canada")
+```{r, echo=FALSE, fig.cap="Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
+#canada<-subset(part3.success.long, Country=="Canada")
+canada<-part3.success.long[part3.success.long$Country_work=="Canada" | (!(part3.success.long$Country_work=="Canada") & part3.success.long$Country_work=="" & part3.success.long$Country=="Canada"),]
 canada$type<-as.character(canada$type)
 
 #add time variable
@@ -494,8 +503,9 @@ ggplot(success.ca, aes(percent, Freq, fill=time)) +
 
 ```
 
-```{r, echo=FALSE, fig.cap="Importance of suggesting practical applications of the research for the grant to be successful", warning=FALSE}
-canada<-subset(part3.prac.long, Country=="Canada")
+```{r, echo=FALSE, fig.cap="Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
+
+canada<-part3.prac.long[part3.prac.long$Country_work=="Canada" | (!(part3.prac.long$Country_work=="Canada") & part3.prac.long$Country_work=="" & part3.prac.long$Country=="Canada"),]
 
 canada$year<-as.character(canada$year)
 
@@ -520,13 +530,15 @@ ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) +
         legend.position=c(0.8, 0.8),
         axis.text.x = element_text(angle=0, vjust=0.5)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
+  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not at all\n important", 'Not at all\n important', "Can't\n comment"))+
   labs(x="", y="No. of responses")+ colScale
   
 
 ```
 
-```{r, echo=FALSE, fig.cap="Importance of including partners from for-profit or non-governmental sectors in grant success", warning=FALSE}
-canada<-subset(part3.part.long, Country=="Canada")
+```{r, echo=FALSE, fig.cap="Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
+
+canada<-part3.part.long[part3.part.long$Country_work=="Canada" | (!(part3.part.long$Country_work=="Canada") & part3.part.long$Country_work=="" & part3.part.long$Country=="Canada"),]
 
 canada$year<-as.character(canada$year)
 
@@ -554,8 +566,9 @@ ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
           legend.position=c(0.8, 0.8)) + colScale
 ```
 
-```{r, echo=FALSE, fig.cap="Distribution of research funding", warning=FALSE}
-canada<-subset(p3_master.long, Country=="Canada")
+```{r, echo=FALSE, fig.cap="Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", warning=FALSE,fig.height=12}
+
+canada<-p3_master.long[p3_master.long$Country_work=="Canada" | (!(p3_master.long$Country_work=="Canada") & p3_master.long$Country_work=="" & p3_master.long$Country=="Canada"),]
 
 canada$year<-revalue(c("11_15"="2011-2015", "6_10"="2006-2010"))
 
@@ -567,16 +580,18 @@ colScale <- scale_fill_manual(name = "year",values = myColors)
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  + 
   facet_wrap(~type, nrow=5) + colScale +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.8, 0.1),
+    theme(legend.position=c(0.9, 0.08),
           strip.text.y = element_text(size=14, face="bold", color="black"),
+          legend.key.size = unit(0.3, "cm"),
           strip.background = element_rect(colour="white", fill="white")) +
-  labs(x="% research funding", y = "Frequency")
+  labs(x="% research funding", y = "No. of respondents")
 
 ```
 
 
-```{r, echo=FALSE, fig.cap="Grant success rates change over the past 10 years", warning=FALSE}
-canada<-subset(part3.change, Country=="Canada")
+```{r, echo=FALSE, fig.cap="Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
+canada<-part3.change[part3.change$Country_work=="Canada" | (!(part3.change$Country_work=="Canada") & part3.change$Country_work=="" & part3.change$Country=="Canada"),]
+
 
 ##switch to long format
 change.long.ca<-gather(canada, type, level, -Location, -gender, -Country, -Country_work)
@@ -625,10 +640,10 @@ ggplot(data=gender.change, aes(x=level, Freq, fill=type))+
         legend.position=c(0.15, 0.9))+ 
   facet_wrap(~type, nrow=3) +
   guides(fill=FALSE)+
-  geom_text(aes(label=Freq, vjust=-0.5)) +
+  geom_text(aes(label=Freq, vjust=-0.5),size=3) +
   scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"),limits = (levels(gender.change$level)))+
-  labs(x="", y="No. of responses", fill="")+ colScale + ylim(c(0, 470))
+  labs(x="", y="No. of responses", fill="")+ colScale + ylim(c(0, 600))
 
 ```
 
@@ -636,11 +651,12 @@ ggplot(data=gender.change, aes(x=level, Freq, fill=type))+
 
 #### Part 4 - Funding Trends
 
-```{r, echo=FALSE, fig.cap="Perceived importance of fundamental research to Canada \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything"}
+```{r, echo=FALSE, fig.cap="Perceived importance of fundamental research to Canadian government. Researchers were asked how important they thought fundamental research was to the Canadian government. Responses were/were not significantly different between genders."}
 ## order bars from very important (left) to can't comment (right)
-important<-subset(part4, select=c("Location","Country", "gender","opinion_fundamental_important"))
+important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
-canada<-subset(important, Country=="Canada")
+canada<-important[important$Country_work=="Canada" | (!(important$Country_work=="Canada") & important$Country_work=="" & important$Country=="Canada"),]
+
 ## using table to count cases of each category
 sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$gender))
 # remove non-responses
@@ -676,19 +692,22 @@ ggplot(data=perceive, aes(x=Var1, y=Freq)) +
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank()) 
     
-  
+
 
 ```
 
 
-```{r, echo=FALSE, fig.cap="Perceived change in research priority by Canadian government \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything"}
+```{r, echo=FALSE, fig.cap="Perceived change in research priority by Canadian government. Researchers were asked whether any types of research had become higher priority for the Canadian government. Responses were/were not significantly different between genders."}
 ## order bars into applied > use > fundamental > no change
-priority<-subset(part4, select=c("Location","Country", "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
+priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                  "high_priority_no_change"))
-canada<-subset(priority, Country=="Canada")
+
+canada<-priority[priority$Country_work=="Canada" | (!(priority$Country_work=="Canada") & priority$Country_work=="" & priority$Country=="Canada"),]
+
+
 ## switch to long format
 
-priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country)
+priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country, -Country_work)
 # remove non-responses (n = 1066)
 #dim(priority.long[!priority.long$higher.priority=="",])/4
 
@@ -724,15 +743,17 @@ ggplot(data=per.change, aes(x=what.type, higher.priority))+
 ```
 
 
-```{r, echo=FALSE, fig.cap="Anticipated change in research funding in next 5 years in Canada \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything "}
+```{r, echo=FALSE, fig.cap="Anticipated change in research funding in next five years in Canada. Researchers were asked whether the availability of research funding would change in the next five years, for each research category. Responses were/were not significantly different between genders. "}
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-availability.change<-subset(part4, select=c("Location", "Country", "gender", "available_funding_fundamental",  
+availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
                                              "available_funding_use_inspired", "available_funding_applied"))
-canada<-subset(availability.change, Country=="Canada")
+
+canada<-availability.change[availability.change$Country_work=="Canada" | (!(availability.change$Country_work=="Canada") & availability.change$Country_work=="" & availability.change$Country=="Canada"),]
+
 ## switch to long format
 
-availability.change.long.ca<-gather(canada, what.type, level, -gender, -Location, -Country)
+availability.change.long.ca<-gather(canada, what.type, level, -gender, -Location, -Country, -Country_work)
 availability.ca<-with(availability.change.long.ca, data.frame(table(what.type, level)))
 
 #remove non response
@@ -785,19 +806,20 @@ ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
-    geom_text(aes(label=Freq), vjust=-0.5) + colScale +ylim(c(0, 440))
+    geom_text(aes(label=Freq), vjust=-0.5, size=3) + colScale +ylim(c(0, 550))
 
-                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                   
 ```
 
 
-```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation in Canada \n need to elabrate here but waiting to see if significant tests for gender, career, and stage return anything"}
+```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation in Canada. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-next.generation<-subset(part4, select=c("Location", "Country", "gender","next_generation"))
+next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))
 # remove non-response
 next.generation<-next.generation[!next.generation$next_generation=="",]
-canada<-subset(next.generation, Country=="Canada")
+canada<-next.generation[next.generation$Country_work=="Canada" | (!(next.generation$Country_work=="Canada") & next.generation$Country_work=="" & next.generation$Country=="Canada"),]
+
 
 impact<-data.frame(table(canada$next_generation))
 
@@ -820,7 +842,5 @@ ggplot(data=impact, aes(x=Var1, Freq))+
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())+
   geom_text(aes(label=Freq), vjust=-0.5)
-
-
 
 ```
