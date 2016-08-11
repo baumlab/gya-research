@@ -45,11 +45,12 @@ temp<-with(canada, table(opinion_fundamental_important, gender))
 chisq.test(temp)
 
 
-priority.mod<-(glm(Freq ~ Var1*Var2, sum.important, family="poisson"))
-visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+priority.mod1<-(glm(Freq ~ Var1*Var2, sum.important, family="poisson"))
+priority.mod2<-(glm(Freq ~ Var1 +Var2, sum.important, family="poisson"))
+visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(priority.mod1)
 
-
-
+anova(priority.mod1, priority.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 #### Part4. Question 2. Change in research priority 
 #--------------------#--------------------#--------------------
@@ -92,6 +93,12 @@ gender.perceive$Var2<-revalue(gender.perceive$Var2, c("high_priority_fundamental
 priority.mod<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
 visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="No. of responses (scaled by gender)", xlab="Gender")
 
+priority.mod1<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
+priority.mod2<-(glm(Freq ~ Var1 +Var2, gender.perceive, family="poisson"))
+visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(priority.mod1)
+
+anova(priority.mod1, priority.mod2, test="Chi")
 
 
 
