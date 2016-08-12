@@ -3,8 +3,8 @@
 
 ## load in survey data
 ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
-setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 #setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 #setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
 
@@ -12,7 +12,7 @@ setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 part4<-read.csv(file="data/gya-survey-part4.csv")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg)
 
 theme_set(theme_bw())
 
@@ -49,7 +49,7 @@ priority.mod1<-(glm(Freq ~ Var1*Var2, sum.important, family="poisson"))
 priority.mod2<-(glm(Freq ~ Var1 +Var2, sum.important, family="poisson"))
 visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
 summary(priority.mod1)
-
+head(priority.mod2)
 anova(priority.mod1, priority.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 #### Part4. Question 2. Change in research priority 
