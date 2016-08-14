@@ -37,14 +37,14 @@ sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$gen
 #sum.important<-sum.important[!sum.important$Var1=="",]
 sum.important<-sum.important[!sum.important$Var2=="Other",]
 sum.important<-sum.important[!sum.important$Var2=="",]
-
+head(sum.important)
 
 #perceive<-aggregate(Freq~Var1, sum.important, sum)
 
 temp<-with(canada, table(opinion_fundamental_important, gender))
 chisq.test(temp)
 
-
+?visreg
 priority.mod1<-(glm(Freq ~ Var1*Var2, sum.important, family="poisson"))
 priority.mod2<-(glm(Freq ~ Var1 +Var2, sum.important, family="poisson"))
 visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
