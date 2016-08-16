@@ -1,5 +1,4 @@
-
-## Script to examine gender differences in survey questions
+## Script to examine dicipline differences in survey questions
 
 
 ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
@@ -35,6 +34,8 @@ theme_set(theme_bw())
 #--------------------#--------------------#--------------------
 #### Part1. Question 2. Proportions of type of research change
 #--------------------#--------------------#--------------------
+
+#!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
 change<-subset(research.change, select=c("Location","Country",'Country_work', "gender", "changed_10yrs"))
 canada<-change[change$Country_work=="Canada" | (!(change$Country_work=="Canada") & 
@@ -154,6 +155,8 @@ anova(change.mod1, change.mod2, test="Chi")
 #### Part4. Question 1. Research priority - fundamental
 #--------------------#--------------------#--------------------
 
+#!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ## order bars from very important (left) to can't comment (right)
 important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
@@ -189,6 +192,8 @@ anova(priority.mod1, priority.mod2, test="Chi")
 #### Part4. Question 2. Change in research priority 
 #--------------------#--------------------#--------------------
 
+#!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ## order bars into applied > use > fundamental > no change
 priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                  "high_priority_no_change"))
@@ -221,8 +226,8 @@ gender.perceive<-gender.perceive[!(gender.perceive$Var1=="Other" | gender.percei
 #gender.perceive$what.type<-factor(gender.perceive$what.type, levels(gender.perceive$what.type)[c(2,4,1,3)])
 
 gender.perceive$Var2<-revalue(gender.perceive$Var2, c("high_priority_fundamental"="Fundamental",
-                                                                'high_priority_use_inspired'='Use-inspired', 'high_priority_applied' = 'Applied',
-                                                          'high_priority_no_change'="No change"))
+                                                      'high_priority_use_inspired'='Use-inspired', 'high_priority_applied' = 'Applied',
+                                                      'high_priority_no_change'="No change"))
 
 priority.mod<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
 visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="No. of responses (scaled by gender)", xlab="Gender")
@@ -239,6 +244,8 @@ anova(priority.mod1, priority.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 #### Part4. Question 3. Change in research funding 
 #--------------------#--------------------#--------------------
+
+#!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
 availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
                                             "available_funding_use_inspired", "available_funding_applied"))
@@ -283,6 +290,8 @@ availability.ca$what.type<-revalue(availability.ca$what.type, c("available_fundi
 #--------------------#--------------------#--------------------
 #### Part4. Question 4. Research - next generation
 #--------------------#--------------------#--------------------
+
+#!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))

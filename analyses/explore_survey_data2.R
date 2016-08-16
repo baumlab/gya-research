@@ -104,7 +104,7 @@ survey.what<-subset(survey, select=c("Location", "Country", "gender", "field_res
 ## read in non-subsetted data again
 survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
 
-part1<-subset(survey, select = c("Location", "Country", "Country_work", "gender","what_participant_group"  ,   "percent_fundemental_research_current"  ,     "percent_Use_inspired_Research_current"   ,  
+part1<-subset(survey, select = c("Location", "Country", "Country_work", "gender","what_participant_group"  , "field_research",   "percent_fundemental_research_current"  ,     "percent_Use_inspired_Research_current"   ,  
                                   "percent_Applied_Research_current"   ,        "changed_10yrs"        ,                      "percent_Fundamental_Research_past"         ,
                                   "percent_Use_inspired_Research_past"  ,       "percent_Applied_Research_past"    ,          "Main_reason_change_interest_related" ,      
                                  "Main_reason_change_Career_related" ,         "Main_reason_change_Funding_related" ,        "Main_reason_change_Socially_related" ,      
@@ -128,7 +128,7 @@ part1$percent_Applied_Research_past<-str_replace_all(part1$percent_Applied_Resea
 part1$percent_Fundamental_Research_past<-str_replace_all(part1$percent_Fundamental_Research_past, "[%]", "")
 part1$percent_Use_inspired_Research_past<-str_replace_all(part1$percent_Use_inspired_Research_past, "[%]", "")
 
-survey.type<-subset(part1, select = c("Location","Country","Country_work",  "gender","percent_fundemental_research_current"  ,     "percent_Use_inspired_Research_current"   ,  
+survey.type<-subset(part1, select = c("Location","Country","Country_work",  "gender","what_participant_group"  , "field_research","percent_fundemental_research_current"  ,     "percent_Use_inspired_Research_current"   ,  
                                       "percent_Applied_Research_current"   ,      "percent_Fundamental_Research_past"         ,
                                       "percent_Use_inspired_Research_past"  ,       "percent_Applied_Research_past"))
 
@@ -174,8 +174,8 @@ survey.type<-survey.type[!(survey.type$percent_fundemental_research_current==0 &
 survey.type$percent_Applied_Research_current<-as.numeric(survey.type$percent_Applied_Research_current)
 survey.type$percent_fundemental_research_current<-as.numeric(survey.type$percent_fundemental_research_current)
 survey.type$percent_Use_inspired_Research_current<-as.numeric(survey.type$percent_Use_inspired_Research_current)
-
-survey.type$total_research<-rowSums(survey.type[,5:7])
+colnames(survey.type)
+survey.type$total_research<-rowSums(survey.type[,7:9])
 
 head(survey.type[survey.type$total_research>100,])
 
@@ -183,7 +183,7 @@ survey.type$percent_Applied_Research_past<-as.numeric(survey.type$percent_Applie
 survey.type$percent_Fundamental_Research_past<-as.numeric(survey.type$percent_Fundamental_Research_past)
 survey.type$percent_Use_inspired_Research_past<-as.numeric(survey.type$percent_Use_inspired_Research_past)
 colnames(survey.type)
-survey.type$total_research<-rowSums(survey.type[,5:7])
+survey.type$total_research<-rowSums(survey.type[,10:12])
 
 head(survey.type[survey.type$total_research>100,])
 ## need to change 64 surveys that are over 100%
@@ -200,7 +200,7 @@ head(survey.type[survey.type$total_research>100,])
 
 ## switch to long format
 require(tidyr)
-survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country_work, -Country)
+survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country_work, -Country, -what_participant_group, -field_research)
 head(survey.long)
 
 #######################################
@@ -272,7 +272,7 @@ head(survey.long)
 ## read in non-subsetted data again
 survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
 
-survey.change<-subset(survey, select=c("Location","Country","Country_work",  "gender", "changed_10yrs", "Main_reason_change_interest_related", 
+survey.change<-subset(survey, select=c("Location","Country","Country_work",  "gender","what_participant_group"  , "field_research", "changed_10yrs", "Main_reason_change_interest_related", 
                                 "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
                                 "Main_reason_change_Other"))
 
@@ -280,7 +280,7 @@ survey.change<-subset(survey, select=c("Location","Country","Country_work",  "ge
 #### how do you view this cahnge in the type of research?
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 
-part1.view<-subset(survey, select=c("Location","Country","Country_work",  "gender", "view_change_of_type"))
+part1.view<-subset(survey, select=c("Location","Country","Country_work",  "gender","what_participant_group"  , "field_research", "view_change_of_type"))
 
 
 
@@ -294,7 +294,7 @@ part1.view<-subset(survey, select=c("Location","Country","Country_work",  "gende
 #read in non subsetted data again
 survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
 
-survey.part4<-subset(survey, select=c("Location","Country","Country_work", "gender","opinion_fundamental_important",  
+survey.part4<-subset(survey, select=c("Location","Country","Country_work", "gender","what_participant_group"  , "field_research","opinion_fundamental_important",  
                                "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                "high_priority_no_change", "available_funding_fundamental", "available_funding_use_inspired", "available_funding_applied",
                                "next_generation"))
@@ -305,28 +305,28 @@ survey.part4<-subset(survey, select=c("Location","Country","Country_work", "gend
 
 #read in unsubsetted data again
 survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
-part2<-subset(survey, select=c("Country","Country_work", "gender", "Location", "partnership_outside", "partnership_change_10yrs",
+part2<-subset(survey, select=c("Country","Country_work", "gender","what_participant_group"  , "field_research", "Location", "partnership_outside", "partnership_change_10yrs",
                                "partnership_outside_before", "reason_partnership_change_interest", "reason_partnership_change_career", 
                                "reason_partnership_change_socially",  "reason_partnership_change_funding", "reason_partnership_change_other",
                                "view_change_partnership"))
 
 #### level of partnership that your reserach currently has outside of academia before and after
-part2.b.a<-subset(part2, select=c("Country","Country_work", "gender", "Location", "partnership_outside","partnership_outside_before"))
+part2.b.a<-subset(part2, select=c("Country","Country_work", "gender","what_participant_group"  , "field_research", "Location", "partnership_outside","partnership_outside_before"))
 #remove non responses
 part2.b.a<-part2.b.a[!part2.b.a$partnership_outside=="",]
 part2.b.a<-part2.b.a[!part2.b.a$partnership_outside_before=="",]
 
 ####Level of partnership change in past 10 yrs
-part2.change<-subset(part2, select=c("Country","Country_work", "gender", "Location","partnership_change_10yrs"))
+part2.change<-subset(part2, select=c("Country","Country_work", "gender","what_participant_group"  , "field_research", "Location","partnership_change_10yrs"))
 #remove non responses
 part2.change<-part2.change[!part2.change$partnership_change_10yrs=="",]
 
 ####Reason for change
-part2.reason<-subset(part2, select=c("Country","Country_work", "gender", "Location","reason_partnership_change_interest", "reason_partnership_change_career", 
+part2.reason<-subset(part2, select=c("Country","Country_work", "gender","what_participant_group", "field_research", "Location","reason_partnership_change_interest", "reason_partnership_change_career", 
                                      "reason_partnership_change_socially",  "reason_partnership_change_funding", "reason_partnership_change_other"))
 
 #### View of Change
-part2.view<-subset(part2, select=c("Country","Country_work", "gender", "Location","view_change_partnership"))
+part2.view<-subset(part2, select=c("Country","Country_work", "gender","what_participant_group", "field_research", "Location","view_change_partnership"))
 
 #remove non responses
 part2.view<-part2.view[!part2.view$view_change_partnership=="",]
@@ -339,7 +339,7 @@ part2.view<-part2.view[!part2.view$view_change_partnership=="",]
 #read in non subsetted data again
 survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
 #subset data needed for this part
-part3<-subset(survey, select=c("Country","Country_work", "gender", "Location","external_pi_grant_11_15_fundamental" , "external_pi_grant_11_15_use" ,              
+part3<-subset(survey, select=c("Country","Country_work", "gender","what_participant_group", "field_research", "Location","external_pi_grant_11_15_fundamental" , "external_pi_grant_11_15_use" ,              
                                 "external_pi_grant_11_15_applied",            "external_pi_grant_6_10_fundamental",        
                                "external_pi_grant_6_10_use"     ,            "external_pi_grant_6_10_applied"   ,         
                                "successful_grants_11_15_fundamental"  ,      "successful_grants_11_15_use"     ,          
@@ -358,7 +358,7 @@ part3<-subset(survey, select=c("Country","Country_work", "gender", "Location","e
 
 
 ## number of grant applications 
-part3.grants<-subset(part3, select = c("Country","Country_work", "gender", "Location","external_pi_grant_11_15_fundamental" , "external_pi_grant_11_15_use" ,              
+part3.grants<-subset(part3, select = c("Country","Country_work", "gender", "Location","what_participant_group", "field_research","external_pi_grant_11_15_fundamental" , "external_pi_grant_11_15_use" ,              
                                           "external_pi_grant_11_15_applied", "external_pi_grant_6_10_fundamental",        
                                        "external_pi_grant_6_10_use"     ,            "external_pi_grant_6_10_applied"))
 ##clean data
@@ -380,7 +380,7 @@ head(part3.grants)
 
 #change to long format
 require(tidyr)
-part3.grants.long<-gather(part3.grants, type.grant, number, -Location, -gender, -Country, -Country_work)
+part3.grants.long<-gather(part3.grants, type.grant, number, -Location, -gender, -Country, -Country_work, -what_participant_group, -field_research)
 head(part3.grants.long)
 
 
@@ -388,7 +388,7 @@ head(part3.grants.long)
 
 ## percentage of successful grants
 
-part3.success<-subset(part3, select = c("Country","Country_work", "gender", "Location","successful_grants_11_15_fundamental"  ,      "successful_grants_11_15_use"     ,          
+part3.success<-subset(part3, select = c("Country","Country_work", "gender", "Location","what_participant_group", "field_research","successful_grants_11_15_fundamental"  ,      "successful_grants_11_15_use"     ,          
                                         "successful_grants_11_15_applied",            "successful_grants_6_10_fundamental"   ,     
                                         "successful_grants_6_10_use"  ,               "successful_grants_6_10_applied" ))
 
@@ -405,7 +405,7 @@ part3.success$successful_grants_6_10_applied<-str_replace_all(part3.success$succ
 
 #change to long form
 require(tidyr)
-part3.success.long<-gather(part3.success, type, percent, -Location,-Country_work, -gender, -Country)
+part3.success.long<-gather(part3.success, type, percent, -Location,-Country_work, -gender, -Country, -what_participant_group, -field_research)
 
 #remove blanks and "no need for aplications for this research type"
 part3.success.long<-part3.success.long[!(part3.success.long$percent==""),]
@@ -416,12 +416,12 @@ part3.success.long<-part3.success.long[!(part3.success.long$percent=="No need fo
 
 ## important to suggest practical applications
 
-part3.prac.app<-subset(part3, select = c("Country","Country_work", "gender", "Location","practical_applications_important_11_15"  ,   "practical_applications_important_6_10" ))
+part3.prac.app<-subset(part3, select = c("Country","Country_work", "gender", "Location","what_participant_group", "field_research","practical_applications_important_11_15"  ,   "practical_applications_important_6_10" ))
 
-
+colnames(part3.prac.app)
 #change to long form
 require(tidyr)
-part3.prac.long<-gather(part3.prac.app, year, level, -Location, -gender,-Country_work, -Country)
+part3.prac.long<-gather(part3.prac.app, year, level, -Location, -gender,-Country_work, -Country, -what_participant_group, -field_research)
 #remove non responses
 part3.prac.long<-part3.prac.long[!(part3.prac.long$level==""),]
 
@@ -429,11 +429,11 @@ part3.prac.long<-part3.prac.long[!(part3.prac.long$level==""),]
 
 
 ##important to include partners from for profit or non gov sectors
-part3.part<-subset(part3, select = c("Country","Country_work", "gender", "Location","include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10" ))
+part3.part<-subset(part3, select = c("Country","Country_work", "gender", "Location","what_participant_group", "field_research","include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10" ))
 
 #change to long form
 require(tidyr)
-part3.part.long<-gather(part3.part, year, level, -Location, -gender,-Country_work, -Country)
+part3.part.long<-gather(part3.part, year, level, -Location, -gender,-Country_work, -Country, -what_participant_group, -field_research)
 
 #remove non responses
 part3.part.long<-part3.part.long[!(part3.part.long$level==""),]
@@ -442,7 +442,7 @@ part3.part.long<-part3.part.long[!(part3.part.long$level==""),]
 
 
 ## distribution of funding
-part3.funding<-subset(part3, select = c("Country", "Country_work", "gender", "Location","distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government" ,     
+part3.funding<-subset(part3, select = c("Country", "Country_work", "gender", "Location","what_participant_group", "field_research","distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government" ,     
                                         "distriution_funding_11_15_for_profit",       "distriution_funding_11_15_nongov" ,         
                                         "distriution_funding_11_15_other"   ,      
                                         "distriution_funding_6_10_internal" ,         "distriution_funding_6_10_government" ,      
@@ -481,13 +481,13 @@ part3.funding$distriution_funding_6_10_other<-str_replace_all(part3.funding$dist
 part3.funding$survey<-c(1:dim(part3.funding)[1])
 
 ## 1. remove responses were a person said new researcher inthe 2006-2010 section (some people selected new researcher for one category but then a percentage for another so I had to get rid more than I thought)
-part3.funding<-gather(part3.funding, question, value, -Country, -gender, -Country_work, -Location, -survey)
+part3.funding<-gather(part3.funding, question, value, -Country, -gender, -Country_work, -Location, -survey, -what_participant_group, -field_research)
 part3.funding$year<-ifelse(grepl("11_15", part3.funding$question), "11_15", "6_10")
 
 part3.funding$info<-ifelse((part3.funding$year=="6_10" & part3.funding$value=="New researcher (no funding in these years)"),"remove", "keep")
 survey.remove<-part3.funding$survey[part3.funding$info=="remove"]
 part3.funding<-part3.funding[!(part3.funding$year=="6_10" & part3.funding$survey %in% survey.remove),]
-
+head(part3.funding)
 part3.funding<-spread(part3.funding, question, value)
 
 
