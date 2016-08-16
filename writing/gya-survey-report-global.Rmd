@@ -3,10 +3,10 @@ title: "GYA surveys"
 author: "James Robinson; Kristina Tietjen"
 date: "28 July 2016"
 output:
-  pdf_document: null
-  fig_width: 10
   html_document: default
+  fig_width: 10
   fig_height: 4
+  pdf_document: null
 ---
 
 Intro -
