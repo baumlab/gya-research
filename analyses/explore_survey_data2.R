@@ -487,14 +487,13 @@ part3.funding$year<-ifelse(grepl("11_15", part3.funding$question), "11_15", "6_1
 part3.funding$info<-ifelse((part3.funding$year=="6_10" & part3.funding$value=="New researcher (no funding in these years)"),"remove", "keep")
 survey.remove<-part3.funding$survey[part3.funding$info=="remove"]
 part3.funding<-part3.funding[!(part3.funding$year=="6_10" & part3.funding$survey %in% survey.remove),]
-head(part3.funding)
 part3.funding<-spread(part3.funding, question, value)
 
 
 p3_6.10<-part3.funding[part3.funding$year=="6_10",]
-p3_6.10<-p3_6.10[,c(1:7, 13:17)]
+p3_6.10<-p3_6.10[,c(1:9, 15:19)]
 p3_11.15<-part3.funding[part3.funding$year=="11_15",]
-p3_11.15<-p3_11.15[,c(1:12)]
+p3_11.15<-p3_11.15[,c(1:14)]
 
 ## 2. if every category is blank, turn to NA
 p3_11.15$distribution_funding_11_15_internal[p3_11.15$distribution_funding_11_15_internal=="" & 
@@ -559,8 +558,8 @@ p3_6.10$distriution_funding_6_10_nongov<-as.numeric((p3_6.10$distriution_funding
 p3_6.10$distriution_funding_6_10_other<-as.numeric((p3_6.10$distriution_funding_6_10_other))
 
 ## need to change surveys that are over 100%
-p3_11.15$total.funding<-rowSums(p3_11.15[,8:12])
-p3_6.10$total.funding<-rowSums(p3_6.10[,8:12])
+p3_11.15$total.funding<-rowSums(p3_11.15[,10:14])
+p3_6.10$total.funding<-rowSums(p3_6.10[,10:14])
 
 head(p3_11.15[p3_11.15$total.funding>100,])
 
@@ -597,7 +596,7 @@ head(p3_master)
 
 ## switch to long format
 require(tidyr)
-p3_master.long<-gather(p3_master, type, percent,-info, -year, -survey, -total.funding, -Location, -gender, -Country_work, -Country)
+p3_master.long<-gather(p3_master, type, percent,-info, -year, -survey, -total.funding, -Location, -gender, -Country_work, -Country, -what_participant_group, -field_research)
 
 head(p3_master.long)
 
@@ -608,7 +607,7 @@ head(p3_master.long)
 
 
 ## grant success rates change over past 10 yrs
-part3.change<-subset(part3, select = c("Country", "Country_work", "gender", "Location", "success_change_10yrs_fundamental"  ,        "success_change_10yrs_use"   ,               
+part3.change<-subset(part3, select = c("Country", "Country_work", "gender", "Location","what_participant_group", "field_research", "success_change_10yrs_fundamental"  ,        "success_change_10yrs_use"   ,               
                                        "success_change_10yrs_applied"))
 head(part3.change)
 

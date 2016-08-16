@@ -549,7 +549,7 @@ head(part2.reason)
 
 
 require(tidyr)
-reason.pt.long<-gather(part2.reason, change.reason, yes, -Country, -gender, -Location)
+reason.pt.long<-gather(part2.reason, change.reason, yes, -Country, -gender, -Location, -what_participant_group, -field_research, -Country_work)
 unique(reason.pt.long$change.reason)
 sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
@@ -562,7 +562,7 @@ ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + geom_b
 canada<-subset(part2.reason, Country=="Canada")
 
 require(tidyr)
-reason.pt.long<-gather(canada, change.reason, yes, -Country, -gender, -Location)
+reason.pt.long<-gather(canada, change.reason, yes, -Country, -gender, -Location,-what_participant_group, -field_research, -Country_work)
 unique(reason.pt.long$change.reason)
 sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
@@ -792,7 +792,7 @@ ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
 head(part3.change)
 require(tidyr)
 ##switch to long format
-change.long<-gather(part3.change, type, level, -Location, -gender, -Country)
+change.long<-gather(part3.change, type, level, -Location, -gender, -Country, -what_participant_group, -field_research, -Country_work)
 head(change.long)
 
 change<-aggregate(gender~type+level, change.long, length)
@@ -808,7 +808,7 @@ ggplot(data=change, aes(x=level, gender, fill=type))+ geom_bar(stat='identity', 
 canada<-subset(part3.change, Country=="Canada")
 require(tidyr)
 ##switch to long format
-change.long.ca<-gather(canada, type, level, -Location, -gender, -Country)
+change.long.ca<-gather(canada, type, level, -Location, -gender, -Country, -what_participant_group, -field_research, -Country_work)
 head(change.long.ca)
 
 gender.change<-aggregate(Location~type+gender+level, change.long.ca, length)

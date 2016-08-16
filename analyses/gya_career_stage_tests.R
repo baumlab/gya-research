@@ -37,29 +37,28 @@ theme_set(theme_bw())
 
 #!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
-change<-subset(research.change, select=c("Location","Country",'Country_work', "gender", "changed_10yrs"))
+change<-subset(research.change, select=c("Location","Country",'Country_work', "gender","what_participant_group",  "field_research", "changed_10yrs"))
 canada<-change[change$Country_work=="Canada" | (!(change$Country_work=="Canada") & 
                                                   change$Country_work=="" & change$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
-canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$what_participant_group=="",]
 canada<-canada[!canada$changed_10yrs=="",]
 canada<-droplevels(canada)
 
 ## using table to count cases of each category
-sum.change<-data.frame(table(canada$changed_10yrs, canada$gender))
+sum.change<-data.frame(table(canada$changed_10yrs, canada$what_participant_group))
 sum.change
 
 # turn to percents  ????????
-male<-subset(sum.change, Var2=="Male")
-female<-subset(sum.change, Var2=="Female")
-sum.change$Freq<-ifelse(sum.change$Var2=='Male',(sum.change$Freq/sum(male$Freq))*100, sum.change$Freq)
-sum.change$Freq<-ifelse(sum.change$Var2=='Female',(sum.change$Freq/sum(female$Freq))*100, sum.change$Freq)
+#male<-subset(sum.change, Var2=="Male")
+#female<-subset(sum.change, Var2=="Female")
+#sum.change$Freq<-ifelse(sum.change$Var2=='Male',(sum.change$Freq/sum(male$Freq))*100, sum.change$Freq)
+#sum.change$Freq<-ifelse(sum.change$Var2=='Female',(sum.change$Freq/sum(female$Freq))*100, sum.change$Freq)
 
 
 change.mod1<-(glm(Freq ~ Var1*Var2, sum.change, family="poisson"))
 change.mod2<-(glm(Freq ~ Var1 +Var2, sum.change, family="poisson"))
-visreg(change.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+visreg(change.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Career Stage")
 summary(change.mod1)
 head(change.mod2)
 anova(change.mod1, change.mod2, test="Chi")
@@ -158,17 +157,17 @@ anova(change.mod1, change.mod2, test="Chi")
 #!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ## order bars from very important (left) to can't comment (right)
-important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
+important<-subset(part4, select=c("Location","Country",'Country_work', "gender","what_participant_group",  "field_research","opinion_fundamental_important"))
 
 canada<-important[important$Country_work=="Canada" | (!(important$Country_work=="Canada") & important$Country_work=="" & important$Country=="Canada"),]
 canada<-canada[!canada$opinion_fundamental_important=="",]
-canada<-canada[!canada$gender=="Other",]
-canada$opinion_fundamental_important<-factor(canada$opinion_fundamental_important, levels(canada$opinion_fundamental_important)[c(6,5,4,3,2,1)])
+
+#canada$opinion_fundamental_important<-factor(canada$opinion_fundamental_important, levels(canada$opinion_fundamental_important)[c(6,5,4,3,2,1)])
 
 canada<-droplevels(canada)
 head(canada)
 ## using table to count cases of each category
-sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$gender))
+sum.important<-data.frame(table(canada$opinion_fundamental_important, canada$what_participant_group))
 # remove non-responses
 #sum.important<-sum.important[!sum.important$Var2=="",]
 #sum.important<-sum.important[!sum.important$Var1=="",]
@@ -178,13 +177,13 @@ head(sum.important)
 
 #perceive<-aggregate(Freq~Var1, sum.important, sum)
 
-temp<-with(canada, table(opinion_fundamental_important, gender))
+temp<-with(canada, table(opinion_fundamental_important, what_participant_group))
 chisq.test(temp)
 
 ?visreg
 priority.mod1<-(glm(Freq ~ Var1*Var2, sum.important, family="poisson"))
 priority.mod2<-(glm(Freq ~ Var1 +Var2, sum.important, family="poisson"))
-visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Career Stage")
 summary(priority.mod1)
 head(priority.mod2)
 anova(priority.mod1, priority.mod2, test="Chi")
@@ -195,7 +194,7 @@ anova(priority.mod1, priority.mod2, test="Chi")
 #!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ## order bars into applied > use > fundamental > no change
-priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
+priority<-subset(part4, select=c("Location","Country",'Country_work', "gender","what_participant_group",  "field_research", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                  "high_priority_no_change"))
 
 canada<-priority[priority$Country_work=="Canada" | (!(priority$Country_work=="Canada") & priority$Country_work=="" & priority$Country=="Canada"),]
@@ -203,7 +202,7 @@ canada<-priority[priority$Country_work=="Canada" | (!(priority$Country_work=="Ca
 
 ## switch to long format
 
-priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country, -Country_work)
+priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country, -Country_work, -what_participant_group,  -field_research)
 # remove non-responses (n = 1066)
 #dim(priority.long[!priority.long$higher.priority=="",])/4
 
@@ -211,30 +210,30 @@ priority.long<-priority.long[!is.na(priority.long$higher.priority),]
 
 #per.change<-aggregate(higher.priority~what.type +gender, priority.long, sum)
 
-gender.perceive<-data.frame(table( priority.long$gender , priority.long$what.type))
+stage.perceive<-data.frame(table( priority.long$what_participant_group , priority.long$what.type))
 
 # turn to percents
-male<-subset(gender.perceive, Var1=="Male")
-female<-subset(gender.perceive, Var1=="Female")
-other<-subset(gender.perceive, Var1=="Other")
-gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Male',(gender.perceive$Freq/sum(male$Freq))*100, gender.perceive$Freq)
-gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Female',(gender.perceive$Freq/sum(female$Freq))*100, gender.perceive$Freq)
-gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Other',(gender.perceive$Freq/sum(other$Freq))*100, gender.perceive$Freq)
+#male<-subset(gender.perceive, Var1=="Male")
+#female<-subset(gender.perceive, Var1=="Female")
+#other<-subset(gender.perceive, Var1=="Other")
+#gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Male',(gender.perceive$Freq/sum(male$Freq))*100, gender.perceive$Freq)
+#gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Female',(gender.perceive$Freq/sum(female$Freq))*100, gender.perceive$Freq)
+#gender.perceive$Freq<-ifelse(gender.perceive$Var1=='Other',(gender.perceive$Freq/sum(other$Freq))*100, gender.perceive$Freq)
 
 # change order of the levels
-gender.perceive<-gender.perceive[!(gender.perceive$Var1=="Other" | gender.perceive$Var1==""),]
+#gender.perceive<-gender.perceive[!(gender.perceive$Var1=="Other" | gender.perceive$Var1==""),]
 #gender.perceive$what.type<-factor(gender.perceive$what.type, levels(gender.perceive$what.type)[c(2,4,1,3)])
 
-gender.perceive$Var2<-revalue(gender.perceive$Var2, c("high_priority_fundamental"="Fundamental",
+stage.perceive$Var2<-revalue(stage.perceive$Var2, c("high_priority_fundamental"="Fundamental",
                                                       'high_priority_use_inspired'='Use-inspired', 'high_priority_applied' = 'Applied',
                                                       'high_priority_no_change'="No change"))
 
-priority.mod<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
-visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="No. of responses (scaled by gender)", xlab="Gender")
+priority.mod<-(glm(Freq ~ Var1*Var2, stage.perceive, family="poisson"))
+visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="No. of responses (scaled by gender)", xlab="Career Stage")
 
-priority.mod1<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
-priority.mod2<-(glm(Freq ~ Var1 +Var2, gender.perceive, family="poisson"))
-visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+priority.mod1<-(glm(Freq ~ Var1*Var2, stage.perceive, family="poisson"))
+priority.mod2<-(glm(Freq ~ Var1 +Var2, stage.perceive, family="poisson"))
+visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Career Stage")
 summary(priority.mod1)
 
 anova(priority.mod1, priority.mod2, test="Chi")
@@ -247,14 +246,14 @@ anova(priority.mod1, priority.mod2, test="Chi")
 
 #!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
-availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
+availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender","what_participant_group",  "field_research", "available_funding_fundamental",  
                                             "available_funding_use_inspired", "available_funding_applied"))
 
 canada<-availability.change[availability.change$Country_work=="Canada" | (!(availability.change$Country_work=="Canada") & availability.change$Country_work=="" & availability.change$Country=="Canada"),]
 
 ## switch to long format
 
-availability.change.long.ca<-gather(canada, what.type, level, -gender, -Location, -Country, -Country_work)
+availability.change.long.ca<-gather(canada, what.type, level, -gender, -Location, -Country, -Country_work, -what_participant_group,  -field_research)
 availability.ca<-with(availability.change.long.ca, data.frame(table(what.type, level)))
 
 #remove non response
@@ -294,7 +293,7 @@ availability.ca$what.type<-revalue(availability.ca$what.type, c("available_fundi
 #!!!!!!!!!!!!!!!!!!!!!!!NOT done!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))
+next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","what_participant_group",  "field_research","next_generation"))
 # remove non-response
 next.generation<-next.generation[!next.generation$next_generation=="",]
 canada<-next.generation[next.generation$Country_work=="Canada" | (!(next.generation$Country_work=="Canada") & next.generation$Country_work=="" & next.generation$Country=="Canada"),]
