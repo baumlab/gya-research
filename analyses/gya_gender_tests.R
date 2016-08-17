@@ -49,12 +49,6 @@ canada<-droplevels(canada)
 sum.change<-data.frame(table(canada$changed_10yrs, canada$gender))
 sum.change
 
-# turn to percents  ????????
-male<-subset(sum.change, Var2=="Male")
-female<-subset(sum.change, Var2=="Female")
-sum.change$Freq<-ifelse(sum.change$Var2=='Male',(sum.change$Freq/sum(male$Freq))*100, sum.change$Freq)
-sum.change$Freq<-ifelse(sum.change$Var2=='Female',(sum.change$Freq/sum(female$Freq))*100, sum.change$Freq)
-
 
 change.mod1<-(glm(Freq ~ Var1*Var2, sum.change, family="poisson"))
 change.mod2<-(glm(Freq ~ Var1 +Var2, sum.change, family="poisson"))
@@ -178,7 +172,6 @@ head(sum.important)
 temp<-with(canada, table(opinion_fundamental_important, gender))
 chisq.test(temp)
 
-?visreg
 priority.mod1<-(glm(Freq ~ Var1*Var2, sum.important, family="poisson"))
 priority.mod2<-(glm(Freq ~ Var1 +Var2, sum.important, family="poisson"))
 visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
