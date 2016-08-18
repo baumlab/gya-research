@@ -440,9 +440,8 @@ anova(f.change.mod1, f.change.mod2, test="Chi")
 next.generation<-subset(part4, select=c("Location", "Country","Country_work", "what_participant_group","next_generation"))
 # remove non-response
 next.generation<-next.generation[!next.generation$next_generation=="",]
-canada<-next.generation[next.generation$Country_work=="Canada" | (!(next.generation$Country_work=="Canada") & next.generation$Country_work=="" & next.generation$Country=="Canada"),]
-
 canada<-canada[!canada$what_participant_group=="",]
+canada<-next.generation[next.generation$Country_work=="Canada" | (!(next.generation$Country_work=="Canada") & next.generation$Country_work=="" & next.generation$Country=="Canada"),]
 canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
                                                                         'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
@@ -456,10 +455,10 @@ impact
 
 impact.mod1<-(glm(Freq ~ Var1*Var2, impact, family="poisson"))
 impact.mod2<-(glm(Freq ~ Var1 +Var2, impact, family="poisson"))
-visreg(impact.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+visreg(impact.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Career stage")
 anova(impact.mod1, impact.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#*******************Not Significant P = 0.273 **********************
 #*******************************************************************
 
