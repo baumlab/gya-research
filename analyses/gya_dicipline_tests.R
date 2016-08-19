@@ -37,11 +37,6 @@ head(research.change)
 change<-subset(research.change, select=c("Location","Country",'Country_work', "field_research", "changed_10yrs"))
 canada<-change[change$Country_work=="Canada" | (!(change$Country_work=="Canada") & 
                                                   change$Country_work=="" & change$Country=="Canada"),]
-canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
-                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
-                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
-                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
-                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
 
 canada<-canada[!canada$field_research=="",]
 canada<-canada[!canada$changed_10yrs=="",]
@@ -110,14 +105,12 @@ sum.reason
 reason.mod1<-(glm(Freq ~ Var1*Var3, sum.reason, family="poisson"))
 reason.mod2<-(glm(Freq ~ Var1 +Var3, sum.reason, family="poisson"))
 visreg(reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
-summary(reason.mod1)
-head(reason.mod1)
 anova(reason.mod1, reason.mod2, test="Chi")
 
-#@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Geoff thinks this is ok even though you are making more indepent answers than original
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#*******************Not Significant P = 0.6973**********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -144,7 +137,7 @@ visreg(view.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses"
 anova(view.mod1, view.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#*******************Significant P = 0.04081 ************************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -176,7 +169,7 @@ visreg(p.change.mod1, "Var2",by="Var1", scale="response", ylab="Number of respon
 anova(p.change.mod1, p.change.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Significant P = 0.***********************
+#*******************Significant P = 4.445e-05 **********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -209,10 +202,11 @@ visreg(p.reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of respon
 anova(p.reason.mod1, p.reason.mod2, test="Chi")
 
 #@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Geoff thinks this is ok even though you are making more indepent answers than original
 
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#*******************Not Significant P = 0.3012**********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -237,7 +231,7 @@ visreg(p.view.mod1, "Var2",by="Var1", scale="response", ylab="Number of response
 anova(p.view.mod1, p.view.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#*******************Not Significant P = 0.09768*********************
 #*******************************************************************
 
 
@@ -319,7 +313,7 @@ head(priority.mod2)
 anova(priority.mod1, priority.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#******************* Significant P = 0.003363 **********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -331,7 +325,6 @@ priority<-subset(part4, select=c("Location","Country",'Country_work', "field_res
 
 canada<-priority[priority$Country_work=="Canada" | (!(priority$Country_work=="Canada") & priority$Country_work=="" & priority$Country=="Canada"),]
 
-head(gender.perceive)
 ## switch to long format
 
 priority.long<-gather(canada, what.type, higher.priority, -Location, -field_research, -Country, -Country_work)
@@ -356,7 +349,7 @@ summary(priority.mod1)
 anova(priority.mod1, priority.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#*******************Not Significant P = 0.1379**********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -379,8 +372,8 @@ availability.ca<-availability.ca[!availability.ca$level=="",]
 availability.ca$what.type<-revalue(availability.ca$what.type, c("available_funding_fundamental"="Fundamental",
                                                                 'available_funding_use_inspired'='Use-inspired', 'available_funding_applied' = 'Applied'))
 
-f.change.mod1<-(glm(Freq ~ what.type*level*gender, availability.ca, family="poisson"))
-f.change.mod2<-(glm(Freq ~ what.type +level+gender, availability.ca, family="poisson"))
+f.change.mod1<-(glm(Freq ~ what.type*level*field_research, availability.ca, family="poisson"))
+f.change.mod2<-(glm(Freq ~ what.type +level+field_research, availability.ca, family="poisson"))
 visreg(f.change.mod1, "field_research",by="what.type", scale="response", ylab="Number of responses", xlab="field_research")
 
 
@@ -412,6 +405,6 @@ visreg(impact.mod1, "Var2",by="Var1", scale="response", ylab="Number of response
 anova(impact.mod1, impact.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.**********************
+#*******************Significant P = 2.874e-12 **********************
 #*******************************************************************
 

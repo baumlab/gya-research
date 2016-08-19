@@ -122,6 +122,7 @@ visreg(reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of response
 anova(reason.mod1, reason.mod2, test="Chi")
 
 #@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Geoff thinks this is ok even though you are making more indepent answers than original
 
 #*******************************************************************
 #*******************Significant P = 0.01182 ************************
@@ -230,6 +231,9 @@ p.reason.mod1<-(glm(Freq ~ Var1*Var3, sum.p.reason, family="poisson"))
 p.reason.mod2<-(glm(Freq ~ Var1 +Var3, sum.p.reason, family="poisson"))
 visreg(p.reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
 anova(p.reason.mod1, p.reason.mod2, test="Chi")
+
+#Geoff thinks this is ok even though you are making more indepent answers than original
+
 
 #*******************************************************************
 #*******************Not Significant P = 0.08522*********************

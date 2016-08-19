@@ -626,6 +626,8 @@ write.csv(survey.what, file="data/gya-country-responses.csv", row.names = FALSE)
 
 write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv", row.names = FALSE)
 
+write.csv(survey.type, file="data/gya-research-cleaned.csv", row.names = FALSE)
+
 #write.csv(survey.long.past, file="data/gya-surveys-cleaned-research-past.csv", row.names = FALSE)
 
 write.csv(survey.change, file="data/gya-change-reason.csv", row.names = FALSE)

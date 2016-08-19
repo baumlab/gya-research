@@ -24,9 +24,11 @@ part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
 part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 p3_master<-read.csv(file="data/gya-p3_master.csv")
+research.type<-read.csv(file="data/gya-research-cleaned.csv")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg); require(DirichletReg); require(rgl); require(dr)
+
 
 theme_set(theme_bw())
 
@@ -63,23 +65,41 @@ anova(change.mod1, change.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - it wont spread@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+head(research.type)
 
-head(canada)
-research<-subset(research, select=c("Location","Country",'Country_work', "gender", "type", "percent"))
+research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_fundemental_research_current", "percent_Use_inspired_Research_current", 
+                                         "percent_Applied_Research_current"))
 canada<-research[research$Country_work=="Canada" | (!(research$Country_work=="Canada") & 
                                                       research$Country_work=="" & research$Country=="Canada"),]
 
 canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
+head(canada)
 
 canada<-spread(canada, type, percent)
 
 ## using table to count cases of each category
 sum.change<-data.frame(table(canada$changed_10yrs, canada$gender))
 
+#compositional data and currently you can not analyze comp data with 0s in it so the cheat way is to change 0s to 0.0000001 etc 
+#Geoff says since they sum to 100 it makes it hard to analyze
+#isometric log transformation you will end up with two columns and then run a regression on one column 
+#ordination techniques?
+#read more into using linear regression with comp data
 
+##do this 
+#dirichlet regression look it up for comp data - tranform the data (isometric) and then then analyze using multiple variable linear regression models
+#r package
+#DirichReg(Y ~ depth + I(depth^2), inputData_train)
+# y - last three columns and depth would be gender
+y<-canada[,5:7]
+head(y)
+DR_data(y ~ gender, canada)
+
+
+###########need to do past
 
 #--------------------#--------------------#--------------------
 #### Part1. Question 4. Reason for change
@@ -98,7 +118,7 @@ canada<-droplevels(canada)
 
 require(tidyr)
 canada.long<-gather(canada, reason, value, -Location, -gender, -Country_work, -Country)
-canada.long
+head(canada.long)
 canada.long<-canada.long[!(is.na(canada.long$value)),]
 
 ## using table to count cases of each category
@@ -113,6 +133,7 @@ head(reason.mod1)
 anova(reason.mod1, reason.mod2, test="Chi")
 
 #@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Geoff thinks this is ok even though you are making more indepent answers than original
 
 #*******************************************************************
 #*******************Not Significant P = 0.7561**********************
@@ -210,6 +231,7 @@ visreg(p.reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of respon
 anova(p.reason.mod1, p.reason.mod2, test="Chi")
 
 #@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Geoff thinks this is ok even though you are making more indepent answers than original
 
 
 #*******************************************************************
