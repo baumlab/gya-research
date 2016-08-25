@@ -431,7 +431,7 @@ part3.prac.long<-part3.prac.long[!(part3.prac.long$level==""),]
 
 ##important to include partners from for profit or non gov sectors
 part3.part<-subset(part3, select = c("Country","Country_work", "gender", "Location","what_participant_group", "field_research","include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10" ))
-
+#saved
 #change to long form
 require(tidyr)
 part3.part.long<-gather(part3.part, year, level, -Location, -gender,-Country_work, -Country, -what_participant_group, -field_research)
@@ -656,6 +656,8 @@ write.csv(part3.prac.long, file="data/gya-part3.prac.long.csv", row.names = FALS
 write.csv(part3.prac.app, file="data/gya-part3.prac.app.csv", row.names = FALSE)
 
 write.csv(part3.part.long, file="data/gya-part3.part.long.csv", row.names = FALSE)
+
+write.csv(part3.part, file="data/gya-part3.part.csv", row.names = FALSE)
 
 write.csv(p3_master.long, file="data/gya-p3_master.long.csv", row.names = FALSE)
 

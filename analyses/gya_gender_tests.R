@@ -23,6 +23,7 @@ part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
 part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
 part3.prac.app<-read.csv(file="data/gya-part3.prac.app.csv")
 part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
+part3.part<-read.csv(file="data/gya-part3.part.csv")
 p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 p3_master<-read.csv(file="data/gya-p3_master.csv")
 research.type<-read.csv(file="data/gya-research-cleaned.csv")
@@ -415,7 +416,7 @@ head(canada)
 prac.app.ca<-with(canada, data.frame(table(year, gender, level)))
 head(prac.app.ca,20)
 
-prac.app.ca$type<-revalue(prac.app.ca$type, c("practical_applications_important_11_15"="2011-2015",
+prac.app.ca$year<-revalue(prac.app.ca$year, c("practical_applications_important_11_15"="2011-2015",
                                                 'practical_applications_important_6_10'='2006-2010'))
 head(prac.app.ca)
 
@@ -495,7 +496,93 @@ anova(prac.app.p.mod1, prac.app.p.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 head(part3.part.long)
 
+prat.app<-subset(part3.part.long, select=c("Location","Country",'Country_work', "gender", "year", "level"))
 
+canada<-prat.app[prat.app$Country_work=="Canada" | (!(prat.app$Country_work=="Canada") & 
+                                                      prat.app$Country_work=="" & prat.app$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+prat.app.ca<-with(canada, data.frame(table(year, gender, level)))
+head(prat.app.ca,20)
+
+prat.app.ca$year<-revalue(prat.app.ca$year, c("include_nonacademia_partners_success_11_15"="2011-2015",
+                                              'include_nonacademia_partners_success_6_10'='2006-2010'))
+head(prat.app.ca)
+
+prat.app.mod1<-(glm(Freq ~ year*level*gender, prat.app.ca, family="poisson"))
+prat.app.mod2<-(glm(Freq ~ year +level+gender, prat.app.ca, family="poisson"))
+visreg(prat.app.mod1, "gender",by="year", scale="response", ylab="Number of responses", xlab="Gender")
+anova(prat.app.mod1, prat.app.mod2, test="Chi")
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@do I need to test each time period seperate?@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#*******************************************************************
+#*******************Significant P < 2.2e-16 ************************
+#*******************************************************************
+
+
+##########trying seperating time periods and not in long form##########
+
+head(part3.part)
+
+part.app<-subset(part3.part, select=c("Location","Country",'Country_work', "gender", "include_nonacademia_partners_success_11_15"))
+
+canada<-part.app[part.app$Country_work=="Canada" | (!(part.app$Country_work=="Canada") & 
+                                                      part.app$Country_work=="" & part.app$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$include_nonacademia_partners_success_11_15=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+sum.part.app<-data.frame(table(canada$include_nonacademia_partners_success_11_15, canada$gender))
+sum.part.app
+
+part.app.mod1<-(glm(Freq ~ Var1*Var2, sum.part.app, family="poisson"))
+part.app.mod2<-(glm(Freq ~ Var1 +Var2, sum.part.app, family="poisson"))
+visreg(part.app.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(part.app.mod1, part.app.mod2, test="Chi")
+
+#*******************************************************************
+#*******************Significant P = 0.008456 ***********************
+#*******************************************************************
+
+## now past
+
+head(part3.part)
+
+part.app.p<-subset(part3.part, select=c("Location","Country",'Country_work', "gender", "include_nonacademia_partners_success_6_10"))
+
+canada<-part.app.p[part.app.p$Country_work=="Canada" | (!(part.app.p$Country_work=="Canada") & 
+                                                          part.app.p$Country_work=="" & part.app.p$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$include_nonacademia_partners_success_6_10=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+sum.part.app.p<-data.frame(table(canada$include_nonacademia_partners_success_6_10, canada$gender))
+sum.part.app.p
+
+part.app.p.mod1<-(glm(Freq ~ Var1*Var2, sum.part.app.p, family="poisson"))
+part.app.p.mod2<-(glm(Freq ~ Var1 +Var2, sum.part.app.p, family="poisson"))
+visreg(part.app.p.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(part.app.p.mod1, part.app.p.mod2, test="Chi")
+
+#*******************************************************************
+#*******************Significant P = 0.01222 ************************
+#*******************************************************************
 
 
 #--------------------#--------------------#--------------------
@@ -512,8 +599,137 @@ head(p3_master.long)
 #--------------------#--------------------#--------------------
 head(part3.change)
 
+#do I test all of them together or seperate
+
+#together
+
+p3.change<-subset(part3.change, select=c("Location", "Country",'Country_work', "gender", "success_change_10yrs_fundamental",  
+                                            "success_change_10yrs_use", "success_change_10yrs_applied"))
+
+canada<-p3.change[p3.change$Country_work=="Canada" | (!(p3.change$Country_work=="Canada") & p3.change$Country_work=="" & p3.change$Country=="Canada"),]
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## switch to long format
+
+p3.change.ca.long<-gather(canada, what.type, level, -gender, -Location, -Country, -Country_work)
+head(p3.change.ca.long)
+p3.change.ca<-with(p3.change.ca.long, data.frame(table(what.type, gender, level)))
+head(p3.change.ca)
+#remove non response
+p3.change.ca<-p3.change.ca[!p3.change.ca$level=="",]
+
+p3.change.ca$what.type<-revalue(p3.change.ca$what.type, c("success_change_10yrs_fundamental"="Fundamental",
+                                                                'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
+
+p3.change.mod1<-(glm(Freq ~ what.type*level*gender, p3.change.ca, family="poisson"))
+p3.change.mod2<-(glm(Freq ~ what.type +level+gender, p3.change.ca, family="poisson"))
+visreg(p3.change.mod1, "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
+anova(p3.change.mod1, p3.change.mod2, test="Chi")
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#*******************************************************************
+#*******************Significant P < 2.2e-16 ************************
+#*******************************************************************
+
+# now seperate
+#applied
+
+head(part3.change)
+
+p3.change.a<-subset(part3.change, select=c("Location", "Country",'Country_work', "gender", "success_change_10yrs_applied"))
+
+canada<-p3.change.a[p3.change.a$Country_work=="Canada" | (!(p3.change.a$Country_work=="Canada") & p3.change.a$Country_work=="" & p3.change.a$Country=="Canada"),]
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$success_change_10yrs_applied=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+change.a.sum<-data.frame(table(canada$success_change_10yrs_applied, canada$gender))
+change.a.sum
+
+change.a.mod1<-(glm(Freq ~ Var1*Var2, change.a.sum, family="poisson"))
+change.a.mod2<-(glm(Freq ~ Var1 +Var2, change.a.sum, family="poisson"))
+visreg(change.a.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(change.a.mod1, change.a.mod2, test="Chi")
 
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#*******************************************************************
+#*******************Not Significant P = 0.5555 *********************
+#*******************************************************************
+
+#fundamental
+
+head(part3.change)
+
+p3.change.f<-subset(part3.change, select=c("Location", "Country",'Country_work', "gender", "success_change_10yrs_fundamental"))
+
+canada<-p3.change.f[p3.change.f$Country_work=="Canada" | (!(p3.change.f$Country_work=="Canada") & p3.change.f$Country_work=="" & p3.change.f$Country=="Canada"),]
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$success_change_10yrs_fundamental=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+change.f.sum<-data.frame(table(canada$success_change_10yrs_fundamental, canada$gender))
+change.f.sum
+
+change.f.mod1<-(glm(Freq ~ Var1*Var2, change.f.sum, family="poisson"))
+change.f.mod2<-(glm(Freq ~ Var1 +Var2, change.f.sum, family="poisson"))
+visreg(change.f.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(change.f.mod1, change.f.mod2, test="Chi")
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#*******************************************************************
+#*******************Significant P = 0.0267 *************************
+#*******************************************************************
+
+#use-inspired
+
+head(part3.change)
+
+p3.change.i<-subset(part3.change, select=c("Location", "Country",'Country_work', "gender", "success_change_10yrs_use"))
+
+canada<-p3.change.i[p3.change.i$Country_work=="Canada" | (!(p3.change.i$Country_work=="Canada") & p3.change.i$Country_work=="" & p3.change.i$Country=="Canada"),]
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$success_change_10yrs_use=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+change.i.sum<-data.frame(table(canada$success_change_10yrs_use, canada$gender))
+change.i.sum
+
+change.i.mod1<-(glm(Freq ~ Var1*Var2, change.i.sum, family="poisson"))
+change.i.mod2<-(glm(Freq ~ Var1 +Var2, change.i.sum, family="poisson"))
+visreg(change.i.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(change.i.mod1, change.i.mod2, test="Chi")
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#*******************************************************************
+#*******************Not Significant P = 0.0.8903********************
+#*******************************************************************
 
 #--------------------#--------------------#--------------------
 #### Part4. Question 1. Research priority - fundamental
