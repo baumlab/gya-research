@@ -417,7 +417,8 @@ part3.success.long<-part3.success.long[!(part3.success.long$percent=="No need fo
 ## important to suggest practical applications
 
 part3.prac.app<-subset(part3, select = c("Country","Country_work", "gender", "Location","what_participant_group", "field_research","practical_applications_important_11_15"  ,   "practical_applications_important_6_10" ))
-
+head(part3.prac.app)
+#saved
 colnames(part3.prac.app)
 #change to long form
 require(tidyr)
@@ -651,6 +652,8 @@ write.csv(part3.change, file="data/gya-part3.change.csv", row.names = FALSE)
 write.csv(part3.success.long, file="data/gya-part3.success.long.csv", row.names = FALSE)
 
 write.csv(part3.prac.long, file="data/gya-part3.prac.long.csv", row.names = FALSE)
+
+write.csv(part3.prac.app, file="data/gya-part3.prac.app.csv", row.names = FALSE)
 
 write.csv(part3.part.long, file="data/gya-part3.part.long.csv", row.names = FALSE)
 
