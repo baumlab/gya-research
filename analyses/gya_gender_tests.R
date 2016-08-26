@@ -64,7 +64,7 @@ anova(change.mod1, change.mod2, test="Chi")
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
-#### Part1. Question 1 & 3. Proportions of type of research current and past
+#### Part1. Question 1 & 3. Proportions of type of research current and past                     -percents
 #--------------------#--------------------#--------------------
 
 head(research.type)
@@ -740,10 +740,68 @@ anova(part.app.p.mod1, part.app.p.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 #### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015                     - percents
 #--------------------#--------------------#--------------------
+
+#current
 head(p3_master)
-head(p3_master.long)
+
+funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "gender", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                         "Other"))
+canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
+                                                        funding.c$Country_work=="" & funding.c$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$year=="6_10",]
+canada<-droplevels(canada)
+head(canada,20)
+
+canada<-subset(canada, select=c("Location","Country",'Country_work', "gender", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                      "Other"))
+
+y<-canada[,5:9]
+head(y)
+DR_data(y, trafo = TRUE, base = 1 )
+canada$y<-DR_data(canada[,5:9])
+canada1<-DirichReg(y~ gender, canada, model = c("common"))
+canada1
+summary(canada1)
+
+#*******************************************************************
+#******************* ask Geoff*********************************
+#*******************************************************************
+
+#now past
 
 
+##########not done############
+
+head(p3_master)
+
+funding.p<-subset(p3_master, select=c("Location","Country",'Country_work', "gender", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                      "Other"))
+canada<-funding.p[funding.p$Country_work=="Canada" | (!(funding.p$Country_work=="Canada") & 
+                                                        funding.p$Country_work=="" & funding.p$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$year=="11_15",]
+canada<-droplevels(canada)
+head(canada)
+
+canada<-subset(canada, select=c("Location","Country",'Country_work', "gender", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                "Other"))
+
+y<-canada[,5:9]
+head(y)
+DR_data(y, trafo = TRUE, base = 1 )
+canada$y<-DR_data(canada[,5:9])
+canada2<-DirichReg(y~ gender, canada, model = c("common"))
+canada2
+summary(canada2)
+
+#*******************************************************************
+#*******************       *********************************
+#*******************************************************************
 
 
 #--------------------#--------------------#--------------------
