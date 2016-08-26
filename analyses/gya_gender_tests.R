@@ -533,6 +533,7 @@ AIC(g.success.mod1, g.success.mod2, g.success.mod3, g.success.mod4)
 #*******************                   *********************
 #*******************************************************************
 
+#look up analysis of 3 way or 4 way contingency tables
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -766,6 +767,9 @@ canada1<-DirichReg(y~ gender, canada, model = c("common"))
 canada1
 summary(canada1)
 
+predict(canada1, type="response", newdata = data.frame(gender=c("Male", "Female")))
+
+#predict(canada1, type="response", newdata=data.frame(gender=c("Male", "Female")))
 #*******************************************************************
 #******************* ask Geoff*********************************
 #*******************************************************************
