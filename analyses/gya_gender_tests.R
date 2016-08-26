@@ -18,6 +18,7 @@ part2.reason<-read.csv(file="data/gya-part2.reason.csv")
 part2.view<-read.csv(file="data/gya-part2.view.csv")
 part1.view<-read.csv(file="data/gya-part1.view.csv")
 part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
+part3.grants<-read.csv(file = "data/gya-part3.grants.csv")
 part3.change<-read.csv(file="data/gya-part3.change.csv")
 part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
 part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
@@ -66,8 +67,6 @@ anova(change.mod1, change.mod2, test="Chi")
 #### Part1. Question 1 & 3. Proportions of type of research current and past
 #--------------------#--------------------#--------------------
 
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 head(research.type)
 
 research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_fundemental_research_current", "percent_Use_inspired_Research_current", 
@@ -102,24 +101,53 @@ DR_data(y, trafo = TRUE, base = 1 )
 canada$y<-DR_data(canada[,5:7])
 canada1<-DirichReg(y~ gender, canada, model = c("common"))
 canada1
+summary(canada1)
 
-##trying this version
+#*******************************************************************
+#*******************Not Significant*********************************
+#*******************************************************************
+
+#now past
+
+head(research.type)
+
+p.research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_Fundamental_Research_past", "percent_Use_inspired_Research_past", 
+                                         "percent_Applied_Research_past"))
+canada<-p.research[p.research$Country_work=="Canada" | (!(p.research$Country_work=="Canada") & 
+                                                          p.research$Country_work=="" & p.research$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
 y<-canada[,5:7]
 head(y)
 DR_data(y, trafo = TRUE, base = 1 )
 canada$y<-DR_data(canada[,5:7])
+canada2<-DirichReg(y~ gender, canada, model = c("common"))
+canada2
+summary(canada2)
 
-canada1<-DirichReg(y~gender | 1, canada, model = "alternative", base = 3)
-canada2<-DirichReg(y~gender|gender, canada, model = "alternative", base = 3)
-anova(canada1, canada2)
+#*******************************************************************
+#*******************Not Significant*********************************
+#*******************************************************************
 
+##trying this version
+#dont do this version unless you are a person who understands multi nomial reggression models
+#y<-canada[,5:7]
+#head(y)
+#DR_data(y, trafo = TRUE, base = 1 )
+#canada$y<-DR_data(canada[,5:7])
+
+#canada1<-DirichReg(y~gender | 1, canada, model = "alternative", base = 3)
+#canada2<-DirichReg(y~gender|gender, canada, model = "alternative", base = 3)
+#anova(canada1, canada2)
 #precision seems to be the same for both so take the simpler model and investigate the parameters
-
-summary(canada1)
-
+#summary(canada1)
+#predict(canada1, type="response", newdata=data.frame(gender=c("Male", "Female")))
 #precision model = significate P<2e-16
 
-###########need to do past
 
 #--------------------#--------------------#--------------------
 #### Part1. Question 4. Reason for change
@@ -363,21 +391,112 @@ g.types.ca$type.grant<-revalue(g.types.ca$type.grant, c("external_pi_grant_11_15
 head(g.types.ca)
 
 g.type.mod1<-(glm(Freq ~ type.grant*number*gender, g.types.ca, family="poisson"))
-g.type.mod2<-(glm(Freq ~ type.grant +number+gender, g.types.ca, family="poisson"))
+g.type.mod2<-(glm(Freq ~ type.grant*number+gender, g.types.ca, family="poisson"))
+g.type.mod3<-(glm(Freq ~ type.grant+number*gender, g.types.ca, family="poisson"))
+g.type.mod4<-(glm(Freq ~ type.grant +number+gender, g.types.ca, family="poisson"))
 visreg(g.type.mod1, "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
-anova(g.type.mod1, g.type.mod2, test="Chi")
+anova(g.type.mod1, g.type.mod3, test="Chi")
+AIC(g.type.mod1, g.type.mod2, g.type.mod3, g.type.mod4)
+
+prat.app.mod1<-(glm(Freq ~ year*level*gender, prat.app.ca, family="poisson"))
+prat.app.mod2<-(glm(Freq ~ year*level+gender, prat.app.ca, family="poisson"))
+prat.app.mod3<-(glm(Freq ~ year+level*gender, prat.app.ca, family="poisson"))
+prat.app.mod4<-(glm(Freq ~ year+level+gender, prat.app.ca, family="poisson"))
+visreg(prat.app.mod1, "gender",by="year", scale="response", ylab="Number of responses", xlab="Gender")
+anova(prat.app.mod1, prat.app.mod3, test="Chi")
+AIC(prat.app.mod1, prat.app.mod2, prat.app.mod3, prat.app.mod4)
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@do I need to test each time period seperate?@@@@@@@@@@
+#@@@@@@@@@@@@@@@There are 4 values if I test all of them together so I am going to seperate the years@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #*******************************************************************
-#*******************Significant P < 2.2e-16 ************************
+#*******************                      ************************
+#*******************************************************************
+
+####seperating years
+
+#2006-2010
+
+head(part3.grants)
+
+g.types.p<-subset(part3.grants, select=c("Location","Country",'Country_work', "gender", "external_pi_grant_6_10_fundamental", "external_pi_grant_6_10_use", "external_pi_grant_6_10_applied"))
+
+canada<-g.types.p[g.types.p$Country_work=="Canada" | (!(g.types.p$Country_work=="Canada") & 
+                                                        g.types.p$Country_work=="" & g.types.p$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+#change to long form
+require(tidyr)
+g.type.p.long<-gather(canada, type, number, -Location, -gender,-Country_work, -Country)
+head(g.type.p.long)
+
+## using table to count cases of each category
+sum.g.type.p<-data.frame(table(g.type.p.long$type, g.type.p.long$number, g.type.p.long$gender))
+sum.g.type.p
+
+type.p.mod1<-(glm(Freq ~ Var1*Var3*Var2, sum.g.type.p, family="poisson"))
+type.p.mod2<-(glm(Freq ~ Var1*Var3+Var2, sum.g.type.p, family="poisson"))
+type.p.mod3<-(glm(Freq ~ Var1+Var3*Var2, sum.g.type.p, family="poisson"))
+type.p.mod4<-(glm(Freq ~ Var1 +Var3+Var2, sum.g.type.p, family="poisson"))
+visreg(type.p.mod2, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(type.p.mod1, type.p.mod2, test="Chi")
+AIC(type.p.mod1, type.p.mod2, type.p.mod3, type.p.mod4)
+?AIC
+
+#@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Geoff thinks this is ok even though you are making more indepent answers than original
+#do I include Var2
+
+#*******************************************************************
+#*******************             **********************
+#*******************************************************************
+
+#2011-2015
+
+head(part3.grants)
+
+g.types.c<-subset(part3.grants, select=c("Location","Country",'Country_work', "gender", "external_pi_grant_11_15_fundamental", "external_pi_grant_11_15_use", "external_pi_grant_11_15_applied"))
+
+canada<-g.types.c[g.types.c$Country_work=="Canada" | (!(g.types.c$Country_work=="Canada") & 
+                                                        g.types.c$Country_work=="" & g.types.c$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+#change to long form
+require(tidyr)
+g.type.c.long<-gather(canada, type, number, -Location, -gender,-Country_work, -Country)
+head(g.type.c.long)
+
+## using table to count cases of each category
+sum.g.type.c<-data.frame(table(g.type.c.long$type, g.type.c.long$number, g.type.c.long$gender))
+sum.g.type.c
+
+type.c.mod1<-(glm(Freq ~ Var1*Var3*Var2, sum.g.type.c, family="poisson"))
+type.c.mod2<-(glm(Freq ~ Var1*Var3+Var2, sum.g.type.c, family="poisson"))
+type.c.mod3<-(glm(Freq ~ Var1+Var3*Var2, sum.g.type.c, family="poisson"))
+type.c.mod4<-(glm(Freq ~ Var1 +Var3+Var2, sum.g.type.c, family="poisson"))
+visreg(type.p.mod2, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(type.p.mod1, type.p.mod3, test="Chi")
+
+#@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#Geoff thinks this is ok even though you are making more indepent answers than original
+#do I include Var2
+
+#*******************************************************************
+#*******************                   **********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
-#### Part3. Question 2. Successful grant apps types 2006-2010, 2011-2015
+#### Part3. Question 2. Successful grant apps types 2006-2010, 2011-2015   -percents
 #--------------------#--------------------#--------------------
 head(part3.success.long)
 
@@ -403,18 +522,23 @@ g.success.ca$type<-revalue(g.success.ca$type, c("successful_grants_11_15_applied
 head(g.success.ca)
 
 g.success.mod1<-(glm(Freq ~ type*percent*gender, g.success.ca, family="poisson"))
-g.success.mod2<-(glm(Freq ~ type +percent+gender, g.success.ca, family="poisson"))
+g.success.mod2<-(glm(Freq ~ type+percent*gender, g.success.ca, family="poisson"))
+g.success.mod3<-(glm(Freq ~ type*percent+gender, g.success.ca, family="poisson"))
+g.success.mod4<-(glm(Freq ~ type +percent+gender, g.success.ca, family="poisson"))
 visreg(g.success.mod1, "gender",by="type", scale="response", ylab="Number of responses", xlab="Gender")
-anova(g.success.mod1, g.success.mod2, test="Chi")
+anova(g.success.mod1, g.success.mod3, test="Chi")
+AIC(g.success.mod1, g.success.mod2, g.success.mod3, g.success.mod4)
+
+#*******************************************************************
+#*******************                   *********************
+#*******************************************************************
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@do I need to test each time period seperate?@@@@@@@@@@
+#@@@@@@@@@@@@@@@@@@@@@@@@@@ 4 values - do I seperate type into two columns @@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-#*******************************************************************
-#*******************Significant P = 1.169e-08 ************************
-#*******************************************************************
 
 #--------------------#--------------------#--------------------
 #### Part3. Question 3. Importance of suggesting practical applications 2006-2010, 2011-2015
@@ -438,20 +562,25 @@ prac.app.ca$year<-revalue(prac.app.ca$year, c("practical_applications_important_
                                                 'practical_applications_important_6_10'='2006-2010'))
 head(prac.app.ca)
 
-prac.app.mod1<-(glm(Freq ~ year*level*gender, g.success.ca, family="poisson"))
-prac.app.mod2<-(glm(Freq ~ year +level+gender, g.success.ca, family="poisson"))
+prac.app.mod1<-(glm(Freq ~ year*level*gender, prac.app.ca, family="poisson"))
+prac.app.mod2<-(glm(Freq ~ year+level*gender, prac.app.ca, family="poisson"))
+prac.app.mod3<-(glm(Freq ~ year*level+gender, prac.app.ca, family="poisson"))
+prac.app.mod4<-(glm(Freq ~ year +level+gender, prac.app.ca, family="poisson"))
 visreg(g.success.mod1, "gender",by="year", scale="response", ylab="Number of responses", xlab="Gender")
-anova(g.success.mod1, g.success.mod2, test="Chi")
+anova(prac.app.mod1, prac.app.mod2, test="Chi")
+AIC(prac.app.mod1, prac.app.mod2, prac.app.mod3, prac.app.mod4)
+
+#*******************************************************************
+#*******************Not Significant P = 0.06032*********************
+#*******************************************************************
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@do I need to test each time period seperate?@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-#*******************************************************************
-#*******************Significant P = 1.169e-08 ************************
-#*******************************************************************
-
+#update after meeting with Geoff can test together if you follow above format but it is ok to test seperate for the question we are asking.  If you want to know the difference between the years then do above
+#look up 3 way contingency table
 
 ##########trying seperating time periods and not in long form##########
 
@@ -532,17 +661,22 @@ prat.app.ca$year<-revalue(prat.app.ca$year, c("include_nonacademia_partners_succ
 head(prat.app.ca)
 
 prat.app.mod1<-(glm(Freq ~ year*level*gender, prat.app.ca, family="poisson"))
-prat.app.mod2<-(glm(Freq ~ year +level+gender, prat.app.ca, family="poisson"))
+prat.app.mod2<-(glm(Freq ~ year*level+gender, prat.app.ca, family="poisson"))
+prat.app.mod3<-(glm(Freq ~ year+level*gender, prat.app.ca, family="poisson"))
+prat.app.mod4<-(glm(Freq ~ year+level+gender, prat.app.ca, family="poisson"))
 visreg(prat.app.mod1, "gender",by="year", scale="response", ylab="Number of responses", xlab="Gender")
-anova(prat.app.mod1, prat.app.mod2, test="Chi")
+anova(prat.app.mod1, prat.app.mod3, test="Chi")
+AIC(prat.app.mod1, prat.app.mod2, prat.app.mod3, prat.app.mod4)
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@do I need to test each time period seperate?@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+#see part3 question 3
+
 #*******************************************************************
-#*******************Significant P < 2.2e-16 ************************
+#*******************Significant ************************************
 #*******************************************************************
 
 
@@ -604,7 +738,7 @@ anova(part.app.p.mod1, part.app.p.mod2, test="Chi")
 
 
 #--------------------#--------------------#--------------------
-#### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015
+#### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015                     - percents
 #--------------------#--------------------#--------------------
 head(p3_master)
 head(p3_master.long)
@@ -641,18 +775,21 @@ p3.change.ca<-p3.change.ca[!p3.change.ca$level=="",]
 
 p3.change.ca$what.type<-revalue(p3.change.ca$what.type, c("success_change_10yrs_fundamental"="Fundamental",
                                                                 'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
+p3.change.ca
 
 p3.change.mod1<-(glm(Freq ~ what.type*level*gender, p3.change.ca, family="poisson"))
-p3.change.mod2<-(glm(Freq ~ what.type +level+gender, p3.change.ca, family="poisson"))
+p3.change.mod2<-(glm(Freq ~ what.type*level+gender, p3.change.ca, family="poisson"))
+p3.change.mod3<-(glm(Freq ~ what.type+level*gender, p3.change.ca, family="poisson"))
+p3.change.mod4<-(glm(Freq ~ what.type +level+gender, p3.change.ca, family="poisson"))
 visreg(p3.change.mod1, "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
-anova(p3.change.mod1, p3.change.mod2, test="Chi")
+anova(p3.change.mod1, p3.change.mod3, test="Chi")
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #*******************************************************************
-#*******************Significant P < 2.2e-16 ************************
+#*******************Not sig - ask Geoff       ************************
 #*******************************************************************
 
 # now seperate
@@ -851,18 +988,18 @@ availability.ca$what.type<-revalue(availability.ca$what.type, c("available_fundi
                                                                 'available_funding_use_inspired'='Use-inspired', 'available_funding_applied' = 'Applied'))
 
 f.change.mod1<-(glm(Freq ~ what.type*level*gender, availability.ca, family="poisson"))
-f.change.mod2<-(glm(Freq ~ what.type +level+gender, availability.ca, family="poisson"))
+f.change.mod2<-(glm(Freq ~ what.type*level+gender, availability.ca, family="poisson"))
+f.change.mod3<-(glm(Freq ~ what.type+level*gender, availability.ca, family="poisson"))
+f.change.mod4<-(glm(Freq ~ what.type +level+gender, availability.ca, family="poisson"))
 visreg(f.change.mod1, "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
-
-
-anova(f.change.mod1, f.change.mod2, test="Chi")
+anova(f.change.mod1, f.change.mod3, test="Chi")
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #*******************************************************************
-#*******************Significant P < 2.23-16 ************************
+#*******************not sig  - ask Geoff ************************
 #*******************************************************************
 
 

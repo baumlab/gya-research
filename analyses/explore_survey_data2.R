@@ -378,12 +378,14 @@ part3.grants$external_pi_grant_6_10_applied[part3.grants$external_pi_grant_6_10_
 
 head(part3.grants)
 
+#saved
+
 #change to long format
 require(tidyr)
 part3.grants.long<-gather(part3.grants, type.grant, number, -Location, -gender, -Country, -Country_work, -what_participant_group, -field_research)
 head(part3.grants.long)
 
-
+#saved
 
 
 ## percentage of successful grants
@@ -646,6 +648,8 @@ write.csv(part2.reason, file="data/gya-part2.reason.csv", row.names=FALSE)
 write.csv(part2.view, file="data/gya-part2.view.csv", row.names = FALSE)
 
 write.csv(part3.grants.long, file="data/gya-part3.grants.long.csv", row.names = FALSE)
+
+write.csv(part3.grants, file="data/gya-part3.grants.csv", row.names = FALSE)
 
 write.csv(part3.change, file="data/gya-part3.change.csv", row.names = FALSE)
 
