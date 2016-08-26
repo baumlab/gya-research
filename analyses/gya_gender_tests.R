@@ -98,8 +98,26 @@ head(canada)
 
 y<-canada[,5:7]
 head(y)
-DR_data(y ~ gender, canada)
+DR_data(y, trafo = TRUE, base = 1 )
+canada$y<-DR_data(canada[,5:7])
+canada1<-DirichReg(y~ gender, canada, model = c("common"))
+canada1
 
+##trying this version
+y<-canada[,5:7]
+head(y)
+DR_data(y, trafo = TRUE, base = 1 )
+canada$y<-DR_data(canada[,5:7])
+
+canada1<-DirichReg(y~gender | 1, canada, model = "alternative", base = 3)
+canada2<-DirichReg(y~gender|gender, canada, model = "alternative", base = 3)
+anova(canada1, canada2)
+
+#precision seems to be the same for both so take the simpler model and investigate the parameters
+
+summary(canada1)
+
+#precision model = significate P<2e-16
 
 ###########need to do past
 
