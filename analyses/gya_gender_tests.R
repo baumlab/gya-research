@@ -742,7 +742,10 @@ anova(part.app.p.mod1, part.app.p.mod2, test="Chi")
 #### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015                     - percents
 #--------------------#--------------------#--------------------
 
+#could be considered categorical or continous - working off of it being continous right now
+
 #current
+
 head(p3_master)
 
 funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "gender", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
