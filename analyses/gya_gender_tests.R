@@ -30,7 +30,7 @@ p3_master<-read.csv(file="data/gya-p3_master.csv")
 research.type<-read.csv(file="data/gya-research-cleaned.csv")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg); require(DirichletReg); require(rgl); require(dr)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg); require(DirichletReg); require(rgl); require(dr); require(betareg)
 
 
 theme_set(theme_bw())
@@ -67,6 +67,17 @@ anova(change.mod1, change.mod2, test="Chi")
 #### Part1. Question 1 & 3. Proportions of type of research current and past                     -percents
 #--------------------#--------------------#--------------------
 
+install.packages("betareg")
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#from meeting with James
+
+### turn into long form, divide percents by 100, transform the data, use beta regression (response variable is bounded by 0-1)
+mod1<-betareg(percent ~ gender*category, dataset)
+mod2<-betareg(percent ~ gender + category, dataset)
+anova(mod1, mod2)
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
 head(research.type)
 
 research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_fundemental_research_current", "percent_Use_inspired_Research_current", 
@@ -79,67 +90,103 @@ canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
 
-#canada<-spread(canada, type, percent)
+type.r.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -gender)
+head(type.r.long)
 
-## using table to count cases of each category
-#sum.change<-data.frame(table(canada$changed_10yrs, canada$gender))
+#make decimal 
+type.r.long$percent<-type.r.long$percent/100
+#head(type.r.long, 20)
+#unique(type.r.long$percent)
+n.percent<-length(type.r.long$percent)
+type.r.long$percent_trans<-(type.r.long$percent*(n.percent-1)+0.5)/n.percent
 
-#compositional data and currently you can not analyze comp data with 0s in it so the cheat way is to change 0s to 0.0000001 etc 
-#Geoff says since they sum to 100 it makes it hard to analyze
-#isometric log transformation you will end up with two columns and then run a regression on one column 
-#ordination techniques?
-#read more into using linear regression with comp data
-
-##do this 
-#dirichlet regression look it up for comp data - tranform the data (isometric) and then then analyze using multiple variable linear regression models
-#DirichReg(Y ~ depth + I(depth^2), inputData_train)
-# y - last three columns and depth would be gender
-
-y<-canada[,5:7]
-head(y)
-DR_data(y, trafo = TRUE, base = 1 )
-canada$y<-DR_data(canada[,5:7])
-canada1<-DirichReg(y~ gender, canada, model = c("common"))
-canada1
-summary(canada1)
+mod1<-betareg(percent_trans ~ gender * type, type.r.long)
+mod2<-betareg(percent_trans ~ gender + type, type.r.long)
+AIC(mod1, mod2)
 
 #*******************************************************************
-#*******************Not Significant*********************************
+#******************* Not Significant - mod2 fits *******************
 #*******************************************************************
 
 #now past
-
 head(research.type)
-
 p.research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_Fundamental_Research_past", "percent_Use_inspired_Research_past", 
-                                         "percent_Applied_Research_past"))
+                                        "percent_Applied_Research_past"))
 canada<-p.research[p.research$Country_work=="Canada" | (!(p.research$Country_work=="Canada") & 
-                                                          p.research$Country_work=="" & p.research$Country=="Canada"),]
-
+                                                         p.research$Country_work=="" & p.research$Country=="Canada"),]
 canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
 
-y<-canada[,5:7]
-head(y)
-DR_data(y, trafo = TRUE, base = 1 )
-canada$y<-DR_data(canada[,5:7])
-canada2<-DirichReg(y~ gender, canada, model = c("common"))
-canada2
-summary(canada2)
+type.rp.long<-gather(canada, type.p, percent, -Location, -Country, -Country_work, -gender)
+head(type.rp.long)
 
+#make decimal 
+type.rp.long$percent<-type.rp.long$percent/100
+head(type.rp.long, 20)
+unique(type.rp.long$percent)
+#tranform data
+n.percent<-length(type.rp.long$percent)
+type.rp.long$percent_trans<-(type.rp.long$percent*(n.percent-1)+0.5)/n.percent
+
+
+mod1<-betareg(percent_trans ~ gender * type, type.rp.long)
+mod2<-betareg(percent_trans ~ gender + type, type.rp.long)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#*******************Not Significant  *******************************
+#*******************************************************************
+# Mod2 fits better
+
+
+###Meetings with Geoff###############################################
+#compositional data and currently you can not analyze comp data with 0s in it so the cheat way is to change 0s to 0.0000001 etc 
+#Geoff says since they sum to 100 it makes it hard to analyze
+#isometric log transformation you will end up with two columns and then run a regression on one column 
+#ordination techniques?
+#read more into using linear regression with comp data
+##do this 
+#dirichlet regression look it up for comp data - tranform the data (isometric) and then then analyze using multiple variable linear regression models
+#DirichReg(Y ~ depth + I(depth^2), inputData_train)
+# y - last three columns and depth would be gender
+#y<-canada[,5:7]
+#head(y)
+#DR_data(y, trafo = TRUE, base = 1 )
+#canada$y<-DR_data(canada[,5:7])
+#canada1<-DirichReg(y~ gender, canada, model = c("common"))
+#canada1
+#summary(canada1)
 #*******************************************************************
 #*******************Not Significant*********************************
 #*******************************************************************
-
+#now past
+#head(research.type)
+#p.research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_Fundamental_Research_past", "percent_Use_inspired_Research_past", 
+#                                        "percent_Applied_Research_past"))
+#canada<-p.research[p.research$Country_work=="Canada" | (!(p.research$Country_work=="Canada") & 
+#                                                         p.research$Country_work=="" & p.research$Country=="Canada"),]
+#canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="",]
+#canada<-droplevels(canada)
+#head(canada)
+#y<-canada[,5:7]
+#head(y)
+#DR_data(y, trafo = TRUE, base = 1 )
+#canada$y<-DR_data(canada[,5:7])
+#canada2<-DirichReg(y~ gender, canada, model = c("common"))
+#canada2
+#summary(canada2)
+#*******************************************************************
+#*******************Not Significant*********************************
+#*******************************************************************
 ##trying this version
 #dont do this version unless you are a person who understands multi nomial reggression models
 #y<-canada[,5:7]
 #head(y)
 #DR_data(y, trafo = TRUE, base = 1 )
 #canada$y<-DR_data(canada[,5:7])
-
 #canada1<-DirichReg(y~gender | 1, canada, model = "alternative", base = 3)
 #canada2<-DirichReg(y~gender|gender, canada, model = "alternative", base = 3)
 #anova(canada1, canada2)
@@ -147,7 +194,7 @@ summary(canada2)
 #summary(canada1)
 #predict(canada1, type="response", newdata=data.frame(gender=c("Male", "Female")))
 #precision model = significate P<2e-16
-
+####################################################################
 
 #--------------------#--------------------#--------------------
 #### Part1. Question 4. Reason for change
@@ -367,6 +414,7 @@ anova(p.view.mod1, p.view.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 #### Part3. Question 1. Grant apps types 2006-2010, 2011-2015
 #--------------------#--------------------#--------------------
+
 head(part3.grants.long)
 
 g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work', "gender", "number", "type.grant"))
@@ -388,13 +436,14 @@ g.types.ca$type.grant<-revalue(g.types.ca$type.grant, c("external_pi_grant_11_15
                                                                 "external_pi_grant_6_10_applied"="Applied 2006-2010",
                                                                 "external_pi_grant_6_10_fundamental"="Fundamental 2006-2010",
                                                                 "external_pi_grant_6_10_use"="Use-Inspired 2006-2010"))
-head(g.types.ca)
+head(g.types.ca, 20)
+
 
 g.type.mod1<-(glm(Freq ~ type.grant*number*gender, g.types.ca, family="poisson"))
 g.type.mod2<-(glm(Freq ~ type.grant*number+gender, g.types.ca, family="poisson"))
 g.type.mod3<-(glm(Freq ~ type.grant+number*gender, g.types.ca, family="poisson"))
 g.type.mod4<-(glm(Freq ~ type.grant +number+gender, g.types.ca, family="poisson"))
-visreg(g.type.mod1, "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
+#visreg(g.type.mod1), "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
 anova(g.type.mod1, g.type.mod3, test="Chi")
 AIC(g.type.mod1, g.type.mod2, g.type.mod3, g.type.mod4)
 
@@ -408,7 +457,8 @@ AIC(prat.app.mod1, prat.app.mod2, prat.app.mod3, prat.app.mod4)
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@There are 4 values if I test all of them together so I am going to seperate the years@@@@@@@@@@
+#@@@@@@@@@@@@@@@There are 4 values if I test all of them together so I am going to try seperating the years@@@@@@@@@@
+#@@@@@@@@@@@ James thinks to split the types and then do three models with Freq~ year*gender* @@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #*******************************************************************
@@ -487,10 +537,53 @@ type.c.mod4<-(glm(Freq ~ Var1 +Var3+Var2, sum.g.type.c, family="poisson"))
 visreg(type.p.mod2, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
 anova(type.p.mod1, type.p.mod3, test="Chi")
 
-#@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#Geoff thinks this is ok even though you are making more indepent answers than original
-#do I include Var2
 
+
+#*******************************************************************
+#*******************                   **********************
+#*******************************************************************
+
+#James' way
+head(part3.grants.long)
+
+g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work', "gender", "number", "type.grant"))
+
+canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & 
+                                                    g.types$Country_work=="" & g.types$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+g.types.ca<-with(canada, data.frame(table(type.grant, gender, number)))
+head(g.types.ca,20)
+
+#clean up names
+g.types.ca$type.grant<-revalue(g.types.ca$type.grant, c("external_pi_grant_11_15_applied"="Applied 2011-2015",
+                                                        'external_pi_grant_11_15_fundamental'='Fundamental 2011-2015',
+                                                        'external_pi_grant_11_15_use' = 'Use-Inspired 2011-2015',
+                                                        "external_pi_grant_6_10_applied"="Applied 2006-2010",
+                                                        "external_pi_grant_6_10_fundamental"="Fundamental 2006-2010",
+                                                        "external_pi_grant_6_10_use"="Use-Inspired 2006-2010"))
+head(g.types.ca)
+
+#select only Applied
+g.types.ca$type<-ifelse(grepl("Applied", g.types.ca$type.grant), "Applied", "")
+head(g.types.ca)
+
+g.types.applied<-g.types.ca[!g.types.ca$type=="",]
+head(g.types.applied)
+
+
+g.types.applied.mod1<-(glm(Freq ~ gender*number*type.grant, g.types.applied, family="poisson"))
+g.types.applied.mod2<-(glm(Freq ~ gender+number*type.grant, g.types.applied, family="poisson"))
+g.types.applied.mod3<-(glm(Freq ~ gender*number+type.grant, g.types.applied, family="poisson"))
+g.types.applied.mod4<-(glm(Freq ~ gender+number+type.grant, g.types.applied, family="poisson"))
+#visreg(g.types.applied.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(g.types.applied.mod1, g.types.applied.mod3, test="Chi")
+AIC(g.types.applied.mod1,g.types.applied.mod2, g.types.applied.mod3,g.types.applied.mod4)
 #*******************************************************************
 #*******************                   **********************
 #*******************************************************************
@@ -498,6 +591,7 @@ anova(type.p.mod1, type.p.mod3, test="Chi")
 #--------------------#--------------------#--------------------
 #### Part3. Question 2. Successful grant apps types 2006-2010, 2011-2015   -percents
 #--------------------#--------------------#--------------------
+#2006-2010
 head(part3.success.long)
 
 g.success<-subset(part3.success.long, select=c("Location","Country",'Country_work', "gender", "type", "percent"))
@@ -507,39 +601,61 @@ canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work==
 
 canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
+canada$year<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada<-canada[!canada$year=="2011-2015",]
 canada<-droplevels(canada)
+tail(canada)
+
+#make decimal 
+canada$percent<-canada$percent/100
 head(canada)
+#unique(type.r.long$percent)
+n.percent<-length(canada$percent)
+canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
 
-g.success.ca<-with(canada, data.frame(table(type, gender, percent)))
-head(g.success.ca,20)
-
-g.success.ca$type<-revalue(g.success.ca$type, c("successful_grants_11_15_applied"="Applied 2011-2015",
-                                                        'successful_grants_11_15_fundamental'='Fundamental 2011-2015',
-                                                        'successful_grants_11_15_use' = 'Use-Inspired 2011-2015',
-                                                        "successful_grants_6_10_applied"="Applied 2006-2010",
-                                                        "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
-                                                        "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
-head(g.success.ca)
-
-g.success.mod1<-(glm(Freq ~ type*percent*gender, g.success.ca, family="poisson"))
-g.success.mod2<-(glm(Freq ~ type+percent*gender, g.success.ca, family="poisson"))
-g.success.mod3<-(glm(Freq ~ type*percent+gender, g.success.ca, family="poisson"))
-g.success.mod4<-(glm(Freq ~ type +percent+gender, g.success.ca, family="poisson"))
-visreg(g.success.mod1, "gender",by="type", scale="response", ylab="Number of responses", xlab="Gender")
-anova(g.success.mod1, g.success.mod3, test="Chi")
-AIC(g.success.mod1, g.success.mod2, g.success.mod3, g.success.mod4)
+mod1<-betareg(percent_trans ~ gender * type, canada)
+summary(mod1)
+plot(mod1)
+mod2<-betareg(percent_trans ~ gender + type, canada)
+AIC(mod1, mod2)
 
 #*******************************************************************
-#*******************                   *********************
+#******************* Not Significant  ******************************
 #*******************************************************************
+# mod2 fits better
 
-#look up analysis of 3 way or 4 way contingency tables
+#2011-2015
+head(part3.success.long)
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@ 4 values - do I seperate type into two columns @@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+g.success<-subset(part3.success.long, select=c("Location","Country",'Country_work', "gender", "type", "percent"))
 
+canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work=="Canada") & 
+                                                        g.success$Country_work=="" & g.success$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada$year<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada<-canada[!canada$year=="2006-2010",]
+canada<-droplevels(canada)
+tail(canada)
+
+#make decimal 
+canada$percent<-canada$percent/100
+head(canada)
+#unique(type.r.long$percent)
+n.percent<-length(canada$percent)
+canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ gender * type, canada)
+summary(mod1)
+plot(mod1)
+mod2<-betareg(percent_trans ~ gender + type, canada)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#******************* Not Significant  ******************************
+#*******************************************************************
+# the models are within 2 but mod 2 has fewer df
 
 #--------------------#--------------------#--------------------
 #### Part3. Question 3. Importance of suggesting practical applications 2006-2010, 2011-2015
@@ -741,74 +857,105 @@ anova(part.app.p.mod1, part.app.p.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 #### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015                     - percents
 #--------------------#--------------------#--------------------
-
-#could be considered categorical or continous - working off of it being continous right now
-
-#current
-
+#2011-2015
 head(p3_master)
-
 funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "gender", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
                                          "Other"))
+funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "gender","year","For.Profit", "Government" , "Internal", "Non.governmental",
+                                        "Other"))
 canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
                                                         funding.c$Country_work=="" & funding.c$Country=="Canada"),]
-
 canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$year=="6_10",]
 canada<-droplevels(canada)
 head(canada,20)
 
-canada<-subset(canada, select=c("Location","Country",'Country_work', "gender", "For.Profit", "Government" , "Internal", "Non.governmental",
-                                      "Other"))
+#put into long form
+funding.c.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -gender, -year)
+head(funding.c.long)
+hist(funding.c.long$percent_trans)
+#make decimal 
+funding.c.long$percent<-funding.c.long$percent/100
+tail(funding.c.long,20)
+#unique(type.r.long$percent)
+n.percent<-length(funding.c.long$percent)
+funding.c.long$percent_trans<-(funding.c.long$percent*(n.percent-1)+0.5)/n.percent
 
-y<-canada[,5:9]
-head(y)
-DR_data(y, trafo = TRUE, base = 1 )
-canada$y<-DR_data(canada[,5:9])
-canada1<-DirichReg(y~ gender, canada, model = c("common"))
-canada1
-summary(canada1)
+mod1<-betareg(percent_trans ~ gender * type, funding.c.long)
+summary(mod1)
+plot(mod2)
+mod2<-betareg(percent_trans ~ gender + type, funding.c.long)
+AIC(mod1, mod2)
 
-predict(canada1, type="response", newdata = data.frame(gender=c("Male", "Female")))
-
-#predict(canada1, type="response", newdata=data.frame(gender=c("Male", "Female")))
 #*******************************************************************
-#******************* ask Geoff*********************************
+#*********************** Significant *******************************
 #*******************************************************************
+# mod1 fits better
 
-#now past
-
-
-##########not done############
-
+#2006-2010
 head(p3_master)
-
-funding.p<-subset(p3_master, select=c("Location","Country",'Country_work', "gender", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "gender", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
                                       "Other"))
-canada<-funding.p[funding.p$Country_work=="Canada" | (!(funding.p$Country_work=="Canada") & 
-                                                        funding.p$Country_work=="" & funding.p$Country=="Canada"),]
-
+funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "gender","year","For.Profit", "Government" , "Internal", "Non.governmental",
+                                        "Other"))
+canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
+                                                        funding.c$Country_work=="" & funding.c$Country=="Canada"),]
 canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$year=="11_15",]
 canada<-droplevels(canada)
-head(canada)
+head(canada,20)
 
-canada<-subset(canada, select=c("Location","Country",'Country_work', "gender", "For.Profit", "Government" , "Internal", "Non.governmental",
-                                "Other"))
+#put into long form
+funding.p.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -gender, -year)
+head(funding.p.long)
+hist(funding.p.long$percent_trans)
+#make decimal 
+funding.p.long$percent<-funding.p.long$percent/100
+tail(funding.p.long,20)
+#unique(type.r.long$percent)
+n.percent<-length(funding.p.long$percent)
+funding.p.long$percent_trans<-(funding.p.long$percent*(n.percent-1)+0.5)/n.percent
 
-y<-canada[,5:9]
-head(y)
-DR_data(y, trafo = TRUE, base = 1 )
-canada$y<-DR_data(canada[,5:9])
-canada2<-DirichReg(y~ gender, canada, model = c("common"))
-canada2
-summary(canada2)
+mod1<-betareg(percent_trans ~ gender * type, funding.p.long)
+summary(mod1)
+plot(mod2)
+mod2<-betareg(percent_trans ~ gender + type, funding.p.long)
+AIC(mod1, mod2)
 
 #*******************************************************************
-#*******************       *********************************
+#*********************** Significant *******************************
 #*******************************************************************
+# mod1 fits better
+
+
+############################old############################################
+#could be considered categorical or continous - working off of it being continous right now
+#current
+#head(p3_master)
+#funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "gender", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+#                                         "Other"))
+#canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
+#                                                        funding.c$Country_work=="" & funding.c$Country=="Canada"),]
+#canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="",]
+#canada<-canada[!canada$year=="6_10",]
+#canada<-droplevels(canada)
+#head(canada,20)
+#canada<-subset(canada, select=c("Location","Country",'Country_work', "gender", "For.Profit", "Government" , "Internal", "Non.governmental",
+#                                     "Other"))
+#y<-canada[,5:9]
+#head(y)
+#DR_data(y, trafo = TRUE, base = 1 )
+#canada$y<-DR_data(canada[,5:9])
+#canada1<-DirichReg(y~ gender, canada, model = c("common"))
+#canada1
+#summary(canada1)
+#predict(canada1, type="response", newdata = data.frame(gender=c("Male", "Female")))
+#predict(canada1, type="response", newdata=data.frame(gender=c("Male", "Female")))
+#now past
+##########not done############
 
 
 #--------------------#--------------------#--------------------
