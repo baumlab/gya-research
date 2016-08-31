@@ -574,18 +574,27 @@ g.types.ca$type<-ifelse(grepl("Applied", g.types.ca$type.grant), "Applied", "")
 head(g.types.ca)
 
 g.types.applied<-g.types.ca[!g.types.ca$type=="",]
+levels(g.types.applied$number)
+g.types.applied$type.grant<-as.character(g.types.applied$type.grant)
+g.types.applied$year<-  str_split_fixed(g.types.applied$type.grant, ' ', 2)[,2]
+#change order of levels
+g.types.applied$number<-factor(g.types.applied$number, levels(g.types.applied$number)[c(1,2,6,7,3,4,5)])
 head(g.types.applied)
 
-
-g.types.applied.mod1<-(glm(Freq ~ gender*number*type.grant, g.types.applied, family="poisson"))
-g.types.applied.mod2<-(glm(Freq ~ gender+number*type.grant, g.types.applied, family="poisson"))
-g.types.applied.mod3<-(glm(Freq ~ gender*number+type.grant, g.types.applied, family="poisson"))
-g.types.applied.mod4<-(glm(Freq ~ gender+number+type.grant, g.types.applied, family="poisson"))
-#visreg(g.types.applied.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
-anova(g.types.applied.mod1, g.types.applied.mod3, test="Chi")
+g.types.applied.mod1<-(glm(Freq ~ number*year, g.types.applied, family="poisson"))
+summary(g.types.applied.mod1)
+plot(g.types.applied.mod1)
+g.types.applied.mod2<-(glm(Freq ~ number*gender, g.types.applied, family="poisson"))
+summary(g.types.applied.mod2)
+plot(g.types.applied.mod2)
+anova(g.types.applied.mod1, g.types.applied.mod2, test="Chi")
 AIC(g.types.applied.mod1,g.types.applied.mod2, g.types.applied.mod3,g.types.applied.mod4)
+#plot data to look at
+ggplot(g.types.applied, aes(number, Freq)) + geom_point()
+ggplot(g.types.applied, aes(number, Freq, col=gender, shape=gender)) + geom_point()
+ggplot(g.types.applied, aes(number, Freq, col=gender, shape=year)) + geom_point()
 #*******************************************************************
-#*******************                   **********************
+#*******************there is significantly more applied grants in 2011-2015 than 2006-2010 and gender did not signifcantly impact the number of grants **********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------

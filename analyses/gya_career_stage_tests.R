@@ -27,7 +27,7 @@ p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 p3_master<-read.csv(file="data/gya-p3_master.csv")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg); require(betareg)
 
 theme_set(theme_bw())
 

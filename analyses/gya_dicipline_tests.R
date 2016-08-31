@@ -26,7 +26,7 @@ p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 p3_master<-read.csv(file="data/gya-p3_master.csv")
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg); require(betareg)
 
 theme_set(theme_bw())
 
@@ -63,20 +63,70 @@ anova(change.mod1, change.mod2, test="Chi")
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-head(canada)
+#current
+head(research)
 research<-subset(research, select=c("Location","Country",'Country_work', "field_research", "type", "percent"))
 canada<-research[research$Country_work=="Canada" | (!(research$Country_work=="Canada") & 
                                                       research$Country_work=="" & research$Country=="Canada"),]
 
 canada<-canada[!canada$field_research=="",]
+unique(canada$type)
+canada<-canada[!canada$type=="total_research",]
+#only do current
+canada$time<-ifelse(grepl("current", canada$type), "current", "past")
+head(canada)
+canada<-canada[!canada$time=="past",]
 canada<-droplevels(canada)
+head(canada)
 
-#canada<-spread(canada, type, percent)
+#make decimal 
+canada$percent<-canada$percent/100
+head(canada, 20)
+#transform data
+n.percent<-length(canada$percent)
+canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
 
-## using table to count cases of each category
-sum.change<-data.frame(table(canada$percent, canada$type))
-sum.change
+mod1<-betareg(percent_trans ~ field_research * type, canada)
+mod2<-betareg(percent_trans ~ field_research + type, canada)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#************************* Significant  ****************************
+#*******************************************************************
+# mod1 fits best
+
+
+#now past
+head(research.type)
+p.research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_Fundamental_Research_past", "percent_Use_inspired_Research_past", 
+                                           "percent_Applied_Research_past"))
+canada<-p.research[p.research$Country_work=="Canada" | (!(p.research$Country_work=="Canada") & 
+                                                          p.research$Country_work=="" & p.research$Country=="Canada"),]
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+type.rp.long<-gather(canada, type.p, percent, -Location, -Country, -Country_work, -gender)
+head(type.rp.long)
+
+#make decimal 
+type.rp.long$percent<-type.rp.long$percent/100
+head(type.rp.long, 20)
+unique(type.rp.long$percent)
+#tranform data
+n.percent<-length(type.rp.long$percent)
+type.rp.long$percent_trans<-(type.rp.long$percent*(n.percent-1)+0.5)/n.percent
+
+
+mod1<-betareg(percent_trans ~ gender * type, type.rp.long)
+mod2<-betareg(percent_trans ~ gender + type, type.rp.long)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#*******************Not Significant  *******************************
+#*******************************************************************
+# Mod2 fits better
 
 
 #--------------------#--------------------#--------------------
