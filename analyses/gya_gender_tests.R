@@ -415,135 +415,94 @@ anova(p.view.mod1, p.view.mod2, test="Chi")
 #### Part3. Question 1. Grant apps types 2006-2010, 2011-2015
 #--------------------#--------------------#--------------------
 
-head(part3.grants.long)
-
-g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work', "gender", "number", "type.grant"))
-
-canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & 
-                                                    g.types$Country_work=="" & g.types$Country=="Canada"),]
-
-canada<-canada[!canada$gender=="Other",]
-canada<-canada[!canada$gender=="",]
-canada<-droplevels(canada)
-head(canada)
-
-g.types.ca<-with(canada, data.frame(table(type.grant, gender, number)))
-head(g.types.ca,20)
-
-g.types.ca$type.grant<-revalue(g.types.ca$type.grant, c("external_pi_grant_11_15_applied"="Applied 2011-2015",
-                                                                'external_pi_grant_11_15_fundamental'='Fundamental 2011-2015',
-                                                                'external_pi_grant_11_15_use' = 'Use-Inspired 2011-2015',
-                                                                "external_pi_grant_6_10_applied"="Applied 2006-2010",
-                                                                "external_pi_grant_6_10_fundamental"="Fundamental 2006-2010",
-                                                                "external_pi_grant_6_10_use"="Use-Inspired 2006-2010"))
-head(g.types.ca, 20)
-
-
-g.type.mod1<-(glm(Freq ~ type.grant*number*gender, g.types.ca, family="poisson"))
-g.type.mod2<-(glm(Freq ~ type.grant*number+gender, g.types.ca, family="poisson"))
-g.type.mod3<-(glm(Freq ~ type.grant+number*gender, g.types.ca, family="poisson"))
-g.type.mod4<-(glm(Freq ~ type.grant +number+gender, g.types.ca, family="poisson"))
+#head(part3.grants.long)
+#g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work', "gender", "number", "type.grant"))
+#canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & g.types$Country_work=="" & g.types$Country=="Canada"),]
+#canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="",]
+#canada<-droplevels(canada)
+#head(canada)
+#g.types.ca<-with(canada, data.frame(table(type.grant, gender, number)))
+#g.types.ca$type.grant<-revalue(g.types.ca$type.grant, c("external_pi_grant_11_15_applied"="Applied 2011-2015",
+#                                                                'external_pi_grant_11_15_fundamental'='Fundamental 2011-2015',
+#                                                                'external_pi_grant_11_15_use' = 'Use-Inspired 2011-2015',
+#                                                                "external_pi_grant_6_10_applied"="Applied 2006-2010",
+#                                                                "external_pi_grant_6_10_fundamental"="Fundamental 2006-2010",
+#                                                                "external_pi_grant_6_10_use"="Use-Inspired 2006-2010"))
+#head(g.types.ca, 20)
+#g.type.mod1<-(glm(Freq ~ type.grant*number*gender, g.types.ca, family="poisson"))
+#g.type.mod2<-(glm(Freq ~ type.grant*number+gender, g.types.ca, family="poisson"))
+#g.type.mod3<-(glm(Freq ~ type.grant+number*gender, g.types.ca, family="poisson"))
+#g.type.mod4<-(glm(Freq ~ type.grant +number+gender, g.types.ca, family="poisson"))
 #visreg(g.type.mod1), "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
-anova(g.type.mod1, g.type.mod3, test="Chi")
-AIC(g.type.mod1, g.type.mod2, g.type.mod3, g.type.mod4)
-
-prat.app.mod1<-(glm(Freq ~ year*level*gender, prat.app.ca, family="poisson"))
-prat.app.mod2<-(glm(Freq ~ year*level+gender, prat.app.ca, family="poisson"))
-prat.app.mod3<-(glm(Freq ~ year+level*gender, prat.app.ca, family="poisson"))
-prat.app.mod4<-(glm(Freq ~ year+level+gender, prat.app.ca, family="poisson"))
-visreg(prat.app.mod1, "gender",by="year", scale="response", ylab="Number of responses", xlab="Gender")
-anova(prat.app.mod1, prat.app.mod3, test="Chi")
-AIC(prat.app.mod1, prat.app.mod2, prat.app.mod3, prat.app.mod4)
-
+#anova(g.type.mod1, g.type.mod3, test="Chi")
+#AIC(g.type.mod1, g.type.mod2, g.type.mod3, g.type.mod4)
+#prat.app.mod1<-(glm(Freq ~ year*level*gender, prat.app.ca, family="poisson"))
+#prat.app.mod2<-(glm(Freq ~ year*level+gender, prat.app.ca, family="poisson"))
+#prat.app.mod3<-(glm(Freq ~ year+level*gender, prat.app.ca, family="poisson"))
+#prat.app.mod4<-(glm(Freq ~ year+level+gender, prat.app.ca, family="poisson"))
+#visreg(prat.app.mod1, "gender",by="year", scale="response", ylab="Number of responses", xlab="Gender")
+#anova(prat.app.mod1, prat.app.mod3, test="Chi")
+#AIC(prat.app.mod1, prat.app.mod2, prat.app.mod3, prat.app.mod4)
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@There are 4 values if I test all of them together so I am going to try seperating the years@@@@@@@@@@
 #@@@@@@@@@@@ James thinks to split the types and then do three models with Freq~ year*gender* @@@@@@@@@@@@@@@@@@@@@@@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-#*******************************************************************
-#*******************                      ************************
-#*******************************************************************
-
 ####seperating years
-
 #2006-2010
-
-head(part3.grants)
-
-g.types.p<-subset(part3.grants, select=c("Location","Country",'Country_work', "gender", "external_pi_grant_6_10_fundamental", "external_pi_grant_6_10_use", "external_pi_grant_6_10_applied"))
-
-canada<-g.types.p[g.types.p$Country_work=="Canada" | (!(g.types.p$Country_work=="Canada") & 
-                                                        g.types.p$Country_work=="" & g.types.p$Country=="Canada"),]
-
-canada<-canada[!canada$gender=="Other",]
-canada<-canada[!canada$gender=="",]
-canada<-droplevels(canada)
-head(canada)
-
+#head(part3.grants)
+#g.types.p<-subset(part3.grants, select=c("Location","Country",'Country_work', "gender", "external_pi_grant_6_10_fundamental", "external_pi_grant_6_10_use", "external_pi_grant_6_10_applied"))
+#canada<-g.types.p[g.types.p$Country_work=="Canada" | (!(g.types.p$Country_work=="Canada") & 
+#                                                        g.types.p$Country_work=="" & g.types.p$Country=="Canada"),]
+#canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="",]
+#canada<-droplevels(canada)
+#head(canada)
 #change to long form
-require(tidyr)
-g.type.p.long<-gather(canada, type, number, -Location, -gender,-Country_work, -Country)
-head(g.type.p.long)
-
+#require(tidyr)
+#g.type.p.long<-gather(canada, type, number, -Location, -gender,-Country_work, -Country)
+#head(g.type.p.long)
 ## using table to count cases of each category
-sum.g.type.p<-data.frame(table(g.type.p.long$type, g.type.p.long$number, g.type.p.long$gender))
-sum.g.type.p
-
-type.p.mod1<-(glm(Freq ~ Var1*Var3*Var2, sum.g.type.p, family="poisson"))
-type.p.mod2<-(glm(Freq ~ Var1*Var3+Var2, sum.g.type.p, family="poisson"))
-type.p.mod3<-(glm(Freq ~ Var1+Var3*Var2, sum.g.type.p, family="poisson"))
-type.p.mod4<-(glm(Freq ~ Var1 +Var3+Var2, sum.g.type.p, family="poisson"))
-visreg(type.p.mod2, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
-anova(type.p.mod1, type.p.mod2, test="Chi")
-AIC(type.p.mod1, type.p.mod2, type.p.mod3, type.p.mod4)
-?AIC
-
+#sum.g.type.p<-data.frame(table(g.type.p.long$type, g.type.p.long$number, g.type.p.long$gender))
+#sum.g.type.p
+#type.p.mod1<-(glm(Freq ~ Var1*Var3*Var2, sum.g.type.p, family="poisson"))
+#type.p.mod2<-(glm(Freq ~ Var1*Var3+Var2, sum.g.type.p, family="poisson"))
+#type.p.mod3<-(glm(Freq ~ Var1+Var3*Var2, sum.g.type.p, family="poisson"))
+#type.p.mod4<-(glm(Freq ~ Var1 +Var3+Var2, sum.g.type.p, family="poisson"))
+#visreg(type.p.mod2, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+#anova(type.p.mod1, type.p.mod2, test="Chi")
+#AIC(type.p.mod1, type.p.mod2, type.p.mod3, type.p.mod4)
 #@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #Geoff thinks this is ok even though you are making more indepent answers than original
 #do I include Var2
-
-#*******************************************************************
-#*******************             **********************
-#*******************************************************************
-
 #2011-2015
-
-head(part3.grants)
-
-g.types.c<-subset(part3.grants, select=c("Location","Country",'Country_work', "gender", "external_pi_grant_11_15_fundamental", "external_pi_grant_11_15_use", "external_pi_grant_11_15_applied"))
-
-canada<-g.types.c[g.types.c$Country_work=="Canada" | (!(g.types.c$Country_work=="Canada") & 
-                                                        g.types.c$Country_work=="" & g.types.c$Country=="Canada"),]
-
-canada<-canada[!canada$gender=="Other",]
-canada<-canada[!canada$gender=="",]
-canada<-droplevels(canada)
-head(canada)
-
+#head(part3.grants)
+#g.types.c<-subset(part3.grants, select=c("Location","Country",'Country_work', "gender", "external_pi_grant_11_15_fundamental", "external_pi_grant_11_15_use", "external_pi_grant_11_15_applied"))
+#canada<-g.types.c[g.types.c$Country_work=="Canada" | (!(g.types.c$Country_work=="Canada") & 
+#                                                       g.types.c$Country_work=="" & g.types.c$Country=="Canada"),]
+#canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="",]
+#canada<-droplevels(canada)
+#head(canada)
 #change to long form
-require(tidyr)
-g.type.c.long<-gather(canada, type, number, -Location, -gender,-Country_work, -Country)
-head(g.type.c.long)
-
+#require(tidyr)
+#g.type.c.long<-gather(canada, type, number, -Location, -gender,-Country_work, -Country)
+#head(g.type.c.long)
 ## using table to count cases of each category
-sum.g.type.c<-data.frame(table(g.type.c.long$type, g.type.c.long$number, g.type.c.long$gender))
-sum.g.type.c
+#sum.g.type.c<-data.frame(table(g.type.c.long$type, g.type.c.long$number, g.type.c.long$gender))
+#sum.g.type.c
+#type.c.mod1<-(glm(Freq ~ Var1*Var3*Var2, sum.g.type.c, family="poisson"))
+#type.c.mod2<-(glm(Freq ~ Var1*Var3+Var2, sum.g.type.c, family="poisson"))
+#type.c.mod3<-(glm(Freq ~ Var1+Var3*Var2, sum.g.type.c, family="poisson"))
+#type.c.mod4<-(glm(Freq ~ Var1 +Var3+Var2, sum.g.type.c, family="poisson"))
+#visreg(type.p.mod2, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+#anova(type.p.mod1, type.p.mod3, test="Chi")
 
-type.c.mod1<-(glm(Freq ~ Var1*Var3*Var2, sum.g.type.c, family="poisson"))
-type.c.mod2<-(glm(Freq ~ Var1*Var3+Var2, sum.g.type.c, family="poisson"))
-type.c.mod3<-(glm(Freq ~ Var1+Var3*Var2, sum.g.type.c, family="poisson"))
-type.c.mod4<-(glm(Freq ~ Var1 +Var3+Var2, sum.g.type.c, family="poisson"))
-visreg(type.p.mod2, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
-anova(type.p.mod1, type.p.mod3, test="Chi")
-
-
-
-#*******************************************************************
-#*******************                   **********************
-#*******************************************************************
 
 #James' way
+
+#applied
 head(part3.grants.long)
 
 g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work', "gender", "number", "type.grant"))
@@ -593,8 +552,123 @@ AIC(g.types.applied.mod1,g.types.applied.mod2, g.types.applied.mod3,g.types.appl
 ggplot(g.types.applied, aes(number, Freq)) + geom_point()
 ggplot(g.types.applied, aes(number, Freq, col=gender, shape=gender)) + geom_point()
 ggplot(g.types.applied, aes(number, Freq, col=gender, shape=year)) + geom_point()
+
 #*******************************************************************
 #*******************there is significantly more applied grants in 2011-2015 than 2006-2010 and gender did not signifcantly impact the number of grants **********************
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#cant find a way to do this right now - we have tried a lot of things and a lot of man power has gone into this so far
+#*******************************************************************
+
+#use-inspired
+head(part3.grants.long)
+
+g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work', "gender", "number", "type.grant"))
+
+canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & 
+                                                    g.types$Country_work=="" & g.types$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+g.types.ca<-with(canada, data.frame(table(type.grant, gender, number)))
+head(g.types.ca,20)
+
+#clean up names
+g.types.ca$type.grant<-revalue(g.types.ca$type.grant, c("external_pi_grant_11_15_applied"="Applied 2011-2015",
+                                                        'external_pi_grant_11_15_fundamental'='Fundamental 2011-2015',
+                                                        'external_pi_grant_11_15_use' = 'Use-Inspired 2011-2015',
+                                                        "external_pi_grant_6_10_applied"="Applied 2006-2010",
+                                                        "external_pi_grant_6_10_fundamental"="Fundamental 2006-2010",
+                                                        "external_pi_grant_6_10_use"="Use-Inspired 2006-2010"))
+head(g.types.ca)
+
+#select only use
+g.types.ca$type<-ifelse(grepl("Use-Inspired", g.types.ca$type.grant), "Use-Inspired", "")
+head(g.types.ca)
+
+g.types.used<-g.types.ca[!g.types.ca$type=="",]
+levels(g.types.used$number)
+g.types.used$type.grant<-as.character(g.types.used$type.grant)
+g.types.used$year<-  str_split_fixed(g.types.used$type.grant, ' ', 2)[,2]
+#change order of levels
+g.types.used$number<-factor(g.types.used$number, levels(g.types.used$number)[c(1,2,6,7,3,4,5)])
+head(g.types.used)
+
+g.types.used.mod1<-(glm(Freq ~ number*year, g.types.used, family="poisson"))
+summary(g.types.used.mod1)
+plot(g.types.used.mod1)
+g.types.used.mod2<-(glm(Freq ~ number*gender, g.types.used, family="poisson"))
+summary(g.types.used.mod2)
+plot(g.types.used.mod2)
+#plot data to look at
+ggplot(g.types.used, aes(number, Freq)) + geom_point()
+ggplot(g.types.used, aes(number, Freq, col=gender, shape=gender)) + geom_point()
+ggplot(g.types.used, aes(number, Freq, col=gender, shape=year)) + geom_point()
+
+#*******************************************************************
+#******************* there were significant differences in the number of grants for each year except for the 13-15 category  **********************
+#******************* Gender was not significant for any of the groups except for 16+ **********************
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#cant find a way to do this right now - we have tried a lot of things and a lot of man power has gone into this so far
+#*******************************************************************
+
+#fund
+head(part3.grants.long)
+
+g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work', "gender", "number", "type.grant"))
+
+canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & 
+                                                    g.types$Country_work=="" & g.types$Country=="Canada"),]
+
+canada<-canada[!canada$gender=="Other",]
+canada<-canada[!canada$gender=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+g.types.ca<-with(canada, data.frame(table(type.grant, gender, number)))
+head(g.types.ca,20)
+
+#clean up names
+g.types.ca$type.grant<-revalue(g.types.ca$type.grant, c("external_pi_grant_11_15_applied"="Applied 2011-2015",
+                                                        'external_pi_grant_11_15_fundamental'='Fundamental 2011-2015',
+                                                        'external_pi_grant_11_15_use' = 'Use-Inspired 2011-2015',
+                                                        "external_pi_grant_6_10_applied"="Applied 2006-2010",
+                                                        "external_pi_grant_6_10_fundamental"="Fundamental 2006-2010",
+                                                        "external_pi_grant_6_10_use"="Use-Inspired 2006-2010"))
+head(g.types.ca)
+
+#select only fund
+g.types.ca$type<-ifelse(grepl("Fundamental", g.types.ca$type.grant), "Fundamental", "")
+head(g.types.ca)
+
+g.types.fund<-g.types.ca[!g.types.ca$type=="",]
+levels(g.types.fund$number)
+g.types.fund$type.grant<-as.character(g.types.fund$type.grant)
+g.types.fund$year<-  str_split_fixed(g.types.fund$type.grant, ' ', 2)[,2]
+#change order of levels
+g.types.fund$number<-factor(g.types.fund$number, levels(g.types.fund$number)[c(1,2,6,7,3,4,5)])
+head(g.types.fund)
+
+g.types.fund.mod1<-(glm(Freq ~ number*year, g.types.fund, family="poisson"))
+summary(g.types.fund.mod1)
+plot(g.types.fund.mod1)
+g.types.fund.mod2<-(glm(Freq ~ number*gender, g.types.fund, family="poisson"))
+summary(g.types.fund.mod2)
+plot(g.types.fund.mod2)
+#plot data to look at
+ggplot(g.types.fund, aes(number, Freq)) + geom_point()
+ggplot(g.types.fund, aes(number, Freq, col=gender, shape=gender)) + geom_point()
+ggplot(g.types.fund, aes(number, Freq, col=gender, shape=year)) + geom_point()
+
+#*******************************************************************
+#******************* There were significant differences between the two years **********************
+#******************* There are no significant differences between gender except for the 4-6 category*************
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#cant find a way to do this right now - we have tried a lot of things and a lot of man power has gone into this so far
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -688,80 +762,28 @@ prac.app.ca$year<-revalue(prac.app.ca$year, c("practical_applications_important_
                                                 'practical_applications_important_6_10'='2006-2010'))
 head(prac.app.ca)
 
-prac.app.mod1<-(glm(Freq ~ year*level*gender, prac.app.ca, family="poisson"))
-prac.app.mod2<-(glm(Freq ~ year+level*gender, prac.app.ca, family="poisson"))
-prac.app.mod3<-(glm(Freq ~ year*level+gender, prac.app.ca, family="poisson"))
-prac.app.mod4<-(glm(Freq ~ year +level+gender, prac.app.ca, family="poisson"))
-visreg(g.success.mod1, "gender",by="year", scale="response", ylab="Number of responses", xlab="Gender")
-anova(prac.app.mod1, prac.app.mod2, test="Chi")
-AIC(prac.app.mod1, prac.app.mod2, prac.app.mod3, prac.app.mod4)
+#change order of levels
+prac.app.ca$level<-factor(prac.app.ca$level, levels(prac.app.ca$level)[c(1,3,5,4,6,2)])
+levels(prac.app.ca$level)
+head(prac.app.ca)
+
+prac.app.ca.mod1<-(glm(Freq ~ level*year, prac.app.ca, family="poisson"))
+summary(prac.app.ca.mod1)
+plot(prac.app.ca.mod1)
+prac.app.ca.mod2<-(glm(Freq ~ level*gender, prac.app.ca, family="poisson"))
+summary(prac.app.ca.mod2)
+plot(prac.app.ca.mod2)
+#plot data to look at
+ggplot(prac.app.ca, aes(level, Freq)) + geom_point() +theme(axis.text.x = element_text(angle=90, vjust=0.5))
+ggplot(prac.app.ca, aes(level, Freq, col=gender, shape=gender)) + geom_point()+ theme(axis.text.x = element_text(angle=90, vjust=0.5))
+ggplot(prac.app.ca, aes(level, Freq, col=gender, shape=year)) + geom_point()+theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 #*******************************************************************
-#*******************Not Significant P = 0.06032*********************
-#*******************************************************************
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@do I need to test each time period seperate?@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#update after meeting with Geoff can test together if you follow above format but it is ok to test seperate for the question we are asking.  If you want to know the difference between the years then do above
-#look up 3 way contingency table
-
-##########trying seperating time periods and not in long form##########
-
-head(part3.prac.app)
-
-prac.app<-subset(part3.prac.app, select=c("Location","Country",'Country_work', "gender", "practical_applications_important_11_15"))
-
-canada<-prac.app[prac.app$Country_work=="Canada" | (!(prac.app$Country_work=="Canada") & 
-                                                      prac.app$Country_work=="" & prac.app$Country=="Canada"),]
-
-canada<-canada[!canada$gender=="Other",]
-canada<-canada[!canada$gender=="",]
-canada<-canada[!canada$practical_applications_important_11_15=="",]
-canada<-droplevels(canada)
-head(canada)
-
-## using table to count cases of each category
-sum.prac.app<-data.frame(table(canada$practical_applications_important_11_15, canada$gender))
-sum.prac.app
-
-prac.app.mod1<-(glm(Freq ~ Var1*Var2, sum.prac.app, family="poisson"))
-prac.app.mod2<-(glm(Freq ~ Var1 +Var2, sum.prac.app, family="poisson"))
-visreg(prac.app.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
-anova(prac.app.mod1, prac.app.mod2, test="Chi")
-
-#*******************************************************************
-#*******************Not Significant P = 0.05336*********************
-#*******************************************************************
-
-## now past
-
-head(part3.prac.app)
-
-prac.app.p<-subset(part3.prac.app, select=c("Location","Country",'Country_work', "gender", "practical_applications_important_6_10"))
-
-canada<-prac.app.p[prac.app.p$Country_work=="Canada" | (!(prac.app.p$Country_work=="Canada") & 
-                                                          prac.app.p$Country_work=="" & prac.app.p$Country=="Canada"),]
-
-canada<-canada[!canada$gender=="Other",]
-canada<-canada[!canada$gender=="",]
-canada<-canada[!canada$practical_applications_important_6_10=="",]
-canada<-droplevels(canada)
-head(canada)
-
-## using table to count cases of each category
-sum.prac.app.p<-data.frame(table(canada$practical_applications_important_6_10, canada$gender))
-sum.prac.app.p
-
-prac.app.p.mod1<-(glm(Freq ~ Var1*Var2, sum.prac.app.p, family="poisson"))
-prac.app.p.mod2<-(glm(Freq ~ Var1 +Var2, sum.prac.app.p, family="poisson"))
-visreg(prac.app.p.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
-anova(prac.app.p.mod1, prac.app.p.mod2, test="Chi")
-
-#*******************************************************************
-#*******************Not Significant P = 0.1495**********************
+#******************* There were significantly different responses for the two time periods *********************
+#******************* Look at graph to see what years had significantly more responses for what level************
+#******************* gender was only significanlty important for some of the levels ****************************
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#cant find a way to do this right now - we have tried a lot of things and a lot of man power has gone into this so far
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -1010,7 +1032,7 @@ anova(p3.change.mod1, p3.change.mod3, test="Chi")
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #*******************************************************************
-#*******************Not sig - ask Geoff       ************************
+#*******************Not sig - ask Geoff   ************************
 #*******************************************************************
 
 # now seperate
