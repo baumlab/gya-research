@@ -141,8 +141,6 @@ AIC(mod1, mod2)
 #*******************************************************************
 # mod1 fits better
 
-
-
 #--------------------#--------------------#--------------------
 #### Part1. Question 4. Reason for change
 #--------------------#--------------------#--------------------
@@ -220,6 +218,64 @@ anova(view.mod1, view.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 head(part2.b.a)
 
+#before
+
+b4<-subset(part2.b.a, select=c("Location","Country",'Country_work', "what_participant_group","partnership_outside_before"))
+canada<-b4[b4$Country_work=="Canada" | (!(b4$Country_work=="Canada") & 
+                                          b4$Country_work=="" & b4$Country=="Canada"),]
+canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="",]
+canada<-canada[!canada$partnership_outside_before=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+sum.b4<-data.frame(table(canada$partnership_outside_before, canada$what_participant_group))
+sum.b4
+
+b4.mod1<-(glm(Freq ~ Var1*Var2, sum.b4, family="poisson"))
+b4.mod2<-(glm(Freq ~ Var1 +Var2, sum.b4, family="poisson"))
+visreg(b4.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(b4.mod1, b4.mod2, test="Chi")
+
+#*******************************************************************
+#******************* Significant P = 0.04715 ***********************
+#*******************************************************************
+
+#current
+
+cur<-subset(part2.b.a, select=c("Location","Country",'Country_work', "what_participant_group","partnership_outside"))
+canada<-cur[cur$Country_work=="Canada" | (!(cur$Country_work=="Canada") & 
+                                            cur$Country_work=="" & cur$Country=="Canada"),]
+canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+
+canada<-canada[!canada$what_participant_group=="",]
+canada<-canada[!canada$partnership_outside=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+sum.cur<-data.frame(table(canada$partnership_outside, canada$what_participant_group))
+sum.cur
+
+cur.mod1<-(glm(Freq ~ Var1*Var2, sum.cur, family="poisson"))
+cur.mod2<-(glm(Freq ~ Var1 +Var2, sum.cur, family="poisson"))
+visreg(cur.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+anova(cur.mod1, cur.mod2, test="Chi")
+
+#*******************************************************************
+#****************** Not Significant P=0.06012 **********************
+#*******************************************************************
+
+#is it ok that I spit up the time periods?
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 2. Level of partnership outside academia -change
@@ -333,7 +389,104 @@ head(part3.grants.long)
 #--------------------#--------------------#--------------------
 #### Part3. Question 2. Successful grant apps types 2006-2010, 2011-2015
 #--------------------#--------------------#--------------------
+
+#2006-2010
 head(part3.success.long)
+
+g.success<-subset(part3.success.long, select=c("Location","Country",'Country_work', "what_participant_group", "type", "percent"))
+
+canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work=="Canada") & 
+                                                        g.success$Country_work=="" & g.success$Country=="Canada"),]
+canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+
+#clean up names
+canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2011-2015",
+                                    'successful_grants_11_15_fundamental'='Fundamental 2011-2015',
+                                    'successful_grants_11_15_use' = 'Use-Inspired 2011-2015',
+                                    "successful_grants_6_10_applied"="Applied 2006-2010",
+                                    "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
+                                    "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
+
+canada<-canada[!canada$what_participant_group=="",]
+head(canada)
+unique(canada$type.g)
+canada$type<-as.character(canada$type)
+canada$year<-  str_split_fixed(canada$type, ' ', 2)[,2]
+canada$type.g<-  str_split_fixed(canada$type, ' ', 2)[,1]
+head(canada)
+
+
+canada<-canada[!canada$year=="2011-2015",]
+canada<-droplevels(canada)
+tail(canada)
+
+#make decimal 
+canada$percent<-canada$percent/100
+head(canada)
+#unique(type.r.long$percent)
+n.percent<-length(canada$percent)
+canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ what_participant_group * type.g, canada)
+summary(mod1)
+plot(mod1)
+mod2<-betareg(percent_trans ~ what_participant_group + type.g, canada)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#******************* Not Significant - warning message ******************************
+#*******************************************************************
+# mod 2 fits better
+
+#2011-2015
+head(part3.success.long)
+
+g.success<-subset(part3.success.long, select=c("Location","Country",'Country_work', "what_participant_group", "type", "percent"))
+
+canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work=="Canada") & 
+                                                        g.success$Country_work=="" & g.success$Country=="Canada"),]
+canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+#clean up names
+canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2011-2015",
+                                    'successful_grants_11_15_fundamental'='Fundamental 2011-2015',
+                                    'successful_grants_11_15_use' = 'Use-Inspired 2011-2015',
+                                    "successful_grants_6_10_applied"="Applied 2006-2010",
+                                    "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
+                                    "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
+
+canada<-canada[!canada$what_participant_group=="",]
+canada$type<-as.character(canada$type)
+canada$year<-  str_split_fixed(canada$type, ' ', 2)[,2]
+canada$type.g<-  str_split_fixed(canada$type, ' ', 2)[,1]
+canada<-canada[!canada$year=="2006-2010",]
+canada<-droplevels(canada)
+tail(canada)
+
+#make decimal 
+canada$percent<-canada$percent/100
+head(canada)
+#unique(type.r.long$percent)
+n.percent<-length(canada$percent)
+canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ what_participant_group * type.g, canada)
+summary(mod1)
+plot(mod1)
+mod2<-betareg(percent_trans ~ what_participant_group + type.g, canada)
+AIC(mod1, mod2)
+?betareg.fit
+#*******************************************************************
+#******************* Not Significant - warning message  ******************************
+#*******************************************************************
+#mod2 fits better
 
 
 #--------------------#--------------------#--------------------
@@ -356,11 +509,85 @@ head(part3.part.long)
 #--------------------#--------------------#--------------------
 #### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015
 #--------------------#--------------------#--------------------
+#2011-2015
 head(p3_master)
-head(p3_master.long)
+funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "what_participant_group", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                      "Other"))
+funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "what_participant_group","year","For.Profit", "Government" , "Internal", "Non.governmental",
+                                        "Other"))
+canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
+                                                        funding.c$Country_work=="" & funding.c$Country=="Canada"),]
+canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="",]
+canada<-canada[!canada$year=="6_10",]
+canada<-droplevels(canada)
+head(canada,20)
 
+#put into long form
+funding.c.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -what_participant_group, -year)
+head(funding.c.long)
+hist(funding.c.long$percent_trans)
+#make decimal 
+funding.c.long$percent<-funding.c.long$percent/100
+head(funding.c.long,20)
+#unique(type.r.long$percent)
+n.percent<-length(funding.c.long$percent)
+funding.c.long$percent_trans<-(funding.c.long$percent*(n.percent-1)+0.5)/n.percent
 
+mod1<-betareg(percent_trans ~ what_participant_group * type, funding.c.long)
+summary(mod1)
+plot(mod2)
+mod2<-betareg(percent_trans ~ what_participant_group + type, funding.c.long)
+AIC(mod1, mod2)
 
+#*******************************************************************
+#*********************** There are a few times there is significance *******************************
+#*******************************************************************
+# mod1 fits better
+
+#2006-2010
+head(p3_master)
+funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "what_participant_group", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                      "Other"))
+funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "what_participant_group","year","For.Profit", "Government" , "Internal", "Non.governmental",
+                                        "Other"))
+canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
+                                                        funding.c$Country_work=="" & funding.c$Country=="Canada"),]
+canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="",]
+canada<-canada[!canada$year=="11_15",]
+canada<-droplevels(canada)
+head(canada,20)
+
+#put into long form
+funding.p.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -what_participant_group, -year)
+head(funding.p.long)
+hist(funding.p.long$percent_trans)
+#make decimal 
+funding.p.long$percent<-funding.p.long$percent/100
+head(funding.p.long)
+#unique(type.r.long$percent)
+n.percent<-length(funding.p.long$percent)
+funding.p.long$percent_trans<-(funding.p.long$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ what_participant_group * type, funding.p.long)
+summary(mod1)
+plot(mod2)
+mod2<-betareg(percent_trans ~ what_participant_group + type, funding.p.long)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#*********************** Significances *******************************
+#*******************************************************************
+# mod1 fits better
 
 #--------------------#--------------------#--------------------
 #### Part3. Question 6. Success rate change for types 2006-2010, 2011-2015

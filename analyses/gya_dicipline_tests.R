@@ -191,8 +191,6 @@ anova(view.mod1, view.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 head(part2.b.a)
 
-
-
 #before
 
 b4<-subset(part2.b.a, select=c("Location","Country",'Country_work', "field_research","partnership_outside_before"))
