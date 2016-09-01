@@ -24,6 +24,7 @@ part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
 part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 p3_master<-read.csv(file="data/gya-p3_master.csv")
+research.type<-read.csv(file="data/gya-research-cleaned.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg); require(betareg)
@@ -61,33 +62,28 @@ anova(change.mod1, change.mod2, test="Chi")
 #### Part1. Question 1 & 3. Proportions of type of research current and past
 #--------------------#--------------------#--------------------
 
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #current
-head(research)
-research<-subset(research, select=c("Location","Country",'Country_work', "field_research", "type", "percent"))
+head(research.type)
+research<-subset(research.type, select=c("Location","Country",'Country_work', "field_research", "percent_fundemental_research_current", "percent_Use_inspired_Research_current", "percent_Applied_Research_current"))
 canada<-research[research$Country_work=="Canada" | (!(research$Country_work=="Canada") & 
                                                       research$Country_work=="" & research$Country=="Canada"),]
 
 canada<-canada[!canada$field_research=="",]
-unique(canada$type)
-canada<-canada[!canada$type=="total_research",]
-#only do current
-canada$time<-ifelse(grepl("current", canada$type), "current", "past")
-head(canada)
-canada<-canada[!canada$time=="past",]
 canada<-droplevels(canada)
 head(canada)
 
-#make decimal 
-canada$percent<-canada$percent/100
-head(canada, 20)
-#transform data
-n.percent<-length(canada$percent)
-canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
+type.r.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -field_research)
+head(type.r.long)
 
-mod1<-betareg(percent_trans ~ field_research * type, canada)
-mod2<-betareg(percent_trans ~ field_research + type, canada)
+#make decimal 
+type.r.long$percent<-type.r.long$percent/100
+head(type.r.long, 20)
+#transform data
+n.percent<-length(type.r.long$percent)
+type.r.long$percent_trans<-(type.r.long$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ field_research * type, type.r.long)
+mod2<-betareg(percent_trans ~ field_research + type, type.r.long)
 AIC(mod1, mod2)
 
 #*******************************************************************
@@ -98,16 +94,16 @@ AIC(mod1, mod2)
 
 #now past
 head(research.type)
-p.research<-subset(research.type, select=c("Location","Country",'Country_work', "gender", "percent_Fundamental_Research_past", "percent_Use_inspired_Research_past", 
+p.research<-subset(research.type, select=c("Location","Country",'Country_work', "field_research", "percent_Fundamental_Research_past", "percent_Use_inspired_Research_past", 
                                            "percent_Applied_Research_past"))
 canada<-p.research[p.research$Country_work=="Canada" | (!(p.research$Country_work=="Canada") & 
                                                           p.research$Country_work=="" & p.research$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
-canada<-canada[!canada$gender=="",]
+canada<-canada[!canada$field_research=="",]
 canada<-droplevels(canada)
 head(canada)
 
-type.rp.long<-gather(canada, type.p, percent, -Location, -Country, -Country_work, -gender)
+#turn into long form
+type.rp.long<-gather(canada, type.p, percent, -Location, -Country, -Country_work, -field_research)
 head(type.rp.long)
 
 #make decimal 
@@ -119,14 +115,14 @@ n.percent<-length(type.rp.long$percent)
 type.rp.long$percent_trans<-(type.rp.long$percent*(n.percent-1)+0.5)/n.percent
 
 
-mod1<-betareg(percent_trans ~ gender * type, type.rp.long)
-mod2<-betareg(percent_trans ~ gender + type, type.rp.long)
+mod1<-betareg(percent_trans ~ field_research * type.p, type.rp.long)
+mod2<-betareg(percent_trans ~ field_research + type.p, type.rp.long)
 AIC(mod1, mod2)
 
 #*******************************************************************
-#*******************Not Significant  *******************************
+#******************* Significant *******************************
 #*******************************************************************
-# Mod2 fits better
+#Mod1 fits better
 
 
 #--------------------#--------------------#--------------------
@@ -194,6 +190,56 @@ anova(view.mod1, view.mod2, test="Chi")
 #### Part2. Question 1 & 3. Level of partnership outside academia -current and before
 #--------------------#--------------------#--------------------
 head(part2.b.a)
+
+
+
+#before
+
+b4<-subset(part2.b.a, select=c("Location","Country",'Country_work', "field_research","partnership_outside_before"))
+canada<-b4[b4$Country_work=="Canada" | (!(b4$Country_work=="Canada") & 
+                                          b4$Country_work=="" & b4$Country=="Canada"),]
+canada<-canada[!canada$field_research=="",]
+canada<-canada[!canada$partnership_outside_before=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+sum.b4<-data.frame(table(canada$partnership_outside_before, canada$field_research))
+sum.b4
+
+b4.mod1<-(glm(Freq ~ Var1*Var2, sum.b4, family="poisson"))
+b4.mod2<-(glm(Freq ~ Var1 +Var2, sum.b4, family="poisson"))
+visreg(b4.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
+anova(b4.mod1, b4.mod2, test="Chi")
+
+#*******************************************************************
+#******************* Not Significant P = 0.1832  *******************
+#*******************************************************************
+
+#current
+
+cur<-subset(part2.b.a, select=c("Location","Country",'Country_work', "field_research","partnership_outside"))
+canada<-cur[cur$Country_work=="Canada" | (!(cur$Country_work=="Canada") & 
+                                            cur$Country_work=="" & cur$Country=="Canada"),]
+canada<-canada[!canada$field_research=="",]
+canada<-canada[!canada$partnership_outside=="",]
+canada<-droplevels(canada)
+head(canada)
+
+## using table to count cases of each category
+sum.cur<-data.frame(table(canada$partnership_outside, canada$field_research))
+sum.cur
+
+cur.mod1<-(glm(Freq ~ Var1*Var2, sum.cur, family="poisson"))
+cur.mod2<-(glm(Freq ~ Var1 +Var2, sum.cur, family="poisson"))
+visreg(cur.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
+anova(cur.mod1, cur.mod2, test="Chi")
+
+#*******************************************************************
+#******************* Significant P = 0.0001673 *********************
+#*******************************************************************
+
+#is it ok that I spit up the time periods?
 
 
 #--------------------#--------------------#--------------------
@@ -292,9 +338,96 @@ head(part3.grants.long)
 
 
 #--------------------#--------------------#--------------------
-#### Part3. Question 2. Successful grant apps types 2006-2010, 2011-2015
+#### Part3. Question 2. Successful grant apps types 2006-2010, 2011-2015            -percents
 #--------------------#--------------------#--------------------
+
+#2006-2010
 head(part3.success.long)
+
+g.success<-subset(part3.success.long, select=c("Location","Country",'Country_work', "field_research", "type", "percent"))
+
+canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work=="Canada") & 
+                                                        g.success$Country_work=="" & g.success$Country=="Canada"),]
+#clean up names
+canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2011-2015",
+                                    'successful_grants_11_15_fundamental'='Fundamental 2011-2015',
+                                    'successful_grants_11_15_use' = 'Use-Inspired 2011-2015',
+                                    "successful_grants_6_10_applied"="Applied 2006-2010",
+                                    "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
+                                    "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
+
+canada<-canada[!canada$field_research=="",]
+unique(canada$type)
+canada$type<-as.character(canada$type)
+canada$year<-  str_split_fixed(canada$type, ' ', 2)[,2]
+canada$type.g<-  str_split_fixed(canada$type, ' ', 2)[,1]
+canada<-canada[!canada$year=="2011-2015",]
+canada<-droplevels(canada)
+tail(canada)
+
+#make decimal 
+canada$percent<-canada$percent/100
+head(canada)
+#unique(type.r.long$percent)
+n.percent<-length(canada$percent)
+canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ field_research * type.g, canada)
+summary(mod1)
+plot(mod1)
+mod2<-betareg(percent_trans ~ field_research + type.g, canada)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#******************* Significant - warning errors  ******************************
+#*******************************************************************
+# mod1 fits better
+
+#2011-2015
+head(part3.success.long)
+
+g.success<-subset(part3.success.long, select=c("Location","Country",'Country_work', "field_research", "type", "percent"))
+
+canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work=="Canada") & 
+                                                        g.success$Country_work=="" & g.success$Country=="Canada"),]
+#clean up names
+canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2011-2015",
+                                    'successful_grants_11_15_fundamental'='Fundamental 2011-2015',
+                                    'successful_grants_11_15_use' = 'Use-Inspired 2011-2015',
+                                    "successful_grants_6_10_applied"="Applied 2006-2010",
+                                    "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
+                                    "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
+
+canada<-canada[!canada$field_research=="",]
+str(canada)
+canada$type<-as.character(canada$type)
+canada$year<-  str_split_fixed(canada$type, ' ', 2)[,2]
+canada$type.g<-  str_split_fixed(canada$type, ' ', 2)[,1]
+canada<-canada[!canada$year=="2006-2010",]
+canada<-droplevels(canada)
+tail(canada)
+#canada$type.g<-as.factor(canada$type.g)
+str(canada)
+
+
+#make decimal 
+canada$percent<-canada$percent/100
+head(canada)
+#unique(type.r.long$percent)
+n.percent<-length(canada$percent)
+canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ field_research * type.g, canada)
+summary(mod1)
+plot(mod1)
+mod2<-betareg(percent_trans ~ field_research + type.g, canada)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#******************* Not Significant - warning error  ******************************
+#*******************************************************************
+# mod2 fits better but bad residuals plots
+
 
 
 #--------------------#--------------------#--------------------
@@ -317,10 +450,78 @@ head(part3.part.long)
 #--------------------#--------------------#--------------------
 #### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015
 #--------------------#--------------------#--------------------
+
+#2011-2015
 head(p3_master)
-head(p3_master.long)
+funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "field_research", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                      "Other"))
+funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "field_research","year","For.Profit", "Government" , "Internal", "Non.governmental",
+                                        "Other"))
+canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
+                                                        funding.c$Country_work=="" & funding.c$Country=="Canada"),]
+canada<-canada[!canada$field_research=="",]
+canada<-canada[!canada$year=="6_10",]
+canada<-droplevels(canada)
+head(canada,20)
 
+#put into long form
+funding.c.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -field_research, -year)
+head(funding.c.long)
+hist(funding.c.long$percent_trans)
+#make decimal 
+funding.c.long$percent<-funding.c.long$percent/100
+tail(funding.c.long,20)
+#unique(type.r.long$percent)
+n.percent<-length(funding.c.long$percent)
+funding.c.long$percent_trans<-(funding.c.long$percent*(n.percent-1)+0.5)/n.percent
 
+mod1<-betareg(percent_trans ~ field_research * type, funding.c.long)
+summary(mod1)
+plot(mod2)
+mod2<-betareg(percent_trans ~ field_research + type, funding.c.long)
+AIC(mod1, mod2)
+ggplot(funding.c.long, aes(field_research, percent)) + geom_point() +theme(axis.text.x = element_text(angle=90, vjust=0.5))
+ggplot(funding.c.long, aes(field_research, percent, col=type)) + geom_point()+ theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+#*******************************************************************
+#***********************  There are some significances  *******************************
+#*******************************************************************
+#mod1 fits better
+
+#2006-2010
+head(p3_master)
+funding.c<-subset(p3_master, select=c("Location","Country",'Country_work', "field_research", "survey", "year", "For.Profit", "Government" , "Internal", "Non.governmental",
+                                      "Other"))
+funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "field_research","year","For.Profit", "Government" , "Internal", "Non.governmental",
+                                        "Other"))
+canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
+                                                        funding.c$Country_work=="" & funding.c$Country=="Canada"),]
+canada<-canada[!canada$field_research=="",]
+canada<-canada[!canada$year=="11_15",]
+canada<-droplevels(canada)
+head(canada,20)
+
+#put into long form
+funding.p.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -field_research, -year)
+head(funding.p.long)
+hist(funding.p.long$percent_trans)
+#make decimal 
+funding.p.long$percent<-funding.p.long$percent/100
+tail(funding.p.long,20)
+#unique(type.r.long$percent)
+n.percent<-length(funding.p.long$percent)
+funding.p.long$percent_trans<-(funding.p.long$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ field_research * type, funding.p.long)
+summary(mod1)
+plot(mod2)
+mod2<-betareg(percent_trans ~ field_research + type, funding.p.long)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#*********************** There are some significant differences  *******************************
+#*******************************************************************
+# mod1 fits better
 
 
 #--------------------#--------------------#--------------------

@@ -25,6 +25,7 @@ part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
 part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
 p3_master<-read.csv(file="data/gya-p3_master.csv")
+research.type<-read.csv(file="data/gya-research-cleaned.csv")
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(visreg); require(betareg)
@@ -65,11 +66,9 @@ anova(change.mod1, change.mod2, test="Chi")
 #### Part1. Question 1 & 3. Proportions of type of research current and past
 #--------------------#--------------------#--------------------
 
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - it wont spread@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-head(canada)
-research<-subset(research, select=c("Location","Country",'Country_work', "what_participant_group", "type", "percent"))
+#current
+head(research.type)
+research<-subset(research.type, select=c("Location","Country",'Country_work', "what_participant_group", "percent_fundemental_research_current", "percent_Use_inspired_Research_current", "percent_Applied_Research_current"))
 canada<-research[research$Country_work=="Canada" | (!(research$Country_work=="Canada") & 
                                                       research$Country_work=="" & research$Country=="Canada"),]
 
@@ -81,11 +80,66 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
 
 canada<-droplevels(canada)
+head(canada)
 
-canada<-spread(canada, type, percent)
+#turn into long form
+type.r.long<-gather(canada, type, percent, -Location, -Country, -Country_work, -what_participant_group)
+head(type.r.long)
 
-## using table to count cases of each category
-sum.change<-data.frame(table(canada$changed_10yrs, canada$what_participant_group))
+#make decimal 
+type.r.long$percent<-type.r.long$percent/100
+head(type.r.long, 20)
+#transform data
+n.percent<-length(type.r.long$percent)
+type.r.long$percent_trans<-(type.r.long$percent*(n.percent-1)+0.5)/n.percent
+
+mod1<-betareg(percent_trans ~ what_participant_group * type, type.r.long)
+mod2<-betareg(percent_trans ~ what_participant_group + type, type.r.long)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#************************* Significant  ****************************
+#*******************************************************************
+#mod1 fits better
+
+
+#now past
+head(research.type)
+p.research<-subset(research.type, select=c("Location","Country",'Country_work', "what_participant_group", "percent_Fundamental_Research_past", "percent_Use_inspired_Research_past", 
+                                           "percent_Applied_Research_past"))
+canada<-p.research[p.research$Country_work=="Canada" | (!(p.research$Country_work=="Canada") & 
+                                                          p.research$Country_work=="" & p.research$Country=="Canada"),]
+canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+
+canada<-canada[!canada$what_participant_group=="",]
+canada<-droplevels(canada)
+head(canada)
+
+type.rp.long<-gather(canada, type.p, percent, -Location, -Country, -Country_work, -what_participant_group)
+head(type.rp.long)
+
+#make decimal 
+type.rp.long$percent<-type.rp.long$percent/100
+head(type.rp.long, 20)
+unique(type.rp.long$percent)
+#tranform data
+n.percent<-length(type.rp.long$percent)
+type.rp.long$percent_trans<-(type.rp.long$percent*(n.percent-1)+0.5)/n.percent
+
+
+mod1<-betareg(percent_trans ~ what_participant_group * type.p, type.rp.long)
+summary(mod1)
+mod2<-betareg(percent_trans ~ what_participant_group + type.p, type.rp.long)
+AIC(mod1, mod2)
+
+#*******************************************************************
+#******************* Significant *******************************
+#*******************************************************************
+# mod1 fits better
 
 
 

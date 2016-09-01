@@ -317,6 +317,7 @@ anova(cur.mod1, cur.mod2, test="Chi")
 #*******************Not Significant P = 0.297***********************
 #*******************************************************************
 
+#is it ok that I spit up the time periods?
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 2. Level of partnership outside academia -change
@@ -681,10 +682,24 @@ g.success<-subset(part3.success.long, select=c("Location","Country",'Country_wor
 
 canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work=="Canada") & 
                                                         g.success$Country_work=="" & g.success$Country=="Canada"),]
+#clean up names
+canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2011-2015",
+                                                        'successful_grants_11_15_fundamental'='Fundamental 2011-2015',
+                                                        'successful_grants_11_15_use' = 'Use-Inspired 2011-2015',
+                                                        "successful_grants_6_10_applied"="Applied 2006-2010",
+                                                        "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
+                                                        "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
 
 canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
-canada$year<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+head(canada)
+unique(canada$type.g)
+canada$type<-as.character(canada$type)
+canada$year<-  str_split_fixed(canada$type, ' ', 2)[,2]
+canada$type.g<-  str_split_fixed(canada$type, ' ', 2)[,1]
+head(canada)
+
+
 canada<-canada[!canada$year=="2011-2015",]
 canada<-droplevels(canada)
 tail(canada)
@@ -696,14 +711,14 @@ head(canada)
 n.percent<-length(canada$percent)
 canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
 
-mod1<-betareg(percent_trans ~ gender * type, canada)
+mod1<-betareg(percent_trans ~ gender * type.g, canada)
 summary(mod1)
 plot(mod1)
-mod2<-betareg(percent_trans ~ gender + type, canada)
+mod2<-betareg(percent_trans ~ gender + type.g, canada)
 AIC(mod1, mod2)
 
 #*******************************************************************
-#******************* Not Significant  ******************************
+#******************* Not Significant- but warning messages??  ******************************
 #*******************************************************************
 # mod2 fits better
 
@@ -714,10 +729,19 @@ g.success<-subset(part3.success.long, select=c("Location","Country",'Country_wor
 
 canada<-g.success[g.success$Country_work=="Canada" | (!(g.success$Country_work=="Canada") & 
                                                         g.success$Country_work=="" & g.success$Country=="Canada"),]
+#clean up names
+canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2011-2015",
+                                    'successful_grants_11_15_fundamental'='Fundamental 2011-2015',
+                                    'successful_grants_11_15_use' = 'Use-Inspired 2011-2015',
+                                    "successful_grants_6_10_applied"="Applied 2006-2010",
+                                    "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
+                                    "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
 
 canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
-canada$year<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada$type<-as.character(canada$type)
+canada$year<-  str_split_fixed(canada$type, ' ', 2)[,2]
+canada$type.g<-  str_split_fixed(canada$type, ' ', 2)[,1]
 canada<-canada[!canada$year=="2006-2010",]
 canada<-droplevels(canada)
 tail(canada)
@@ -729,14 +753,14 @@ head(canada)
 n.percent<-length(canada$percent)
 canada$percent_trans<-(canada$percent*(n.percent-1)+0.5)/n.percent
 
-mod1<-betareg(percent_trans ~ gender * type, canada)
+mod1<-betareg(percent_trans ~ gender * type.g, canada)
 summary(mod1)
 plot(mod1)
-mod2<-betareg(percent_trans ~ gender + type, canada)
+mod2<-betareg(percent_trans ~ gender + type.g, canada)
 AIC(mod1, mod2)
-
+?betareg.fit
 #*******************************************************************
-#******************* Not Significant  ******************************
+#******************* Not Significant - warning message though??  ******************************
 #*******************************************************************
 # the models are within 2 but mod 2 has fewer df
 
@@ -918,7 +942,7 @@ summary(mod1)
 plot(mod2)
 mod2<-betareg(percent_trans ~ gender + type, funding.c.long)
 AIC(mod1, mod2)
-
+#plot data to look at
 #*******************************************************************
 #*********************** Significant *******************************
 #*******************************************************************
