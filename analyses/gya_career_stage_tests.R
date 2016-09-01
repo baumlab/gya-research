@@ -385,6 +385,8 @@ anova(p.view.mod1, p.view.mod2, test="Chi")
 #--------------------#--------------------#--------------------
 head(part3.grants.long)
 
+#dont know how  
+
 
 #--------------------#--------------------#--------------------
 #### Part3. Question 2. Successful grant apps types 2006-2010, 2011-2015
@@ -495,7 +497,7 @@ AIC(mod1, mod2)
 head(part3.prac.long)
 
 
-
+#dont know how - could test together  - I know how to do the years seperated
 
 
 #--------------------#--------------------#--------------------
@@ -504,7 +506,7 @@ head(part3.prac.long)
 head(part3.part.long)
 
 
-
+#dont know how - could test together  - I know how to do the years seperated
 
 #--------------------#--------------------#--------------------
 #### Part3. Question 5. Distribution of funding 2006-2010, 2011-2015
@@ -594,7 +596,7 @@ AIC(mod1, mod2)
 #--------------------#--------------------#--------------------
 head(part3.change)
 
-
+#dont know how to do it all together   could do each type seperate
 
 
 #--------------------#--------------------#--------------------
