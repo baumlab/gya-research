@@ -590,6 +590,7 @@ head(g.types.ca)
 g.types.ca$type<-ifelse(grepl("Use-Inspired", g.types.ca$type.grant), "Use-Inspired", "")
 head(g.types.ca)
 
+#make a seperate column for both year and type
 g.types.used<-g.types.ca[!g.types.ca$type=="",]
 levels(g.types.used$number)
 g.types.used$type.grant<-as.character(g.types.used$type.grant)
@@ -646,6 +647,7 @@ head(g.types.ca)
 g.types.ca$type<-ifelse(grepl("Fundamental", g.types.ca$type.grant), "Fundamental", "")
 head(g.types.ca)
 
+#make a seperate column for both year and type
 g.types.fund<-g.types.ca[!g.types.ca$type=="",]
 levels(g.types.fund$number)
 g.types.fund$type.grant<-as.character(g.types.fund$type.grant)
