@@ -67,7 +67,6 @@ anova(change.mod1, change.mod2, test="Chi")
 #### Part1. Question 1 & 3. Proportions of type of research current and past                     -percents
 #--------------------#--------------------#--------------------
 
-install.packages("betareg")
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 #from meeting with James
 
@@ -533,6 +532,7 @@ head(g.types.ca)
 g.types.ca$type<-ifelse(grepl("Applied", g.types.ca$type.grant), "Applied", "")
 head(g.types.ca)
 
+#make a seperate column for both year and type
 g.types.applied<-g.types.ca[!g.types.ca$type=="",]
 levels(g.types.applied$number)
 g.types.applied$type.grant<-as.character(g.types.applied$type.grant)
@@ -548,7 +548,7 @@ g.types.applied.mod2<-(glm(Freq ~ number*gender, g.types.applied, family="poisso
 summary(g.types.applied.mod2)
 plot(g.types.applied.mod2)
 anova(g.types.applied.mod1, g.types.applied.mod2, test="Chi")
-AIC(g.types.applied.mod1,g.types.applied.mod2, g.types.applied.mod3,g.types.applied.mod4)
+AIC(g.types.applied.mod1,g.types.applied.mod2)
 #plot data to look at
 ggplot(g.types.applied, aes(number, Freq)) + geom_point()
 ggplot(g.types.applied, aes(number, Freq, col=gender, shape=gender)) + geom_point()
@@ -557,7 +557,7 @@ ggplot(g.types.applied, aes(number, Freq, col=gender, shape=year)) + geom_point(
 #*******************************************************************
 #*******************there is significantly more applied grants in 2011-2015 than 2006-2010 and gender did not signifcantly impact the number of grants **********************
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#cant find a way to do this right now - we have tried a lot of things and a lot of man power has gone into this so far
+#cant find a way to do this 
 #*******************************************************************
 
 #use-inspired
