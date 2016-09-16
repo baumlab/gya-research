@@ -82,6 +82,34 @@ survey$Country<-as.factor(survey$Country)
 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 
+#how many of each 
+colnames(survey)
+Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
+                                                 survey$Country_work=="" & survey$Country=="Canada"),]
+gender<-table(Canada$gender)
+gender
+
+dicipline<-table(Canada$field_research)
+dicipline
+
+career.stage<-table(Canada$what_participant_group)
+career.stage
+
+Canada$what_participant_group<-revalue(Canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+
+g.careerstage<-table(Canada$gender, Canada$what_participant_group)
+g.careerstage
+
+g.dicipline<-table(Canada$gender, Canada$field_research)
+g.dicipline
+
+dicipline.careerstage<-table(Canada$what_participant_group, Canada$field_research)
+dicipline.careerstage
+
 #############
 ####Part5####
 #############
