@@ -49,10 +49,26 @@ n.Cdn.nonACsenior <- n.Cdn.res[n.Cdn.res$what_participant_group=="Non-academic r
 percent.nonACsenior<-((dim(n.Cdn.nonACsenior)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from early career non-academics
 n.Cdn.unk <- n.Cdn.res[n.Cdn.res$what_participant_group=="",]
 percent.unk<-((dim(n.Cdn.unk)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from unknown career stage
+
+#Discipline Tabulations:
+n.natural <- n.Cdn.res[n.Cdn.res$field_research=="Natural Science",]
+percent.natural <- ((dim(n.natural)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian natural scientists
+n.physics <- n.Cdn.res[n.Cdn.res$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
+percent.physics <- ((dim(n.physics)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian physical scientists
+n.med <- n.Cdn.res[n.Cdn.res$field_research=="Medicine and Life Science",]
+percent.med <- ((dim(n.med)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian med/life scientists
+n.eng <- n.Cdn.res[n.Cdn.res$field_research=="Engineering",]
+percent.eng <- ((dim(n.eng)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian engineering scientists
+n.int <- n.Cdn.res[n.Cdn.res$field_research=="Interdisciplinary Science",]
+percent.int <- ((dim(n.int)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian interdisciplinary scientists
+n.ssh <- n.Cdn.res[n.Cdn.res$field_research=="Social Science / Humanities",]
+percent.ssh <- ((dim(n.ssh)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian interdisciplinary scientists
 ```
 
 **Results**  
-In total, `r dim(n.Cdn.res)[1]` Canadian researchers completed the online survey. Of these, almost three quarters were male (`r ceiling(percent.men)`%) and one quarter were female (`r round(percent.women)`%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). The remainder of responses came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+In total, `r dim(n.Cdn.res)[1]` Canadian researchers completed the online survey. Of these, almost three quarters were male (`r ceiling(percent.men)`%) and one quarter were female (`r round(percent.women)`%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). A small proportion of responses also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+
+Researchers from many different disciplines were represented in the survey. Almost sixty per cent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
 <!-- Generate Canadian career stage figure -->
 ```{r, echo=FALSE, fig.cap="Figure 4.1 Number of Canadian survey respondents by career stage", warning=FALSE, fig.width=14}
@@ -96,74 +112,18 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   colScale+ ylim(c(0, 1300)) + guides(fill=FALSE)
 ```
 
-
-
------- Rmd FILE IS FIXED DOWN TO HERE
-
-
- <!-- Female 318 / 1283; Male 946/1283  ECR: 367 / 1283; Non-academic ECR: 7; Non-academic >10yrs: 15; Post-doc: 48; Senior: 841 (65.5%); 5 no responses; Engineering 163 (12.7%); Inter 70 (5.48%); Med/Life Sci 251(19.65%); Natural 377 (29.5%); Other 3; Phys 382 (29.9%); Social 37. For some unknown reason this totals 1277; -->
- 
- 
-Sixty per cent of responses came from either the natural or physical sciences (Figure 2). The remaining responses were spread amongst the medical and life sciences (20%), engineering (13%), interdisciplinary research (5%), and social sciences and humanities (3%). 
-
-
-
-  
-
-
-
-```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
-## load in survey data
-## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
-#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
-#setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
-#setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
-
-#survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
-#survey<-read.csv(file="data/gya-without-incomplete.csv")
-#survey.what<-read.csv(file="data/gya-country-responses.csv")
-#research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
-#research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
-#research.change<-read.csv(file="data/gya-change-reason.csv")
-#part4<-read.csv(file="data/gya-survey-part4.csv")
-#part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
-#part2.change<-read.csv(file="data/gya-part2.change.csv")
-#part2.reason<-read.csv(file="data/gya-part2.reason.csv")
-#part2.view<-read.csv(file="data/gya-part2.view.csv")
-#part1.view<-read.csv(file="data/gya-part1.view.csv")
-#part3.change<-read.csv(file="data/gya-part3.change.csv")
-#part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
-#part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
-#part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
-#part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
-#p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
-
-## load required packages
-#require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
-
-#theme_set(theme_bw())
-
-#gender<-aggregate(Location ~ gender, survey, length)
-#country_work<-aggregate(gender ~ Country_work, survey, length)
-#locations<-aggregate(gender ~ Country, survey.what, length)
-
-```
-
-```{r, echo=FALSE, fig.cap="Survey responses by field of research", warning=FALSE, fig.width=14}
-#field.can<-with(survey.what[survey.what$Country=="Canada",],data.frame(table(field_research))) 
+<!-- Generate Canadian research discipline figure -->
+```{r, echo=FALSE, fig.cap="Figure 4.2 Survey responses by field of research", warning=FALSE, fig.width=14}
 field.can<-with(survey.what[survey.what$Country_work=="Canada" | (!(survey.what$Country_work=="Canada") & survey.what$Country_work=="" & survey.what$Country=="Canada"),], data.frame(table(field_research)))
 field.can<-field.can[!field.can$field_research=="",]
 field.can$field_research<-reorder(field.can$field_research, field.can$Freq)
 field.can$field_research<-revalue(field.can$field_research, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
-
 
 ## setting colour scale to keep colours identical between similar plots
 myColors<-(brewer.pal(9, "Blues"))
 myColors<-myColors[-c(1)]
 names(myColors) <- levels(field.can$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors)
-
 
 ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -177,43 +137,26 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank()) + 
   guides(fill=FALSE) + colScale
-
-
-
-
-
 ```
 
+*4.1 Type of Research Conducted* 
+Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers considered themselves to only do one type of research: insert %s of who think they do all of f, u, or a. X% of researchers consider that over half of their research program is in fundamental science......
 
 
 
-*Research Type* SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X). 
-
-*External Partnerships* The extent to which research is conducted with partners outside of academia, including in industry and non-governmental sectors, may also be considered as an indicator of use-inspired or applied research. Almost all respondents reported that their current research is conducted with some external partners, with X% reporting some partnership and X and Y% reporting strong or exclusive partnerships, respectively. In contrast, X% of researchers said that in the past they had no external partners in their research, whereas that number today was much lower..... 
-
-Again, the predominate reason given was funding related (Figure X).
-
-However, very few researchers viewed this change as being very negative. Most researchers regarded it as either slightly negative or slightly positive, and X% viewed it as very positive. 
-
-*Research Grants* 
-[STILL TO COME]
-
-The majority of respondents believe that it is now either mandatory or very important to suggest practical applications of their research in order for their grant applications to be successful. This has shifted over time, with researchers reporting that between 2006 and 2010 it was only somewhat important to do so (Figure X).
-
-Similarly...... including partners from for-profit or non-governmental sectors in grants to be successful (Figure X).
-
-*Perspectives on the State of Fundamental Research in Canada*
-Over half of Canadian researchers who responded said that fundamental research is either very important or somewhat important to our government. Differences by career stage, discipline,ggender....
-
-At the same time, almost three-quarters of respondents said that applied research became a higher priority for our government over the past decade. 
-
-Summarize finding on how they think availabiltiy of research funding will change over the next five years: 
+spanning
 
 
-### GYA surveys: Canada
+------ Rmd FILE IS FIXED DOWN TO HERE
 
-#### Part 1 - Type of Research Conducted
-```{r, echo=FALSE, fig.cap="Funding allocation to fundamental, use-inspired and applied research categories. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
+
+
+
+
+SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X).
+
+<!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
+```{r, echo=FALSE, fig.cap="Figure 4.3 Funding allocation to fundamental, use-inspired and applied research categories. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -260,6 +203,79 @@ ggplot(res.plot, aes(percent, fill=time)) +
   scale_x_continuous(breaks=seq(0,100,10))
 
 ```
+
+
+*4.2 External Partnerships*   
+The extent to which research is conducted with partners outside of academia, including in industry and non-governmental sectors, may also be considered as an indicator of use-inspired or applied research. Almost all respondents reported that their current research is conducted with some external partners, with X% reporting some partnership and X and Y% reporting strong or exclusive partnerships, respectively. In contrast, X% of researchers said that in the past they had no external partners in their research, whereas that number today was much lower..... 
+
+Again, the predominate reason given was funding related (Figure X).
+
+However, very few researchers viewed this change as being very negative. Most researchers regarded it as either slightly negative or slightly positive, and X% viewed it as very positive. 
+
+ 
+
+
+
+
+  
+
+
+
+```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
+## load in survey data
+## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+#setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
+#setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
+
+#survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
+#survey<-read.csv(file="data/gya-without-incomplete.csv")
+#survey.what<-read.csv(file="data/gya-country-responses.csv")
+#research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
+#research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
+#research.change<-read.csv(file="data/gya-change-reason.csv")
+#part4<-read.csv(file="data/gya-survey-part4.csv")
+#part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
+#part2.change<-read.csv(file="data/gya-part2.change.csv")
+#part2.reason<-read.csv(file="data/gya-part2.reason.csv")
+#part2.view<-read.csv(file="data/gya-part2.view.csv")
+#part1.view<-read.csv(file="data/gya-part1.view.csv")
+#part3.change<-read.csv(file="data/gya-part3.change.csv")
+#part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
+#part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
+#part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
+#part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
+#p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
+
+## load required packages
+#require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
+
+#theme_set(theme_bw())
+
+#gender<-aggregate(Location ~ gender, survey, length)
+#country_work<-aggregate(gender ~ Country_work, survey, length)
+#locations<-aggregate(gender ~ Country, survey.what, length)
+
+```
+
+
+*Research Grants* 
+[STILL TO COME]
+
+The majority of respondents believe that it is now either mandatory or very important to suggest practical applications of their research in order for their grant applications to be successful. This has shifted over time, with researchers reporting that between 2006 and 2010 it was only somewhat important to do so (Figure X).
+
+Similarly...... including partners from for-profit or non-governmental sectors in grants to be successful (Figure X).
+
+*Perspectives on the State of Fundamental Research in Canada*
+Over half of Canadian researchers who responded said that fundamental research is either very important or somewhat important to our government. Differences by career stage, discipline,ggender....
+
+At the same time, almost three-quarters of respondents said that applied research became a higher priority for our government over the past decade. 
+
+Summarize finding on how they think availabiltiy of research funding will change over the next five years: 
+
+
+
 
 ```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years. Researchers were asked if their funding proportions had changed in the past ten years (a), and what the main reason for a change in their research category (b).", fig.width=14}
 ## order bars from highest to lowest
@@ -355,7 +371,7 @@ ggplot(change.view.ca, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 ```
 
 #### Part 2 - External Partnerships
-```{r, echo=FALSE, fig.cap="Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their research had outside of academia, for 10 years ago (past) and for their current research (current).", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
 part2.b.a<-part2.b.a[part2.b.a$Country_work=="Canada" | (!(part2.b.a$Country_work=="Canada") & part2.b.a$Country_work=="" & part2.b.a$Country=="Canada"),]
 
 b.part<-data.frame(table(part2.b.a$partnership_outside_before))
@@ -382,7 +398,6 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time)) +
         legend.position=c(0.2, 0.9), 
         legend.title=element_blank()) +
   colScale
-  
 ```
 
 ```{r, echo=FALSE, fig.cap="Reasons for change in external partnerships over the past 10 years. Researchers were asked if their level of external partnerships outside of academia, with for-profit or non-governmental sectors, had changed over the past ten years (a) and what the reason for that change was (b).", warning=FALSE}
