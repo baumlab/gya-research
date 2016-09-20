@@ -10,7 +10,7 @@ output:
 ---
 
 **Introduction**
-In addition to the official data presented in Chapters 2 and 3, we also developed and ran a quantitative online survey to query Canadian researchers about their perceptions of, and experiences with, funding for fundamental research. An important aim of the survey was to provide an understanding researcher's personal experiences and outlook on the research funding landscape in Canada. We had an excellent response to the survey, with over 1300 Canadian researchers completing it, suggesting that fundamental research funding is a high priority topic for Canadian researchers. Herein, we detail the survey questions and results. 
+In addition to the official data presented in Chapters 2 and 3, we also developed and ran a quantitative online survey to query researchers about their perceptions of, and experiences with, funding for fundamental research. An important aim of the survey was to provide an understanding researcher's personal experiences and outlook on the research funding landscape in Canada. We had an excellent response to the survey, with over 1300 Canadian researchers completing it, suggesting that fundamental research funding is a high priority topic for Canadian researchers. Herein, we detail the survey questions and results. 
 
 **Methods**  
 Online Survey  
@@ -29,20 +29,30 @@ survey<-read.csv(file="../data/gya-without-incomplete.csv")
 n.Cdn.res <- survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
              survey$Country_work=="" & survey$Country=="Canada"),]  #Count how many responses from Canadian researchers
 
+#Gender:
 n.Cdn.res.men <- n.Cdn.res[n.Cdn.res$gender=="Male",]               #Count how many responses from Canadian male researchers
 percent.men<-((dim(n.Cdn.res.men)[1])/(dim(n.Cdn.res)[1]))*100      #Calculate the % of responses from Canadian male researchers
 n.Cdn.res.women <- n.Cdn.res[n.Cdn.res$gender=="Female",]           #Count how many responses from Canadian female researchers
 percent.women<-((dim(n.Cdn.res.women)[1])/(dim(n.Cdn.res)[1]))*100  #Calculate the % of responses from Canadian female researchers
 
+#Discipline:
+#table(n.Cdn.res$what_participant_group)
 n.Cdn.seniorac <- n.Cdn.res[n.Cdn.res$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
 percent.seniorac<-((dim(n.Cdn.seniorac)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian senior academic researchers
 n.Cdn.earlyac <- n.Cdn.res[n.Cdn.res$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
 percent.earlyac<-((dim(n.Cdn.earlyac)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian early academic researchers
+n.Cdn.pdf <- n.Cdn.res[n.Cdn.res$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
+percent.pdf<-((dim(n.Cdn.pdf)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian post-docs
+n.Cdn.nonACearly <- n.Cdn.res[n.Cdn.res$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
+percent.nonACearly<-((dim(n.Cdn.nonACearly)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from early career non-academics
+n.Cdn.nonACsenior <- n.Cdn.res[n.Cdn.res$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
+percent.nonACsenior<-((dim(n.Cdn.nonACsenior)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from early career non-academics
+n.Cdn.unk <- n.Cdn.res[n.Cdn.res$what_participant_group=="",]
+percent.unk<-((dim(n.Cdn.unk)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from unknown career stage
 ```
 
-**Results**
-In total, `r dim(n.Cdn.res)[1]` Canadian researchers completed the online survey. Of these, almost three quarters were male (`r ceiling(percent.men)`%) and one quarter were female (`r round(percent.women)`%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). 
-
+**Results**  
+In total, `r dim(n.Cdn.res)[1]` Canadian researchers completed the online survey. Of these, almost three quarters were male (`r ceiling(percent.men)`%) and one quarter were female (`r round(percent.women)`%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). The remainder of responses came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
  <!-- Female 318 / 1283; Male 946/1283  ECR: 367 / 1283; Non-academic ECR: 7; Non-academic >10yrs: 15; Post-doc: 48; Senior: 841 (65.5%); 5 no responses; Engineering 163 (12.7%); Inter 70 (5.48%); Med/Life Sci 251(19.65%); Natural 377 (29.5%); Other 3; Phys 382 (29.9%); Social 37. For some unknown reason this totals 1277; -->
  
  
