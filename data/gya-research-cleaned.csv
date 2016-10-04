@@ -1,163 +1,133 @@
 "Location","Country","Country_work","gender","what_participant_group","field_research","percent_fundemental_research_current","percent_Use_inspired_Research_current","percent_Applied_Research_current","percent_Fundamental_Research_past","percent_Use_inspired_Research_past","percent_Applied_Research_past","total_research"
-"British Columbia","Canada","Barbados","Other","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Natural Science",0,0,100,0,0,70,70
 "British Columbia","Canada","Antarctica","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",100,0,0,100,0,0,100
-"Netherlands","Netherlands","Russia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,30,0,100,0,0,100
-"Netherlands","Netherlands","Germany","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,20,0,80,20,0,100
-"Netherlands","Netherlands","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,20,10,90,10,0,100
-"Netherlands","Netherlands","Brazil","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,30,10,90,10,0,100
+"Israel","Israel","Antarctica","Other","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,0,90,0,0,90
 "","","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
-"South Africa","South Africa","South Africa","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,60,10,40,50,10,100
-"Denmark","Denmark","Japan","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,30,20,70,20,10,100
-"Netherlands","Netherlands","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",0,70,30,40,60,0,100
-"Netherlands","Netherlands","Netherlands","Other","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",40,30,30,100,0,0,100
-"Netherlands","Netherlands","Uruguay","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Other",100,0,0,90,0,10,100
 "Netherlands","Netherlands","Australia","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Interdisciplinary Science",40,30,30,40,40,20,100
-"United Kingdom","United Kingdom","Taiwan","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",50,50,50,30,30,40,100
-"California","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,80,10,10,100
-"Netherlands","Netherlands","Indonesia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",60,40,50,50,30,20,100
-"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,10,20,80,20,0,100
-"France","France","France","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",50,50,0,100,0,0,100
-"","","Bangladesh","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",0,90,10,0,90,10,100
-"South Africa","South Africa","South Africa","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",80,20,0,100,0,0,100
-"Portugal","Portugal","Portugal","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,80,20,0,100
-"Malaysia","Malaysia","Malaysia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,60,20,30,60,0,90
-"Netherlands","Netherlands","Netherlands","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Medicine and Life Science",0,27.2727272727273,63.6363636363636,9.09090909090909,18.1818181818182,72.7272727272727,110
-"Netherlands","Netherlands","Netherlands","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,40,30,40,40,20,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
-"Italy","Italy","Italy","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Physical Science (eg. math, physics, chemistry, computer science)",80,10,10,90,0,10,100
-"Italy","Italy","Italy","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",80,0,20,100,0,0,100
-"Italy","Italy","Italy","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,60,30,10,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,0,50,60,0,40,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",30,60,10,70,30,0,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,40,40,50,30,20,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,30,30,60,20,20,100
-"Italy","Italy","Italy","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Physical Science (eg. math, physics, chemistry, computer science)",30,10,50,10,50,40,100
-"Netherlands","Netherlands","Netherlands","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,80,0,30,70,0,100
-"France","France","France","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
-"Argentina","Argentina","France","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,60,20,20,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,60,20,60,40,0,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",100,30,0,100,0,0,100
-"Greece","Greece","Greece","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,40,0,100,0,0,100
-"Italy","Italy","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",50,30,10,80,10,10,100
-"Cyprus","Cyprus","Cyprus","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",80,20,0,90,10,0,100
-"Vietnam","Vietnam","Vietnam","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",100,0,0,90,0,0,90
-"Italy","Italy","Italy","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",10,40,50,90,10,0,100
-"Netherlands","Netherlands","Netherlands","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",20,70,10,20,80,0,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,10,80,20,20,60,100
-"Spain","Spain","Spain","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",70,30,0,30,60,10,100
-"Switzerland","Switzerland","Italy","Male","","Physical Science (eg. math, physics, chemistry, computer science)",20,50,30,30,60,10,100
-"Finland","Finland","Spain","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",10,90,0,80,20,0,100
-"Massachusetts","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,50,0,100,0,0,100
-"India","India","India","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",25,25,50,37.5,31.25,31.25,160
-"Japan","Japan","","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",10,20,70,10,10,80,100
-"Italy","Italy","Italy","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",20,60,20,40,50,10,100
-"France","France","France","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,70,30,0,100
-"Italy","Italy","Italy","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,10,0,100,0,0,100
-"California","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,80,0,50,50,0,100
-"Egypt","Egypt","Egypt","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,30,20,80,20,0,100
-"Italy","Italy","Italy","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,50,20,60,20,20,100
-"United Kingdom","United Kingdom","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",30,30,30,50,30,20,100
-"Netherlands","Netherlands","Netherlands","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",40,40,20,30,50,20,100
-"Malaysia","Malaysia","Malaysia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",30,0,70,50,0,50,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,40,20,60,40,0,100
 "","","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,20,0,90,10,0,100
-"Ontario","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",10,70,20,0,30,70,100
-"Portugal","Portugal","Portugal","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",90,10,0,100,0,0,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,90,0,10,100
-"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",90,10,0,100,0,0,100
-"Netherlands","Netherlands","Netherlands","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,0,40,100,0,0,100
-"Arizona","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,60,0,100,0,0,100
-"Portugal","Portugal","Spain","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,0,30,50,0,50,100
-"California","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",60,20,20,50,20,30,100
-"Netherlands","Netherlands","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,40,0,100,0,0,100
-"Montenegro","Montenegro","Montenegro","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Medicine and Life Science",80,10,10,90,0,10,100
 "Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",72.7272727272727,18.1818181818182,0,90.9090909090909,9.09090909090909,0,110
 "Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",30,30,30,80,10,10,100
-"China","China","China","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",60,30,10,0,30,70,100
 "Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",60,30,10,80,20,0,100
 "","","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",80,10,10,100,0,0,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,10,0,100,0,0,100
-"Italy","Italy","Germany","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",20,20,60,30,30,40,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,10,70,80,10,10,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,10,0,100,0,0,100
-"Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",80,0,20,100,0,0,100
-"Poland","Poland","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,30,20,70,30,0,100
-"Oregon","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,20,70,0,0,100,100
 "Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,10,20,80,10,10,100
-"Israel","Israel","United States","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",10,0,90,90,0,10,100
-"Netherlands","Netherlands","Netherlands","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,30,0,90,10,0,100
 "Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,70,10,50,50,0,100
-"Poland","Poland","Poland","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",60,30,10,80,20,0,100
-"Poland","Poland","Poland","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,20,0,100,0,0,100
-"Poland","Poland","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",30,0,70,60,0,30,90
-"Poland","Poland","Poland","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",20,40,40,40,60,0,100
-"Serbia","Serbia","Serbia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,0,30,90,0,10,100
-"Japan","Japan","Japan","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,30,10,90,0,10,100
-"Israel","Israel","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",57.1428571428571,35.7142857142857,7.14285714285714,35.7142857142857,35.7142857142857,28.5714285714286,140
-"Israel","Israel","","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,10,30,90,0,10,100
-"","","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,10,0,100,0,0,100
-"Israel","Israel","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,50,20,20,60,20,100
 "United Kingdom","United Kingdom","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",90,0,10,100,0,0,100
 "","","Australia","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Physical Science (eg. math, physics, chemistry, computer science)",0,30,70,70,10,20,100
-"Maryland","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",0,80,20,20,70,10,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,100,0,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,80,0,20,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,0,30,90,10,0,100
-"Switzerland","Switzerland","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,10,10,100,0,0,100
-"Serbia","Serbia","Serbia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,44.4444444444444,5.55555555555556,44.4444444444444,44.4444444444444,11.1111111111111,180
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,30,60,0,20,80,100
-"","","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",60,0,40,80,0,20,100
-"Israel","Israel","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,100,0,0,100
-"France","France","France","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",10,40,50,50,30,20,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",100,0,0,100,0,0,100
-"British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,50,30,40,40,20,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
-"","","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",60,20,20,90,10,0,100
-"France","France","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,20,70,30,30,40,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,0,70,50,0,50,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,0,80,0,0,100,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,20,80,0,50,50,100
-"Greece","Greece","Italy","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,0,50,90,0,10,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,80,10,30,70,0,100
-"Quebec","Canada","France","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,10,20,80,10,10,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",25,25,12.5,37.5,31.25,31.25,160
-"New Hampshire","USA","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,30,30,30,50,20,100
-"Maryland","USA","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,10,100,0,0,100
-"Israel","Israel","","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,40,0,100,0,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,10,20,100,0,0,100
-"Israel","Israel","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",100,0,0,70,30,0,100
-"Vermont","USA","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,70,0,20,90
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,50,50,0,40,60,100
-"Spain","Spain","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,10,10,90,10,0,100
-"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",80,20,0,100,0,0,100
-"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,0,0,100,0,0,100
-"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,100,0,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",30,50,20,40,30,30,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,100,0,60,40,0,100
-"Israel","Israel","Israel","Male","","Medicine and Life Science",50,50,0,70,30,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",70,0,30,30,0,70,100
-"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",40,60,0,60,40,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
-"Ontario","Canada","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,0,30,100,0,0,100
-"Netherlands","Netherlands","India","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",90,0,10,100,0,0,100
-"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,30,20,60,40,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,20,20,20,30,50,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,0,50,90,0,10,100
-"United Kingdom","United Kingdom","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",20,70,10,60,40,0,100
-"United Kingdom","United Kingdom","United Kingdom","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,40,0,80,20,0,100
-"Israel","Israel","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",50,50,0,70,30,0,100
+"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,40,10,0,20,0,20
+"Australia","Australia","Australia","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",0,0,100,70,0,30,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",100,80,20,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,10,0,80,10,10,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,0,20,100,0,0,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,0,30,10,50,40,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,30,20,50,40,10,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",0,100,0,70,30,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,0,20,90,0,10,100
+"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,0,10,70,0,30,100
+"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,50,0,60,40,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,0,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,30,40,60,20,20,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",100,0,0,90,0,10,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,70,0,10,90,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,50,30,10,50,40,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,0,80,0,0,100,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",10,40,50,20,40,40,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",0,60,40,60,30,10,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,60,30,20,80,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,90,0,10,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,70,10,50,40,10,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,60,40,30,60,10,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,80,10,10,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,80,0,40,60,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,0,50,70,0,20,90
+"Australia","Australia","Australia","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",10,20,70,20,40,40,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",9.09090909090909,36.3636363636364,45.4545454545455,18.1818181818182,27.2727272727273,54.5454545454545,110
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",80,10,10,90,10,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,60,10,70,30,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,40,0,80,20,0,100
+"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",30,30,40,80,0,20,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,20,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,10,80,50,10,40,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,70,20,10,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,40,20,50,50,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,30,30,100,0,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,20,30,60,40,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,60,0,70,30,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,50,20,50,40,0,90
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,90,10,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",60,0,40,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,0,50,20,0,80,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,50,20,60,20,20,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,0,70,50,0,50,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,40,20,60,40,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",50,50,0,70,30,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,60,20,50,50,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,40,40,40,20,40,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,10,40,80,0,20,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,30,40,50,30,20,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,40,20,80,20,0,100
+"Netherlands","Netherlands","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,70,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,50,30,50,30,20,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,0,10,50,0,50,100
+"","","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,10,100,0,0,100
+"France","France","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Other",0,60,40,20,70,10,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,30,30,60,20,20,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,80,0,20,70,0,90
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",70,30,0,40,60,0,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,30,10,90,10,0,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,0,30,90,0,10,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,20,0,100,0,0,100
+"Arizona","USA","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,30,20,20,30,50,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,60,20,60,20,20,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",50,50,0,80,20,0,100
+"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,20,0,90,10,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,70,0,30,60,10,100
+"Germany","Germany","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",30,50,10,40,60,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",0,50,50,70,0,30,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,0,20,100,0,0,100
+"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,10,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,0,50,70,0,30,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,30,0,100,0,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,40,50,40,30,30,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,10,20,80,0,20,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",0,20,80,0,60,40,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,20,70,30,40,30,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,40,0,90,10,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,60,10,80,20,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,0,70,70,0,30,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,80,0,40,60,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,50,40,10,50,40,100
+"Norway","Norway","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,10,20,80,0,20,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,10,0,100,0,0,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",50,50,0,70,30,0,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,90,0,10,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,20,0,90,10,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",10,10,80,20,30,50,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,0,10,100,0,0,100
+"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,40,40,60,30,10,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,80,10,30,50,20,100
+"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,20,0,90,10,0,100
+"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",81.8181818181818,0,9.09090909090909,90.9090909090909,0,9.09090909090909,110
+"Austria","Austria","Austria","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",100,0,0,80,0,20,100
+"","","Bangladesh","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",0,90,10,0,90,10,100
+"","","Bangladesh","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,30,60,20,40,20,80
+"British Columbia","Canada","Barbados","Other","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Natural Science",0,0,100,0,0,70,70
+"Netherlands","Netherlands","Brazil","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,30,10,90,10,0,100
 "Brazil","Brazil","Brazil","Female","","Natural Science",50,20,30,70,20,10,100
 "Netherlands","Netherlands","Brazil","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",20,70,10,90,10,0,100
-"Brazil","Brazil","","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",45.4545454545455,0,45.4545454545455,54.5454545454545,0,45.4545454545455,110
 "Brazil","Brazil","Brazil","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,0,70,80,0,20,100
 "Brazil","Brazil","Brazil","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",10,30,60,50,10,40,100
-"Germany","Germany","Germany","Male","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",20,50,30,20,30,50,100
-"Spain","Spain","Spain","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,70,0,100,0,0,100
 "Brazil","Brazil","Brazil","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,30,30,70,20,10,100
 "Brazil","Brazil","Brazil","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,10,0,100,0,0,100
-"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,0,10,100,0,0,100
-"Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",66.6666666666667,66.6666666666667,6.66666666666667,66.6666666666667,33.3333333333333,0,150
+"Brazil","Brazil","Brazil","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",0,50,50,0,40,60,100
+"Brazil","Brazil","Brazil","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,0,70,50,0,50,100
+"United Kingdom","United Kingdom","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",30,30,30,50,30,20,100
+"Ontario","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",10,70,20,0,30,70,100
+"Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",80,0,20,100,0,0,100
+"British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,50,30,40,40,20,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,60,10,60,30,10,100
 "Ontario","Canada","Canada","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",35,30,15,50,50,0,200
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",70,30,0,100,0,0,100
@@ -206,7 +176,6 @@
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,30,40,70,20,10,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,40,50,20,0,80,100
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,0,30,70,0,30,100
-"Quebec","Canada","","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,50,10,70,30,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,0,80,50,0,50,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,0,40,90,0,10,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,100,0,0,100
@@ -216,7 +185,6 @@
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",0,60,40,0,10,80,90
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,0,50,80,0,20,100
-"Newfoundland and Labrador","Canada","Chad","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,20,50,30,10,60,100
 "Quebec","Canada","Canada","Female","","Natural Science",80,20,0,100,0,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,0,70,50,0,50,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,0,10,100,0,0,100
@@ -224,7 +192,6 @@
 "Ontario","Canada","Canada","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Physical Science (eg. math, physics, chemistry, computer science)",0,20,80,50,50,0,100
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,50,40,10,100
 "Alberta","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,80,0,20,100
-"Manitoba","Canada","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,90,10,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",0,50,50,10,50,30,90
 "British Columbia","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,0,40,100,0,0,100
 "Nova Scotia","Canada","Canada","","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,70,70,50,50,0,100
@@ -233,13 +200,11 @@
 "Alberta","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,30,0,100,0,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,10,10,100,0,0,100
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,30,50,50,40,0,90
-"Ontario","Canada","","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,0,0,90,0,10,100
 "British Columbia","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,0,30,90,0,10,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,10,20,80,20,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,100,0,0,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,0,70,40,0,60,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",80,0,20,100,0,0,100
-"Ontario","Canada","","","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,50,20,70,30,0,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",0,30,70,0,40,60,100
 "Nova Scotia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,10,40,100,0,0,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,10,90,0,10,100
@@ -248,7 +213,6 @@
 "Ontario","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,30,0,100,0,0,100
 "Nevada","USA","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",20,80,40,20,70,10,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,10,10,100,0,0,100
-"Alberta","Canada","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,10,10,90,10,0,100
 "Alberta","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",70,30,0,90,10,0,100
 "Alberta","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,100,0,0,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,40,50,30,30,40,100
@@ -274,7 +238,6 @@
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,30,20,40,40,20,100
 "Alberta","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,0,40,80,0,20,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,60,0,80,20,0,100
-"Quebec","Canada","","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,10,70,0,30,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,30,60,20,40,40,100
 "British Columbia","Canada","Canada","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",10,60,30,20,60,20,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,50,0,90,10,0,100
@@ -291,7 +254,6 @@
 "Ontario","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",0,10,90,20,0,70,90
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,40,30,40,30,30,100
 "","","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,0,10,100,0,0,100
-"Korea","Korea","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,50,50,10,60,30,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,80,0,20,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,20,60,20,30,50,100
@@ -304,7 +266,6 @@
 "Nova Scotia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",80,20,0,100,0,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,80,0,90,10,0,100
 "Florida","USA","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,40,20,50,40,10,100
-"Chile","Chile","Chile","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",40,20,20,60,30,10,100
 "Saskatchewan","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,50,0,50,100
 "Yukon Territory","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,60,0,100,0,0,100
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
@@ -326,7 +287,6 @@
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,30,0,50,30,20,100
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",63.6363636363636,0,27.2727272727273,81.8181818181818,9.09090909090909,9.09090909090909,110
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",20,30,50,50,40,10,100
-"New York","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,0,40,80,0,20,100
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,0,100,0,0,100
 "Alberta","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",50,30,20,80,10,10,100
 "Japan","Japan","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,100,0,0,100
@@ -338,7 +298,6 @@
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,0,40,80,0,20,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,40,20,70,30,0,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,0,80,60,0,40,100
-"Serbia","Serbia","Serbia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
 "Greece","Greece","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,20,10,90,10,0,100
 "Nova Scotia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",60,40,0,100,0,0,100
 "Newfoundland and Labrador","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",40,40,20,50,50,0,100
@@ -385,7 +344,6 @@
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,20,0,100,0,0,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,0,10,100,0,0,100
 "British Columbia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,10,30,100,0,0,100
-"Germany","Germany","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,80,0,50,50,0,100
 "Spain","Spain","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,80,10,10,60,30,100
 "Germany","Germany","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,20,50,100,0,0,100
 "","","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
@@ -443,7 +401,6 @@
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,10,0,90,10,0,100
 "Germany","Germany","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,60,20,40,50,10,100
 "Italy","Italy","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,50,40,40,30,30,100
-"","","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,20,40,40,10,40,90
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,0,50,0,0,100,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,0,20,90,0,10,100
 "Nova Scotia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
@@ -464,7 +421,6 @@
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,0,30,90,0,10,100
 "","","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",80,10,10,70,10,20,100
 "Ontario","Canada","Canada","Other","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,50,30,90,10,0,100
-"Sweden","Sweden","Sweden","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,30,30,20,10,70,100
 "Denmark","Denmark","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,90,0,40,60,0,100
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,0,20,90,0,0,90
 "British Columbia","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",30,20,40,30,10,60,100
@@ -472,7 +428,6 @@
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,20,10,90,10,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,30,70,0,100
 "Nova Scotia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,30,10,90,10,0,100
-"Brazil","Brazil","Brazil","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",0,50,50,0,40,60,100
 "Greece","Greece","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,80,20,0,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,100,0,0,100
 "France","France","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,20,60,10,30,60,100
@@ -498,24 +453,13 @@
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,30,20,80,20,0,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,0,10,100,0,0,100
 "Quebec","Canada","Canada","","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",0,60,40,0,40,60,100
-"Chile","Chile","Chile","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,20,20,80,10,10,100
 "New Brunswick","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,30,0,100,0,0,100
 "Ontario","Canada","Canada","","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",40,30,30,50,30,20,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,10,0,100,0,0,100
 "","","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,20,0,100,0,0,100
 "France","France","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,100,0,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",45.4545454545455,0,45.4545454545455,54.5454545454545,0,45.4545454545455,110
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",90,0,0,0,0,50,50
-"Israel","Israel","Antarctica","Other","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,0,90,0,0,90
-"","","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,30,0,90,10,0,100
-"Israel","Israel","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",100,0,0,90,0,10,100
-"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,60,10,10,80,10,100
-"Israel","Israel","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,20,60,40,40,20,100
 "Ontario","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",50,40,10,80,10,10,100
 "Nova Scotia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,90,0,10,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Other",80,0,0,100,0,0,100
-"","","United States","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Medicine and Life Science",80,0,20,30,0,70,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",40,0,60,70,0,30,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,0,30,90,0,0,90
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,100,0,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,20,20,100,0,0,100
@@ -524,7 +468,6 @@
 "New Brunswick","Canada","Canada","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",30,70,0,80,20,0,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,40,30,50,20,30,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,90,0,80,0,20,100
-"Israel","Israel","Israel","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",4.34782608695652,43.4782608695652,43.4782608695652,43.4782608695652,21.7391304347826,34.7826086956522,230
 "Nova Scotia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",10,20,70,30,50,20,100
 "Ontario","Canada","Canada","Female","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Physical Science (eg. math, physics, chemistry, computer science)",80,10,10,100,0,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,40,40,30,40,30,100
@@ -588,7 +531,6 @@
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,50,20,80,0,20,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,30,70,40,40,20,100
 "Washington","USA","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,50,20,40,50,10,100
 "","","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",40,40,20,70,30,0,100
 "British Columbia","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,30,60,40,10,50,100
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,60,20,30,60,10,100
@@ -614,12 +556,10 @@
 "Alberta","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,40,50,60,10,30,100
 "Switzerland","Switzerland","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,50,20,70,20,10,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,90,10,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,0,10,90,0,0,90
 "Germany","Germany","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,10,0,100,0,0,100
 "Denmark","Denmark","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,0,30,100,0,0,100
 "Newfoundland and Labrador","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,0,70,70,20,10,100
 "Netherlands","Netherlands","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,80,20,0,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,40,30,70,30,0,100
 "Ontario","Canada","Canada","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",10,90,0,90,10,0,100
 "","","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",20,20,60,60,20,20,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,60,30,10,80,10,100
@@ -627,32 +567,18 @@
 "Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",0,60,40,80,20,0,100
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,30,70,40,40,20,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,0,10,100,0,0,100
-"Maryland","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,30,10,80,20,0,100
 "Newfoundland and Labrador","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",100,0,0,50,50,0,100
 "Nova Scotia","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",50,30,20,60,20,20,100
 "Nova Scotia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,60,10,80,20,0,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",0,30,70,0,0,100,100
 "","","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,10,0,100,0,0,100
-"Pennsylvania","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",80,0,20,100,0,0,100
-"Texas","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",80,10,10,100,0,0,100
-"Finland","Finland","Finland","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",90,0,10,100,0,0,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,30,50,60,20,20,100
 "New Brunswick","Canada","Canada","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Natural Science",40,60,0,50,50,0,100
-"Quebec","Canada","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",70,20,10,80,10,10,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,20,40,60,20,20,100
 "Manitoba","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,40,10,20,50,30,100
 "Alberta","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,10,10,100,0,0,100
-"Ohio","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,50,30,20,60,20,100
 "Yukon Territory","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",70,20,10,90,10,0,100
 "Nova Scotia","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",30,0,70,100,0,0,100
-"","","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",60,10,30,40,10,50,100
-"Belgium","Belgium","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Other",0,70,30,40,60,0,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,0,10,100,0,0,100
-"United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,30,10,90,10,0,100
-"Louisiana","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,50,0,100,0,0,100
-"California","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,80,0,70,30,0,100
-"California","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,0,90,30,0,70,100
-"California","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",40,30,30,50,40,10,100
 "Quebec","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,30,0,70,30,0,100
 "Greece","Greece","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",70,30,30,70,0,30,100
 "Alberta","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,10,0,100,0,0,100
@@ -661,62 +587,29 @@
 "","","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,30,50,20,30,50,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,40,40,60,30,10,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,40,40,40,30,30,100
-"Nigeria","Nigeria","Nigeria","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,30,40,30,30,40,100
-"Hawaii","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,0,70,70,0,30,100
 "British Columbia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",0,100,0,50,40,10,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,20,10,80,20,0,100
-"New Zealand","New Zealand","New Zealand","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,30,50,50,40,10,100
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,0,30,90,0,10,100
-"India","India","India","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,40,40,20,60,20,100
-"Cyprus","Cyprus","Cyprus","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,10,20,90,0,10,100
-"Austria","Austria","Austria","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",100,0,0,80,0,20,100
-"California","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,70,10,80,20,0,100
-"California","USA","United States","Male","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",10,0,90,100,0,0,100
-"Germany","Germany","Germany","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",100,0,0,90,10,0,100
-"","","United States","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Natural Science",0,0,100,90,10,0,100
-"Oklahoma","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,50,30,70,20,10,100
-"Ohio","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,70,0,70,30,0,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,30,20,80,10,10,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,50,10,100,0,0,100
 "Alberta","Canada","Canada","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",20,50,30,40,30,30,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,0,40,80,0,20,100
 "Alberta","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",40,50,10,70,30,0,100
 "Nova Scotia","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,10,40,80,0,20,100
-"Indiana","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,70,10,40,40,20,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,40,30,40,40,20,100
-"New York","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,60,20,50,30,20,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,0,60,40,0,60,100
-"Maryland","USA","","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,40,50,90,10,0,100
-"Switzerland","Switzerland","United States","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",0,100,0,80,20,0,100
 "","","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,60,10,80,20,0,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",18.1818181818182,63.6363636363636,9.09090909090909,45.4545454545455,36.3636363636364,18.1818181818182,110
-"Michigan","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,60,30,30,60,10,100
-"Colorado","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,50,20,40,50,10,100
 "Ontario","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,90,0,10,100
-"","","United States","Female","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",0,80,20,70,30,0,100
-"Lesotho","Lesotho","Lesotho","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",0,30,70,30,30,40,100
 "Saskatchewan","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,10,100,0,0,100
-"Vietnam","Vietnam","Vietnam","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",70,0,70,50,0,0,50
-"Nicaragua","Nicaragua","Nicaragua","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",10,40,50,30,20,30,80
-"California","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,60,20,20,100
 "British Columbia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,20,30,50,100
-"Nevada","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",10,60,30,20,60,20,100
-"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,0,90,0,0,100,100
-"Mozambique","Mozambique","Mozambique","Male","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",34.6153846153846,30.7692307692308,34.6153846153846,30.7692307692308,34.6153846153846,34.6153846153846,260
-"Malaysia","Malaysia","Malaysia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,40,20,20,10,70,100
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,0,90,80,20,0,100
 "Russian Federation","Russian Federation","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,20,60,30,40,30,100
 "Indonesia","Indonesia","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,80,20,0,100,0,100
-"Nepal","Nepal","Nepal","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",29.6296296296296,25.9259259259259,33.3333333333333,33.3333333333333,33.3333333333333,33.3333333333333,270
-"India","India","India","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,10,20,90,0,10,100
-"Japan","Japan","Japan","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,100,0,0,100
-"Iowa","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,10,10,100,0,0,100
 "","","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",70,20,10,90,10,0,100
 "Ontario","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",70,10,20,90,0,10,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",80,0,20,90,0,10,100
 "Ontario","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,10,0,100,0,0,100
-"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,40,10,0,20,0,20
-"Malaysia","Malaysia","Malaysia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",30,0,70,40,0,60,100
 "Ontario","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,20,0,90,10,0,100
 "Alberta","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",10,70,20,30,60,10,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,20,60,60,10,30,100
@@ -725,18 +618,225 @@
 "British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,50,0,80,20,0,100
 "British Columbia","Canada","Canada","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",30,40,30,10,20,70,100
 "Germany","Germany","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,90,0,10,100
-"","","Bangladesh","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,30,60,20,40,20,80
 "Quebec","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,40,10,70,20,0,90
-"California","USA","","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",30,40,30,50,30,20,100
-"United Kingdom","United Kingdom","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,70,10,50,50,0,100
-"Florida","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,20,0,100,0,0,100
 "Ontario","Canada","Canada","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",40,40,20,80,20,0,100
-"Hawaii","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,10,20,70,100
 "Ontario","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",70,10,20,100,0,0,100
-"Texas","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
-"Massachusetts","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",30,60,10,80,20,0,100
-"North Carolina","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",70,20,10,80,20,0,100
 "","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,0,20,100,0,0,100
+"Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,30,30,100,0,0,100
+"New Brunswick","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,0,40,20,0,80,100
+"Quebec","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",10,10,80,60,40,0,100
+"British Columbia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,30,10,90,10,0,100
+"British Columbia","Canada","Canada","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",0,20,80,0,0,100,100
+"Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,40,50,30,50,20,100
+"British Columbia","Canada","Canada","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",10,20,50,60,20,10,90
+"Quebec","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",20,70,10,10,50,40,100
+"New Brunswick","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,0,0,100,0,0,100
+"Nova Scotia","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,30,10,50,40,10,100
+"","","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,30,30,70,20,10,100
+"Quebec","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,60,20,20,70,10,100
+"British Columbia","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,70,10,20,100
+"Newfoundland and Labrador","Canada","Chad","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,20,50,30,10,60,100
+"Chile","Chile","Chile","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",40,20,20,60,30,10,100
+"Chile","Chile","Chile","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,20,20,80,10,10,100
+"China","China","China","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",60,30,10,0,30,70,100
+"","","Colombia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,20,60,10,10,80,100
+"","","Colombia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",40,0,60,40,0,60,100
+"Cyprus","Cyprus","Cyprus","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",80,20,0,90,10,0,100
+"Cyprus","Cyprus","Cyprus","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,10,20,90,0,10,100
+"Egypt","Egypt","Egypt","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,30,20,80,20,0,100
+"Finland","Finland","Finland","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",90,0,10,100,0,0,100
+"Finland","Finland","Finland","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,100,0,0,100
+"France","France","France","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",50,50,0,100,0,0,100
+"France","France","France","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
+"Argentina","Argentina","France","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,60,20,20,100
+"France","France","France","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,70,30,0,100
+"France","France","France","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",10,40,50,50,30,20,100
+"Quebec","Canada","France","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,10,20,80,10,10,100
+"Netherlands","Netherlands","Germany","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,20,0,80,20,0,100
+"Italy","Italy","Germany","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",20,20,60,30,30,40,100
+"Germany","Germany","Germany","Male","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",20,50,30,20,30,50,100
+"Germany","Germany","Germany","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",100,0,0,90,10,0,100
+"Germany","Germany","Germany","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",0,30,70,20,50,30,100
+"Germany","Germany","Germany","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",47.3684210526316,26.3157894736842,5.26315789473684,15.7894736842105,47.3684210526316,36.8421052631579,190
+"Greece","Greece","Greece","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,40,0,100,0,0,100
+"India","India","India","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",25,25,50,37.5,31.25,31.25,160
+"Netherlands","Netherlands","India","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",90,0,10,100,0,0,100
+"India","India","India","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,40,40,20,60,20,100
+"India","India","India","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,10,20,90,0,10,100
+"India","India","India","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",27.7777777777778,33.3333333333333,50,38.8888888888889,27.7777777777778,33.3333333333333,180
+"India","India","India","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,43.75,0,62.5,37.5,0,160
+"Netherlands","Netherlands","Indonesia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",60,40,50,50,30,20,100
+"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",90,10,0,100,0,0,100
+"","","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,10,0,100,0,0,100
+"Israel","Israel","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,50,20,20,60,20,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,100,0,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,80,0,20,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,0,30,90,10,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,30,60,0,20,80,100
+"","","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",60,0,40,80,0,20,100
+"Israel","Israel","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",80,0,20,100,0,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",100,0,0,100,0,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
+"France","France","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,20,70,30,30,40,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,0,70,50,0,50,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,0,80,0,0,100,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,20,80,0,50,50,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,80,10,30,70,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",25,25,12.5,37.5,31.25,31.25,160
+"New Hampshire","USA","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,30,30,30,50,20,100
+"Maryland","USA","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,10,100,0,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,10,20,100,0,0,100
+"Israel","Israel","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",100,0,0,70,30,0,100
+"Vermont","USA","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,70,0,20,90
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,50,50,0,40,60,100
+"Spain","Spain","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,10,10,90,10,0,100
+"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",80,20,0,100,0,0,100
+"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,0,0,100,0,0,100
+"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,100,0,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",30,50,20,40,30,30,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,100,0,60,40,0,100
+"Israel","Israel","Israel","Male","","Medicine and Life Science",50,50,0,70,30,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",70,0,30,30,0,70,100
+"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",40,60,0,60,40,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
+"Ontario","Canada","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,0,30,100,0,0,100
+"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,30,20,60,40,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,20,20,20,30,50,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,0,50,90,0,10,100
+"Israel","Israel","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",50,50,0,70,30,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",45.4545454545455,0,45.4545454545455,54.5454545454545,0,45.4545454545455,110
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",90,0,0,0,0,50,50
+"","","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,30,0,90,10,0,100
+"Israel","Israel","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",100,0,0,90,0,10,100
+"Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,60,10,10,80,10,100
+"Israel","Israel","Israel","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,20,60,40,40,20,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Other",80,0,0,100,0,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",40,0,60,70,0,30,100
+"Israel","Israel","Israel","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",4.34782608695652,43.4782608695652,43.4782608695652,43.4782608695652,21.7391304347826,34.7826086956522,230
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,0,10,90,0,0,90
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,40,30,70,30,0,100
+"Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,0,90,0,0,100,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
+"Italy","Italy","Italy","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Physical Science (eg. math, physics, chemistry, computer science)",80,10,10,90,0,10,100
+"Italy","Italy","Italy","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",80,0,20,100,0,0,100
+"Italy","Italy","Italy","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,60,30,10,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,0,50,60,0,40,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",30,60,10,70,30,0,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,40,40,50,30,20,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,30,30,60,20,20,100
+"Italy","Italy","Italy","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Physical Science (eg. math, physics, chemistry, computer science)",30,10,50,10,50,40,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,60,20,60,40,0,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",100,30,0,100,0,0,100
+"Italy","Italy","Italy","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",10,40,50,90,10,0,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,10,80,20,20,60,100
+"Switzerland","Switzerland","Italy","Male","","Physical Science (eg. math, physics, chemistry, computer science)",20,50,30,30,60,10,100
+"Italy","Italy","Italy","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",20,60,20,40,50,10,100
+"Italy","Italy","Italy","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,10,0,100,0,0,100
+"Italy","Italy","Italy","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,50,20,60,20,20,100
+"Greece","Greece","Italy","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,0,50,90,0,10,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,0,10,100,0,0,100
+"Italy","Italy","Italy","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,90,10,0,100
+"Denmark","Denmark","Japan","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,30,20,70,20,10,100
+"Japan","Japan","Japan","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,30,10,90,0,10,100
+"Japan","Japan","Japan","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,100,0,0,100
+"Lesotho","Lesotho","Lesotho","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",0,30,70,30,30,40,100
+"Malaysia","Malaysia","Malaysia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,60,20,30,60,0,90
+"Malaysia","Malaysia","Malaysia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",30,0,70,50,0,50,100
+"Malaysia","Malaysia","Malaysia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,40,20,20,10,70,100
+"Malaysia","Malaysia","Malaysia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",30,0,70,40,0,60,100
+"Montenegro","Montenegro","Montenegro","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Medicine and Life Science",80,10,10,90,0,10,100
+"Mozambique","Mozambique","Mozambique","Male","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",34.6153846153846,30.7692307692308,34.6153846153846,30.7692307692308,34.6153846153846,34.6153846153846,260
+"Nepal","Nepal","Nepal","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",29.6296296296296,25.9259259259259,33.3333333333333,33.3333333333333,33.3333333333333,33.3333333333333,270
+"Netherlands","Netherlands","Netherlands","Other","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",40,30,30,100,0,0,100
+"Netherlands","Netherlands","Netherlands","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Medicine and Life Science",0,27.2727272727273,63.6363636363636,9.09090909090909,18.1818181818182,72.7272727272727,110
+"Netherlands","Netherlands","Netherlands","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,40,30,40,40,20,100
+"Netherlands","Netherlands","Netherlands","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,80,0,30,70,0,100
+"Italy","Italy","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",50,30,10,80,10,10,100
+"Netherlands","Netherlands","Netherlands","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",20,70,10,20,80,0,100
+"Netherlands","Netherlands","Netherlands","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",40,40,20,30,50,20,100
+"Netherlands","Netherlands","Netherlands","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,0,40,100,0,0,100
+"Netherlands","Netherlands","Netherlands","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,30,0,90,10,0,100
+"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",50,0,50,100,0,0,100
+"Netherlands","Netherlands","Netherlands","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",50,0,50,90,0,10,100
+"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,30,0,90,10,0,100
+"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",10,20,70,80,20,0,100
+"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",80,20,0,100,0,0,100
+"Netherlands","Netherlands","Netherlands","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",31.25,18.75,43.75,37.5,31.25,31.25,160
+"Netherlands","Netherlands","Netherlands","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,70,10,50,50,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,10,20,80,20,0,100
+"New Zealand","New Zealand","New Zealand","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",20,30,50,50,40,10,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,0,30,80,0,20,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",80,10,10,100,0,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,20,30,80,10,10,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,10,20,100,0,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",90,10,0,90,10,0,100
+"New Zealand","New Zealand","New Zealand","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,0,70,70,0,30,100
+"New Zealand","New Zealand","New Zealand","","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,20,60,10,20,70,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,0,30,80,0,20,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,20,20,70,20,10,100
+"New Zealand","New Zealand","New Zealand","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,60,0,70,30,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,0,100,20,0,80,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",60,0,40,80,0,20,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,0,70,20,0,80,100
+"New Zealand","New Zealand","New Zealand","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",20,20,60,50,30,20,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",10,40,50,10,30,30,70
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,10,0,80,10,10,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,10,20,90,0,10,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,100,0,20,70,0,90
+"New Zealand","New Zealand","New Zealand","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,20,10,100,0,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,10,20,100,0,0,100
+"New Zealand","New Zealand","New Zealand","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,0,20,10,0,50,60
+"United Kingdom","United Kingdom","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",0,70,30,10,70,20,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",70,30,0,90,10,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,70,10,30,70,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,20,70,30,30,40,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",10,50,40,40,40,20,100
+"New Zealand","New Zealand","New Zealand","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",70,0,30,20,0,80,100
+"New Zealand","New Zealand","New Zealand","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",0,20,80,0,50,50,100
+"New Zealand","New Zealand","New Zealand","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",10,60,30,100,0,0,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",0,50,50,30,40,30,100
+"France","France","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,0,30,100,0,0,100
+"","","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,40,40,20,60,20,100
+"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,40,0,50,50,0,100
+"Nicaragua","Nicaragua","Nicaragua","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",10,40,50,30,20,30,80
+"Nigeria","Nigeria","Nigeria","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,30,40,30,30,40,100
+"United Kingdom","United Kingdom","Nigeria","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,50,30,20,50,30,100
+"Poland","Poland","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,30,20,70,30,0,100
+"Poland","Poland","Poland","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",60,30,10,80,20,0,100
+"Poland","Poland","Poland","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,20,0,100,0,0,100
+"Poland","Poland","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",30,0,70,60,0,30,90
+"Poland","Poland","Poland","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",20,40,40,40,60,0,100
+"Switzerland","Switzerland","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,10,10,100,0,0,100
+"","","Poland","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",60,20,20,90,10,0,100
+"Portugal","Portugal","Portugal","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,80,20,0,100
+"Portugal","Portugal","Portugal","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",90,10,0,100,0,0,100
+"Netherlands","Netherlands","Russia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,30,0,100,0,0,100
+"Serbia","Serbia","Serbia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,0,30,90,0,10,100
+"Serbia","Serbia","Serbia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,44.4444444444444,5.55555555555556,44.4444444444444,44.4444444444444,11.1111111111111,180
+"Serbia","Serbia","Serbia","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
+"South Africa","South Africa","South Africa","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,60,10,40,50,10,100
+"South Africa","South Africa","South Africa","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",80,20,0,100,0,0,100
+"Spain","Spain","Spain","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",70,30,0,30,60,10,100
+"Finland","Finland","Spain","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",10,90,0,80,20,0,100
+"Portugal","Portugal","Spain","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",70,0,30,50,0,50,100
+"Spain","Spain","Spain","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,70,0,100,0,0,100
+"Spain","Spain","Spain","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,50,0,100,0,0,100
+"Sweden","Sweden","Sweden","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,30,30,20,10,70,100
+"United Kingdom","United Kingdom","Taiwan","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",50,50,50,30,30,40,100
+"Netherlands","Netherlands","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,20,10,90,10,0,100
+"Netherlands","Netherlands","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",0,70,30,40,60,0,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,40,20,60,40,0,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,90,0,10,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,10,0,100,0,0,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,10,70,80,10,10,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,10,0,100,0,0,100
+"United Kingdom","United Kingdom","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",20,70,10,60,40,0,100
+"United Kingdom","United Kingdom","United Kingdom","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,40,0,80,20,0,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,50,20,40,50,10,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,30,50,60,20,20,100
+"Quebec","Canada","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",70,20,10,80,10,10,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,30,10,90,10,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,40,40,20,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,40,30,60,20,20,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",20,50,30,0,50,50,100
@@ -755,7 +855,6 @@
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",10,60,30,20,50,30,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,20,30,80,0,20,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,70,10,40,50,10,100
-"Australia","Australia","Australia","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",0,0,100,70,0,30,100
 "China","China","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,10,10,90,0,10,100
 "Washington","USA","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",0,0,66.6666666666667,33.3333333333333,66.6666666666667,0,150
 "United Kingdom","United Kingdom","United Kingdom","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,80,10,50,50,0,100
@@ -767,7 +866,6 @@
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,90,0,10,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",20,40,40,80,10,10,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,70,30,0,100
-"United Kingdom","United Kingdom","","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",33.3333333333333,0,33.3333333333333,33.3333333333333,33.3333333333333,33.3333333333333,180
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,40,60,60,30,10,100
 "United Kingdom","United Kingdom","United Kingdom","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Interdisciplinary Science",70,30,10,100,0,0,100
@@ -776,9 +874,7 @@
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",30,50,20,70,20,10,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Engineering",80,0,20,40,0,60,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,20,30,60,10,30,100
-"Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,30,30,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",10,70,20,50,30,20,100
-"United Kingdom","United Kingdom","","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,40,40,50,40,10,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",60,0,40,50,0,50,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,0,30,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",30,50,20,80,20,0,100
@@ -792,53 +888,126 @@
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,80,20,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Engineering",10,80,10,20,60,20,100
 "Germany","Germany","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,90,0,10,100
-"New Brunswick","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,0,40,20,0,80,100
-"Quebec","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",10,10,80,60,40,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,30,20,90,10,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Physical Science (eg. math, physics, chemistry, computer science)",30,70,0,60,40,0,100
-"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",100,80,20,100,0,0,100
-"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",90,10,0,80,10,10,100
-"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,0,20,100,0,0,100
-"Australia","Australia","Australia","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",70,0,30,10,50,40,100
-"Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,30,20,50,40,10,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",0,20,80,0,10,90,100
-"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",50,0,50,100,0,0,100
-"Netherlands","Netherlands","Netherlands","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",50,0,50,90,0,10,100
-"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",0,100,0,70,30,0,100
-"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,30,0,90,10,0,100
-"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",10,20,70,80,20,0,100
 "United Kingdom","United Kingdom","United Kingdom","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,10,10,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,10,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",50,50,0,100,0,0,100
 "Germany","Germany","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",30,70,0,50,50,0,100
 "United Kingdom","United Kingdom","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,0,10,100,0,0,100
-"Netherlands","Netherlands","Netherlands","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",80,20,0,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",10,60,30,30,50,20,100
-"Netherlands","Netherlands","Netherlands","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",31.25,18.75,43.75,37.5,31.25,31.25,160
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,70,20,40,10,20,70
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,30,0,100,0,0,100
-"British Columbia","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,30,10,90,10,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",0,80,20,0,100,0,100
-"British Columbia","Canada","Canada","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",0,20,80,0,0,100,100
-"Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,0,20,90,0,10,100
-"Quebec","Canada","Canada","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,40,50,30,50,20,100
-"","","Colombia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",20,20,60,10,10,80,100
-"Nebraska","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,20,60,40,30,30,100
-"British Columbia","Canada","Canada","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",10,20,50,60,20,10,90
-"Massachusetts","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,50,0,70,30,0,100
-"India","India","India","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",27.7777777777778,33.3333333333333,50,38.8888888888889,27.7777777777778,33.3333333333333,180
-"New Hampshire","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",30,60,10,50,40,10,100
-"New York","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,50,20,60,30,10,100
 "United Kingdom","United Kingdom","United Kingdom","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,0,20,90,0,10,100
-"Quebec","Canada","Canada","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",20,70,10,10,50,40,100
-"New Brunswick","Canada","Canada","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",90,0,0,100,0,0,100
-"","","Colombia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",40,0,60,40,0,60,100
-"Nova Scotia","Canada","Canada","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,30,10,50,40,10,100
-"Australia","Australia","Australia","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",90,0,10,70,0,30,100
-"Virginia","USA","United States","Female","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Natural Science",0,40,60,0,10,90,100
-"California","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",20,0,80,80,0,20,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
 "United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,60,10,50,50,0,100
-"New Zealand","New Zealand","New Zealand","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",70,0,30,80,0,20,100
-"Brazil","Brazil","Brazil","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,0,70,50,0,50,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,0,100,100,0,0,100
+"United Kingdom","United Kingdom","United Kingdom","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,40,0,90,10,0,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,30,20,80,10,0,90
+"United Kingdom","United Kingdom","United Kingdom","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",50,0,50,100,0,0,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",100,0,0,90,0,10,100
+"United Kingdom","United Kingdom","United Kingdom","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",50,30,20,70,20,10,100
+"Utah","USA","United Kingdom","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,90,10,0,100
+"California","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,40,20,80,10,10,100
+"Massachusetts","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",50,50,0,100,0,0,100
+"California","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,80,0,50,50,0,100
+"Arizona","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,60,0,100,0,0,100
+"California","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",60,20,20,50,20,30,100
+"Netherlands","Netherlands","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,40,0,100,0,0,100
+"Oregon","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,20,70,0,0,100,100
+"Israel","Israel","United States","Male","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Interdisciplinary Science",10,0,90,90,0,10,100
+"Maryland","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",0,80,20,20,70,10,100
+"Alberta","Canada","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,10,10,90,10,0,100
+"New York","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,0,40,80,0,20,100
+"","","United States","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Medicine and Life Science",80,0,20,30,0,70,100
+"Maryland","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,30,10,80,20,0,100
+"Pennsylvania","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",80,0,20,100,0,0,100
+"Texas","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",80,10,10,100,0,0,100
+"Ohio","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,50,30,20,60,20,100
+"","","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",60,10,30,40,10,50,100
+"Belgium","Belgium","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Other",0,70,30,40,60,0,100
+"Louisiana","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,50,0,100,0,0,100
+"California","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,80,0,70,30,0,100
+"California","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,0,90,30,0,70,100
+"California","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",40,30,30,50,40,10,100
+"Hawaii","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,0,70,70,0,30,100
+"California","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,70,10,80,20,0,100
+"California","USA","United States","Male","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",10,0,90,100,0,0,100
+"","","United States","Female","Non-academic researcher conducting or managing research in industry or government with >10 years of experience","Natural Science",0,0,100,90,10,0,100
+"Oklahoma","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,50,30,70,20,10,100
+"Ohio","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,70,0,70,30,0,100
+"Indiana","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,70,10,40,40,20,100
+"New York","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,60,20,50,30,20,100
+"Switzerland","Switzerland","United States","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",0,100,0,80,20,0,100
+"Michigan","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",10,60,30,30,60,10,100
+"Colorado","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,50,20,40,50,10,100
+"","","United States","Female","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Medicine and Life Science",0,80,20,70,30,0,100
+"California","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,60,20,20,100
+"Nevada","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",10,60,30,20,60,20,100
+"Iowa","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,10,10,100,0,0,100
+"United Kingdom","United Kingdom","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,70,10,50,50,0,100
+"Florida","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,20,0,100,0,0,100
+"Hawaii","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,10,20,70,100
+"Texas","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
+"Massachusetts","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",30,60,10,80,20,0,100
+"North Carolina","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",70,20,10,80,20,0,100
+"Nebraska","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,20,60,40,30,30,100
+"Massachusetts","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,50,0,70,30,0,100
+"New Hampshire","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",30,60,10,50,40,10,100
+"New York","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",30,50,20,60,30,10,100
+"Virginia","USA","United States","Female","Non-academic researcher conducting or managing research in industry or government with <10 years of experience","Natural Science",0,40,60,0,10,90,100
+"California","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",20,0,80,80,0,20,100
+"Florida","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",20,30,50,10,20,70,100
+"Ohio","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",40,40,20,70,20,10,100
+"Michigan","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,20,20,80,10,10,100
+"Maine","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,50,20,80,20,0,100
+"Massachusetts","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
+"Louisiana","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
+"Florida","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,100,0,0,100
+"Massachusetts","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,10,10,100,0,0,100
+"Florida","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",0,100,0,30,70,0,100
+"Massachusetts","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,30,0,80,20,0,100
+"Ohio","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",20,70,10,20,60,0,80
+"Massachusetts","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",70,30,0,100,0,0,100
+"New York","USA","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",0,100,0,0,50,50,100
+"Virginia","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",70,20,0,100,0,0,100
+"Japan","Japan","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,30,20,70,20,10,100
+"Minnesota","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,20,30,80,10,10,100
+"Virginia","USA","United States","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",30,40,30,50,40,10,100
+"Virginia","USA","United States","Female","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,70,0,80,20,0,100
+"Idaho","Idaho","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",10,20,70,10,40,50,100
+"Virginia","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,50,10,80,20,0,100
+"Idaho","Idaho","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,50,20,70,20,10,100
+"Utah","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,20,30,70,10,20,100
+"","","United States","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",60,30,10,90,10,0,100
+"Idaho","Idaho","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",90,0,10,100,0,0,100
+"Idaho","Idaho","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",30,0,70,50,0,50,100
+"Utah","USA","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,0,100,20,10,70,100
+"Switzerland","Switzerland","United States","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",30,70,0,80,20,0,100
+"Netherlands","Netherlands","Uruguay","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Other",100,0,0,90,0,10,100
+"Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",66.6666666666667,66.6666666666667,6.66666666666667,66.6666666666667,33.3333333333333,0,150
+"Vietnam","Vietnam","Vietnam","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",100,0,0,90,0,0,90
+"Vietnam","Vietnam","Vietnam","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",70,0,70,50,0,0,50
+"Japan","Japan","","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",10,20,70,10,10,80,100
+"Israel","Israel","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",57.1428571428571,35.7142857142857,7.14285714285714,35.7142857142857,35.7142857142857,28.5714285714286,140
+"Israel","Israel","","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,10,30,90,0,10,100
+"Israel","Israel","","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",60,40,0,100,0,0,100
+"Brazil","Brazil","","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",45.4545454545455,0,45.4545454545455,54.5454545454545,0,45.4545454545455,110
+"Quebec","Canada","","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,50,10,70,30,0,100
+"Manitoba","Canada","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,40,0,90,10,0,100
+"Ontario","Canada","","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",80,0,0,90,0,10,100
+"Ontario","Canada","","","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",30,50,20,70,30,0,100
+"Quebec","Canada","","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,10,70,0,30,100
+"Korea","Korea","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",80,20,0,100,0,0,100
+"Germany","Germany","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",20,80,0,50,50,0,100
+"","","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",40,20,40,40,10,40,90
+"Maryland","USA","","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,40,50,90,10,0,100
+"California","USA","","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",30,40,30,50,30,20,100
+"United Kingdom","United Kingdom","","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Physical Science (eg. math, physics, chemistry, computer science)",33.3333333333333,0,33.3333333333333,33.3333333333333,33.3333333333333,33.3333333333333,180
+"United Kingdom","United Kingdom","","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",10,40,40,50,40,10,100
+"Australia","Australia","","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",40,10,50,80,10,10,100
+"New Zealand","New Zealand","","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",50,0,50,90,0,10,100
+"New Zealand","New Zealand","","Male","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",50,40,10,90,0,0,90

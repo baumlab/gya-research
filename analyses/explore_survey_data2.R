@@ -10,7 +10,7 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 ## read data
 
-survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
+survey.all<-read.csv("data/Survey-Responses-Oct.3.850pm-Toronto.csv", header=TRUE)
 
 
 suveycols<-c("Status","Location"	,"what_participant_group",
