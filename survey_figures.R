@@ -862,6 +862,7 @@ gender.change$Location<-ifelse(gender.change$gender=="Other", (gender.change$Loc
 str(gender.change)
 
 # change type to factor with levels
+require(stringr)
 gender.change$type<-as.factor(gender.change$type)
 gender.change$level<-str_replace_all(gender.change$level, "Will", "")
 gender.change$level<-as.factor(gender.change$level)
