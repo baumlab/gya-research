@@ -14,20 +14,42 @@ In addition to the official data presented in Chapters 2 and 3, we also develope
 
 **Methods**  
 Online Survey  
-The survey was open to researchers from all disciplines (e.g. science, social sciences, humanities, engineering, medicine) and career stages, with the proviso that they had some experience applying for research funding. The survey gathered detailed information in four major areas: 1) the types of research the scholars conduct (fundamental, use-inspired, applied), 2) the extent of external partnerships in their research, 3) their grant success rates, and 4) their perceived importance of fundamental research to the Canadian federal government and of its future prospects in Canada. The survey also enquired how each of these factors have changed over time for the researchers. Finally, the survey gathered basic information from each respondent about gender, discipline, career stage and the year their PhD was obtained. The full survey is provided in Appendix XX. 
+The survey was open to researchers from all disciplines (e.g. science, social sciences, humanities, engineering, medicine) and career stages, with the proviso that they had some experience applying for research funding. The survey gathered detailed information in four major areas: 1) the types of research the scholars conduct (fundamental, use-inspired, applied), 2) the extent of external partnerships in their research, 3) their grant success rates, and 4) how important they perceive fundamental research is to the Canadian federal government and its future prospects in Canada. The survey also enquired how each of these factors have changed over time for the researchers. Finally, the survey gathered basic information from each respondent about gender, discipline, career stage and the year their PhD was obtained. The full survey is provided in Appendix 2. 
 
 The online survey was open from the end of May through early October 2016, and ran on the Fluid Surveys platform (fluidsurveys.com). Note that the survey was open to researchers from any country in the world because it is was run as part of a global survey through the Global Young Academy. To disseminate the survey to Canadian researchers, we gathered email addresses from Canadian university websites for as many faculty members as possible and emailed individual researchers directly. We also shared the survey broadly on social media, as well as through the Global Young Academy network, on scientific list serves, and through personal connections. 
 
 Survey Data Analysis  
-To extract survey responses for Canadian researchers, we selected all respondents who reported 'Canada' as their country of work, as well as those respondents who did not report a country of work (i.e. field was blank) but whose location was within Canada. We conducted all statistical analyses in the open source software R.....
+To extract survey responses for Canadian researchers, we selected all respondents who reported 'Canada' as their country of work, as well as those respondents who did not report a country of work (i.e. field was blank) but whose location was within Canada. We conducted all statistical analyses in the open source software R (Version 3.3.1).
+**Note that numbers not all the same because respondents did not always answer every question**
 
 <!-- Import Canadian data, calculate sample sizes -->
-```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE} 
-##setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
+```{r, echo=FALSE, message=FALSE, hide=TRUE, warning=FALSE, message=FALSE} 
+## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+#setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
+setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research/writing")
 ## load in survey data
 survey<-read.csv(file="../data/gya-without-incomplete.csv")
 n.Cdn.res <- survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
              survey$Country_work=="" & survey$Country=="Canada"),]  #Count how many responses from Canadian researchers
+survey.what<-read.csv(file="../data/gya-country-responses.csv")
+research<-read.csv(file="../data/gya-surveys-cleaned-research.csv")
+#research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
+research.change<-read.csv(file="../data/gya-change-reason.csv")
+part4<-read.csv(file="../data/gya-survey-part4.csv")
+part2.b.a<-read.csv(file="../data/gya-part2.before.after.csv")
+part2.change<-read.csv(file="../data/gya-part2.change.csv")
+part2.reason<-read.csv(file="../data/gya-part2.reason.csv")
+part2.view<-read.csv(file="../data/gya-part2.view.csv")
+part1.view<-read.csv(file="../data/gya-part1.view.csv")
+part3.change<-read.csv(file="../data/gya-part3.change.csv")
+part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
+part3.success.long<-read.csv(file="../data/gya-part3.success.long.csv")
+part3.prac.long<-read.csv(file="../data/gya-part3.prac.long.csv")
+part3.part.long<-read.csv(file="../data/gya-part3.part.long.csv")
+p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
+p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
 #Gender:
 n.Cdn.res.men <- n.Cdn.res[n.Cdn.res$gender=="Male",]               #Count how many responses from Canadian male researchers
@@ -71,19 +93,16 @@ In total, `r dim(n.Cdn.res)[1]` Canadian researchers completed the online survey
 Researchers from many different disciplines were represented in the survey. Almost sixty per cent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
 <!-- Generate Canadian career stage figure -->
-```{r, echo=FALSE, fig.cap="Figure 4.1 Number of Canadian survey respondents by career stage", warning=FALSE, fig.width=14}
+```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of Canadian survey respondents by career stage", warning=FALSE, fig.width=14}
 ## load required packages
-## require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
 
 theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
 ## myColors <- brewer.pal(6,"Set1")
-
-survey.what<-read.csv(file="../data/gya-country-responses.csv")
-survey.what<-droplevels(survey.what)
 can.field<-survey.what[survey.what$Country_work=="Canada" | (!(survey.what$Country_work=="Canada") & survey.what$Country_work=="" & survey.what$Country=="Canada"),]
 
-experience_can<-data.frame(table(survey.what$what_participant_group))
+experience_can<-data.frame(table(can.field$what_participant_group))
 experience_can<-experience_can[!experience_can$Var1=="",]
 experience_can<-droplevels(experience_can)
 
@@ -139,19 +158,9 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
   guides(fill=FALSE) + colScale
 ```
 
+------ Rmd FILE IS FIXED DOWN TO HERE
 *4.1 Type of Research Conducted* 
 Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers considered themselves to only do one type of research: insert %s of who think they do all of f, u, or a. X% of researchers consider that over half of their research program is in fundamental science......
-
-
-
-spanning
-
-
------- Rmd FILE IS FIXED DOWN TO HERE
-
-
-
-
 
 SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X).
 
@@ -204,13 +213,109 @@ ggplot(res.plot, aes(percent, fill=time)) +
 
 ```
 
+#### Part 2 - External Partnerships
+```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
+part2.b.a<-part2.b.a[part2.b.a$Country_work=="Canada" | (!(part2.b.a$Country_work=="Canada") & part2.b.a$Country_work=="" & part2.b.a$Country=="Canada"),]
+
+b.part<-data.frame(table(part2.b.a$partnership_outside_before))
+b.part$time<-"Past"
+a.part<-data.frame(table(part2.b.a$partnership_outside))
+a.part$time<-"Current"
+
+part<-rbind(a.part, b.part)
+part$Var1<-factor(part$Var1, levels(part$Var1)[c(1,4,3,2)])
+part$time<-factor(part$time)
+part$time<-factor(part$time, levels(part$time)[c(2,1)])
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 6)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
+  geom_bar( stat='identity', position="dodge") +
+  geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.8) +
+  labs(x="", y="No. of Responses", fill="")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle=0), 
+        legend.position=c(0.2, 0.9), 
+        legend.title=element_blank()) +
+  colScale
+```
+
+```{r, echo=FALSE, fig.cap="Reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
+### was there change
+#canada<-subset(part2.change, Country=="Canada")
+#canada<-part2.change[part2.change$Country_work=="Canada" | (!(part2.change$Country_work=="Canada") & part2.change$Country_work=="" & part2.change$Country=="Canada"),]
+#change.part.ca<-data.frame(table(canada$partnership_change_10yrs))
+#change.part.ca$Var1<-revalue(change.part.ca$Var1, c("Can't comment (new researcher)"="Can't comment"))
+#change.part.ca$Var1<-factor(change.part.ca$Var1, levels=c("Yes", "No", "Can't comment"))
+#myColors<-(brewer.pal(9, "Blues"))
+#myColors<-myColors[c(9, 7,5)]
+#g1<-ggplot(data=change.part.ca, aes(x=Var1, y=Freq, fill=Var1))+ 
+#    geom_bar(stat='identity') + 
+#    guides(fill=FALSE) + 
+#    labs(x="", y="No. of responses",title="")+
+#  geom_text(aes(label=Freq), vjust=-0.5)+
+#  theme(panel.grid.major = element_blank(),
+#        panel.grid.minor = element_blank()) + 
+#  scale_fill_manual(name = "Var1",values = myColors) +
+#  annotate('text', 3.25,606, label="(a)", size=7)
+
+### reason
+part2.reason<-part2.reason[part2.reason$Country_work=="Canada" | (!(part2.reason$Country_work=="Canada") & part2.reason$Country_work=="" & part2.reason$Country=="Canada"),]
+reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -Location, -what_participant_group, -field_research)
+sum.canada<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
+
+sum.canada$Var1<-revalue(sum.canada$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
+sum.canada$Var1<-reorder(sum.canada$Var1, -sum.canada$Freq)
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 8,7,6,5,3)]
+
+g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
+    geom_bar(stat='identity')+  guides(fill=FALSE) +
+    theme(axis.text.x = element_text(angle=0, vjust=0.5),
+          legend.position=c(0.8, 0.8), 
+          legend.title=element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank()) + 
+  geom_text(aes(label=Freq), vjust=-0.5)+
+   ylim(c(0, 420))+
+  labs(x="", y="", title="")+scale_fill_manual(name = "Var1",values = myColors)
+print(g2)
+#annotate('text', 5,420, label="(b)", size=7)+  
+#grid.arrange(g1, g2, nrow=1)
+```
+
+```{r, echo=FALSE, fig.cap="View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", warning=FALSE}
+#canada<-subset(part2.view, Country=="Canada")
+canada<-part2.view[part2.view$Country_work=="Canada" | (!(part2.view$Country_work=="Canada") & part2.view$Country_work=="" & part2.view$Country=="Canada"),]
+view<-data.frame(table(canada$view_change_partnership))
+# change order of the levels
+
+view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
+
+
+ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
+  geom_text(aes(label=Freq, vjust=-0.5))+
+  guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle=0, vjust=0)) + 
+  labs(x="", y="No. of Responses") + colScale
+
+```
 
 *4.2 External Partnerships*   
-The extent to which research is conducted with partners outside of academia, including in industry and non-governmental sectors, may also be considered as an indicator of use-inspired or applied research. Almost all respondents reported that their current research is conducted with some external partners, with X% reporting some partnership and X and Y% reporting strong or exclusive partnerships, respectively. In contrast, X% of researchers said that in the past they had no external partners in their research, whereas that number today was much lower..... 
+The extent to which research is conducted with partners outside of academia, including in industry and non-governmental sectors, may also be considered as an indicator of use-inspired or applied research. Almost all respondents (88%) reported that their current research includes external partners to some degree: fifty-nine per cent reported some partnerships and a further quarter (27%) reported strong partnerships (Figure 4.6). Less than 1% reported conducting their research exclusively with partners outside of academia. 
 
-Again, the predominate reason given was funding related (Figure X).
+Over the past decade, there has been a sharp decline in the number of researchers with no external partnerships: only 12% of respondents reported having no partnerhips in their current research program, whereas almost half of respondents (44%) reported having no partnerships in the past (Figure 4.6). The number of strong external partnerships also has increased over time from 11% to 27% (Figure 4.6). 
 
-However, very few researchers viewed this change as being very negative. Most researchers regarded it as either slightly negative or slightly positive, and X% viewed it as very positive. 
+Funding was the driving force behind the shift towards external partnerhips. Half of Canadian respondents reported that they developed external partnerships in order to secure funding (Figure 4.7). The remaining half of respondents developed partnerships out of interest (24%), or for career (12%) or social reasons (<1%) (Figure 4.7).
+
+Perspectives on these changes were mixed (Figure 4.8). Interestly, almost half of respondents (49%) viewed the change in external partnerships as slightly or very positive. Twenty per cent were indifferent to the change and thirty-one percent of respondents viewed them as slightly or very negative.
+
 
  
 
@@ -218,6 +323,33 @@ However, very few researchers viewed this change as being very negative. Most re
 
 
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -370,107 +502,6 @@ ggplot(change.view.ca, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 
 ```
 
-#### Part 2 - External Partnerships
-```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
-part2.b.a<-part2.b.a[part2.b.a$Country_work=="Canada" | (!(part2.b.a$Country_work=="Canada") & part2.b.a$Country_work=="" & part2.b.a$Country=="Canada"),]
-
-b.part<-data.frame(table(part2.b.a$partnership_outside_before))
-b.part$time<-"Past"
-a.part<-data.frame(table(part2.b.a$partnership_outside))
-a.part$time<-"Current"
-
-part<-rbind(a.part, b.part)
-part$Var1<-factor(part$Var1, levels(part$Var1)[c(1,4,3,2)])
-part$time<-factor(part$time)
-part$time<-factor(part$time, levels(part$time)[c(2,1)])
-
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(9, 6)])
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
-
-ggplot(part, aes(x=Var1, y=Freq, fill = time)) + 
-  geom_bar( stat='identity', position="dodge") +
-  geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.8) +
-  labs(x="", y="No. of Responses", fill="")+
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle=0), 
-        legend.position=c(0.2, 0.9), 
-        legend.title=element_blank()) +
-  colScale
-```
-
-```{r, echo=FALSE, fig.cap="Reasons for change in external partnerships over the past 10 years. Researchers were asked if their level of external partnerships outside of academia, with for-profit or non-governmental sectors, had changed over the past ten years (a) and what the reason for that change was (b).", warning=FALSE}
-### was there change
-#canada<-subset(part2.change, Country=="Canada")
-canada<-part2.change[part2.change$Country_work=="Canada" | (!(part2.change$Country_work=="Canada") & part2.change$Country_work=="" & part2.change$Country=="Canada"),]
-
-
-change.part.ca<-data.frame(table(canada$partnership_change_10yrs))
-change.part.ca$Var1<-revalue(change.part.ca$Var1, c("Can't comment (new researcher)"="Can't comment"))
-
-change.part.ca$Var1<-factor(change.part.ca$Var1, levels=c("Yes", "No", "Can't comment"))
-
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(9, 7,5)]
-
-
-g1<-ggplot(data=change.part.ca, aes(x=Var1, y=Freq, fill=Var1))+ 
-    geom_bar(stat='identity') + 
-    guides(fill=FALSE) + 
-    labs(x="", y="No. of responses",title="")+
-  geom_text(aes(label=Freq), vjust=-0.5)+
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank()) + 
-  scale_fill_manual(name = "Var1",values = myColors) +
-  annotate('text', 3.25,606, label="(a)", size=7)
-
-### reason
-part2.reason<-part2.reason[part2.reason$Country_work=="Canada" | (!(part2.reason$Country_work=="Canada") & part2.reason$Country_work=="" & part2.reason$Country=="Canada"),]
-reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -Location)
-sum.canada<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
-
-sum.canada$Var1<-revalue(sum.canada$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
-sum.canada$Var1<-reorder(sum.canada$Var1, -sum.canada$Freq)
-
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(9, 8,7,6,5,3)]
-
-
-g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
-    geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(axis.text.x = element_text(angle=0, vjust=0.5),
-          legend.position=c(0.8, 0.8), 
-          legend.title=element_blank(),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank()) + 
-  geom_text(aes(label=Freq), vjust=-0.5)+
-  annotate('text', 5,420, label="(b)", size=7)+ ylim(c(0, 420))+
-  labs(x="", y="", title="")+scale_fill_manual(name = "Var1",values = myColors)
-  
-
-
-grid.arrange(g1, g2, nrow=1)
-```
-
-```{r, echo=FALSE, fig.cap="View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", warning=FALSE}
-#canada<-subset(part2.view, Country=="Canada")
-canada<-part2.view[part2.view$Country_work=="Canada" | (!(part2.view$Country_work=="Canada") & part2.view$Country_work=="" & part2.view$Country=="Canada"),]
-view<-data.frame(table(canada$view_change_partnership))
-# change order of the levels
-
-view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
-
-
-ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
-  geom_text(aes(label=Freq, vjust=-0.5))+
-  guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle=0, vjust=0)) + 
-  labs(x="", y="No. of Responses") + colScale
-
-```
 
 #### Part 3 - Grant Application History
 
