@@ -1,6 +1,6 @@
 ---
 title: "Canadian online survey on fundamental research"
-author: ""
+author: ''
 date: "16 September 2016"
 output:
   pdf_document: null
@@ -25,10 +25,10 @@ To extract survey responses for Canadian researchers, we selected all respondent
 <!-- Import Canadian data, calculate sample sizes -->
 ```{r, echo=FALSE, message=FALSE, hide=TRUE, warning=FALSE, message=FALSE} 
 ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
 #setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 #setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
-setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research/writing")
+#setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research/writing")
 ## load in survey data
 survey<-read.csv(file="../data/gya-without-incomplete.csv")
 n.Cdn.res <- survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
@@ -85,6 +85,7 @@ n.int <- n.Cdn.res[n.Cdn.res$field_research=="Interdisciplinary Science",]
 percent.int <- ((dim(n.int)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian interdisciplinary scientists
 n.ssh <- n.Cdn.res[n.Cdn.res$field_research=="Social Science / Humanities",]
 percent.ssh <- ((dim(n.ssh)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of responses from Canadian interdisciplinary scientists
+
 ```
 
 **Results**  
