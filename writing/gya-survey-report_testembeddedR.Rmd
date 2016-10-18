@@ -244,7 +244,7 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
   colScale
 ```
 
-```{r, echo=FALSE, fig.cap="Reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Figure 4.7 Reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
 ### was there change
 #canada<-subset(part2.change, Country=="Canada")
 #canada<-part2.change[part2.change$Country_work=="Canada" | (!(part2.change$Country_work=="Canada") & part2.change$Country_work=="" & part2.change$Country=="Canada"),]
@@ -289,7 +289,7 @@ print(g2)
 #grid.arrange(g1, g2, nrow=1)
 ```
 
-```{r, echo=FALSE, fig.cap="View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", warning=FALSE}
 #canada<-subset(part2.view, Country=="Canada")
 canada<-part2.view[part2.view$Country_work=="Canada" | (!(part2.view$Country_work=="Canada") & part2.view$Country_work=="" & part2.view$Country=="Canada"),]
 view<-data.frame(table(canada$view_change_partnership))
@@ -319,78 +319,11 @@ Perspectives on these changes were mixed (Figure 4.8). Interestly, almost half o
 
 
  
-
+##### Part 3 - Grant Aaplication History
 
 
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
-## load in survey data
-## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
-#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
-#setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
-#setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research")
-
-#survey.all<-read.csv("data/July 29-126pm-Hamilton.csv", header=TRUE)
-#survey<-read.csv(file="data/gya-without-incomplete.csv")
-#survey.what<-read.csv(file="data/gya-country-responses.csv")
-#research<-read.csv(file="data/gya-surveys-cleaned-research.csv")
-#research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
-#research.change<-read.csv(file="data/gya-change-reason.csv")
-#part4<-read.csv(file="data/gya-survey-part4.csv")
-#part2.b.a<-read.csv(file="data/gya-part2.before.after.csv")
-#part2.change<-read.csv(file="data/gya-part2.change.csv")
-#part2.reason<-read.csv(file="data/gya-part2.reason.csv")
-#part2.view<-read.csv(file="data/gya-part2.view.csv")
-#part1.view<-read.csv(file="data/gya-part1.view.csv")
-#part3.change<-read.csv(file="data/gya-part3.change.csv")
-#part3.grants.long<-read.csv(file="data/gya-part3.grants.long.csv")
-#part3.success.long<-read.csv(file="data/gya-part3.success.long.csv")
-#part3.prac.long<-read.csv(file="data/gya-part3.prac.long.csv")
-#part3.part.long<-read.csv(file="data/gya-part3.part.long.csv")
-#p3_master.long<-read.csv(file="data/gya-p3_master.long.csv")
-
-## load required packages
-#require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
-
-#theme_set(theme_bw())
-
-#gender<-aggregate(Location ~ gender, survey, length)
-#country_work<-aggregate(gender ~ Country_work, survey, length)
-#locations<-aggregate(gender ~ Country, survey.what, length)
-
-```
 
 
 *Research Grants* 
@@ -399,6 +332,36 @@ Perspectives on these changes were mixed (Figure 4.8). Interestly, almost half o
 The majority of respondents believe that it is now either mandatory or very important to suggest practical applications of their research in order for their grant applications to be successful. This has shifted over time, with researchers reporting that between 2006 and 2010 it was only somewhat important to do so (Figure X).
 
 Similarly...... including partners from for-profit or non-governmental sectors in grants to be successful (Figure X).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 *Perspectives on the State of Fundamental Research in Canada*
 Over half of Canadian researchers who responded said that fundamental research is either very important or somewhat important to our government. Differences by career stage, discipline,ggender....

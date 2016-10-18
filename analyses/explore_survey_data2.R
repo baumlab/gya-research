@@ -82,6 +82,13 @@ survey$Country<-as.factor(survey$Country)
 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 
+##Create a csv of just canadian responses for Megan
+Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
+                                                  survey$Country_work=="" & survey$Country=="Canada"),]
+head(Canada)
+write.csv(Canada, file="data/gya-only-Canada.csv", row.names = FALSE)
+
+
 #how many of each 
 colnames(survey)
 Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
@@ -109,6 +116,8 @@ g.dicipline
 
 dicipline.careerstage<-table(Canada$what_participant_group, Canada$field_research)
 dicipline.careerstage
+
+
 
 #############
 ####Part5####
