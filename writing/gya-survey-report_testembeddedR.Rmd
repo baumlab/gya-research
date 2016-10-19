@@ -462,6 +462,67 @@ ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
           legend.position=c(0.8, 0.8)) + colScale
 ```
 
+```{r, echo=FALSE, fig.cap="Fig 4.13 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", warning=FALSE,fig.height=12}
+
+canada<-p3_master.long[p3_master.long$Country_work=="Canada" | (!(p3_master.long$Country_work=="Canada") & p3_master.long$Country_work=="" & p3_master.long$Country=="Canada"),]
+
+##revalue the year values
+canada$year<- revalue(canada$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
+#change order of levels
+canada$year<-factor(canada$year, levels(canada$year)[c(2,1)])
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "year",values = myColors)
+
+ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  + 
+  facet_wrap(~type, nrow=5) + colScale +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.9, 0.08),
+          strip.text.y = element_text(size=14, face="bold", color="black"),
+          legend.key.size = unit(0.3, "cm"),
+          strip.background = element_rect(colour="white", fill="white")) +
+  labs(x="% research funding", y = "No. of respondents")+ scale_y_continuous(breaks=c(0, 250, 500, 750, 1000, 1300))+
+  scale_x_continuous(breaks = seq(0, 100, 25))
+```
+
+```{r, echo=FALSE, fig.cap="Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
+canada<-part3.change[part3.change$Country_work=="Canada" | (!(part3.change$Country_work=="Canada") & part3.change$Country_work=="" & part3.change$Country=="Canada"),]
+
+##switch to long format
+change.long.ca<-gather(canada, type, level, -Location, -gender, -Country, -Country_work, -what_participant_group, -field_research)
+success.change<-with(change.long.ca, data.frame(table(type, level)))
+#remove no response
+success.change<-success.change[!success.change$level=="",]
+success.change<-droplevels(success.change)
+
+# add colour palette
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-(myColors[c(9, 6, 3)])
+colScale <- scale_fill_manual(name = "type",values = myColors, labels=c("Fundamental", "Use-inspired", "Applied"))
+
+#change order of levels
+success.change$level<-factor(success.change$level, levels(success.change$level)[c(5,4,6,2,3,1)])
+success.change$type<-factor(success.change$type, levels(success.change$type)[c(2,3,1)])
+success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
+              'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
+
+ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
+  geom_bar(stat="identity", position="dodge")+
+  guides(fill=guide_legend(title=NULL)) +
+  theme(axis.text.x = element_text(angle=0, vjust=0.5),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+         strip.text.y = element_text(size=14, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+        legend.position=c(0.15, 0.9))+
+  guides(fill=FALSE)+
+  geom_text(aes(label=Freq, vjust=-0.5),size=3) +
+  scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
+                                    "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
+  labs(x="", y="No. of responses", fill="")+ colScale + ylim(c(0, 600))
+```
+
 *Research Grants* 
 [working on it now]
 
@@ -475,35 +536,11 @@ The majority of the respondents believe that it is now either mandatory (24%) or
 
 Similarly the shift was also seen in the belief of external partners being either mandatory (14%) or quite important (36%) for the grant application's success (Figure 4.12). 
 
+The government is the primary funding source for scientists thus the research priorities of the Canadian government can have a dramatic impact on research (Figure 4.13).
 
+Over 80% of the respondents think that the success rate of fundamental research grant applications have decreased slightly or decreased considerably in the past ten years (Figure 4.14). Only 0.08% believe that the success rate has stayed the same or increased.  The decrease in success could be due to in the increase in grant applications but ..... *need more work*.  Applied research grant applications saw the reverse of the Fundamental research where 57% of respondents believe the success rate has improved. Use-Inspired research grant applications were in the middle but leaned more towards increased success.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### Part 4 - Funding Trends in your country of work
 
 
 
@@ -513,6 +550,38 @@ Over half of Canadian researchers who responded said that fundamental research i
 At the same time, almost three-quarters of respondents said that applied research became a higher priority for our government over the past decade. 
 
 Summarize finding on how they think availabiltiy of research funding will change over the next five years: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -645,7 +645,6 @@ head(p3_master.long)
 
 
 
-
 ## grant success rates change over past 10 yrs
 part3.change<-subset(part3, select = c("Country", "Country_work", "gender", "Location","what_participant_group", "field_research", "success_change_10yrs_fundamental"  ,        "success_change_10yrs_use"   ,               
                                        "success_change_10yrs_applied"))

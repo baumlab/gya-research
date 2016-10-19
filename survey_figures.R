@@ -349,15 +349,15 @@ ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='iden
 
 
 ## 8b  Canada
-important<-subset(part4, select=c("Location","Country", "gender","opinion_fundamental_important"))
+important<-subset(part4, select=c("Location","Country","Country_work", "gender","opinion_fundamental_important"))
 
 canada<-important[important$Country_work=="Canada" | (!(important$Country_work=="Canada") & 
                                                         important$Country_work=="" & important$Country=="Canada"),]
-
 ## using table to count cases of each category
 sum.important<-data.frame(table(canada$opinion_fundamental_important))
 # remove non-response
 sum.important<-sum.important[!sum.important$Var1=="",]
+sum.important<-sum.important[!sum.important$Var2=="",]
 
 ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
@@ -815,11 +815,13 @@ ggplot(p3_master.long, aes(percent, fill=year))+ geom_histogram(position='dodge'
 canada<-p3_master.long[p3_master.long$Country_work=="Canada" | (!(p3_master.long$Country_work=="Canada") & 
                                                                   p3_master.long$Country_work=="" & p3_master.long$Country=="Canada"),]
 
-head(canada)
+dim(canada)
+
+canada[354,]
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
 
-
-
+funding.dist.ca.table<-data.frame(table(canada$percent, canada$type, canada$year))
+funding.dist.ca.table
 
 
 ## grant success rates change in last 10 yrs
@@ -878,10 +880,20 @@ ggplot(data=gender.change, aes(x=level, Location, fill=type))+geom_bar(stat="ide
   facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+
   scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
+## grant success rates change in last 10 yrs canada - creating a table 
+head(part3.change)
+require(tidyr)
+##switch to long format
+change.long<-gather(part3.change, type, level, -Location, -gender, -Country, -what_participant_group, -field_research, -Country_work)
+head(change.long)
+canada<-change.long[change.long$Country_work=="Canada" | (!(change.long$Country_work=="Canada") & 
+                                                            change.long$Country_work=="" & change.long$Country=="Canada"),]
+head(canada)
 
-
-
-
+# remove non-response
+canada<-canada[!canada$level=="",]
+success.rate.ca.table<-data.frame(table(canada$type, canada$level))
+success.rate.ca.table
 
 
 
