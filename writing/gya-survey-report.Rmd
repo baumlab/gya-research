@@ -552,23 +552,24 @@ ggplot(grants.ca, aes(number, Freq, fill=time)) +
 ```{r, echo=FALSE, fig.cap="Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
 #canada<-subset(part3.success.long, Country=="Canada")
 canada<-part3.success.long[part3.success.long$Country_work=="Canada" | (!(part3.success.long$Country_work=="Canada") & part3.success.long$Country_work=="" & part3.success.long$Country=="Canada"),]
+dim(canada)
 canada$type<-as.character(canada$type)
 
 #add time variable
-#canada$time<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada$time<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
 canada$type[canada$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
 canada$type[canada$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
 canada$type[canada$type=="successful_grants_11_15_use"]<-"Use-Inspired"
 canada$type[canada$type=="successful_grants_6_10_use"]<-"Use-Inspired"
 canada$type[canada$type=="successful_grants_11_15_applied"]<-"Applied"
 canada$type[canada$type=="successful_grants_6_10_applied"]<-"Applied"
-
+dim(canada)
 success.ca<-data.frame(with(canada, table(type, percent,time)))
-
+dim(success.ca)
 #change order of types
 success.ca$type<-as.factor(success.ca$type)
 success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
-
+success.ca
 myColors<-(brewer.pal(9, "Blues"))
 myColors<-rev(myColors[c(9, 5)])
 colScale <- scale_fill_manual(name = "time",values = myColors)
@@ -598,7 +599,7 @@ canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
 
 
 prac.ca<-data.frame(table(canada$year, canada$level))
-
+prac.ca$Var2
 #change order of levels
 prac.ca$Var2<-factor(prac.ca$Var2, levels(prac.ca$Var2)[c(2,6,4,5,3,1)])
 
@@ -614,7 +615,7 @@ ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) +
         legend.position=c(0.8, 0.8),
         axis.text.x = element_text(angle=0, vjust=0.5)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
-  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not at all\n important", 'Not at all\n important', "Can't\n comment"))+
+  scale_x_discrete(labels=c("Mandatory", "Very\n important", "Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="", y="No. of responses")+ colScale
   
 
@@ -626,11 +627,11 @@ canada<-part3.part.long[part3.part.long$Country_work=="Canada" | (!(part3.part.l
 
 canada$year<-as.character(canada$year)
 
-canada$year[canada$year=="practical_applications_important_11_15"]<-"2011-2015"
-canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
+canada$year[canada$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
+canada$year[canada$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
 
 part.ca<-data.frame(table(canada$year, canada$level))
-
+summary(part.ca)
 #change order of levels
 part.ca$Var2<-factor(part.ca$Var2, levels(part.ca$Var2)[c(2,5,6,4,3,1)])
 
@@ -644,7 +645,7 @@ ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
   geom_bar(stat="identity", position = "dodge")+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="", y="No. of responses")+
-  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not at all\n important", 'Not at all\n important', "Can't\n comment"))+
+  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.position=c(0.8, 0.8)) + colScale

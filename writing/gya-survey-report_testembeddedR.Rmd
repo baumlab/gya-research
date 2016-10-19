@@ -321,17 +321,161 @@ Perspectives on these changes were mixed (Figure 4.8). Interestly, almost half o
  
 ##### Part 3 - Grant Aaplication History
 
+```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", warning=FALSE, fig.height=12}
+#canada<-subset(part3.grants.long, Country=="Canada")
+canada<-part3.grants.long[part3.grants.long$Country_work=="Canada" | (!(part3.grants.long$Country_work=="Canada") & part3.grants.long$Country_work=="" & part3.grants.long$Country=="Canada"),]
+canada$type.grant<-as.character(canada$type.grant)
 
 
+#add time variable
+canada$time<-ifelse(grepl("11_15", canada$type.grant), "2011-2015", "2006-2010")
+canada$type.grant[canada$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
+canada$type.grant[canada$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
+canada$type.grant[canada$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
+canada$type.grant[canada$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
+canada$type.grant[canada$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
+canada$type.grant[canada$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
+
+grants.ca<-data.frame(with(canada, table(type.grant,time,number)))
+grants.ca$type.grant<-as.factor(grants.ca$type.grant)
+
+
+#change order of levels
+grants.ca$number<-factor(grants.ca$number, levels(grants.ca$number)[c(1,2,6,7,3,4,5)])
+grants.ca$type.grant<-factor(grants.ca$type.grant, levels(grants.ca$type.grant)[c(2,3,1)])
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "time",values = myColors)
+
+
+ggplot(grants.ca, aes(number, Freq, fill=time)) + 
+    geom_bar(stat="identity", position = "dodge")+
+    facet_wrap(~type.grant, nrow=3) +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+    labs(x="No. of grant applications", y="No. of responses")+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+           strip.text.y = element_text(size=12, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.8, 0.2)) + colScale
+```
+
+```{r, echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015. Respondents also had the choice to answer "No need for applications for this research type."", warning=FALSE}
+#canada<-subset(part3.success.long, Country=="Canada")
+canada<-part3.success.long[part3.success.long$Country_work=="Canada" | (!(part3.success.long$Country_work=="Canada") & part3.success.long$Country_work=="" & part3.success.long$Country=="Canada"),]
+canada$type<-as.character(canada$type)
+
+#add time variable
+canada$time<-ifelse(grepl("11_15", canada$type), "2011-2015", "2006-2010")
+canada$type[canada$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
+canada$type[canada$type=="successful_grants_11_15_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_6_10_use"]<-"Use-Inspired"
+canada$type[canada$type=="successful_grants_11_15_applied"]<-"Applied"
+canada$type[canada$type=="successful_grants_6_10_applied"]<-"Applied"
+
+success.ca<-data.frame(with(canada, table(type, percent,time)))
+
+#change order of types
+success.ca$type<-as.factor(success.ca$type)
+success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "time",values = myColors)
+
+
+ggplot(success.ca, aes(percent, Freq, fill=time)) + 
+    geom_bar(stat="identity", position = "dodge")+
+    facet_wrap(~type, nrow=3) +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+    labs(x="% successful grants", y="No. of responses")+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+           strip.text.y = element_text(size=14, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.8, 0.2)) + colScale
+
+```
+  
+```{r, echo=FALSE, fig.cap="Fig 4.11 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
+
+canada<-part3.prac.long[part3.prac.long$Country_work=="Canada" | (!(part3.prac.long$Country_work=="Canada") & part3.prac.long$Country_work=="" & part3.prac.long$Country=="Canada"),]
+
+canada$year<-as.character(canada$year)
+
+canada$year[canada$year=="practical_applications_important_11_15"]<-"2011-2015"
+canada$year[canada$year=="practical_applications_important_6_10"]<-"2006-2010"
+
+
+prac.ca<-data.frame(table(canada$year, canada$level))
+
+#change order of levels
+prac.ca$Var2<-factor(prac.ca$Var2, levels(prac.ca$Var2)[c(2,6,4,5,3,1)])
+
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
+ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) + 
+  geom_bar(stat="identity", position = "dodge")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.position=c(0.8, 0.8),
+        axis.text.x = element_text(angle=0, vjust=0.5)) +
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
+  scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
+  labs(x="", y="No. of responses")+ colScale
   
 
+```
+
+```{r, echo=FALSE, fig.cap="Fig 4.12 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
+
+canada<-part3.part.long[part3.part.long$Country_work=="Canada" | (!(part3.part.long$Country_work=="Canada") & part3.part.long$Country_work=="" & part3.part.long$Country=="Canada"),]
+
+canada$year<-as.character(canada$year)
+
+canada$year[canada$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
+canada$year[canada$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
+
+part.ca<-data.frame(table(canada$year, canada$level))
+summary(part.ca)
+#change order of levels
+part.ca$Var2<-factor(part.ca$Var2, levels(part.ca$Var2)[c(2,5,6,4,3,1)])
+
+## add colour scale
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-rev(myColors[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors)
+
+
+ggplot(part.ca, aes(Var2, Freq, fill=Var1))+ 
+  geom_bar(stat="identity", position = "dodge")+
+    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+    labs(x="", y="No. of responses")+
+  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          legend.position=c(0.8, 0.8)) + colScale
+```
 
 *Research Grants* 
-[STILL TO COME]
+[working on it now]
 
-The majority of respondents believe that it is now either mandatory or very important to suggest practical applications of their research in order for their grant applications to be successful. This has shifted over time, with researchers reporting that between 2006 and 2010 it was only somewhat important to do so (Figure X).
+figure 4.9 - more people have been applying for more grants overall    
+*need to work on*
 
-Similarly...... including partners from for-profit or non-governmental sectors in grants to be successful (Figure X).
+
+With an increase in the number of grant applications one would expect that the success rates would decrease due to more scientists competing for the same money. This is demonstrated by a decrease in the 100% successfull (29% of total Fundamental responses to 23%) and increase in unsuccessful (7% to 11%) Fundamental grant applications (Figure 4.10).  However, this is untrue for the Applied grants because there is a decrease in the unsuccessful (18% of total Applied responses to 14%) grant application and an increase for the successful grants (24% to 28%).  This potentially shows an increase in available funding for this type of research compared to the funding availablity for Fundamental research.  Proportionally there was no change in the responses for 0%, 50%, or 100% for the Use-Inspired grant applications.  
+
+The majority of the respondents believe that it is now either mandatory (24%) or very important (34%) to suggest practical applications of their research in order for their grant applications to be successful. This has shifted over time, with researchers reporting that between 2006 and 2010 it was only somewhat important (26%) to do so (Figure 4.11).  
+
+Similarly the shift was also seen in the belief of external partners being either mandatory (14%) or quite important (36%) for the grant application's success (Figure 4.12). 
+
+
 
 
 

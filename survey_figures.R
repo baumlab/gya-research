@@ -655,7 +655,6 @@ ggplot(grants, aes(type.grant, gender, fill=number)) + geom_bar(stat="identity",
 canada<-part3.grants.long[part3.grants.long$Country_work=="Canada" | (!(part3.grants.long$Country_work=="Canada") & 
                                                                         part3.grants.long$Country_work=="" & part3.grants.long$Country=="Canada"),]
 
-
 canada$type.grant<-as.character(canada$type.grant)
 
 
@@ -670,13 +669,17 @@ canada$type.grant[canada$type.grant=="external_pi_grant_6_10_applied"]<-"Applied
 
 grants.ca<-aggregate(gender~ type.grant+time+number, canada, length)
 grants.ca$type.grant<-as.factor(grants.ca$type.grant)
-
+grants.ca$number
+str(grants.ca)
 #change order of levels
 grants.ca$number<-factor(grants.ca$number, levels(grants.ca$number)[c(1,2,6,7,3,4,5)])
+grants.ca
 grants.ca$type.grant<-factor(grants.ca$type.grant, levels(grants.ca$type.grant)[c(2,3,1)])
-
+grants.ca
 ggplot(grants.ca, aes(type.grant, gender, fill=number)) + geom_bar(stat="identity", position = "dodge")+facet_wrap(~time) +guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
   labs(x="Number of grant applications", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+
 
 
 #### 18a percent of applications successful
@@ -723,7 +726,6 @@ success.ca<-aggregate(gender~type+percent+time, canada, length)
 success.ca$type<-as.factor(success.ca$type)
 success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
 
-
 ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
   labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
@@ -759,7 +761,7 @@ prac.ca<-aggregate(gender~year+level, canada, length)
 
 #change order of levels
 prac.ca$level<-factor(prac.ca$level, levels(prac.ca$level)[c(2,6,4,5,3,1)])
-
+prac.ca
 
 ggplot(prac.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
@@ -795,7 +797,7 @@ part.ca<-aggregate(gender~year+level, canada, length)
 #change order of levels
 part.ca$level<-factor(part.ca$level, levels(part.ca$level)[c(2,5,6,4,3,1)])
 
-
+part.ca
 ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
 
@@ -813,7 +815,7 @@ ggplot(p3_master.long, aes(percent, fill=year))+ geom_histogram(position='dodge'
 canada<-p3_master.long[p3_master.long$Country_work=="Canada" | (!(p3_master.long$Country_work=="Canada") & 
                                                                   p3_master.long$Country_work=="" & p3_master.long$Country=="Canada"),]
 
-
+head(canada)
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
 
 
