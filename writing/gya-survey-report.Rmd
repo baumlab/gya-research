@@ -908,9 +908,10 @@ impact<-data.frame(table(canada$next_generation))
 impact$Var1<-str_replace_all(impact$Var1, "Will ", "")
 impact$Var1<-as.factor(impact$Var1)
 impact<-impact[!impact$Var1=="",]
+impact<-droplevels(impact)
+summary(impact$Var1)
 ## change order of Var1s
 impact$Var1<-factor(impact$Var1, levels(impact$Var1)[c(4,5,6,3,2,1)])
-impact<-droplevels(impact)
 
  
 ggplot(data=impact, aes(x=Var1, Freq))+ 
@@ -923,5 +924,4 @@ ggplot(data=impact, aes(x=Var1, Freq))+
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())+
   geom_text(aes(label=Freq), vjust=-0.5)
-
 ```

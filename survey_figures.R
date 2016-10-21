@@ -410,7 +410,7 @@ priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -C
 tail(priority.long)
 
 high.priority<-aggregate(higher.priority~ what.type, priority.long, sum)
-
+high.priority
 ggplot(data=high.priority, aes(x=what.type, higher.priority, fill=what.type)) + geom_bar(stat='identity') +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
@@ -470,6 +470,8 @@ availiability.ca<-aggregate(gender~what.type+level,
 # remove non-response
 availiability.ca<-availiability.ca[!availiability.ca$level=="",]
 
+availiability.ca
+
 ggplot(data=availiability.ca, aes(x=what.type, gender, fill=level))+ geom_bar(stat='identity') +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
@@ -502,6 +504,7 @@ canada<-next.generation[next.generation$Country_work=="Canada" | (!(next.generat
 
 head(canada)
 impact<-aggregate(gender~ next_generation, canada, length)
+impact
 head(impact)
 ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation)) + geom_bar(stat='identity') +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
