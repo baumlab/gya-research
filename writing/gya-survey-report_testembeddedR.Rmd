@@ -7,6 +7,7 @@ output:
   fig_width: 18
   html_document: default
   fig_height: 4
+  word_document: default
 ---
 
 **Introduction**
@@ -159,13 +160,13 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
   guides(fill=FALSE) + colScale
 ```
 
-*4.1 Type of Research Conducted* 
+####*4.1 Type of Research Conducted* 
 Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers considered themselves to only do one type of research: insert %s of who think they do all of f, u, or a. X% of researchers consider that over half of their research program is in fundamental science......
 
-SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X).
+*SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES*. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X).
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
-```{r, echo=FALSE, fig.cap="Figure 4.3 Funding allocation to fundamental, use-inspired and applied research categories. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
+```{r, echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -202,7 +203,7 @@ res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="
 ggplot(res.plot, aes(percent, fill=time)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-    labs(x="% funding", y="No. responses", title="")+
+    labs(x="Percent", y="No. responses", title="")+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
@@ -213,7 +214,48 @@ ggplot(res.plot, aes(percent, fill=time)) +
 
 ```
 
-#### Part 2 - External Partnerships
+```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
+#Change yes or no
+canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
+                                                  yes.no$Country_work=="" & yes.no$Country=="Canada"),]
+canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
+canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
+
+p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)
+  labs(y="No. responses")
+  
+#reason for change  
+research.change<-read.csv(file="data/gya-change-reason.csv")
+reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
+                                       "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
+
+canada<-reason[reason$Country_work=="Canada" | (!(reason$Country_work=="Canada") & 
+                                                  reason$Country_work=="" & reason$Country=="Canada"),]
+## switch to long format
+require(tidyr)
+canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country_work, -Country)
+## using table to count cases of each category
+sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
+# remove non-response
+sum.canada<-sum.canada[!sum.canada$Var1=="",]
+sum.canada
+sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 8,7,6,5,3)]
+
+p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=0, vjust=0.5),panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5)) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors)+
+  labs(x="Reason", y="No. responses")+geom_text(aes(label=Freq), vjust=-0.5)
+  
+grid.arrange(p1, p2, nrow=1)
+```
+
+
+
+<!--Part 2 - External Partnerships-->
 ```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
 part2.b.a<-part2.b.a[part2.b.a$Country_work=="Canada" | (!(part2.b.a$Country_work=="Canada") & part2.b.a$Country_work=="" & part2.b.a$Country=="Canada"),]
 
@@ -307,7 +349,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
 
 ```
 
-*4.2 External Partnerships*   
+####*4.2 External Partnerships*   
 The extent to which research is conducted with partners outside of academia, including in industry and non-governmental sectors, may also be considered as an indicator of use-inspired or applied research. Almost all respondents (88%) reported that their current research includes external partners to some degree: fifty-nine per cent reported some partnerships and a further quarter (27%) reported strong partnerships (Figure 4.6). Less than 1% reported conducting their research exclusively with partners outside of academia. 
 
 Over the past decade, there has been a sharp decline in the number of researchers with no external partnerships: only 12% of respondents reported having no partnerhips in their current research program, whereas almost half of respondents (44%) reported having no partnerships in the past (Figure 4.6). The number of strong external partnerships also has increased over time from 11% to 27% (Figure 4.6). 
@@ -318,7 +360,7 @@ Perspectives on these changes were mixed (Figure 4.8). Interestly, almost half o
 
 
  
-##### Part 3 - Grant Aaplication History
+<!--Part 3 - Grant Application History-->
 
 ```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", warning=FALSE, fig.height=12}
 #canada<-subset(part3.grants.long, Country=="Canada")
@@ -357,7 +399,7 @@ ggplot(grants.ca, aes(number, Freq, fill=time)) +
           panel.grid.minor = element_blank(),
            strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.8, 0.2)) + colScale
+          legend.position=c(0.8, 0.53)) + colScale
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", warning=FALSE}
@@ -473,15 +515,16 @@ myColors<-(brewer.pal(9, "Blues"))
 myColors<-rev(myColors[c(9, 5)])
 colScale <- scale_fill_manual(name = "year",values = myColors)
 
-ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  + 
+ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + 
   facet_wrap(~type, nrow=5) + colScale +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.9, 0.08),
           strip.text.y = element_text(size=14, face="bold", color="black"),
           legend.key.size = unit(0.3, "cm"),
-          strip.background = element_rect(colour="white", fill="white")) +
+          strip.background = element_rect(colour="white", fill="white"),panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank()) +
   labs(x="% research funding", y = "No. of respondents")+ scale_y_continuous(breaks=c(0, 250, 500, 750, 1000, 1300))+
-  scale_x_continuous(breaks = seq(0, 100, 25))
+  scale_x_continuous(breaks = seq(0, 100, 10))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.14 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
@@ -521,11 +564,10 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   labs(x="", y="No. of responses", fill="")+ colScale + ylim(c(0, 600))
 ```
 
-*Research Grants* 
+####*4.3 Research Grants* 
 
-figure 4.9 - more people have been applying for more grants overall    
-*need to work on*
-
+There has been an overall increase in the number of grants applications (Figure 4.9). The biggest increase in number of researchers applying for one through nine applications was for Applied research grants, however the number of researchers that applied for 10+ Fundamental grants increased more than the other two.  This may indicate either lower success rates and/or smaller grant values of Fundamental grants and therefore a need to apply more often for grants.  
+*I have those numbers if we want to put them in*
 
 With an increase in the number of grant applications one would expect that the success rates would decrease due to more scientists competing for the same money. This is demonstrated by a decrease in the 100% successfull (29% of total Fundamental responses to 23%) and increase in unsuccessful (7% to 11%) Fundamental grant applications (Figure 4.10).  However, this is untrue for the Applied grants because there is a decrease in the unsuccessful (18% of total Applied responses to 14%) grant application and an increase for the successful grants (24% to 28%).  This potentially shows an increase in available funding for this type of research compared to the funding availablity for Fundamental research.  Proportionally there was no change in the responses for 0%, 50%, or 100% for the Use-Inspired grant applications.  
 
@@ -535,17 +577,15 @@ Similarly the shift was also seen in the belief of external partners being eithe
 
 The government is the primary funding source for scientists thus the research priorities of the Canadian government can have a dramatic impact on research (Figure 4.13).
 
-Over 80% of the respondents think that the success rate of fundamental research grant applications have decreased slightly or decreased considerably in the past ten years (Figure 4.14). Only 0.08% believe that the success rate has stayed the same or increased.  The decrease in success could be due to in the increase in grant applications but ..... *need more work*.  Applied research grant applications saw the reverse of the Fundamental research where 57% of respondents believe the success rate has improved. Use-Inspired research grant applications were in the middle but leaned more towards increased success.
+Over 80% of the respondents think that the success rate of fundamental research grant applications have decreased slightly or decreased considerably in the past ten years (Figure 4.14). Only 0.08% believe that the success rate has stayed the same or increased.  The decrease in success could be due to in the increase in grant applications but there was only a 10% overall increase in Fundamental research grant applications.  Applied research grant applications saw the reverse of the Fundamental research where 57% of respondents believe the success rate has improved. Use-Inspired research grant applications were in the middle but leaned more towards increased success.
 
-#### Part 4 - Funding Trends in your country of work
-[working on it now]
-
+<!--Part 4 - Funding Trends in your country of work-->
 ```{r, echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to Canadian government. Researchers were asked how important they thought fundamental research was to the Canadian government. Responses were/were not significantly different between genders."}
 ## order bars from very important (left) to can't comment (right)
 important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
 canada<-important[important$Country_work=="Canada" | (!(important$Country_work=="Canada") & important$Country_work=="" & important$Country=="Canada"),]
-dim(canada)
+
 ## using table to count cases of each category
 sum.important<-data.frame(table(canada$opinion_fundamental_important))
 # remove non-responses
@@ -647,7 +687,7 @@ ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     geom_text(aes(label=Freq), vjust=-0.5, size=3) + colScale +ylim(c(0, 550))
 ```
 
-```{r, echo=FALSE, fig.cap="Effect of change in research funding on research careers of next generation in Canada. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
+```{r, echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation in Canada. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))
@@ -662,7 +702,6 @@ impact$Var1<-str_replace_all(impact$Var1, "Will ", "")
 impact$Var1<-as.factor(impact$Var1)
 impact<-impact[!impact$Var1=="",]
 impact<-droplevels(impact)
-summary(impact$Var1)
 ## change order of Var1s
 impact$Var1<-factor(impact$Var1, levels(impact$Var1)[c(4,5,6,3,2,1)])
  
@@ -678,15 +717,15 @@ ggplot(data=impact, aes(x=Var1, Freq))+
   geom_text(aes(label=Freq), vjust=-0.5)
 ```
 
-*Perspectives on the State of Fundamental Research in Canada*
+####*4.4 Perspectives on the State of Fundamental Research in Canada*
 
-*Need to write this out!!*
+Over half (69%) of Canadian researchers who responded said that fundamental research is either very important (30%) or somewhat important (39%) to our government (Figure 4.15). 
 
-Over half of Canadian researchers who responded said that fundamental research is either very important or somewhat important to our government. Differences by career stage, discipline,ggender....
+At the same time, 68% of respondents said that applied research became a higher priority for our government over the past decade (Figure 4.16). 
 
-At the same time, almost three-quarters of respondents said that applied research became a higher priority for our government over the past decade. 
+Canadians are not pessimistic about the future of research funding with the majority of respondents believing that funding will either stay the same or get better in the next five years (Figure 4.17). The change over of the government is probably encouraging this thinking.  However, Applied funding still has the most optimistic outlooks. 17% of respondents think that funding for Applied research will increase considerably whereas less than 5% of respondents believe that for either Use-Inspired or Fundamental. Even with the majority of respondents thinking optimistic there was 30% of respondents that believe that funding for Fundamental research is going to decrease.  This thinking may be lead by the belief that applied research has a higher priority in Canada.
 
-Summarize finding on how they think availabiltiy of research funding will change over the next five years: 
+Although respondents were generally optimistic about funding they are not so when it comes to thinking about the impact this will have on future generations. Half of Canadian researchers (51%) think that the likelihood of the next generation pursuing careers in research will either decrease slightly or decrease considerably (Fig 4.18). 
 
 
 

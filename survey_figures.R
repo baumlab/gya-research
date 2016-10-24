@@ -316,7 +316,7 @@ canada<-part1.view[part1.view$Country_work=="Canada" | (!(part1.view$Country_wor
                                                           part1.view$Country_work=="" & part1.view$Country=="Canada"),]
 
 canada<-canada[!canada$view_change_of_type=="",]
-
+canada<-droplevels(canada)
 change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
 
 # change order of the levels

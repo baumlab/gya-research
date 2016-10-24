@@ -165,7 +165,7 @@ Canadian survey respondents included researchers conducting all three types of r
 SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X).
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
-```{r, echo=FALSE, fig.cap="Figure 4.3 Funding allocation to fundamental, use-inspired and applied research categories. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
+```{r, echo=FALSE, fig.cap="Figure 4.3 Funding allocation to fundamental, use-inspired and applied research categories. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.- wrong caption", message=FALSE, warning=FALSE, fig.width=10}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -213,8 +213,71 @@ ggplot(res.plot, aes(percent, fill=time)) +
 
 ```
 
+```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
+#Change yes or no
+canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
+                                                  yes.no$Country_work=="" & yes.no$Country=="Canada"),]
+canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
+canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
+
+p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)
+  labs(y="No. responses")
+  
+#reason for change  
+research.change<-read.csv(file="data/gya-change-reason.csv")
+reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
+                                       "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
+
+canada<-reason[reason$Country_work=="Canada" | (!(reason$Country_work=="Canada") & 
+                                                  reason$Country_work=="" & reason$Country=="Canada"),]
+## switch to long format
+require(tidyr)
+canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country_work, -Country)
+## using table to count cases of each category
+sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
+# remove non-response
+sum.canada<-sum.canada[!sum.canada$Var1=="",]
+sum.canada
+sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(9, 8,7,6,5,3)]
+
+p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme(axis.text.x = element_text(angle=0, vjust=0.5),panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5)) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors)+
+  labs(x="Reason", y="No. responses")+geom_text(aes(label=Freq), vjust=-0.5)
+  
+grid.arrange(p1, p2, nrow=1)
+```
+
+```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
+canada<-part1.view[part1.view$Country_work=="Canada" | (!(part1.view$Country_work=="Canada") & 
+                                                          part1.view$Country_work=="" & part1.view$Country=="Canada"),]
+
+canada<-canada[!canada$view_change_of_type=="",]
+canada<-droplevels(canada)
+change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
+
+# change order of the levels
+change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
+                                        levels(change.view.ca$view_change_of_type)[c(5,3,1,2,4)])
+change.view.ca
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(1)]
+ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=myColors)) + geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="No. Responses")+geom_text(aes(label=gender), vjust=-0.5)
+
+
+
+
+
+```
+
 #### Part 2 - External Partnerships
-```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia.", warning=FALSE}
 part2.b.a<-part2.b.a[part2.b.a$Country_work=="Canada" | (!(part2.b.a$Country_work=="Canada") & part2.b.a$Country_work=="" & part2.b.a$Country=="Canada"),]
 
 b.part<-data.frame(table(part2.b.a$partnership_outside_before))
