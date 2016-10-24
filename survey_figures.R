@@ -292,6 +292,7 @@ sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
 # remove non-response
 sum.canada<-sum.canada[!sum.canada$Var1=="",]
 
+sum.canada
 ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)
 
@@ -322,7 +323,7 @@ change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
 # change order of the levels
 change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
                                         levels(change.view.ca$view_change_of_type)[c(5,3,1,2,4)])
-
+change.view.ca  
 ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")

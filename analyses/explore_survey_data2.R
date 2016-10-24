@@ -117,6 +117,13 @@ g.dicipline
 dicipline.careerstage<-table(Canada$what_participant_group, Canada$field_research)
 dicipline.careerstage
 
+current<-subset(Canada, select=c("percent_Applied_Research_current", "percent_Use_inspired_Research_current", "percent_fundemental_research_current"))
+current.res<-current[!(current$percent_Applied_Research_current=="")& (current$percent_Use_inspired_Research_current=="") &(current$percent_fundemental_research_current==""),]
+current.res<-droplevels(current.res)
+head(current.res$percent_Applied_Research_current)
+length(current.res$percent_Applied_Research_current)
+
+
 
 
 #############
@@ -234,7 +241,7 @@ survey.type$percent_Use_inspired_Research_past<-ifelse(survey.type$total_researc
 
 head(survey.type[survey.type$total_research>100,])
 
-
+dim(survey.type)
 ## switch to long format
 require(tidyr)
 survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country_work, -Country, -what_participant_group, -field_research, -total_research)

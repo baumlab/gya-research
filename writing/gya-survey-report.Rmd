@@ -198,7 +198,6 @@ myColors<-myColors[c(5,9)]
 colScale <- scale_fill_manual(name = "time",values = myColors)
 
 res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="Canada") & res.plot$Country_work=="" & res.plot$Country=="Canada"),]
-res.plot
 
 ggplot(res.plot, aes(percent, fill=time)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
@@ -216,6 +215,7 @@ ggplot(res.plot, aes(percent, fill=time)) +
 
 ```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
 #Change yes or no
+yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
 canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
                                                   yes.no$Country_work=="" & yes.no$Country=="Canada"),]
 canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)

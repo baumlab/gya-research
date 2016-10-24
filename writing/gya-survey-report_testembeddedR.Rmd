@@ -161,9 +161,9 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
 ```
 
 ####*4.1 Type of Research Conducted* 
-Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers considered themselves to only do one type of research: insert %s of who think they do all of f, u, or a. X% of researchers consider that over half of their research program is in fundamental science......
+Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers (1.2%) considered themselves to currently only do one type of research: 0.1% applied, 0.3% use-inspired, 0.8% fundamental (Figure 4.3). There was a 11% drop in the number of researchers that only did fundamental research.  This drop could have been caused by funding availability. Over one quarter (29%) of researchers consider that over half of their research program is in fundamental science currently. The number of researchers that consider over half of their research program is in applied science currently is 10% and in use-inspired only 9%.  There should be proportionally more research funding for fundamental science than applied or use-inspired. Limited research funding was most likely the reason why there was a drop in fundamental research and an increase in both use-inspired and applied (researchers that considered 50% or more of their past research fundamental -38%, applied -6%, use-inspired - 6%).
 
-*SOMEHOW HAVE TO MAKE SENSE OF THE RESPONSES AND PLOT FOR THE % OF RESEARCH IN THE THREE CATEGORIES*. Almost one third of researchers reported that the types of research they conduct has shifted over the past ten years (Figure 3). By far, the most reported reason for this change was funding (Figure 4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative, one quarter slightly positive and one quarter very positive (Figure X).
+Over one third of researchers (40%) reported that the types of research they conduct has shifted over the past ten years (Figure 4.4). By far, the most reported reason for this change was funding (45%) followed by interest (26%) (Figure 4.4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative (25%), one quarter slightly positive (23%) and one quarter very positive (25%) (Figure 4.5).  The positive feelings about these changes may be due to less stress about attaining funding.
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
 ```{r, echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
@@ -216,6 +216,7 @@ ggplot(res.plot, aes(percent, fill=time)) +
 
 ```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
 #Change yes or no
+yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
 canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
                                                   yes.no$Country_work=="" & yes.no$Country=="Canada"),]
 canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
@@ -223,11 +224,9 @@ canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
 
 p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)
-  labs(y="No. responses")
+          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="No. responses")
   
 #reason for change  
-research.change<-read.csv(file="data/gya-change-reason.csv")
 reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
                                        "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
 
@@ -240,13 +239,13 @@ canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Count
 sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
 # remove non-response
 sum.canada<-sum.canada[!sum.canada$Var1=="",]
-sum.canada
+
 sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
 myColors<-(brewer.pal(9, "Blues"))
 myColors<-myColors[c(9, 8,7,6,5,3)]
 
 p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=0, vjust=0.5),panel.grid.major = element_blank(),
+  theme(axis.text.x = element_text(angle=90, vjust=0.5),panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5)) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors)+
   labs(x="Reason", y="No. responses")+geom_text(aes(label=Freq), vjust=-0.5)
   
