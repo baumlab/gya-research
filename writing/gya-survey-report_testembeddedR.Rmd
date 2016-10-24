@@ -3,11 +3,11 @@ title: "Canadian online survey on fundamental research"
 author: ''
 date: "16 September 2016"
 output:
-  pdf_document: null
+  word_document: default
   fig_width: 18
   html_document: default
+  pdf_document: null
   fig_height: 4
-  word_document: default
 ---
 
 **Introduction**
@@ -740,134 +740,3 @@ At the same time, 68% of respondents said that applied research became a higher 
 Canadians are not pessimistic about the future of research funding with the majority of respondents believing that funding will either stay the same or get better in the next five years (Figure 4.17). The change over of the government is probably encouraging this thinking.  However, Applied funding still has the most optimistic outlooks. 17% of respondents think that funding for Applied research will increase considerably whereas less than 5% of respondents believe that for either Use-Inspired or Fundamental. Even with the majority of respondents thinking optimistic there was 30% of respondents that believe that funding for Fundamental research is going to decrease.  This thinking may be lead by the belief that applied research has a higher priority in Canada.
 
 Although respondents were generally optimistic about funding they are not so when it comes to thinking about the impact this will have on future generations. Half of Canadian researchers (51%) think that the likelihood of the next generation pursuing careers in research will either decrease slightly or decrease considerably (Fig 4.18). 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r, echo=FALSE, fig.cap="Reason for change in research over past 10 years. Researchers were asked if their funding proportions had changed in the past ten years (a), and what the main reason for a change in their research category (b).", fig.width=14}
-## order bars from highest to lowest
-
-# Change in the past 10 years? (yes, no, can't comment)
-yes.no<-subset(research.change, select=c("Location","Country",'Country_work', "gender", "changed_10yrs"))
-canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & yes.no$Country_work=="" & yes.no$Country=="Canada"),]
-canada.yesno<-data.frame(table(canada$changed_10yrs))
-canada.yesno<-canada.yesno[!canada.yesno$Var1=="",]
-canada.yesno$Var1<-revalue(canada.yesno$Var1, c("Can't comment (new researcher)"="Can't comment"))
-
-canada.yesno$Var1<-factor(canada.yesno$Var1, levels=c("Yes", "No", "Can't comment"))
-
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(9, 7,5)]
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
-
-g1<-ggplot(data=canada.yesno, aes(x=Var1, y=Freq, fill=Var1))+ 
-    geom_bar(stat='identity') + 
-    guides(fill=FALSE) + 
-    labs(x="", y="No. of responses",title="")+
-   annotate('text', 3.25,635, label="(a)", size=7)+
-  geom_text(aes(label=Freq), vjust=-0.5)+
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank()) + colScale
-
-
-## GRAPH PART 2
-# What is your main reason for change?
-reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related", 
-                                         "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
-                                         "Main_reason_change_Other"))
-
-canada<-reason[reason$Country_work=="Canada" | (!(reason$Country_work=="Canada") & reason$Country_work=="" & reason$Country=="Canada"),]
-## switch to long format
-canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country,-Country_work)
-
-## using table to count cases of each category
-sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
-sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
-sum.canada$Var1<-reorder(sum.canada$Var1, -sum.canada$Freq)
-
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(9, 8,7,6,5)]
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
-
-
-
-g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
-    geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(axis.text.x = element_text(angle=0, vjust=0.5),
-          legend.position=c(0.8, 0.8), 
-          legend.title=element_blank(),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank()) + 
-   annotate('text', 5,415, label="(b)", size=7)+ ylim(c(0, 415))+
-  geom_text(aes(label=Freq), vjust=-0.5)+
-  labs(x="", y="", title="")+
-  colScale
-
-grid.arrange(g1, g2, nrow=1)
-```
-
-```{r, echo=FALSE, fig.cap="Opinion of change in research over past 10 years. Researchers were asked how they viewed the change in research type."}
-
-#canada<-subset(part1.view, Country=="Canada")
-canada<-part1.view[part1.view$Country_work=="Canada" | (!(part1.view$Country_work=="Canada") & part1.view$Country_work=="" & part1.view$Country=="Canada"),]
-canada<-canada[!canada$view_change_of_type=="",]
-
-change.view.ca<-data.frame(table(canada$view_change_of_type))
-change.view.ca<-change.view.ca[!change.view.ca$Var1=="",]
-change.view.ca$Var1<-droplevels(change.view.ca$Var1)
-# change order of the levels
-change.view.ca$Var1<-factor(change.view.ca$Var1, 
-                                        levels(change.view.ca$Var1)[c(5,3,1,2,4)])
-
-
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(7,7,7,7,7)])
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
-
-
-
-ggplot(change.view.ca, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
-  geom_text(aes(label=Freq, vjust=-0.5))+
-  guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle=0, vjust=0.5)) + 
-  labs(x="", y="No. of Responses") + colScale
-
-
-```
-
-
-
