@@ -198,6 +198,7 @@ myColors<-myColors[c(5,9)]
 colScale <- scale_fill_manual(name = "time",values = myColors)
 
 res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="Canada") & res.plot$Country_work=="" & res.plot$Country=="Canada"),]
+res.plot
 
 ggplot(res.plot, aes(percent, fill=time)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
@@ -268,11 +269,7 @@ myColors<-(brewer.pal(9, "Blues"))
 myColors<-myColors[c(1)]
 ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=myColors)) + geom_bar(stat='identity')+
   theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="No. Responses")+geom_text(aes(label=gender), vjust=-0.5)
-
-
-
-
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="No. Responses")+geom_text(aes(label=gender), vjust=-0.5)+colScale
 
 ```
 

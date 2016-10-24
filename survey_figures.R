@@ -206,7 +206,7 @@ canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada")
                                                   yes.no$Country_work=="" & yes.no$Country=="Canada"),]
 canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
 canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
-
+canada.yesno
 ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)
 
 # 5c  for countries

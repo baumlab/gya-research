@@ -237,8 +237,8 @@ head(survey.type[survey.type$total_research>100,])
 
 ## switch to long format
 require(tidyr)
-survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country_work, -Country, -what_participant_group, -field_research)
-head(survey.long)
+survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country_work, -Country, -what_participant_group, -field_research, -total_research)
+tail(survey.long)
 
 #######################################
 #####do same as above but for past data

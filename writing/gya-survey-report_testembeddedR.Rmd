@@ -253,7 +253,22 @@ p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 grid.arrange(p1, p2, nrow=1)
 ```
 
+```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
+canada<-part1.view[part1.view$Country_work=="Canada" | (!(part1.view$Country_work=="Canada") & 
+                                                          part1.view$Country_work=="" & part1.view$Country=="Canada"),]
+canada<-canada[!canada$view_change_of_type=="",]
+canada<-droplevels(canada)
+change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
+# change order of the levels
+change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
+                                        levels(change.view.ca$view_change_of_type)[c(5,3,1,2,4)])
 
+myColors<-(brewer.pal(9, "Blues"))
+myColors<-myColors[c(1)]
+ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=myColors)) + geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="No. Responses")+geom_text(aes(label=gender), vjust=-0.5)+colScale
+```
 
 <!--Part 2 - External Partnerships-->
 ```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
