@@ -84,7 +84,7 @@ research<-subset(research.type, select=c("Location","Country",'Country_work', "g
 canada<-research[research$Country_work=="Canada" | (!(research$Country_work=="Canada") & 
                                                       research$Country_work=="" & research$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -145,20 +145,32 @@ AIC(mod1, mod2)
 #Geoff says since they sum to 100 it makes it hard to analyze
 #isometric log transformation you will end up with two columns and then run a regression on one column 
 #ordination techniques?
+
+require("vegan")
+pca.out<-rda(y)
+plot(pca.out, display=c("species", "sites"), type="n", scaling=2)
+points(pca.out, col=as.numeric(canada$gender))
+orditorp(pca.out, display = "species", scaling=2)
+summary(pca.out)
+summary(aov(scores(pca.out)$sites~canada$gender))
+nrow(data.frame(scores(pca.out)$sites))
 #read more into using linear regression with comp data
 ##do this 
 #dirichlet regression look it up for comp data - tranform the data (isometric) and then then analyze using multiple variable linear regression models
 #DirichReg(Y ~ depth + I(depth^2), inputData_train)
 # y - last three columns and depth would be gender
-#y<-canada[,5:7]
-#head(y)
-#DR_data(y, trafo = TRUE, base = 1 )
-#canada$y<-DR_data(canada[,5:7])
-#canada1<-DirichReg(y~ gender, canada, model = c("common"))
-#canada1
-#summary(canada1)
+y<-canada[,5:7]
+
+head(y)
+DR_data(y, trafo = TRUE, base = 1 )
+canada$y<-DR_data(canada[,5:7])
+canada1<-DirichReg(y~ gender, canada, model = c("common"))
+canada1
+coef(canada1)
 #*******************************************************************
 #*******************Not Significant*********************************
+#gender didnt influence the levels of the three different type of research (p value - look up a paper that use this regression and see how they reported the stats)
+#this is not the ideal way it is an approx
 #*******************************************************************
 #now past
 #head(research.type)
@@ -226,12 +238,11 @@ summary(reason.mod1)
 head(reason.mod1)
 anova(reason.mod1, reason.mod2, test="Chi")
 
-#@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#Geoff thinks this is ok even though you are making more indepent answers than original
+#*******************************************************************
+#*******************Not Significant P = 0.7881**********************
+#*******************************************************************
 
-#*******************************************************************
-#*******************Not Significant P = 0.7561**********************
-#*******************************************************************
+
 
 #--------------------#--------------------#--------------------
 #### Part1. Question 5. View of change
@@ -344,6 +355,8 @@ anova(p.change.mod1, p.change.mod2, test="Chi")
 #*******************************************************************
 #*******************Significant P = 0.0007814***********************
 #*******************************************************************
+#females answered "can't comment" more than 'expected' or males less ; smaller porportion of males were new researchers than females
+
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 4. Reason for change
@@ -377,6 +390,7 @@ anova(p.reason.mod1, p.reason.mod2, test="Chi")
 
 #@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #Geoff thinks this is ok even though you are making more indepent answers than original
+# geoff is going to think about it more but he thinks it is ok
 
 
 #*******************************************************************
@@ -541,14 +555,17 @@ g.types.applied$year<-  str_split_fixed(g.types.applied$type.grant, ' ', 2)[,2]
 g.types.applied$number<-factor(g.types.applied$number, levels(g.types.applied$number)[c(1,2,6,7,3,4,5)])
 head(g.types.applied)
 
-g.types.applied.mod1<-(glm(Freq ~ number*year, g.types.applied, family="poisson"))
+g.types.applied.mod1<-(glm(Freq ~ number*gender*year, g.types.applied, family="poisson"))
 summary(g.types.applied.mod1)
 plot(g.types.applied.mod1)
-g.types.applied.mod2<-(glm(Freq ~ number*gender, g.types.applied, family="poisson"))
+g.types.applied.mod2<-(glm(Freq ~ number*year+gender, g.types.applied, family="poisson"))
+g.types.applied.mod3<-(glm(Freq ~ number+year+gender, g.types.applied, family="poisson"))
 summary(g.types.applied.mod2)
 plot(g.types.applied.mod2)
 anova(g.types.applied.mod1, g.types.applied.mod2, test="Chi")
-AIC(g.types.applied.mod1,g.types.applied.mod2)
+library(MuMIn)
+
+AIC(g.types.applied.mod1,g.types.applied.mod2,g.types.applied.mod3)
 #plot data to look at
 ggplot(g.types.applied, aes(number, Freq)) + geom_point()
 ggplot(g.types.applied, aes(number, Freq, col=gender, shape=gender)) + geom_point()
@@ -556,8 +573,11 @@ ggplot(g.types.applied, aes(number, Freq, col=gender, shape=year)) + geom_point(
 
 #*******************************************************************
 #*******************there is significantly more applied grants in 2011-2015 than 2006-2010 and gender did not signifcantly impact the number of grants **********************
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#cant find a way to do this 
+#gender only had an effect when a number year interaction is there; the number of applied research grants for each time frame is impacted by gender
+
+#gender significatly (p=0.003729) influence how the relative number of grants applied for changed between the time frames
+#As the number of grants applied for increased the difference between the years decreased more sharply for females than males
+#when the number of grants is low males was more and in the higher number of grants the difference between females and males was about equal (P=0.0204)
 #*******************************************************************
 
 #use-inspired
@@ -599,22 +619,26 @@ g.types.used$year<-  str_split_fixed(g.types.used$type.grant, ' ', 2)[,2]
 g.types.used$number<-factor(g.types.used$number, levels(g.types.used$number)[c(1,2,6,7,3,4,5)])
 head(g.types.used)
 
-g.types.used.mod1<-(glm(Freq ~ number*year, g.types.used, family="poisson"))
+g.types.used.mod1<-(glm(Freq ~ number*year*gender, g.types.used, family="poisson"))
 summary(g.types.used.mod1)
 plot(g.types.used.mod1)
-g.types.used.mod2<-(glm(Freq ~ number*gender, g.types.used, family="poisson"))
+g.types.used.mod2<-(glm(Freq ~ number*year+gender, g.types.used, family="poisson"))
 summary(g.types.used.mod2)
 plot(g.types.used.mod2)
+anova(g.types.used.mod1, g.types.used.mod2, test="Chi")
 #plot data to look at
 ggplot(g.types.used, aes(number, Freq)) + geom_point()
 ggplot(g.types.used, aes(number, Freq, col=gender, shape=gender)) + geom_point()
 ggplot(g.types.used, aes(number, Freq, col=gender, shape=year)) + geom_point()
 
+#mod1 v +gender - not sig
+#mod1 v +year+gender  sig
+#+year v +year+gender not sig
+
+
 #*******************************************************************
-#******************* there were significant differences in the number of grants for each year except for the 13-15 category  **********************
-#******************* Gender was not significant for any of the groups except for 16+ **********************
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#cant find a way to do this right now - we have tried a lot of things and a lot of man power has gone into this so far
+#******************* not sig!
+#report mod1 v +gender interaction
 #*******************************************************************
 
 #fund
@@ -656,22 +680,23 @@ g.types.fund$year<-  str_split_fixed(g.types.fund$type.grant, ' ', 2)[,2]
 g.types.fund$number<-factor(g.types.fund$number, levels(g.types.fund$number)[c(1,2,6,7,3,4,5)])
 head(g.types.fund)
 
-g.types.fund.mod1<-(glm(Freq ~ number*year, g.types.fund, family="poisson"))
+g.types.fund.mod1<-(glm(Freq ~ number*year*gender, g.types.fund, family="poisson"))
 summary(g.types.fund.mod1)
 plot(g.types.fund.mod1)
-g.types.fund.mod2<-(glm(Freq ~ number*gender, g.types.fund, family="poisson"))
+g.types.fund.mod2<-(glm(Freq ~ number*year+gender, g.types.fund, family="poisson"))
 summary(g.types.fund.mod2)
 plot(g.types.fund.mod2)
+anova(g.types.fund.mod1,g.types.fund.mod2, test = "Chi")
 #plot data to look at
 ggplot(g.types.fund, aes(number, Freq)) + geom_point()
 ggplot(g.types.fund, aes(number, Freq, col=gender, shape=gender)) + geom_point()
 ggplot(g.types.fund, aes(number, Freq, col=gender, shape=year)) + geom_point()
 
+# mod 1 v +gender  not sig
+# +year v +year+gender not sig
+
 #*******************************************************************
-#******************* There were significant differences between the two years **********************
-#******************* There are no significant differences between gender except for the 4-6 category*************
-#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX WRONG XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-#cant find a way to do this right now - we have tried a lot of things and a lot of man power has gone into this so far
+#******************* not sig!
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -793,16 +818,26 @@ prac.app.ca$level<-factor(prac.app.ca$level, levels(prac.app.ca$level)[c(1,3,5,4
 levels(prac.app.ca$level)
 head(prac.app.ca)
 
-prac.app.ca.mod1<-(glm(Freq ~ level*year, prac.app.ca, family="poisson"))
+prac.app.ca.mod1<-(glm(Freq ~ level*gender+year, prac.app.ca, family="poisson"))
 summary(prac.app.ca.mod1)
 plot(prac.app.ca.mod1)
-prac.app.ca.mod2<-(glm(Freq ~ level*gender, prac.app.ca, family="poisson"))
+prac.app.ca.mod2<-(glm(Freq ~ level+year+gender, prac.app.ca, family="poisson"))
 summary(prac.app.ca.mod2)
 plot(prac.app.ca.mod2)
+anova(prac.app.ca.mod1, prac.app.ca.mod2, test = "Chi")
 #plot data to look at
 ggplot(prac.app.ca, aes(level, Freq)) + geom_point() +theme(axis.text.x = element_text(angle=90, vjust=0.5))
 ggplot(prac.app.ca, aes(level, Freq, col=gender, shape=gender)) + geom_point()+ theme(axis.text.x = element_text(angle=90, vjust=0.5))
 ggplot(prac.app.ca, aes(level, Freq, col=gender, shape=year)) + geom_point()+theme(axis.text.x = element_text(angle=90, vjust=0.5))
+
+#mod1 v +gender sig
+#mod1 v +year+ender sig
+#+year v +year+gender  not sig
+#level*gender+year v +year+gender sig
+
+#no gender year interaction
+#The difference between very important was not as big for females as it was for males
+
 
 #*******************************************************************
 #******************* There were significantly different responses for the two time periods *********************
@@ -1261,16 +1296,19 @@ f.change.mod2<-(glm(Freq ~ what.type*level+gender, availability.ca, family="pois
 f.change.mod3<-(glm(Freq ~ what.type+level*gender, availability.ca, family="poisson"))
 f.change.mod4<-(glm(Freq ~ what.type +level+gender, availability.ca, family="poisson"))
 visreg(f.change.mod1, "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
-anova(f.change.mod1, f.change.mod3, test="Chi")
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@Not Done - dont know if it is right@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+anova(f.change.mod3, f.change.mod4, test="Chi")
 
 #*******************************************************************
-#*******************not sig  - ask Geoff ************************
+#*******************not sig  ************************
 #*******************************************************************
+#mod1 v mod3  is sig
+#mod1 v mod2 not sig
+#mod1 v mod4 is sig
+#mod2 v mod3 is sig
+#mod2 v mod4 is sig
+#mod3 v mod4 not sig
 
+#gender is not important  report the results of mod1 v mod2
 
 #--------------------#--------------------#--------------------
 #### Part4. Question 4. Research - next generation
@@ -1295,6 +1333,6 @@ visreg(impact.mod1, "Var2",by="Var1", scale="response", ylab="Number of response
 anova(impact.mod1, impact.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.1735**********************
+#*******************Not Significant P = 0.1914**********************
 #*******************************************************************
 
