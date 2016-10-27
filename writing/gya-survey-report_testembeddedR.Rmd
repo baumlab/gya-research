@@ -3,11 +3,11 @@ title: "Canadian online survey on fundamental research"
 author: ''
 date: "16 September 2016"
 output:
-  word_document: default
-  fig_width: 18
   html_document: default
-  pdf_document: null
+  fig_width: 18
   fig_height: 4
+  pdf_document: null
+  word_document: default
 ---
 
 **Introduction**
@@ -92,7 +92,7 @@ percent.ssh <- ((dim(n.ssh)[1])/(dim(n.Cdn.res)[1]))*100 #Calculate the % of res
 **Results**  
 In total, `r dim(n.Cdn.res)[1]` Canadian researchers completed the online survey. Of these, almost three quarters were male (`r ceiling(percent.men)`%) and one quarter were female (`r round(percent.women)`%); a very small proportion either did not input their gender or selected other. Almost all of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). A small proportion of responses also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
 
-Researchers from many different disciplines were represented in the survey. Almost sixty per cent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
+Researchers from many different disciplines were represented in the survey. Almost sixty percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
 <!-- Generate Canadian career stage figure -->
 ```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of Canadian survey respondents by career stage", warning=FALSE, fig.width=14}
@@ -121,7 +121,7 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   geom_text(aes(label=Freq, vjust=-1))+
   scale_x_discrete(labels=c("Senior academic", "Early career academic", "Postdoc or RA", "Senior non-academic", "Early career non-academic")) +
-  labs(y="No. of responses", x="Career stage") +
+  labs(y="Number of responses", x="Career stage") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(legend.title=element_blank(), 
         legend.text=element_text(size=10), 
@@ -130,7 +130,8 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         axis.title=element_text(size=15),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) + 
-  colScale+ ylim(c(0, 900)) + guides(fill=FALSE)
+  colScale + guides(fill=FALSE)+
+  scale_y_continuous(expand = c(0,0), limits = c(0,910))
 ```
 
 <!-- Generate Canadian research discipline figure -->
@@ -148,8 +149,7 @@ colScale <- scale_fill_manual(name = "field_research",values = myColors)
 
 ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  ylim(c(0, 400)) +
-  labs(y="No. of responses",x="", title="")  +
+  labs(y="Number of responses",x="", title="")  +
   scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\n Life Science", "Engineering", "Interdisciplinary\n Science", "Social Science/\n Humanities", "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25) + 
   theme( axis.text=element_text(size=14),
@@ -157,11 +157,12 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
          axis.title=element_text(size=14),
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank()) + 
-  guides(fill=FALSE) + colScale
+  guides(fill=FALSE) + colScale+
+  scale_y_continuous(expand = c(0,0), limits = c(0,410))
 ```
 
-####*4.1 Type of Research Conducted* 
-Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers (1.2%) considered themselves to currently only do one type of research: 0.1% applied, 0.3% use-inspired, 0.8% fundamental (Figure 4.3). There was a 11% drop in the number of researchers that only did fundamental research.  This drop could have been caused by funding availability. Over one quarter (29%) of researchers consider that over half of their research program is in fundamental science currently. The number of researchers that consider over half of their research program is in applied science currently is 10% and in use-inspired only 9%.  There should be proportionally more research funding for fundamental science than applied or use-inspired. Limited research funding was most likely the reason why there was a drop in fundamental research and an increase in both use-inspired and applied (researchers that considered 50% or more of their past research fundamental -38%, applied -6%, use-inspired - 6%).
+**4.1 Type of Research Conducted**  
+Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers (1.2%) considered themselves to currently do only one type of research: 0.1% applied, 0.3% use-inspired, 0.8% fundamental (Figure 4.3). There was a 11% drop in the number of researchers that only did fundamental research between the two time frames.  This drop could have been caused by funding availability. Over one quarter (29%) of researchers consider that over half of their research program is in fundamental science currently. The number of researchers that consider over half of their research program is in applied science currently is 10% and in use-inspired only 9%.  There should be proportionally more research funding for fundamental science than applied or use-inspired. Limited research funding was most likely the reason why there was a drop in fundamental research and an increase in both use-inspired and applied (researchers that considered 50% or more of their past research fundamental -38%, applied -6%, use-inspired - 6%).
 
 Over one third of researchers (40%) reported that the types of research they conduct has shifted over the past ten years (Figure 4.4). By far, the most reported reason for this change was funding (45%) followed by interest (26%) (Figure 4.4). This suggests.....  However, opinions about these changes were varible, with one quarter of respondents viewing them as slightly negative (25%), one quarter slightly positive (23%) and one quarter very positive (25%) (Figure 4.5).  The positive feelings about these changes may be due to less stress about attaining funding.
 
@@ -203,15 +204,15 @@ res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="
 ggplot(res.plot, aes(percent, fill=time)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-    labs(x="Percent", y="No. responses", title="")+
+    labs(x="Percent", y="Number of responses", title="")+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.8, 0.2)) + 
+          legend.position=c(0.95, 0.19), legend.margin=unit(100,"cm")) + 
     facet_wrap(~type, nrow=3) + colScale +
-  scale_x_continuous(breaks=seq(0,100,10))
-
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300))
+?theme
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
@@ -224,7 +225,7 @@ canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
 
 p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="No. responses")
+          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,675))+ annotate('text', 3.5,660, label="(a)", size=5)
   
 #reason for change  
 reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
@@ -245,9 +246,10 @@ myColors<-(brewer.pal(9, "Blues"))
 myColors<-myColors[c(9, 8,7,6,5,3)]
 
 p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=90, vjust=0.5),panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5)) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors)+
-  labs(x="Reason", y="No. responses")+geom_text(aes(label=Freq), vjust=-0.5)
+  theme(axis.text.x = element_text(angle=0, vjust=0.5),panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors)+
+  labs(y="")+geom_text(aes(label=Freq), vjust=-0.5)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,430))+annotate('text', 5.4,420, label="(b)", size=5)
   
 grid.arrange(p1, p2, nrow=1)
 ```
@@ -265,8 +267,8 @@ change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type,
 myColors<-(brewer.pal(9, "Blues"))
 myColors<-myColors[c(1)]
 ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=myColors)) + geom_bar(stat='identity')+
-  theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="No. Responses")+geom_text(aes(label=gender), vjust=-0.5)+colScale
+  theme(axis.text.x = element_text(angle=0, vjust=0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")+geom_text(aes(label=gender), vjust=-0.5)+colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,137))
 ```
 
 <!--Part 2 - External Partnerships-->
@@ -290,13 +292,13 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors)
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
   geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.8) +
-  labs(x="", y="No. of Responses", fill="")+
+  labs(x="", y="Number of Responses", fill="")+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0), 
-        legend.position=c(0.2, 0.9), 
+        legend.position=c(0.91, 0.92), 
         legend.title=element_blank()) +
-  colScale
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,340))
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.7 Reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
@@ -337,8 +339,8 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) +
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) + 
   geom_text(aes(label=Freq), vjust=-0.5)+
-   ylim(c(0, 420))+
-  labs(x="", y="", title="")+scale_fill_manual(name = "Var1",values = myColors)
+  labs(x="", y="Number of responses", title="")+scale_fill_manual(name = "Var1",values = myColors)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,440))
 print(g2)
 #annotate('text', 5,420, label="(b)", size=7)+  
 #grid.arrange(g1, g2, nrow=1)
@@ -359,7 +361,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0)) + 
-  labs(x="", y="No. of Responses") + colScale
+  labs(x="", y="Number of Responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,160), breaks = seq(0,160,40))
 
 ```
 
@@ -408,12 +410,13 @@ ggplot(grants.ca, aes(number, Freq, fill=time)) +
     geom_bar(stat="identity", position = "dodge")+
     facet_wrap(~type.grant, nrow=3) +
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="No. of grant applications", y="No. of responses")+
+    labs(x="Number of grant applications", y="Number of responses")+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
            strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.8, 0.53)) + colScale
+          legend.position=c(0.9, 0.97)) + 
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,950), breaks = c(0,250,500,750,950))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", warning=FALSE}
@@ -445,12 +448,13 @@ ggplot(success.ca, aes(percent, Freq, fill=time)) +
     geom_bar(stat="identity", position = "dodge")+
     facet_wrap(~type, nrow=3) +
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="% successful grants", y="No. of responses")+
+    labs(x="% successful grants", y="Number of responses")+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
            strip.text.y = element_text(size=14, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.8, 0.2)) + colScale
+          legend.position=c(0.915, 0.555), legend.margin=unit(-1000,"cm")) + colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,300))
 
 ```
   
@@ -478,11 +482,12 @@ ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) +
   geom_bar(stat="identity", position = "dodge")+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
-        legend.position=c(0.8, 0.8),
+        legend.position=c(0.91, 0.92),
         axis.text.x = element_text(angle=0, vjust=0.5)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
-  labs(x="", y="No. of responses")+ colScale
+  labs(x="", y="Number of responses")+ colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,440))
   
 
 ```
@@ -509,11 +514,12 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors)
 ggplot(part.ca, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="", y="No. of responses")+
+    labs(x="", y="Number of responses")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
-          legend.position=c(0.8, 0.8)) + colScale
+          legend.position=c(0.91, 0.92)) + colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,480))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.13 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", warning=FALSE,fig.height=12}
@@ -532,13 +538,14 @@ colScale <- scale_fill_manual(name = "year",values = myColors)
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + 
   facet_wrap(~type, nrow=5) + colScale +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.9, 0.08),
+    theme(legend.position=c(0.922, 0.98),
           strip.text.y = element_text(size=14, face="bold", color="black"),
           legend.key.size = unit(0.3, "cm"),
           strip.background = element_rect(colour="white", fill="white"),panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) +
-  labs(x="% research funding", y = "No. of respondents")+ scale_y_continuous(breaks=c(0, 250, 500, 750, 1000, 1300))+
-  scale_x_continuous(breaks = seq(0, 100, 10))
+  labs(x="% research funding", y = "Number of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=c(0, 250, 500, 750, 1000, 1250))+
+  scale_x_continuous( breaks = seq(0, 100, 10))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.14 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
@@ -575,7 +582,8 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   geom_text(aes(label=Freq, vjust=-0.5),size=3) +
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
-  labs(x="", y="No. of responses", fill="")+ colScale + ylim(c(0, 600))
+  labs(x="", y="Number of responses", fill="")+ colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,625))
 ```
 
 ####*4.3 Research Grants* 
@@ -616,12 +624,13 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors)
 
 ggplot(data=perceive, aes(x=Var1, y=Freq)) + 
       geom_bar(stat='identity', position='dodge',fill=myColors[2])+ 
-      labs(x="", y="No. of responses", fill="")+
+      labs(x="", y="Number of responses", fill="")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
       geom_text(aes(label=Freq), vjust=-0.5) +
       theme(axis.text.x = element_text(angle=0, vjust=0.4),
             panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank()) 
+            panel.grid.minor = element_blank()) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0,535))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by Canadian government. Researchers were asked whether any types of research had become higher priority for the Canadian government. Responses were/were not significantly different between genders."}
@@ -647,9 +656,9 @@ ggplot(data=per.change, aes(x=what.type, higher.priority))+
               axis.text.x = element_text(angle=45, vjust=0.4),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank()) +
-        labs(x="", y="No. of responses", fill="") +
+        labs(x="", y="Number of responses", fill="") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority), vjust=-0.5)
+  geom_text(aes(label=higher.priority), vjust=-0.5)+scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years in Canada. Researchers were asked whether the availability of research funding would change in the next five years, for each research category. Responses were/were not significantly different between genders. "}
@@ -694,11 +703,12 @@ ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.8, 0.2))+
     guides(fill=FALSE)+
-    labs(x="", y="No. of responses", fill="")+
+    labs(x="", y="Number of responses", fill="")+
     scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
-    geom_text(aes(label=Freq), vjust=-0.5, size=3) + colScale +ylim(c(0, 550))
+    geom_text(aes(label=Freq), vjust=-0.5, size=3) + colScale +
+  scale_y_continuous(expand = c(0, 0), limits = c(0,575), breaks = seq(0,500,100))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation in Canada. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
@@ -724,11 +734,12 @@ ggplot(data=impact, aes(x=Var1, Freq))+
         scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     guides(fill=FALSE) +
- labs(x="", y="No. of responses")+
+ labs(x="", y="Number of responses")+
   theme(axis.text.x = element_text(angle=0, vjust=0.5),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())+
-  geom_text(aes(label=Freq), vjust=-0.5)
+  geom_text(aes(label=Freq), vjust=-0.5)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,345))
 ```
 
 ####*4.4 Perspectives on the State of Fundamental Research in Canada*
