@@ -365,7 +365,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
 
 ```
 
-####*4.2 External Partnerships*   
+**4.2 External Partnerships**   
 The extent to which research is conducted with partners outside of academia, including in industry and non-governmental sectors, may also be considered as an indicator of use-inspired or applied research. Almost all respondents (88%) reported that their current research includes external partners to some degree: fifty-nine per cent reported some partnerships and a further quarter (27%) reported strong partnerships (Figure 4.6). Less than 1% reported conducting their research exclusively with partners outside of academia. 
 
 Over the past decade, there has been a sharp decline in the number of researchers with no external partnerships: only 12% of respondents reported having no partnerhips in their current research program, whereas almost half of respondents (44%) reported having no partnerships in the past (Figure 4.6). The number of strong external partnerships also has increased over time from 11% to 27% (Figure 4.6). 
@@ -586,7 +586,7 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   scale_y_continuous(expand = c(0, 0), limits = c(0,625))
 ```
 
-####*4.3 Research Grants* 
+**4.3 Research Grants**  
 
 There has been an overall increase in the number of grants applications (Figure 4.9). The biggest increase in number of researchers applying for one through nine applications was for Applied research grants, however the number of researchers that applied for 10+ Fundamental grants increased more than the other two.  This may indicate either lower success rates and/or smaller grant values of Fundamental grants and therefore a need to apply more often for grants.  
 *I have those numbers if we want to put them in*
@@ -742,7 +742,7 @@ ggplot(data=impact, aes(x=Var1, Freq))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,345))
 ```
 
-####*4.4 Perspectives on the State of Fundamental Research in Canada*
+**4.4 Perspectives on the State of Fundamental Research in Canada**  
 
 Over half (69%) of Canadian researchers who responded said that fundamental research is either very important (30%) or somewhat important (39%) to our government (Figure 4.15). 
 
@@ -751,3 +751,7 @@ At the same time, 68% of respondents said that applied research became a higher 
 Canadians are not pessimistic about the future of research funding with the majority of respondents believing that funding will either stay the same or get better in the next five years (Figure 4.17). The change over of the government is probably encouraging this thinking.  However, Applied funding still has the most optimistic outlooks. 17% of respondents think that funding for Applied research will increase considerably whereas less than 5% of respondents believe that for either Use-Inspired or Fundamental. Even with the majority of respondents thinking optimistic there was 30% of respondents that believe that funding for Fundamental research is going to decrease.  This thinking may be lead by the belief that applied research has a higher priority in Canada.
 
 Although respondents were generally optimistic about funding they are not so when it comes to thinking about the impact this will have on future generations. Half of Canadian researchers (51%) think that the likelihood of the next generation pursuing careers in research will either decrease slightly or decrease considerably (Fig 4.18). 
+
+**Influence of gender, career stage, and dicipline on survey responses**
+*Gender*
+

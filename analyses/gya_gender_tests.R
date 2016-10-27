@@ -60,7 +60,7 @@ head(change.mod2)
 anova(change.mod1, change.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Significant P = 0.008***************************
+#*******************Significant P = 0.002075***************************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -269,7 +269,7 @@ visreg(view.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses"
 anova(view.mod1, view.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.9749**********************
+#*******************Not Significant P = 0.9865**********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -299,7 +299,7 @@ visreg(b4.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", 
 anova(b4.mod1, b4.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.8977**********************
+#*******************Not Significant P = 0.889**********************
 #*******************************************************************
 
 #current
@@ -324,7 +324,7 @@ visreg(cur.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses",
 anova(cur.mod1, cur.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.297***********************
+#*******************Not Significant P = 0.2638***********************
 #*******************************************************************
 
 #is it ok that I spit up the time periods?
@@ -353,7 +353,7 @@ visreg(p.change.mod1, "Var2",by="Var1", scale="response", ylab="Number of respon
 anova(p.change.mod1, p.change.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Significant P = 0.0007814***********************
+#*******************Significant P = 0.0002931***********************
 #*******************************************************************
 #females answered "can't comment" more than 'expected' or males less ; smaller porportion of males were new researchers than females
 
@@ -421,7 +421,7 @@ visreg(p.view.mod1, "Var2",by="Var1", scale="response", ylab="Number of response
 anova(p.view.mod1, p.view.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.6478**********************
+#*******************Not Significant P = 0.6194**********************
 #*******************************************************************
 
 
@@ -1223,7 +1223,7 @@ head(priority.mod2)
 anova(priority.mod1, priority.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.1823**********************
+#*******************Not Significant P = 0.2042**********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -1263,7 +1263,7 @@ summary(priority.mod1)
 anova(priority.mod1, priority.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.254**********************
+#*******************Not Significant P = 0.3491**********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -1296,7 +1296,7 @@ f.change.mod2<-(glm(Freq ~ what.type*level+gender, availability.ca, family="pois
 f.change.mod3<-(glm(Freq ~ what.type+level*gender, availability.ca, family="poisson"))
 f.change.mod4<-(glm(Freq ~ what.type +level+gender, availability.ca, family="poisson"))
 visreg(f.change.mod1, "gender",by="what.type", scale="response", ylab="Number of responses", xlab="Gender")
-anova(f.change.mod3, f.change.mod4, test="Chi")
+anova(f.change.mod1, f.change.mod2, test="Chi")
 
 #*******************************************************************
 #*******************not sig  ************************
