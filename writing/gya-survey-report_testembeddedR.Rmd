@@ -754,4 +754,10 @@ Although respondents were generally optimistic about funding they are not so whe
 
 **Influence of gender, career stage, and dicipline on survey responses**
 *Gender*
+?1 p=0.226712 no gender differences between yes and no
 
+
+*Dicipline*
+
+
+*Career Stage*

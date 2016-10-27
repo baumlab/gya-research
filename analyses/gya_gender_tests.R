@@ -43,14 +43,15 @@ change<-subset(research.change, select=c("Location","Country",'Country_work', "g
 canada<-change[change$Country_work=="Canada" | (!(change$Country_work=="Canada") & 
                                                   change$Country_work=="" & change$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$changed_10yrs=="",]
 canada<-droplevels(canada)
 head(canada)
 ## using table to count cases of each category
 sum.change<-data.frame(table(canada$changed_10yrs, canada$gender))
-sum.change
+sum.change$Var1<-factor(sum.change$Var1, levels=c("No","Yes","Can't comment (new researcher)"))
+levels(sum.change$Var1)
 
 change.mod1<-(glm(Freq ~ Var1*Var2, sum.change, family="poisson"))
 change.mod2<-(glm(Freq ~ Var1 +Var2, sum.change, family="poisson"))
@@ -113,7 +114,7 @@ p.research<-subset(research.type, select=c("Location","Country",'Country_work', 
                                         "percent_Applied_Research_past"))
 canada<-p.research[p.research$Country_work=="Canada" | (!(p.research$Country_work=="Canada") & 
                                                          p.research$Country_work=="" & p.research$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -216,7 +217,7 @@ reason<-subset(research.change, select=c("Location","Country",'Country_work', "g
 canada<-reason[reason$Country_work=="Canada" | (!(reason$Country_work=="Canada") & 
                                                   reason$Country_work=="" & reason$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!(is.na(canada$Main_reason_change_interest_related)& is.na(canada$Main_reason_change_Career_related) & is.na(canada$Main_reason_change_Funding_related) &
                        is.na(canada$Main_reason_change_Socially_related) & is.na(canada$Main_reason_change_Other)),]
@@ -254,7 +255,7 @@ view<-subset(part1.view, select=c("Location","Country",'Country_work', "gender",
 canada<-view[view$Country_work=="Canada" | (!(view$Country_work=="Canada") & 
                                               view$Country_work=="" & view$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$view_change_of_type=="",]
 canada<-droplevels(canada)
@@ -283,7 +284,7 @@ b4<-subset(part2.b.a, select=c("Location","Country",'Country_work', "gender","pa
 canada<-b4[b4$Country_work=="Canada" | (!(b4$Country_work=="Canada") & 
                                           b4$Country_work=="" & b4$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$partnership_outside_before=="",]
 canada<-droplevels(canada)
@@ -308,7 +309,7 @@ cur<-subset(part2.b.a, select=c("Location","Country",'Country_work', "gender","p
 canada<-cur[cur$Country_work=="Canada" | (!(cur$Country_work=="Canada") & 
                                             cur$Country_work=="" & cur$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$partnership_outside=="",]
 canada<-droplevels(canada)
@@ -338,7 +339,7 @@ p.change<-subset(part2.change, select=c("Location","Country",'Country_work', "ge
 canada<-p.change[p.change$Country_work=="Canada" | (!(p.change$Country_work=="Canada") & 
                                                       p.change$Country_work=="" & p.change$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$partnership_change_10yrs=="",]
 canada<-droplevels(canada)
@@ -368,7 +369,7 @@ p.reason<-subset(part2.reason, select=c("Location","Country",'Country_work', "ge
 canada<-p.reason[p.reason$Country_work=="Canada" | (!(p.reason$Country_work=="Canada") & 
                                                       p.reason$Country_work=="" & p.reason$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!(is.na(canada$reason_partnership_change_interest)& is.na(canada$reason_partnership_change_career) & is.na(canada$reason_partnership_change_socially) &
                    is.na(canada$reason_partnership_change_funding) & is.na(canada$reason_partnership_change_other)),]
@@ -406,7 +407,7 @@ p.view<-subset(part2.view, select=c("Location","Country",'Country_work', "gender
 canada<-p.view[p.view$Country_work=="Canada" | (!(p.view$Country_work=="Canada") & 
                                                   p.view$Country_work=="" & p.view$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$view_change_partnership=="",]
 canada<-droplevels(canada)
@@ -524,7 +525,7 @@ g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work',
 canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & 
                                                     g.types$Country_work=="" & g.types$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -588,7 +589,7 @@ g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work',
 canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & 
                                                     g.types$Country_work=="" & g.types$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -649,7 +650,7 @@ g.types<-subset(part3.grants.long, select=c("Location","Country",'Country_work',
 canada<-g.types[g.types$Country_work=="Canada" | (!(g.types$Country_work=="Canada") & 
                                                     g.types$Country_work=="" & g.types$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -717,7 +718,7 @@ canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2
                                                         "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
                                                         "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 head(canada)
 unique(canada$type.g)
@@ -764,7 +765,7 @@ canada$type<-revalue(canada$type, c("successful_grants_11_15_applied"="Applied 2
                                     "successful_grants_6_10_fundamental"="Fundamental 2006-2010",
                                     "successful_grants_6_10_use"="Use-Inspired 2006-2010"))
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada$type<-as.character(canada$type)
 canada$year<-  str_split_fixed(canada$type, ' ', 2)[,2]
@@ -801,7 +802,7 @@ prac.app<-subset(part3.prac.long, select=c("Location","Country",'Country_work', 
 canada<-prac.app[prac.app$Country_work=="Canada" | (!(prac.app$Country_work=="Canada") & 
                                                       prac.app$Country_work=="" & prac.app$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -857,7 +858,7 @@ prat.app<-subset(part3.part.long, select=c("Location","Country",'Country_work', 
 canada<-prat.app[prat.app$Country_work=="Canada" | (!(prat.app$Country_work=="Canada") & 
                                                       prat.app$Country_work=="" & prat.app$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -898,7 +899,7 @@ part.app<-subset(part3.part, select=c("Location","Country",'Country_work', "gend
 canada<-part.app[part.app$Country_work=="Canada" | (!(part.app$Country_work=="Canada") & 
                                                       part.app$Country_work=="" & part.app$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$include_nonacademia_partners_success_11_15=="",]
 canada<-droplevels(canada)
@@ -926,7 +927,7 @@ part.app.p<-subset(part3.part, select=c("Location","Country",'Country_work', "ge
 canada<-part.app.p[part.app.p$Country_work=="Canada" | (!(part.app.p$Country_work=="Canada") & 
                                                           part.app.p$Country_work=="" & part.app.p$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$include_nonacademia_partners_success_6_10=="",]
 canada<-droplevels(canada)
@@ -957,7 +958,7 @@ funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "ge
                                         "Other"))
 canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
                                                         funding.c$Country_work=="" & funding.c$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$year=="6_10",]
 canada<-droplevels(canada)
@@ -993,7 +994,7 @@ funding.c<-subset(funding.c, select = c("Location","Country",'Country_work', "ge
                                         "Other"))
 canada<-funding.c[funding.c$Country_work=="Canada" | (!(funding.c$Country_work=="Canada") & 
                                                         funding.c$Country_work=="" & funding.c$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$year=="11_15",]
 canada<-droplevels(canada)
@@ -1063,7 +1064,7 @@ p3.change<-subset(part3.change, select=c("Location", "Country",'Country_work', "
                                             "success_change_10yrs_use", "success_change_10yrs_applied"))
 
 canada<-p3.change[p3.change$Country_work=="Canada" | (!(p3.change$Country_work=="Canada") & p3.change$Country_work=="" & p3.change$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -1104,7 +1105,7 @@ head(part3.change)
 p3.change.a<-subset(part3.change, select=c("Location", "Country",'Country_work', "gender", "success_change_10yrs_applied"))
 
 canada<-p3.change.a[p3.change.a$Country_work=="Canada" | (!(p3.change.a$Country_work=="Canada") & p3.change.a$Country_work=="" & p3.change.a$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$success_change_10yrs_applied=="",]
 canada<-droplevels(canada)
@@ -1135,7 +1136,7 @@ head(part3.change)
 p3.change.f<-subset(part3.change, select=c("Location", "Country",'Country_work', "gender", "success_change_10yrs_fundamental"))
 
 canada<-p3.change.f[p3.change.f$Country_work=="Canada" | (!(p3.change.f$Country_work=="Canada") & p3.change.f$Country_work=="" & p3.change.f$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$success_change_10yrs_fundamental=="",]
 canada<-droplevels(canada)
@@ -1166,7 +1167,7 @@ head(part3.change)
 p3.change.i<-subset(part3.change, select=c("Location", "Country",'Country_work', "gender", "success_change_10yrs_use"))
 
 canada<-p3.change.i[p3.change.i$Country_work=="Canada" | (!(p3.change.i$Country_work=="Canada") & p3.change.i$Country_work=="" & p3.change.i$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-canada[!canada$success_change_10yrs_use=="",]
 canada<-droplevels(canada)
@@ -1198,7 +1199,7 @@ important<-subset(part4, select=c("Location","Country",'Country_work', "gender",
 
 canada<-important[important$Country_work=="Canada" | (!(important$Country_work=="Canada") & important$Country_work=="" & important$Country=="Canada"),]
 canada<-canada[!canada$opinion_fundamental_important=="",]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada$opinion_fundamental_important<-factor(canada$opinion_fundamental_important, levels(canada$opinion_fundamental_important)[c(6,5,4,3,2,1)])
 canada<-droplevels(canada)
 head(canada)
@@ -1234,7 +1235,7 @@ priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", 
                                  "high_priority_no_change"))
 
 canada<-priority[priority$Country_work=="Canada" | (!(priority$Country_work=="Canada") & priority$Country_work=="" & priority$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -1274,7 +1275,7 @@ availability.change<-subset(part4, select=c("Location", "Country",'Country_work'
                                             "available_funding_use_inspired", "available_funding_applied"))
 
 canada<-availability.change[availability.change$Country_work=="Canada" | (!(availability.change$Country_work=="Canada") & availability.change$Country_work=="" & availability.change$Country=="Canada"),]
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
@@ -1319,7 +1320,7 @@ next.generation<-subset(part4, select=c("Location", "Country","Country_work", "g
 next.generation<-next.generation[!next.generation$next_generation=="",]
 canada<-next.generation[next.generation$Country_work=="Canada" | (!(next.generation$Country_work=="Canada") & next.generation$Country_work=="" & next.generation$Country=="Canada"),]
 
-canada<-canada[!canada$gender=="Other",]
+#canada<-canada[!canada$gender=="Other",]
 canada<-canada[!canada$gender=="",]
 canada<-droplevels(canada)
 head(canada)
