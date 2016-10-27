@@ -121,7 +121,7 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   geom_text(aes(label=Freq, vjust=-1))+
   scale_x_discrete(labels=c("Senior academic", "Early career academic", "Postdoc or RA", "Senior non-academic", "Early career non-academic")) +
-  labs(y="Number of responses", x="Career stage") +
+  labs(y="Number of responses", x="") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(legend.title=element_blank(), 
         legend.text=element_text(size=10), 
@@ -268,7 +268,7 @@ myColors<-(brewer.pal(9, "Blues"))
 myColors<-myColors[c(1)]
 ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=myColors)) + geom_bar(stat='identity')+
   theme(axis.text.x = element_text(angle=0, vjust=0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")+geom_text(aes(label=gender), vjust=-0.5)+colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,137))
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5)+colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,137))
 ```
 
 <!--Part 2 - External Partnerships-->
@@ -292,7 +292,7 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors)
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
   geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.8) +
-  labs(x="", y="Number of Responses", fill="")+
+  labs(x="", y="Number of responses", fill="")+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0), 
@@ -361,7 +361,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0)) + 
-  labs(x="", y="Number of Responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,160), breaks = seq(0,160,40))
+  labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,160), breaks = seq(0,160,40))
 
 ```
 
