@@ -754,7 +754,7 @@ Although respondents were generally optimistic about funding they are not so whe
 
 **Influence of gender, career stage, and dicipline on survey responses**
 *Gender*
-?1 p=0.226712 no gender differences between yes and no
+Gender did not have an impact on the responses for a majority of the responses.  However some questions did statistically show differences between the responses of Males, Females, and researchers who answered Other. When answering whether or not the level of partnership their research had outside of academia the responses for "Can't comment (new researcher)" did not fit the model (P = 0.001071) in a way that indicated that there was a smaller proportion of males that were new researches than females. 
 
 
 *Dicipline*

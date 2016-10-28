@@ -147,13 +147,15 @@ canada.long<-canada.long[!(is.na(canada.long$value)),]
 ## using table to count cases of each category
 sum.reason<-data.frame(table(canada.long$reason, canada.long$value, canada.long$field_research))
 sum.reason
-
+quartz()
+summary(reason.mod1)
 reason.mod1<-(glm(Freq ~ Var1*Var3, sum.reason, family="poisson"))
 reason.mod2<-(glm(Freq ~ Var1 +Var3, sum.reason, family="poisson"))
 visreg(reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
 anova(reason.mod1, reason.mod2, test="Chi")
-
+dev.off()
 #Geoff thinks this is ok even though you are making more indepent answers than original
+
 
 #*******************************************************************
 #*******************Not Significant P = 0.6973**********************

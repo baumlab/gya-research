@@ -51,16 +51,22 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
 head(canada,20)
 ## using table to count cases of each category
 sum.change<-data.frame(table(canada$changed_10yrs, canada$what_participant_group))
-sum.change
+sum.change$Var1<-factor(sum.change$Var1, levels=c("No","Yes","Can't comment (new researcher)"))
+canada.stats<-sum.change[!sum.change$Var1=="Can't comment (new researcher)",]
 
-change.mod1<-(glm(Freq ~ Var1*Var2, sum.change, family="poisson"))
-change.mod2<-(glm(Freq ~ Var1 +Var2, sum.change, family="poisson"))
+levels(sum.change$Var1)
+canada.stats
+
+change.mod1<-(glm(Freq ~ Var1*Var2, canada.stats, family="poisson"))
+change.mod2<-(glm(Freq ~ Var1 +Var2, canada.stats, family="poisson"))
 visreg(change.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(change.mod1)
 anova(change.mod1, change.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Significant P < 2.2e-26***************************
+#*******************Not Sig P =0.4666***************************
 #*******************************************************************
+# If you dont take out Cant comment then the model is significant but only because senior researchers did not answer cant comment as expected - there was zero in that column instead of course
 
 #--------------------#--------------------#--------------------
 #### Part1. Question 1 & 3. Proportions of type of research current and past
@@ -171,13 +177,14 @@ sum.reason
 reason.mod1<-(glm(Freq ~ Var1*Var3, sum.reason, family="poisson"))
 reason.mod2<-(glm(Freq ~ Var1 +Var3, sum.reason, family="poisson"))
 visreg(reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(reason.mod1)
 anova(reason.mod1, reason.mod2, test="Chi")
 
-#@@@@@@@@@@@@@@@@@@@@@@@@Need to check @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #Geoff thinks this is ok even though you are making more indepent answers than original
+#need to take out the low responses so non academics and post docs to make the model work better
 
 #*******************************************************************
-#*******************Significant P = 0.01182 ************************
+#*******************Significant P = 0.01042 ************************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
