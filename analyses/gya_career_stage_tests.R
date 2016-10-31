@@ -163,6 +163,11 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+
+                                                                        
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 
 require(tidyr)
@@ -182,6 +187,7 @@ anova(reason.mod1, reason.mod2, test="Chi")
 
 #Geoff thinks this is ok even though you are making more indepent answers than original
 #need to take out the low responses so non academics and post docs to make the model work better
+#when the above is done then it is not significant p=0.09855
 
 #*******************************************************************
 #*******************Significant P = 0.01042 ************************
@@ -214,10 +220,11 @@ sum.view
 view.mod1<-(glm(Freq ~ Var1*Var2, sum.view, family="poisson"))
 view.mod2<-(glm(Freq ~ Var1 +Var2, sum.view, family="poisson"))
 visreg(view.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(view.mod1)
 anova(view.mod1, view.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P =0.8849 **********************
+#*******************Not Significant P =0.8814 **********************
 #*******************************************************************
 
 #--------------------#--------------------#--------------------
@@ -237,6 +244,9 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
 canada<-canada[!canada$what_participant_group=="",]
 canada<-canada[!canada$partnership_outside_before=="",]
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 head(canada)
 
@@ -247,12 +257,13 @@ sum.b4
 b4.mod1<-(glm(Freq ~ Var1*Var2, sum.b4, family="poisson"))
 b4.mod2<-(glm(Freq ~ Var1 +Var2, sum.b4, family="poisson"))
 visreg(b4.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(b4.mod1)
 anova(b4.mod1, b4.mod2, test="Chi")
 
 #*******************************************************************
-#******************* Significant P = 0.04715 ***********************
+#******************* Significant P = 0.02978 ***********************
 #*******************************************************************
-
+#removing low responses made it significant p=0.001058
 #current
 
 cur<-subset(part2.b.a, select=c("Location","Country",'Country_work', "what_participant_group","partnership_outside"))
@@ -266,6 +277,9 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
 
 canada<-canada[!canada$what_participant_group=="",]
 canada<-canada[!canada$partnership_outside=="",]
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 head(canada)
 
@@ -276,13 +290,15 @@ sum.cur
 cur.mod1<-(glm(Freq ~ Var1*Var2, sum.cur, family="poisson"))
 cur.mod2<-(glm(Freq ~ Var1 +Var2, sum.cur, family="poisson"))
 visreg(cur.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(cur.mod1)
 anova(cur.mod1, cur.mod2, test="Chi")
 
 #*******************************************************************
-#****************** Not Significant P=0.06012 **********************
+#****************** Not Significant P=0.06016 **********************
 #*******************************************************************
+# take out low responses no sig p=0.1465
 
-#is it ok that I spit up the time periods?
+#is it ok that I spit up the time periods? - geoff thinks so
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 2. Level of partnership outside academia -change
@@ -294,12 +310,16 @@ canada<-p.change[p.change$Country_work=="Canada" | (!(p.change$Country_work=="Ca
                                                       p.change$Country_work=="" & p.change$Country=="Canada"),]
 
 canada<-canada[!canada$what_participant_group=="",]
+canada<-canada[!canada$partnership_change_10yrs=="Can't comment (new researcher)",]
 canada<-canada[!canada$partnership_change_10yrs=="",]
 canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
                                                                         'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 
 ## using table to count cases of each category
@@ -309,11 +329,16 @@ sum.p.change
 p.change.mod1<-(glm(Freq ~ Var1*Var2, sum.p.change, family="poisson"))
 p.change.mod2<-(glm(Freq ~ Var1 +Var2, sum.p.change, family="poisson"))
 visreg(p.change.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(p.change.mod1)
 anova(p.change.mod1, p.change.mod2, test="Chi")
 
 #*******************************************************************
 #*******************Significant P < 2.2e-16 ***********************
 #*******************************************************************
+#only significance is that senior did not answer "cant comment" as the model expected which of course the didnt so removed can't comment
+#when can't comment removed not sig p=0.4492
+#with cant comment and low answers removed no sig p=0.3109
+
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 4. Reason for change
@@ -333,6 +358,9 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 
 require(tidyr)
@@ -347,14 +375,17 @@ sum.p.reason
 p.reason.mod1<-(glm(Freq ~ Var1*Var3, sum.p.reason, family="poisson"))
 p.reason.mod2<-(glm(Freq ~ Var1 +Var3, sum.p.reason, family="poisson"))
 visreg(p.reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(p.reason.mod1)
 anova(p.reason.mod1, p.reason.mod2, test="Chi")
 
 #Geoff thinks this is ok even though you are making more indepent answers than original
 
 
 #*******************************************************************
-#*******************Not Significant P = 0.08522*********************
+#*******************Not Significant P = 0.05313*********************
 #*******************************************************************
+#removed low responses not sif p = 0.125
+
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 5. View of change
@@ -371,6 +402,9 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 
 ## using table to count cases of each category
@@ -380,12 +414,13 @@ sum.p.view
 p.view.mod1<-(glm(Freq ~ Var1*Var2, sum.p.view, family="poisson"))
 p.view.mod2<-(glm(Freq ~ Var1 +Var2, sum.p.view, family="poisson"))
 visreg(p.view.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
+summary(p.view.mod1)
 anova(p.view.mod1, p.view.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.4535 *********************
+#*******************Not Significant P = 0.4098 *********************
 #*******************************************************************
-
+#low responses removed not sig p = 0.3916
 
 #--------------------#--------------------#--------------------
 #### Part3. Question 1. Grant apps types 2006-2010, 2011-2015
@@ -622,6 +657,9 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 head(canada)
 ## using table to count cases of each category
@@ -644,8 +682,10 @@ head(priority.mod2)
 anova(priority.mod1, priority.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.6348 *********************
+#*******************Not Significant P = 0.5901 *********************
 #*******************************************************************
+#low responses removed not sig p = 0.6842
+
 
 #--------------------#--------------------#--------------------
 #### Part4. Question 2. Change in research priority 
@@ -662,6 +702,10 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
 
+#canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+#canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+#canada<-canada[!canada$what_participant_group=="Post doc",]
+canada<-droplevels(canada)
 head(canada)
 ## switch to long format
 
@@ -675,20 +719,22 @@ stage.perceive<-data.frame(table( priority.long$what_participant_group , priorit
 stage.perceive$Var2<-revalue(stage.perceive$Var2, c("high_priority_fundamental"="Fundamental",
                                                       'high_priority_use_inspired'='Use-inspired', 'high_priority_applied' = 'Applied',
                                                       'high_priority_no_change'="No change"))
+stage.perceive
 
 #priority.mod<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
 #visreg(priority.mod, "Var2",by="Var1", scale="response", ylab="No. of responses (scaled by gender)", xlab="Gender")
 
-priority.mod1<-(glm(Freq ~ Var1*Var2, gender.perceive, family="poisson"))
-priority.mod2<-(glm(Freq ~ Var1 +Var2, gender.perceive, family="poisson"))
+priority.mod1<-(glm(Freq ~ Var1*Var2, stage.perceive, family="poisson"))
+priority.mod2<-(glm(Freq ~ Var1 +Var2, stage.perceive, family="poisson"))
 visreg(priority.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Gender")
 summary(priority.mod1)
 
 anova(priority.mod1, priority.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.4824 *********************
+#*******************Not Significant P = 0.8265 *********************
 #*******************************************************************
+#low responses removed no sig p = 0.388
 
 #--------------------#--------------------#--------------------
 #### Part4. Question 3. Change in research funding 
@@ -741,6 +787,9 @@ canada$what_participant_group<-revalue(canada$what_participant_group, c("Senior 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+canada<-canada[!canada$what_participant_group=="Non-academic <10yrs",]
+canada<-canada[!canada$what_participant_group=="Non-academic >10yrs",]
+canada<-canada[!canada$what_participant_group=="Post doc",]
 canada<-droplevels(canada)
 head(canada)
 ## using table to count cases of each category
@@ -750,9 +799,10 @@ impact
 impact.mod1<-(glm(Freq ~ Var1*Var2, impact, family="poisson"))
 impact.mod2<-(glm(Freq ~ Var1 +Var2, impact, family="poisson"))
 visreg(impact.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Career stage")
+summary(impact.mod1)
 anova(impact.mod1, impact.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Not Significant P = 0.273 **********************
+#*******************Not Significant P = 0.1962 **********************
 #*******************************************************************
-
+#removed low responses no sig p = 0.3326
