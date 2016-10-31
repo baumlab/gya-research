@@ -43,6 +43,18 @@ canada<-canada[!canada$field_research=="",]
 canada<-canada[!canada$changed_10yrs=="",]
 canada<-droplevels(canada)
 head(canada)
+
+canada$field_research<-as.character(canada$field_research)
+canada$field_research<-ifelse(canada$field_research%in%c("Other","Interdisciplinary Science","Social Science / Humanities"), 'NonSci', canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Physical Science (eg. math, physics, chemistry, computer science)", "PhysSci", canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Medicine and Life Science", "MedSci", canada$field_research)
+canada$field_research<-as.factor(canada$field_research)
+
+canada$changed_10yrs<-factor(canada$changed_10yrs, levels(canada$changed_10yrs)[c(2,3,1)])
+
+
+canada<-canada[!canada$field_research=="NonSci",]
+canada<-droplevels(canada)
 ## using table to count cases of each category
 sum.change<-data.frame(table(canada$changed_10yrs, canada$field_research))
 sum.change
@@ -51,12 +63,19 @@ change.mod1<-(glm(Freq ~ Var1*Var2, sum.change, family="poisson"))
 change.mod2<-(glm(Freq ~ Var1 +Var2, sum.change, family="poisson"))
 visreg(change.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="Field of research")
 summary(change.mod1)
-head(change.mod2)
 anova(change.mod1, change.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Significant P = 0.005031************************
+#*******************Significant P = 0.006599************************
 #*******************************************************************
+#combine interdisciplinary, other, and social sig p = 0.005773
+# phys sci answered no more than expected on a model based off of can't comment responses
+#med sci answered no and yes more than expected on a model based off of can't comment responses
+
+#remove non sci sig p=0.002306
+#med sci and phys sci did not answer can't comment as much as they should have
+#so the other disciplines answered can't comment more often than the others
+
 
 #--------------------#--------------------#--------------------
 #### Part1. Question 1 & 3. Proportions of type of research current and past
@@ -139,6 +158,15 @@ canada<-canada[!(is.na(canada$Main_reason_change_interest_related)& is.na(canada
                    is.na(canada$Main_reason_change_Socially_related) & is.na(canada$Main_reason_change_Other)),]
 canada<-droplevels(canada)
 
+canada$field_research<-as.character(canada$field_research)
+canada$field_research<-ifelse(canada$field_research%in%c("Other","Interdisciplinary Science","Social Science / Humanities"), 'NonSci', canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Physical Science (eg. math, physics, chemistry, computer science)", "PhysSci", canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Medicine and Life Science", "MedSci", canada$field_research)
+canada$field_research<-as.factor(canada$field_research)
+
+canada<-canada[!canada$field_research=="NonSci",]
+canada<-droplevels(canada)
+
 require(tidyr)
 canada.long<-gather(canada, reason, value, -Location, -field_research, -Country_work, -Country)
 canada.long
@@ -147,19 +175,20 @@ canada.long<-canada.long[!(is.na(canada.long$value)),]
 ## using table to count cases of each category
 sum.reason<-data.frame(table(canada.long$reason, canada.long$value, canada.long$field_research))
 sum.reason
-quartz()
-summary(reason.mod1)
+
 reason.mod1<-(glm(Freq ~ Var1*Var3, sum.reason, family="poisson"))
 reason.mod2<-(glm(Freq ~ Var1 +Var3, sum.reason, family="poisson"))
 visreg(reason.mod1, "Var3",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
+summary(reason.mod1)
 anova(reason.mod1, reason.mod2, test="Chi")
-dev.off()
 #Geoff thinks this is ok even though you are making more indepent answers than original
 
+#*******************************************************************
+#*******************Not Significant P = 0.7322**********************
+#*******************************************************************
+#combine non sci  no sig p =0.598
+#remove non sci not sig p =0.7221
 
-#*******************************************************************
-#*******************Not Significant P = 0.6973**********************
-#*******************************************************************
 
 #--------------------#--------------------#--------------------
 #### Part1. Question 5. View of change
@@ -175,6 +204,15 @@ canada<-canada[!canada$field_research=="",]
 canada<-canada[!canada$view_change_of_type=="",]
 canada<-droplevels(canada)
 
+canada$field_research<-as.character(canada$field_research)
+canada$field_research<-ifelse(canada$field_research%in%c("Other","Interdisciplinary Science","Social Science / Humanities"), 'NonSci', canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Physical Science (eg. math, physics, chemistry, computer science)", "PhysSci", canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Medicine and Life Science", "MedSci", canada$field_research)
+canada$field_research<-as.factor(canada$field_research)
+
+canada<-canada[!canada$field_research=="NonSci",]
+canada<-droplevels(canada)
+
 ## using table to count cases of each category
 sum.view<-data.frame(table(canada$view_change_of_type, canada$field_research))
 sum.view
@@ -182,11 +220,17 @@ sum.view
 view.mod1<-(glm(Freq ~ Var1*Var2, sum.view, family="poisson"))
 view.mod2<-(glm(Freq ~ Var1 +Var2, sum.view, family="poisson"))
 visreg(view.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
+summary(view.mod1)
 anova(view.mod1, view.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Significant P = 0.04081 ************************
+#*******************Significant P = 0.0448 ************************
 #*******************************************************************
+#nat sci and phys sci answered very negative not as expected
+#combine non sci   not sig 0.5469
+#remove non sci  not sig 0.4401
+
+
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 1 & 3. Level of partnership outside academia -current and before
@@ -203,6 +247,15 @@ canada<-canada[!canada$partnership_outside_before=="",]
 canada<-droplevels(canada)
 head(canada)
 
+canada$field_research<-as.character(canada$field_research)
+canada$field_research<-ifelse(canada$field_research%in%c("Other","Interdisciplinary Science","Social Science / Humanities"), 'NonSci', canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Physical Science (eg. math, physics, chemistry, computer science)", "PhysSci", canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Medicine and Life Science", "MedSci", canada$field_research)
+canada$field_research<-as.factor(canada$field_research)
+
+canada<-canada[!canada$field_research=="NonSci",]
+canada<-droplevels(canada)
+
 ## using table to count cases of each category
 sum.b4<-data.frame(table(canada$partnership_outside_before, canada$field_research))
 sum.b4
@@ -210,11 +263,16 @@ sum.b4
 b4.mod1<-(glm(Freq ~ Var1*Var2, sum.b4, family="poisson"))
 b4.mod2<-(glm(Freq ~ Var1 +Var2, sum.b4, family="poisson"))
 visreg(b4.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
+summary(b4.mod1)
 anova(b4.mod1, b4.mod2, test="Chi")
 
 #*******************************************************************
-#******************* Not Significant P = 0.1832  *******************
+#******************* Not Significant P = 0.1768  *******************
 #*******************************************************************
+#combine non sci not sig p = 0.08652
+#remove non sci  sig 0.04589
+#looks like no partnership and some did not follow a pattern
+
 
 #current
 
@@ -226,6 +284,15 @@ canada<-canada[!canada$partnership_outside=="",]
 canada<-droplevels(canada)
 head(canada)
 
+canada$field_research<-as.character(canada$field_research)
+canada$field_research<-ifelse(canada$field_research%in%c("Other","Interdisciplinary Science","Social Science / Humanities"), 'NonSci', canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Physical Science (eg. math, physics, chemistry, computer science)", "PhysSci", canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Medicine and Life Science", "MedSci", canada$field_research)
+canada$field_research<-as.factor(canada$field_research)
+
+canada<-canada[!canada$field_research=="NonSci",]
+canada<-droplevels(canada)
+
 ## using table to count cases of each category
 sum.cur<-data.frame(table(canada$partnership_outside, canada$field_research))
 sum.cur
@@ -233,13 +300,17 @@ sum.cur
 cur.mod1<-(glm(Freq ~ Var1*Var2, sum.cur, family="poisson"))
 cur.mod2<-(glm(Freq ~ Var1 +Var2, sum.cur, family="poisson"))
 visreg(cur.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
+summary(cur.mod1)
 anova(cur.mod1, cur.mod2, test="Chi")
 
 #*******************************************************************
-#******************* Significant P = 0.0001673 *********************
+#******************* Significant P = 0.0001905 *********************
 #*******************************************************************
+#combine non sci  significant p = 2.812e-05
+#remove non sci sig p = 2.818e-05
 
-#is it ok that I spit up the time periods?
+
+#is it ok that I spit up the time periods? - geoff thinks so
 
 
 #--------------------#--------------------#--------------------
@@ -255,6 +326,18 @@ canada<-canada[!canada$field_research=="",]
 canada<-canada[!canada$partnership_change_10yrs=="",]
 canada<-droplevels(canada)
 
+canada$field_research<-as.character(canada$field_research)
+canada$field_research<-ifelse(canada$field_research%in%c("Other","Interdisciplinary Science","Social Science / Humanities"), 'NonSci', canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Physical Science (eg. math, physics, chemistry, computer science)", "PhysSci", canada$field_research)
+canada$field_research<-ifelse(canada$field_research=="Medicine and Life Science", "MedSci", canada$field_research)
+canada$field_research<-as.factor(canada$field_research)
+
+canada$partnership_change_10yrs<-factor(canada$partnership_change_10yrs, levels(canada$partnership_change_10yrs)[c(2,3,1)])
+
+
+#canada<-canada[!canada$field_research=="NonSci",]
+#canada<-droplevels(canada)
+
 ## using table to count cases of each category
 sum.p.change<-data.frame(table(canada$partnership_change_10yrs, canada$field_research))
 sum.p.change
@@ -262,11 +345,16 @@ sum.p.change
 p.change.mod1<-(glm(Freq ~ Var1*Var2, sum.p.change, family="poisson"))
 p.change.mod2<-(glm(Freq ~ Var1 +Var2, sum.p.change, family="poisson"))
 visreg(p.change.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
+summary(p.change.mod1)
 anova(p.change.mod1, p.change.mod2, test="Chi")
 
 #*******************************************************************
-#*******************Significant P = 4.445e-05 **********************
+#*******************Significant P = 5.067e-05 **********************
 #*******************************************************************
+#combine non sci  sig p=0.0004483
+
+
+
 
 #--------------------#--------------------#--------------------
 #### Part2. Question 4. Reason for change
