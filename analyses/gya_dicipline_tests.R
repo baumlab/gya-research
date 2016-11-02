@@ -324,6 +324,7 @@ canada<-p.change[p.change$Country_work=="Canada" | (!(p.change$Country_work=="Ca
 
 canada<-canada[!canada$field_research=="",]
 canada<-canada[!canada$partnership_change_10yrs=="",]
+canada<-canada[!canada$partnership_change_10yrs=="Can't comment (new researcher)",]
 canada<-droplevels(canada)
 
 canada$field_research<-as.character(canada$field_research)
@@ -347,8 +348,9 @@ p.change.mod2<-(glm(Freq ~ Var1 +Var2, sum.p.change, family="poisson"))
 visreg(p.change.mod1, "Var2",by="Var1", scale="response", ylab="Number of responses", xlab="field_research")
 summary(p.change.mod1)
 anova(p.change.mod1, p.change.mod2, test="Chi")
+summary(glht(p.change.mod1, mcp(Var1='Tukey')))
 
-#*******************************************************************
+  #*******************************************************************
 #*******************Significant P = 5.067e-05 **********************
 #*******************************************************************
 #combine non sci  sig p=0.0004483
