@@ -3,11 +3,11 @@ title: "Canadian online survey on fundamental research"
 author: ''
 date: "16 September 2016"
 output:
-  html_document: default
-  fig_width: 18
-  fig_height: 4
-  pdf_document: null
   word_document: default
+  fig_width: 18
+  html_document: default
+  pdf_document: null
+  fig_height: 4
 ---
 
 **Introduction**  
@@ -744,14 +744,14 @@ ggplot(data=impact, aes(x=Var1, Freq))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,345))
 ```
 
-**Influence of gender, career stage, and dicipline on survey responses**
-*Gender*
+**Influence of gender, career stage, and dicipline on survey responses**  
+*Gender*  
 Gender did not have an impact on the responses for a majority of the responses.  However some questions did statistically show differences between the responses of Males, Females, and researchers who answered Other. When answering whether or not the level of partnership their research had outside of academia the responses for "Can't comment (new researcher)" did not fit the model (P = 0.001071) in a way that indicated that there was a smaller proportion of males that were new researches than females. 
 
 
-*Dicipline*
+*Dicipline*  
 
 
-*Career Stage*
+*Career Stage*  
 
 Similar to gender, career stage did not impact the responses for most of the questions.  Senior academics reported that they had some or strong partnerships in the past significantly (p=0.001058) more than early academics did but this is understandable for the early academics most likely did not have the background or a fully developed research program to secure partnerships. 
