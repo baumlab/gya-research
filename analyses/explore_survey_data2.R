@@ -123,7 +123,15 @@ current.res<-droplevels(current.res)
 head(current.res$percent_Applied_Research_current)
 length(current.res$percent_Applied_Research_current)
 
-
+distribution<-subset(Canada, select=c("distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government"    ,  
+                                     "distriution_funding_11_15_for_profit"  ,     "distriution_funding_11_15_nongov"     ,      "distriution_funding_11_15_other"  ,         
+                                "distriution_funding_6_10_internal"  ,        "distriution_funding_6_10_government"    ,   
+                                    "distriution_funding_6_10_for_profit"   ,     "distriution_funding_6_10_nongov"   ,         "distriution_funding_6_10_other"))
+head(distribution$distriution_funding_6_10_government)
+distribution<-distribution[!(distribution$distriution_funding_6_10_government=="New researcher (no funding in these years)"),]
+distribution<-droplevels(distribution)
+head(distribution$distriution_funding_6_10_government)
+length(distribution$distriution_funding_6_10_government)
 
 
 #############
