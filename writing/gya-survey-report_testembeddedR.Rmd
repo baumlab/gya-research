@@ -3,11 +3,11 @@ title: "Canadian online survey on fundamental research"
 author: ''
 date: "16 September 2016"
 output:
-  word_document: default
-  fig_width: 18
   html_document: default
-  pdf_document: null
+  fig_width: 18
   fig_height: 4
+  pdf_document: null
+  word_document: default
 ---
 
 **Introduction**  
