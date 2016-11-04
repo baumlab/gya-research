@@ -3,10 +3,11 @@ title: "GYA surveys"
 author: "James Robinson; Kristina Tietjen"
 date: "28 July 2016"
 output:
-  pdf_document: null
-  fig_width: 10
   html_document: default
+  fig_width: 10
   fig_height: 4
+  pdf_document: null
+  word_document: default
 ---
 
 Intro -
@@ -72,7 +73,7 @@ locations<-aggregate(gender ~ Country, survey.what, length)
 
 As of `r date()`, `r dim(survey.what)[1]` surveys from `r length(unique(survey.what$Country_work))` countries have been completed.
 
-The majority of surveys were completed by researchers based in Canada (n = `r country_work$gender[country_work$Country_work=="Canada"]`), followed by Israel (n = `r country_work$gender[country_work$Country_work=="Israel"]`) then by the UK (n = `r country_work$gender[country_work$Country_work=="United Kingdom"]`) and the USA (n = `r country_work$gender[country_work$Country_work=="United States"]`). `r country_work$gender[country_work$Country_work==""]` surveys did not identify their place of work.
+The majority of surveys were completed by researchers based in Canada (n = `r country_work$gender[country_work$Country_work=="Canada"]`) (n= `survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & survey$Country_work=="" & survey$Country=="Canada"),] `), followed by Israel (n = `r country_work$gender[country_work$Country_work=="Israel"]`) then by the UK (n = `r country_work$gender[country_work$Country_work=="United Kingdom"]`) and the USA (n = `r country_work$gender[country_work$Country_work=="United States"]`). `r country_work$gender[country_work$Country_work==""]` surveys did not identify their place of work.
 
 ```{r, echo=FALSE, fig.cap="Survey responses by country", warning=FALSE}
 

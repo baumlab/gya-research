@@ -94,8 +94,8 @@ require(colorRamps)
 barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)]
 
 par(mar=c(7,4,4,2))
-gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(201,1200),horiz=F, xaxlab=barlabs, xlab="", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200, 1265,1300),las=2, col=c(blue2red(29)))
+gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(266,1200),horiz=F, xaxlab=barlabs, xlab="", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 265, 1265,1300),las=2, col=c(blue2red(29)))
 
 
 #ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
@@ -117,15 +117,17 @@ ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_r
 
 
 ##2b # of responses by field research for canada
-canada<-subset(survey.what, Country=="Canada")
+canada<-survey.what[survey.what$Country_work=="Canada" | (!(survey.what$Country_work=="Canada") & 
+                                                            survey.what$Country_work=="" & survey.what$Country=="Canada"),]
+
 field<-aggregate(Location ~ field_research, canada, length)
 
 
 ggplot(field, aes(x = reorder(field_research, -Location), Location, fill=field_research)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   theme(axis.text.x=element_blank()) + labs(y="Number of responses",x="")  + scale_fill_discrete(name="Field of Research") +
   geom_text(aes(label=Location), vjust=-0.25) + theme(legend.position=c(0.85, 0.75)) + theme(legend.title=element_text(size=12), 
-                                                                                            legend.text=element_text(size=10), axis.text=element_text(size=14), axis.title=element_text(size=16))+ 
-  guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+                                                                                            legend.text=element_text(size=10), axis.text=element_text(size=14), 
+                                                                                            axis.title=element_text(size=16))+ guides(fill=guide_legend(reverse=TRUE)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 ##############
@@ -143,7 +145,9 @@ ggplot(experience, aes(x = reorder(what_participant_group, -Location), Location,
 
 
 ##3b # of responses by participant group for canada
-canada<-subset(survey.what, Country=="Canada")
+canada<-survey.what[survey.what$Country_work=="Canada" | (!(survey.what$Country_work=="Canada") & 
+                                                            survey.what$Country_work=="" & survey.what$Country=="Canada"),]
+
 
 experience<-aggregate(Location ~ what_participant_group, canada, length)
 
@@ -176,10 +180,11 @@ type.avg<-aggregate(percent~ type + Country, research.wo.total, mean)
 ggplot(type.avg, aes(Country, percent)) + geom_bar(stat="identity", aes(fill=factor(type))) + theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 ##4c canada
-canada<-subset(research, Country=="Canada")
+canada<-research[research$Country_work=="Canada" | (!(research$Country_work=="Canada") & 
+                                                      research$Country_work=="" & research$Country=="Canada"),]
 summary(canada)
 
-ggplot(research.wo.total, aes(type, percent, fill=type)) + geom_boxplot()
+ggplot(canada, aes(type, percent, fill=type)) + geom_boxplot()
 
 ##### now for past#####
 
@@ -197,10 +202,11 @@ sum.yesno<-sum.yesno[!sum.yesno$Var1=="",]
 ggplot(data=sum.yesno, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity') + guides(fill=FALSE)
 
 # 5b for Canada
-canada<-subset(yes.no, Country=="Canada")
+canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
+                                                  yes.no$Country_work=="" & yes.no$Country=="Canada"),]
 canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
 canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
-
+canada.yesno
 ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)
 
 # 5c  for countries
@@ -236,7 +242,9 @@ ggplot(type.avg.past, aes(Country, percent)) + geom_bar(stat="identity", aes(fil
 
 
 ## 6c  Canada
-canada<-subset(research.past, Country=="Canada")
+canada<-research.past[research.past$Country_work=="Canada" | (!(research.past$Country_work=="Canada") & 
+                                                                research.past$Country_work=="" & research.past$Country=="Canada"),]
+
 research.wo.past.total.ca<-subset(research.past, type%in%c("percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 
@@ -270,7 +278,9 @@ reason<-subset(research.change, select=c("Location","Country","Country_work",  "
                                          "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
                                          "Main_reason_change_Other"))
 
-canada<-subset(reason, Country=="Canada")
+canada<-reason[reason$Country_work=="Canada" | (!(reason$Country_work=="Canada") & 
+                                                  reason$Country_work=="" & reason$Country=="Canada"),]
+
 head(canada)
 ## switch to long format
 require(tidyr)
@@ -282,6 +292,7 @@ sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
 # remove non-response
 sum.canada<-sum.canada[!sum.canada$Var1=="",]
 
+sum.canada
 ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)
 
@@ -302,15 +313,17 @@ ggplot(change.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_typ
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")
 
 # 16b Canada
-canada<-subset(part1.view, Country=="Canada")
-canada<-canada[!canada$view_change_of_type=="",]
+canada<-part1.view[part1.view$Country_work=="Canada" | (!(part1.view$Country_work=="Canada") & 
+                                                          part1.view$Country_work=="" & part1.view$Country=="Canada"),]
 
+canada<-canada[!canada$view_change_of_type=="",]
+canada<-droplevels(canada)
 change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
 
 # change order of the levels
 change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
                                         levels(change.view.ca$view_change_of_type)[c(5,3,1,2,4)])
-
+change.view.ca  
 ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(axis.text.x = element_text(angle=90, vjust=0.5)) +guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of Responses")
@@ -337,13 +350,15 @@ ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='iden
 
 
 ## 8b  Canada
-important<-subset(part4, select=c("Location","Country", "gender","opinion_fundamental_important"))
+important<-subset(part4, select=c("Location","Country","Country_work", "gender","opinion_fundamental_important"))
 
-canada<-subset(important, Country=="Canada")
+canada<-important[important$Country_work=="Canada" | (!(important$Country_work=="Canada") & 
+                                                        important$Country_work=="" & important$Country=="Canada"),]
 ## using table to count cases of each category
 sum.important<-data.frame(table(canada$opinion_fundamental_important))
 # remove non-response
 sum.important<-sum.important[!sum.important$Var1=="",]
+sum.important<-sum.important[!sum.important$Var2=="",]
 
 ggplot(data=sum.important, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
@@ -384,16 +399,19 @@ ggplot(data=country.high.priority, aes(x=Country, y=higher.priority, fill=what.t
 
 
 ## 9b Canada
-priority<-subset(part4, select=c("Location","Country", "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
+priority.ca<-subset(part4, select=c("Location","Country", "Country_work", "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                  "high_priority_no_change"))
-canada<-subset(priority, Country=="Canada")
+
+canada<-priority.ca[priority.ca$Country_work=="Canada" | (!(priority.ca$Country_work=="Canada") & 
+                                                            priority.ca$Country_work=="" & priority.ca$Country=="Canada"),]
+
 ## switch to long format
 require(tidyr)
-priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country)
-head(priority.long)
+priority.long<-gather(canada, what.type, higher.priority, -Location, -gender, -Country, -Country_work)
+tail(priority.long)
 
 high.priority<-aggregate(higher.priority~ what.type, priority.long, sum)
-
+high.priority
 ggplot(data=high.priority, aes(x=what.type, higher.priority, fill=what.type)) + geom_bar(stat='identity') +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
@@ -436,17 +454,13 @@ head(availiability.change)
 #five.countries<-subset(availiability.change, Country=="USA","United Kingdom","Canada","Israel","Italy")
 
 
-
-
-
-
-
-
 ###10c-Canada
 
 availiability.change<-subset(part4, select=c("Location", "Country", "Country_work", "gender", "available_funding_fundamental",  
                                              "available_funding_use_inspired", "available_funding_applied"))
-canada<-subset(availiability.change, Country=="Canada")
+canada<-availiability.change[availiability.change$Country_work=="Canada" | (!(availiability.change$Country_work=="Canada") & 
+                                                                              availiability.change$Country_work=="" & availiability.change$Country=="Canada"),]
+
 
 ## switch to long format
 require(tidyr)
@@ -456,6 +470,8 @@ availiability.ca<-aggregate(gender~what.type+level,
 
 # remove non-response
 availiability.ca<-availiability.ca[!availiability.ca$level=="",]
+
+availiability.ca
 
 ggplot(data=availiability.ca, aes(x=what.type, gender, fill=level))+ geom_bar(stat='identity') +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
@@ -481,12 +497,15 @@ ggplot(data=country.impact, aes(x=Country, y=gender, fill=next_generation)) + ge
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
 
 ##11c Canada
-next.generation<-subset(part4, select=c("Location", "Country", "gender","next_generation"))
+next.generation<-subset(part4, select=c("Location", "Country", "Country_work", "gender","next_generation"))
 # remove non-response
 next.generation<-next.generation[!next.generation$next_generation=="",]
-canada<-subset(next.generation, Country=="Canada")
+canada<-next.generation[next.generation$Country_work=="Canada" | (!(next.generation$Country_work=="Canada") & 
+                                                                    next.generation$Country_work=="" & next.generation$Country=="Canada"),]
+
 head(canada)
 impact<-aggregate(gender~ next_generation, canada, length)
+impact
 head(impact)
 ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation)) + geom_bar(stat='identity') +  
   theme(axis.text.x = element_text(angle=90, vjust=0.5))
@@ -497,7 +516,7 @@ ggplot(data=impact, aes(x=next_generation, gender, fill=next_generation)) + geom
 ###############
 
 ###12a current partnership
-
+head(a.part)
 b.part<-aggregate(gender~  partnership_outside_before, part2.b.a, length)
 colnames(b.part)[1]<-"partnership_outside"
 b.part$time<-"Past"
@@ -517,7 +536,9 @@ ggplot() +
   
 
 ###12b canada
-canada<-subset(part2.b.a, Country=="Canada")
+canada<-part2.b.a[part2.b.a$Country_work=="Canada" | (!(part2.b.a$Country_work=="Canada") & 
+                                                        part2.b.a$Country_work=="" & part2.b.a$Country=="Canada"),]
+
 current.part.ca<-aggregate(gender~ partnership_outside, canada, length)
 
 # change order of the levels
@@ -537,7 +558,9 @@ ggplot(data=change.part, aes(x=partnership_change_10yrs, gender, fill=partnershi
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ guides(fill=FALSE)
 
 ###13b Canada
-canada<-subset(part2.change, Country=="Canada")
+canada<-part2.change[part2.change$Country_work=="Canada" | (!(part2.change$Country_work=="Canada") & 
+                                                              part2.change$Country_work=="" & part2.change$Country=="Canada"),]
+
 change.part.ca<-aggregate(gender~ partnership_change_10yrs, canada, length)
 
 ggplot(data=change.part.ca, aes(x=partnership_change_10yrs, gender, fill=partnership_change_10yrs))+geom_bar(stat='identity')+
@@ -549,7 +572,7 @@ head(part2.reason)
 
 
 require(tidyr)
-reason.pt.long<-gather(part2.reason, change.reason, yes, -Country, -gender, -Location)
+reason.pt.long<-gather(part2.reason, change.reason, yes, -Country, -gender, -Location, -what_participant_group, -field_research, -Country_work)
 unique(reason.pt.long$change.reason)
 sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
@@ -559,10 +582,12 @@ ggplot(data=sum.reason, aes(x=reorder(Var1, -Freq), y=Freq, fill=Var1)) + geom_b
   scale_x_discrete(labels=c("Funding Related", "Interest Related", "Career Related", "Socially Related", "Other"))
 
 ### 14b Canada
-canada<-subset(part2.reason, Country=="Canada")
+canada<-part2.reason[part2.reason$Country_work=="Canada" | (!(part2.reason$Country_work=="Canada") & 
+                                                              part2.reason$Country_work=="" & part2.reason$Country=="Canada"),]
+
 
 require(tidyr)
-reason.pt.long<-gather(canada, change.reason, yes, -Country, -gender, -Location)
+reason.pt.long<-gather(canada, change.reason, yes, -Country, -gender, -Location,-what_participant_group, -field_research, -Country_work)
 unique(reason.pt.long$change.reason)
 sum.reason<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
@@ -583,7 +608,9 @@ ggplot(data=view, aes(x=view_change_partnership, y=gender, fill=view_change_part
   
 
 ###15b Canada
-canada<-subset(part2.view, Country=="Canada")
+canada<-part2.view[part2.view$Country_work=="Canada" | (!(part2.view$Country_work=="Canada") & 
+                                                          part2.view$Country_work=="" & part2.view$Country=="Canada"),]
+
 view<-aggregate(gender~ view_change_partnership, canada, length)
 levels(view$view_change_partnership)
 # change order of the levels
@@ -629,7 +656,8 @@ ggplot(grants, aes(type.grant, gender, fill=number)) + geom_bar(stat="identity",
 
 
 ## 17b  canada
-canada<-subset(part3.grants.long, Country=="Canada")
+canada<-part3.grants.long[part3.grants.long$Country_work=="Canada" | (!(part3.grants.long$Country_work=="Canada") & 
+                                                                        part3.grants.long$Country_work=="" & part3.grants.long$Country=="Canada"),]
 
 canada$type.grant<-as.character(canada$type.grant)
 
@@ -645,13 +673,17 @@ canada$type.grant[canada$type.grant=="external_pi_grant_6_10_applied"]<-"Applied
 
 grants.ca<-aggregate(gender~ type.grant+time+number, canada, length)
 grants.ca$type.grant<-as.factor(grants.ca$type.grant)
-
+grants.ca$number
+str(grants.ca)
 #change order of levels
 grants.ca$number<-factor(grants.ca$number, levels(grants.ca$number)[c(1,2,6,7,3,4,5)])
+grants.ca
 grants.ca$type.grant<-factor(grants.ca$type.grant, levels(grants.ca$type.grant)[c(2,3,1)])
-
+grants.ca
 ggplot(grants.ca, aes(type.grant, gender, fill=number)) + geom_bar(stat="identity", position = "dodge")+facet_wrap(~time) +guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
   labs(x="Number of grant applications", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+
 
 
 #### 18a percent of applications successful
@@ -678,7 +710,8 @@ ggplot(success, aes(percent, gender, fill=time))+geom_bar(stat="identity", posit
   labs(x="Percent of success", y="Number of responses")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ## 18b canada
-canada<-subset(part3.success.long, Country=="Canada")
+canada<-part3.success.long[part3.success.long$Country_work=="Canada" | (!(part3.success.long$Country_work=="Canada") & 
+                                                                          part3.success.long$Country_work=="" & part3.success.long$Country=="Canada"),]
 
 canada$type<-as.character(canada$type)
 
@@ -696,7 +729,6 @@ success.ca<-aggregate(gender~type+percent+time, canada, length)
 #change order of types
 success.ca$type<-as.factor(success.ca$type)
 success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
-
 
 ggplot(success.ca, aes(percent, gender, fill=time))+geom_bar(stat="identity", position = "dodge")+facet_wrap(~type)+
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
@@ -720,7 +752,9 @@ ggplot(prac, aes(level, gender, fill=year))+ geom_bar(stat="identity", position 
 
 
 ## 19b Canada
-canada<-subset(part3.prac.long, Country=="Canada")
+canada<-part3.prac.long[part3.prac.long$Country_work=="Canada" | (!(part3.prac.long$Country_work=="Canada") & 
+                                                                    part3.prac.long$Country_work=="" & part3.prac.long$Country=="Canada"),]
+
 
 canada$year<-as.character(canada$year)
 
@@ -731,7 +765,7 @@ prac.ca<-aggregate(gender~year+level, canada, length)
 
 #change order of levels
 prac.ca$level<-factor(prac.ca$level, levels(prac.ca$level)[c(2,6,4,5,3,1)])
-
+prac.ca
 
 ggplot(prac.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
@@ -753,7 +787,9 @@ ggplot(partner, aes(level, gender, fill=year))+ geom_bar(stat="identity", positi
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
 
 ## 20b Canada
-canada<-subset(part3.part.long, Country=="Canada")
+canada<-part3.part.long[part3.part.long$Country_work=="Canada" | (!(part3.part.long$Country_work=="Canada") & 
+                                                                    part3.part.long$Country_work=="" & part3.part.long$Country=="Canada"),]
+
 
 canada$year<-as.character(canada$year)
 
@@ -765,7 +801,7 @@ part.ca<-aggregate(gender~year+level, canada, length)
 #change order of levels
 part.ca$level<-factor(part.ca$level, levels(part.ca$level)[c(2,5,6,4,3,1)])
 
-
+part.ca
 ggplot(part.ca, aes(level, gender, fill=year))+ geom_bar(stat="identity", position = "dodge")+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + labs(x="", y="Number of responses")+theme(axis.text.x = element_text(angle=90, vjust=0.5)) 
 
@@ -780,19 +816,23 @@ ggplot(p3_master.long, aes(percent, fill=year))+ geom_histogram(position='dodge'
 
 ## 21b
 
-canada<-subset(p3_master.long, Country=="Canada")
+canada<-p3_master.long[p3_master.long$Country_work=="Canada" | (!(p3_master.long$Country_work=="Canada") & 
+                                                                  p3_master.long$Country_work=="" & p3_master.long$Country=="Canada"),]
 
+dim(canada)
+
+canada[354,]
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=25)  +  facet_wrap(~type)
 
-
-
+funding.dist.ca.table<-data.frame(table(canada$percent, canada$type, canada$year))
+funding.dist.ca.table
 
 
 ## grant success rates change in last 10 yrs
 head(part3.change)
 require(tidyr)
 ##switch to long format
-change.long<-gather(part3.change, type, level, -Location, -gender, -Country)
+change.long<-gather(part3.change, type, level, -Location, -gender, -Country, -what_participant_group, -field_research, -Country_work)
 head(change.long)
 
 change<-aggregate(gender~type+level, change.long, length)
@@ -805,10 +845,12 @@ ggplot(data=change, aes(x=level, gender, fill=type))+ geom_bar(stat='identity', 
 
 
 ## Canada  by gender
-canada<-subset(part3.change, Country=="Canada")
+canada<-part3.change[part3.change$Country_work=="Canada" | (!(part3.change$Country_work=="Canada") & 
+                                                              part3.change$Country_work=="" & part3.change$Country=="Canada"),]
+
 require(tidyr)
 ##switch to long format
-change.long.ca<-gather(canada, type, level, -Location, -gender, -Country)
+change.long.ca<-gather(canada, type, level, -Location, -gender, -Country, -what_participant_group, -field_research, -Country_work)
 head(change.long.ca)
 
 gender.change<-aggregate(Location~type+gender+level, change.long.ca, length)
@@ -828,6 +870,7 @@ gender.change$Location<-ifelse(gender.change$gender=="Other", (gender.change$Loc
 str(gender.change)
 
 # change type to factor with levels
+require(stringr)
 gender.change$type<-as.factor(gender.change$type)
 gender.change$level<-str_replace_all(gender.change$level, "Will", "")
 gender.change$level<-as.factor(gender.change$level)
@@ -841,10 +884,20 @@ ggplot(data=gender.change, aes(x=level, Location, fill=type))+geom_bar(stat="ide
   facet_wrap(~gender)+theme(axis.text.x = element_text(angle=90, vjust=0.5))+labs(x="", y="Percentage of responses", fill="")+
   scale_fill_discrete(labels=c("Fundamental", "Use-inspired", "Applied")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
+## grant success rates change in last 10 yrs canada - creating a table 
+head(part3.change)
+require(tidyr)
+##switch to long format
+change.long<-gather(part3.change, type, level, -Location, -gender, -Country, -what_participant_group, -field_research, -Country_work)
+head(change.long)
+canada<-change.long[change.long$Country_work=="Canada" | (!(change.long$Country_work=="Canada") & 
+                                                            change.long$Country_work=="" & change.long$Country=="Canada"),]
+head(canada)
 
-
-
-
+# remove non-response
+canada<-canada[!canada$level=="",]
+success.rate.ca.table<-data.frame(table(canada$type, canada$level))
+success.rate.ca.table
 
 
 
