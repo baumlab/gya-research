@@ -1,11 +1,12 @@
 ---
 title: "Canadian online survey on fundamental research"
-author: ""
+author: ''
 date: "16 September 2016"
 output:
-  pdf_document: null
+  word_document: default
   fig_width: 18
   html_document: default
+  pdf_document: null
   fig_height: 4
 ---
 
@@ -227,7 +228,7 @@ p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ ge
   labs(y="No. responses")
   
 #reason for change  
-research.change<-read.csv(file="data/gya-change-reason.csv")
+#research.change<-read.csv(file="data/gya-change-reason.csv")
 reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
                                        "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
 
