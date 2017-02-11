@@ -20,26 +20,19 @@ In addition the official data presented in earlier chapters, we also developed a
 The online survey was open from the end of May through early August 2016. To disseminate the survey to Canadian researchers, we gathered email addresses from university websites for as many faculty members as possible and emailed them directly. The survey was also shared broadly on social media, through the Global Young Academy network, on scientific list serves, and through personal connections.
 
 **Results**
-In total, 1242 Canadian researchers completed the online survey. KT: INSERT SENTENCE ABOUT GENDER Eg. X per cent of survey respondents were male and X per cent female. Almost half of the responses came from either the natural or physical sciences (49%; Figure 2). The remaining responses were spread amongst the medical and life sciences (17%), engineering (11%), interdisciplinary science and social science or humanities). KT: THIS DOES NOT ADD UP TO 100% - did many people not list their discipline?? Over half of the respondents were early career academic researchers, defined as those researchers with less than ten years expereince applying for research grants since completion of their PhD. Another one quarter were senior academic researchers. KT: Again this does not add up to 100% - what is going on?
-
-Overall, respondents reported that 70% of their 
+In total, 
 
 
 
-
-**NOTES ON FIGURES:**
-PLEASE REMOVE THE GLOBAL FIGURES THROUGHOUT - THIS IS ONLY THE CANADA REPORT. MOVE GLOBAL FIGURES INTO A DIFFERENT FILE.
-FIGURE 1. REMOVE.
-FIGURE 2. ADD CATEGORY FOR 'UNKNOWN' OR 'NOT STATED'.
-FIGURE 3. PLEASE ORDER IN ORDER OF CAREER I.E. POSTDOC THEN EARLY CAREER THEN SENIOR ACADEMIC, THEN PUT THE TWO NON-ACADEMICS TO THE RIGHT.
-FIGURE 4. I think this needs to be 3 frequency histogram plots since respondents reported percentages 
-
+<!-- Import global data, calculate sample sizes -->
 ```{r, echo=FALSE, hide=TRUE, warning=FALSE, message=FALSE}
-## load in survey data
+## CHANGE WD FOR YOUR LOCAL MACHINE BEFORE KNITTING
 
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 #setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+#setwd("/Users/Julia_2013MacBookAir/Desktop/GitRepos/gya-research/writing")
 
+##Load in data
 survey.all<-read.csv("data/Jul 18 2016 1149am - Hamilton.csv", header=TRUE)
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 survey.what<-read.csv(file="data/gya-country-responses.csv")
@@ -76,6 +69,8 @@ As of `r date()`, `r dim(survey.what)[1]` surveys from `r length(unique(survey.w
 The majority of surveys were completed by researchers based in Canada (n = `r country_work$gender[country_work$Country_work=="Canada"]`) (n= `survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & survey$Country_work=="" & survey$Country=="Canada"),] `), followed by Israel (n = `r country_work$gender[country_work$Country_work=="Israel"]`) then by the UK (n = `r country_work$gender[country_work$Country_work=="United Kingdom"]`) and the USA (n = `r country_work$gender[country_work$Country_work=="United States"]`). `r country_work$gender[country_work$Country_work==""]` surveys did not identify their place of work.
 
 ```{r, echo=FALSE, fig.cap="Survey responses by country", warning=FALSE}
+
+###NEED TO CHECK
 
 ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
   geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
