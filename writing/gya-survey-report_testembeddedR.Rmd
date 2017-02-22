@@ -97,7 +97,7 @@ Researchers from many different disciplines were represented in the survey. Almo
 <!-- Generate Canadian career stage figure -->
 ```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of Canadian survey respondents by career stage", warning=FALSE, fig.width=14}
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(gridExtra)
 
 theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
@@ -195,37 +195,62 @@ res.plot$type<-factor(res.plot$type, levels(res.plot$type)[c(2,3,1)])
 res.plot$time<-factor(res.plot$time)
 res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(1,2)])
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(5,9)]
-colScale <- scale_fill_manual(name = "time",values = myColors)
+#myColors<-(brewer.pal(9, "Blues"))
+#myColors<-myColors[c(5,9)]
+
+
+mycols<-c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c')
+
+colScale <- scale_fill_manual(name = "ID",values = mycols)
+
 
 res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="Canada") & res.plot$Country_work=="" & res.plot$Country=="Canada"),]
+res.plot$ID<-paste(res.plot$type, res.plot$time)
 
-ggplot(res.plot, aes(percent, fill=time)) +
+
+# change order of the levels
+res.plot$ID<-as.factor(res.plot$ID)
+res.plot$ID<-factor(res.plot$ID, levels(res.plot$ID)[c(4,3,6,5,2,1)])
+
+# add colours to res.plot
+mycols<-c('#1f78b4','#a6cee3','#33a02c','#b2df8a','#e31a1c', '#fb9a99')
+mycols<-as.data.frame(mycols)
+mycols$ID<-levels(res.plot$ID)
+res.plot$col<-mycols$mycols[match(res.plot$ID, mycols$ID)]
+res.plot$col<-factor(res.plot$col, levels(res.plot$col)[c(3,1,4,2,6,5)])
+
+out<-by(data = res.plot, INDICES = res.plot$type, FUN = function(m){
+  m <- droplevels(m)
+  m$col<-factor(m$col, levels(m$col)[c(3,1,4,2,6,5)])
+  mycols<-as.character(unique(m$col))
+  colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010", "2011-2015"))
+  m <- ggplot(m, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-    labs(x="Percent", y="Number of responses", title="")+
+    labs(x="Percent", y="Number of responses", title=m$type)+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.95, 0.19), legend.margin=unit(100,"cm")) + 
-    facet_wrap(~type, nrow=3) + colScale +
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300))
-?theme
+          legend.position=c(0.94, 0.72), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
+          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300)) 
+ })
+do.call(grid.arrange, out)
+  
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
 #Change yes or no
-yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
-canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
-                                                  yes.no$Country_work=="" & yes.no$Country=="Canada"),]
-canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
-canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
+#yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
+#canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
+#                                                  yes.no$Country_work=="" & yes.no$Country=="Canada"),]
+#canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
+#canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
 
-p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,675))+ annotate('text', 3.5,660, label="(a)", size=5)
+#p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
+#  theme(panel.grid.major = element_blank(),
+#          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,675))+ annotate('text', 3.5,660, label="(a)", size=5)
   
 #reason for change  
 reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
@@ -233,12 +258,12 @@ reason<-subset(research.change, select=c("Location","Country","Country_work",  "
 
 canada<-reason[reason$Country_work=="Canada" | (!(reason$Country_work=="Canada") & 
                                                   reason$Country_work=="" & reason$Country=="Canada"),]
-## switch to long format
+# switch to long format
 require(tidyr)
 canada.long<-gather(canada, reason.change.ca, yes.ca, -Location, -gender, -Country_work, -Country)
-## using table to count cases of each category
+# using table to count cases of each category
 sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
-# remove non-response
+#remove non-response
 sum.canada<-sum.canada[!sum.canada$Var1=="",]
 
 sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
@@ -248,10 +273,13 @@ myColors<-myColors[c(9, 8,7,6,5,3)]
 p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(axis.text.x = element_text(angle=0, vjust=0.5),panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors)+
-  labs(y="")+geom_text(aes(label=Freq), vjust=-0.5)+
+  labs(y="")+
   scale_y_continuous(expand = c(0, 0), limits = c(0,430))+annotate('text', 5.4,420, label="(b)", size=5)
   
-grid.arrange(p1, p2, nrow=1)
+
+print(p2)
+
+#grid.arrange(p1, p2, nrow=1)
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
@@ -417,14 +445,15 @@ colScale <- scale_fill_manual(name = "time",values = myColors)
 
 ggplot(grants.ca, aes(number, Freq, fill=time)) + 
     geom_bar(stat="identity", position = "dodge")+
-    facet_wrap(~type.grant, nrow=3) +
+    facet_wrap(~type.grant, ncol=3) +
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="Number of grant applications", y="Number of responses")+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
            strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.9, 0.97)) + 
+          legend.position=c(0.9, 0.97), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
+          axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + 
   colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,950), breaks = c(0,250,500,750,950))
 ```
 
@@ -457,12 +486,13 @@ ggplot(success.ca, aes(percent, Freq, fill=time)) +
     geom_bar(stat="identity", position = "dodge")+
     facet_wrap(~type, nrow=3) +
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="% successful grants", y="Number of responses")+
+    labs(x="Perceived percentage of successful grants", y="Number of responses")+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
-           strip.text.y = element_text(size=14, face="bold", color="black"),
+           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.915, 0.555), legend.margin=unit(-1000,"cm")) + colScale+
+          legend.position=c(0.955, 0.58), legend.margin=unit(-1000,"cm"), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
+          axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,300))
 
 ```
@@ -491,18 +521,18 @@ success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundam
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
   guides(fill=guide_legend(title=NULL)) +
-  theme(axis.text.x = element_text(angle=0, vjust=0.5),
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
-         strip.text.y = element_text(size=14, face="bold", color="black"),
+         strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
         legend.position=c(0.15, 0.9))+
   guides(fill=FALSE)+
-  geom_text(aes(label=Freq, vjust=-0.5),size=3) +
+  geom_text(aes(label=Freq, vjust=-0.4),size=3) +
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
   labs(x="", y="Number of responses", fill="")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,625))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,635))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
@@ -628,10 +658,10 @@ ggplot(data=perceive, aes(x=Var1, y=Freq)) +
       geom_bar(stat='identity', position='dodge',fill=myColors[2])+ 
       labs(x="", y="Number of responses", fill="")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
-      geom_text(aes(label=Freq), vjust=-0.5) +
+      geom_text(aes(label=Freq, vjust=-0.5), size=3) +
       theme(axis.text.x = element_text(angle=0, vjust=0.4),
             panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank()) +
+            panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,535))
 ```
 
@@ -657,11 +687,40 @@ ggplot(data=per.change, aes(x=what.type, higher.priority))+
         theme(axis.text.x = element_text(),
               axis.text.x = element_text(angle=45, vjust=0.4),
               panel.grid.major = element_blank(),
-              panel.grid.minor = element_blank()) +
+              panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
         labs(x="", y="Number of responses", fill="") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority), vjust=-0.5)+scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
 ```
+
+```{r, echo=FALSE, fig.cap="Fig 4.5 Anticipated future of research funding."  - 4.15 + 4.16}
+
+
+p1<-ggplot(data=perceive, aes(x=Var1, y=Freq)) + 
+      geom_bar(stat='identity', position='dodge',fill=myColors[2])+ 
+      labs(x="", y="Number of responses", fill="")+
+      scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
+      geom_text(aes(label=Freq, vjust=-0.5), size=3) +
+      theme(axis.text.x = element_text(angle=0, vjust=0.4, hjust=0.6), 
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0,535))
+
+p2<-ggplot(data=per.change, aes(x=what.type, higher.priority))+
+        geom_bar(stat="identity", position=position_dodge(width = 20), fill=myColors[2])+ 
+        theme(axis.text.x = element_text(hjust = .5),
+              axis.text.x = element_text(angle=45, vjust=0.4),
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
+        labs(x="", y="", fill="") +
+  scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
+
+grid.arrange(p1, p2, nrow=1)
+```
+
+
+
 
 ```{r, echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years in Canada. Researchers were asked whether the availability of research funding would change in the next five years, for each research category. Responses were/were not significantly different between genders. "}
 ## change in funding on the x-axis, and colours = type of research
@@ -698,19 +757,19 @@ colScale <- scale_fill_manual(name = "what.type",values = myColors)
 
 ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
-    theme(axis.text.x = element_text(angle=0, vjust=0.5),
+    theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9),
           panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
-           strip.text.y = element_text(size=14, face="bold", color="black"),
+           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.8, 0.2))+
+          legend.position=c(0.8, 0.2), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
     guides(fill=FALSE)+
     labs(x="", y="Number of responses", fill="")+
     scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
-    geom_text(aes(label=Freq), vjust=-0.5, size=3) + colScale +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,575), breaks = seq(0,500,100))
+    geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
+  scale_y_continuous(expand = c(0, 0), limits = c(0,580), breaks = seq(0,500,100))
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation in Canada. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
@@ -739,8 +798,9 @@ ggplot(data=impact, aes(x=Var1, Freq))+
  labs(x="", y="Number of responses")+
   theme(axis.text.x = element_text(angle=0, vjust=0.5),
         panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank())+
-  geom_text(aes(label=Freq), vjust=-0.5)+
+        panel.grid.minor = element_blank(),
+          axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9))+
+  geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,345))
 ```
 
