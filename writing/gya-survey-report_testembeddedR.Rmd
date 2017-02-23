@@ -3,11 +3,11 @@ title: "Canadian online survey on fundamental research"
 author: ''
 date: "16 September 2016"
 output:
-  word_document: default
-  fig_width: 18
   html_document: default
-  pdf_document: null
+  fig_width: 18
   fig_height: 4
+  pdf_document: null
+  word_document: default
 ---
 
 **Introduction**  
@@ -112,22 +112,22 @@ experience_can$Var1<-revalue(experience_can$Var1, c("Early career academic resea
 experience_can$Var1<-reorder(experience_can$Var1, experience_can$Freq)
 
 # assign colour scale
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[-c(1:2)]
-names(myColors)<- levels(experience_can$Var1)
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
+myColors1<-(brewer.pal(9, "Blues"))
+myColors1<-myColors1[-c(1:2)]
+names(myColors1)<- levels(experience_can$Var1)
+colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
 ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  geom_text(aes(label=Freq, vjust=-1))+
+  geom_text(aes(label=Freq, vjust=-1), size=3)+
   scale_x_discrete(labels=c("Senior academic", "Early career academic", "Postdoc or RA", "Senior non-academic", "Early career non-academic")) +
   labs(y="Number of responses", x="") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(legend.title=element_blank(), 
         legend.text=element_text(size=10), 
-        axis.text=element_text(size=14),
-        axis.text.x=element_text(angle=0, size=12), 
-        axis.title=element_text(size=15),
+        axis.text.y=element_text(size=9),
+        axis.text.x=element_text(angle=0, size=9), 
+        axis.title=element_text(size=11),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) + 
   colScale + guides(fill=FALSE)+
@@ -142,19 +142,19 @@ field.can$field_research<-reorder(field.can$field_research, field.can$Freq)
 field.can$field_research<-revalue(field.can$field_research, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 
 ## setting colour scale to keep colours identical between similar plots
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[-c(1)]
-names(myColors) <- levels(field.can$field_research)
-colScale <- scale_fill_manual(name = "field_research",values = myColors)
+myColors2<-(brewer.pal(9, "Blues"))
+myColors2<-myColors2[-c(1)]
+names(myColors2) <- levels(field.can$field_research)
+colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
 ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of responses",x="", title="")  +
   scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\n Life Science", "Engineering", "Interdisciplinary\n Science", "Social Science/\n Humanities", "Other")) +
-  geom_text(aes(label=Freq), vjust=-0.25) + 
-  theme( axis.text=element_text(size=14),
-         axis.text.x=element_text(angle=0, size=14),
-         axis.title=element_text(size=14),
+  geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
+  theme( axis.text.y=element_text(size=9),
+         axis.text.x=element_text(angle=0, size=9),
+         axis.title=element_text(size=11),
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank()) + 
   guides(fill=FALSE) + colScale+
@@ -252,7 +252,7 @@ do.call(grid.arrange, out)
 #  theme(panel.grid.major = element_blank(),
 #          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,675))+ annotate('text', 3.5,660, label="(a)", size=5)
   
-#reason for change  
+####reason for change  
 reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
                                        "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
 
@@ -267,12 +267,12 @@ sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
 sum.canada<-sum.canada[!sum.canada$Var1=="",]
 
 sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(9, 8,7,6,5,3)]
+myColors4<-(brewer.pal(9, "Blues"))
+myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
 p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=0, vjust=0.5),panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors)+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11),panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="")+
   scale_y_continuous(expand = c(0, 0), limits = c(0,430))+annotate('text', 5.4,420, label="(b)", size=5)
   
@@ -292,11 +292,13 @@ change.view.ca<-aggregate(gender~ view_change_of_type, canada, length)
 change.view.ca$view_change_of_type<-factor(change.view.ca$view_change_of_type, 
                                         levels(change.view.ca$view_change_of_type)[c(5,3,1,2,4)])
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(1)]
-ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=myColors)) + geom_bar(stat='identity')+
-  theme(axis.text.x = element_text(angle=0, vjust=0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5)+colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,137))
+myColors5<-(brewer.pal(9, "Blues"))
+myColors5<-myColors5[c(4,4,4,4,4,4)]
+
+ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,137))+scale_fill_manual(name='view_change_of_type', values=myColors5)
+
 ```
 
 <!--Part 2 - External Partnerships-->
@@ -322,17 +324,17 @@ part$Var1<-factor(part$Var1, levels(part$Var1)[c(1,4,3,2)])
 part$time<-factor(part$time)
 part$time<-factor(part$time, levels(part$time)[c(2,1)])
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(9, 6)])
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
+myColors6<-(brewer.pal(9, "Blues"))
+myColors6<-rev(myColors6[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors6)
 
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
-  geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.8) +
+  geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
   labs(x="", y="Number of responses", fill="")+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle=0), 
+        axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.91, 0.92), 
         legend.title=element_blank()) +
   colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,340))
@@ -365,18 +367,18 @@ sum.canada<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 sum.canada$Var1<-revalue(sum.canada$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
 sum.canada$Var1<-reorder(sum.canada$Var1, -sum.canada$Freq)
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-myColors[c(9, 8,7,6,5,3)]
+myColors7<-(brewer.pal(9, "Blues"))
+myColors7<-myColors7[c(9, 8,7,6,5,3)]
 
 g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
     geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(axis.text.x = element_text(angle=0, vjust=0.5),
+    theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
           legend.position=c(0.8, 0.8), 
           legend.title=element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) + 
-  geom_text(aes(label=Freq), vjust=-0.5)+
-  labs(x="", y="Number of responses", title="")+scale_fill_manual(name = "Var1",values = myColors)+
+  geom_text(aes(label=Freq), vjust=-0.5, size=3)+
+  labs(x="", y="Number of responses", title="")+scale_fill_manual(name = "Var1",values = myColors7)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,440))
 print(g2)
 #annotate('text', 5,420, label="(b)", size=7)+  
@@ -391,16 +393,72 @@ view<-data.frame(table(canada$view_change_partnership))
 
 view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
 
+myColors8<-(brewer.pal(9, "Blues"))
+myColors8<-myColors8[c(4,4,4,4,4)]
+colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 
-ggplot(view, aes(x=Var1, y=Freq, fill=myColors[1])) + geom_bar(stat='identity')+
-  geom_text(aes(label=Freq, vjust=-0.5))+
+ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
+  geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle=0, vjust=0)) + 
+        axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
   labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,160), breaks = seq(0,160,40))
 
 ```
+ 
+```{r, echo=FALSE, fig.cap="Figure 4.2 External Research Partnerships. ( 4.6 + 4.7 + 4.8 )", warning=FALSE}
+###4.6
+myColors6<-(brewer.pal(9, "Blues"))
+myColors6<-rev(myColors6[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors6)
+
+p4<-ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
+  geom_bar( stat='identity', position="dodge") +
+  geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
+  labs(x="", y="Number of responses", fill="")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
+        legend.position=c(0.91, 0.92), 
+        legend.title=element_blank()) +
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,380))
+
+
+###4.7
+myColors7<-(brewer.pal(9, "Blues"))
+myColors7<-myColors7[c(9, 8,7,6,5,3)]
+
+p5<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
+    geom_bar(stat='identity')+  guides(fill=FALSE) +
+    theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
+          legend.position=c(0.8, 0.8), 
+          legend.title=element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank()) + 
+  geom_text(aes(label=Freq), vjust=-0.5, size=3)+
+  labs(x="", y="Number of responses", title="")+scale_fill_manual(name = "Var1",values = myColors7)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,500))
+
+###4.8
+myColors8<-(brewer.pal(9, "Blues"))
+myColors8<-myColors8[c(4,4,4,4,4)]
+colScale <- scale_fill_manual(name = "Var1",values = myColors8)
+
+p6<-ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
+  geom_text(aes(label=Freq, vjust=-0.5), size=3)+
+  guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
+  labs(x="", y="Number of responses") + colScale + scale_y_continuous(expand = c(0, 0), limits = c(0,190), breaks = seq(0,160,40))
+
+grid.arrange(p4,p5,p6, ncol=1)
+
+```
+ 
+ 
+ 
  
 <!--Part 3 - Grant Application History-->
 **4.3 Research Grants**  
@@ -438,9 +496,9 @@ grants.ca$type.grant<-as.factor(grants.ca$type.grant)
 grants.ca$number<-factor(grants.ca$number, levels(grants.ca$number)[c(1,2,6,7,3,4,5)])
 grants.ca$type.grant<-factor(grants.ca$type.grant, levels(grants.ca$type.grant)[c(2,3,1)])
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(9, 5)])
-colScale <- scale_fill_manual(name = "time",values = myColors)
+myColors9<-(brewer.pal(9, "Blues"))
+myColors9<-rev(myColors9[c(9, 5)])
+colScale <- scale_fill_manual(name = "time",values = myColors9)
 
 
 ggplot(grants.ca, aes(number, Freq, fill=time)) + 
@@ -477,9 +535,17 @@ success.ca<-data.frame(with(canada, table(type, percent,time)))
 success.ca$type<-as.factor(success.ca$type)
 success.ca$type<-factor(success.ca$type, levels(success.ca$type)[c(2,3,1)])
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(9, 5)])
-colScale <- scale_fill_manual(name = "time",values = myColors)
+success.ca$id<-paste(success.ca$type, success.ca$time)
+
+myColors10<-(brewer.pal(9, "Blues"))
+myColors10<-rev(myColors10[c(9, 5)])
+colScale <- scale_fill_manual(name = "time",values = myColors10)
+
+mycols10<-c('#1f78b4','#a6cee3','#33a02c','#b2df8a','#e31a1c', '#fb9a99')
+mycols10<-as.data.frame(mycols10)
+mycols10$ID<-levels(success.ca$ID)
+success.ca$col<-mycols10$mycols10[match(success.ca$ID, mycols10$ID)]
+success.ca$col<-factor(success.ca$col, levels(success.ca$col)[c(3,1,4,2,6,5)])
 
 
 ggplot(success.ca, aes(percent, Freq, fill=time)) + 
@@ -495,6 +561,33 @@ ggplot(success.ca, aes(percent, Freq, fill=time)) +
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,300))
 
+
+
+# add colours to res.plot
+
+
+out<-by(data = res.plot, INDICES = res.plot$type, FUN = function(m){
+  m <- droplevels(m)
+  m$col<-factor(m$col, levels(m$col)[c(3,1,4,2,6,5)])
+  mycols<-as.character(unique(m$col))
+  colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010", "2011-2015"))
+  m <- ggplot(m, aes(percent, fill=ID)) +
+    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    labs(x="Percent", y="Number of responses", title=m$type)+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          strip.text.y = element_text(size=12, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.94, 0.72), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
+          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300)) 
+ })
+do.call(grid.arrange, out)
+
+
+
+
 ```
  
 ```{r, echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
@@ -508,9 +601,8 @@ success.change<-success.change[!success.change$level=="",]
 success.change<-droplevels(success.change)
 
 # add colour palette
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-(myColors[c(9, 6, 3)])
-colScale <- scale_fill_manual(name = "type",values = myColors, labels=c("Fundamental", "Use-inspired", "Applied"))
+myColors11<-c('#1f78b4','#33a02c','#e31a1c')
+colScale <- scale_fill_manual(name = "type",values = myColors11, labels=c("Fundamental", "Use-inspired", "Applied"))
 
 #change order of levels
 success.change$level<-factor(success.change$level, levels(success.change$level)[c(5,4,6,2,3,1)])
@@ -521,7 +613,7 @@ success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundam
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
   guides(fill=guide_legend(title=NULL)) +
-  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9),
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
          strip.text.y = element_text(size=12, face="bold", color="black"),
@@ -550,9 +642,9 @@ prac.ca<-data.frame(table(canada$year, canada$level))
 #change order of levels
 prac.ca$Var2<-factor(prac.ca$Var2, levels(prac.ca$Var2)[c(2,6,4,5,3,1)])
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(9, 5)])
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
+myColors12<-(brewer.pal(9, "Blues"))
+myColors12<-rev(myColors12[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
 
 ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) + 
@@ -560,10 +652,11 @@ ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         legend.position=c(0.91, 0.92),
-        axis.text.x = element_text(angle=0, vjust=0.5)) +
+        axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.x=element_text(size = 11),
+        axis.title.y=element_text(size = 11)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
-  labs(x="", y="Number of responses")+ colScale+
+  labs(x="Importance of suggesting practical research applications", y="Number of responses")+ colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,440))
   
 
@@ -583,21 +676,64 @@ part.ca<-data.frame(table(canada$year, canada$level))
 part.ca$Var2<-factor(part.ca$Var2, levels(part.ca$Var2)[c(2,5,6,4,3,1)])
 
 ## add colour scale
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(9, 5)])
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
+myColors13<-(brewer.pal(9, "Blues"))
+myColors13<-rev(myColors13[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 
 
 ggplot(part.ca, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="", y="Number of responses")+
+    labs(x="Importance of external partnerships", y="Number of responses")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
-          legend.position=c(0.91, 0.92)) + colScale+
+          legend.position=c(0.91, 0.92), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
+          axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,480))
 ```
+
+```{r, echo=FALSE, fig.cap="Fig 4.4 Importance of practical applications and external partnerships. (4.12 + 4.13)", warning=FALSE}
+###4.12
+myColors12<-(brewer.pal(9, "Blues"))
+myColors12<-rev(myColors12[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors12)
+
+
+p10<-ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) + 
+  geom_bar(stat="identity", position = "dodge")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.position=c(0.91, 0.92),
+        axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.x=element_text(size = 11),
+        axis.title.y=element_text(size = 11)) +
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
+  scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
+  labs(x="Importance of suggesting practical research applications", y="Number of responses")+ colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,440))
+
+###4.13
+myColors13<-(brewer.pal(9, "Blues"))
+myColors13<-rev(myColors13[c(9, 5)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors13)
+
+
+p11<-ggplot(part.ca, aes(Var2, Freq, fill=Var1))+ 
+  geom_bar(stat="identity", position = "dodge")+
+    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+    labs(x="Importance of external partnerships", y="Number of responses")+
+  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          legend.position=c(0.91, 0.92), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
+          axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,480))
+
+grid.arrange(p10,p11, nrow=1)
+
+```
+
+
 
 ```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", warning=FALSE,fig.height=12}
 
@@ -608,18 +744,19 @@ canada$year<- revalue(canada$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
 #change order of levels
 canada$year<-factor(canada$year, levels(canada$year)[c(2,1)])
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-rev(myColors[c(9, 5)])
-colScale <- scale_fill_manual(name = "year",values = myColors)
+myColors14<-(brewer.pal(9, "Blues"))
+myColors14<-rev(myColors14[c(9, 5)])
+colScale <- scale_fill_manual(name = "year",values = myColors14)
 
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + 
-  facet_wrap(~type, nrow=5) + colScale +
+  facet_wrap(~type, nrow=2, scales = "free_y") + colScale +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.922, 0.98),
-          strip.text.y = element_text(size=14, face="bold", color="black"),
+          strip.text.y = element_text(size=12, face="bold", color="black"),
           legend.key.size = unit(0.3, "cm"),
           strip.background = element_rect(colour="white", fill="white"),panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank()) +
+          panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9),
+          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(x="% research funding", y = "Number of responses")+
   scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=c(0, 250, 500, 750, 1000, 1250))+
   scale_x_continuous( breaks = seq(0, 100, 10))
@@ -650,19 +787,19 @@ perceive<-aggregate(Freq~Var1, sum.important, sum)
 
 ### colour palette
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-(myColors[c(9, 7, 6, 4, 2)])
-colScale <- scale_fill_manual(name = "Var1",values = myColors)
+myColors15<-(brewer.pal(9, "Blues"))
+myColors15<-(myColors15[c(4,4,4,4,4,4)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
-ggplot(data=perceive, aes(x=Var1, y=Freq)) + 
-      geom_bar(stat='identity', position='dodge',fill=myColors[2])+ 
+ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
+      geom_bar(stat='identity', position='dodge')+ 
       labs(x="", y="Number of responses", fill="")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
-      geom_text(aes(label=Freq, vjust=-0.5), size=3) +
+      geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
       theme(axis.text.x = element_text(angle=0, vjust=0.4),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,535))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,535)) + colScale
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by Canadian government. Researchers were asked whether any types of research had become higher priority for the Canadian government. Responses were/were not significantly different between genders."}
@@ -682,41 +819,54 @@ per.change<-aggregate(higher.priority~what.type, priority.long, sum)
 per.change$what.type<-as.factor(per.change$what.type)
 per.change$what.type<-factor(per.change$what.type, levels(per.change$what.type)[c(2,4,1,3)])
 
-ggplot(data=per.change, aes(x=what.type, higher.priority))+
-        geom_bar(stat="identity", position='dodge', fill=myColors[2])+ 
+myColors16<-(brewer.pal(9, "Blues"))
+myColors16<-(myColors16[c(4,4,4,4,4,4)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors16)
+
+ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
+        geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
         theme(axis.text.x = element_text(),
               axis.text.x = element_text(angle=45, vjust=0.4),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
         labs(x="", y="Number of responses", fill="") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1250))+ colScale
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.5 Anticipated future of research funding."  - 4.15 + 4.16}
 
+###4.15
+myColors15<-(brewer.pal(9, "Blues"))
+myColors15<-(myColors15[c(4,4,4,4,4,4)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
-p1<-ggplot(data=perceive, aes(x=Var1, y=Freq)) + 
-      geom_bar(stat='identity', position='dodge',fill=myColors[2])+ 
+p13<-ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
+      geom_bar(stat='identity', position='dodge')+ 
       labs(x="", y="Number of responses", fill="")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
-      geom_text(aes(label=Freq, vjust=-0.5), size=3) +
-      theme(axis.text.x = element_text(angle=0, vjust=0.4, hjust=0.6), 
+      geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
+      theme(axis.text.x = element_text(angle=0, vjust=0.4),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,535))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,535)) + colScale
 
-p2<-ggplot(data=per.change, aes(x=what.type, higher.priority))+
-        geom_bar(stat="identity", position=position_dodge(width = 20), fill=myColors[2])+ 
-        theme(axis.text.x = element_text(hjust = .5),
+###4.16
+myColors16<-(brewer.pal(9, "Blues"))
+myColors16<-(myColors16[c(4,4,4,4,4,4)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors16)
+
+p14<-ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
+        geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
+        theme(axis.text.x = element_text(),
               axis.text.x = element_text(angle=45, vjust=0.4),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
-        labs(x="", y="", fill="") +
+        labs(x="", y="Number of responses", fill="") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1250))+ colScale
 
-grid.arrange(p1, p2, nrow=1)
+grid.arrange(p13, p14, nrow=1)
 ```
 
 
@@ -751,9 +901,8 @@ availability.ca$what.type<-revalue(availability.ca$what.type, c("available_fundi
 
 ### colour palette
 
-myColors<-(brewer.pal(9, "Blues"))
-myColors<-(myColors[c(9, 6,3)])
-colScale <- scale_fill_manual(name = "what.type",values = myColors)
+myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
+colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
 ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -790,8 +939,12 @@ impact<-droplevels(impact)
 ## change order of Var1s
 impact$Var1<-factor(impact$Var1, levels(impact$Var1)[c(4,5,6,3,2,1)])
  
-ggplot(data=impact, aes(x=Var1, Freq))+ 
-    geom_bar(stat='identity', position="dodge", fill=myColors[2])  +
+myColors18<-(brewer.pal(9, "Blues"))
+myColors18<-(myColors18[c(4,4,4,4,4,4)])
+colScale <- scale_fill_manual(name = "Var1",values = myColors18)
+
+ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+ 
+    geom_bar(stat='identity', position="dodge")  +
         scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     guides(fill=FALSE) +
@@ -801,7 +954,7 @@ ggplot(data=impact, aes(x=Var1, Freq))+
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,345))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,345))+colScale
 ```
 
 **Influence of gender, career stage, and dicipline on survey responses**  
