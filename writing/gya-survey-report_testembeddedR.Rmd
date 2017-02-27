@@ -97,7 +97,7 @@ Researchers from many different disciplines were represented in the survey. Almo
 <!-- Generate Canadian career stage figure -->
 ```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of Canadian survey respondents by career stage", warning=FALSE, fig.width=14}
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(gridExtra)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid)
 
 theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
@@ -123,7 +123,7 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   scale_x_discrete(labels=c("Senior academic", "Early career academic", "Postdoc or RA", "Senior non-academic", "Early career non-academic")) +
   labs(y="Number of responses", x="") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
-  theme(legend.title=element_blank(), 
+  theme(aspect.ratio=1/2,legend.title=element_blank(), 
         legend.text=element_text(size=10), 
         axis.text.y=element_text(size=9),
         axis.text.x=element_text(angle=0, size=9), 
@@ -152,7 +152,7 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
   labs(y="Number of responses",x="", title="")  +
   scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\n Life Science", "Engineering", "Interdisciplinary\n Science", "Social Science/\n Humanities", "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
-  theme( axis.text.y=element_text(size=9),
+  theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
          axis.text.x=element_text(angle=0, size=9),
          axis.title=element_text(size=11),
          panel.grid.major = element_blank(),
@@ -225,50 +225,50 @@ ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Percent", y="Number of responses")+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.72, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300)) 
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300)) +annotate('text',5.4 ,294, label="(a)", size=5)
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=20, bins=seq(0, 100, 20))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Percent", y="Number of responses")+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.72, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
-  scale_x_continuous(breaks=seq(0,100,20))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) 
+  scale_x_continuous(breaks=seq(0,100,20))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) +annotate('text', 5.4,390, label="(a)", size=5)
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position=position_dodge(width=9), binwidth=30, bins=seq(0, 100, 30))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Percent", y="Number of responses")+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.72, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
-  scale_x_continuous(breaks=seq(0,100,30))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) 
+  scale_x_continuous(breaks=seq(0,100,30))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) +annotate('text', 5.4,390, label="(a)", size=5)
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=30, bins=seq(0, 100, 30))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Percent", y="Number of responses")+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.key=element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.72, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
-  scale_x_continuous(breaks=seq(0,100,30))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) 
+  scale_x_continuous(breaks=seq(0,100,30))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) +annotate('text', 5.4,390, label="(a)", size=5)
 
 
 
@@ -324,7 +324,7 @@ myColors4<-(brewer.pal(9, "Blues"))
 myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
 p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11),panel.grid.major = element_blank(),
+  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11),panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),axis.text.x = element_text(angle=0, vjust=0.5),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="")+
   scale_y_continuous(expand = c(0, 0), limits = c(0,430))+annotate('text', 5.4,420, label="(b)", size=5)
@@ -349,8 +349,8 @@ myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
 ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
-  theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,137))+scale_fill_manual(name='view_change_of_type', values=myColors5)
+  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,137))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.4,133, label="(c)", size=5)
 
 ```
 
@@ -385,7 +385,7 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
   geom_bar( stat='identity', position="dodge") +
   geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
   labs(x="", y="Number of responses", fill="")+
-  theme(panel.grid.major = element_blank(),
+  theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
@@ -426,7 +426,7 @@ myColors7<-myColors7[c(9, 8,7,6,5,3)]
 
 g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
     geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
+    theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
           legend.position=c(0.8, 0.8), 
           legend.title=element_blank(),
           panel.grid.major = element_blank(),
@@ -454,7 +454,7 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(), 
+  theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
   labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,160), breaks = seq(0,160,40))
@@ -507,37 +507,8 @@ p6<-ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
   labs(x="", y="Number of responses") + colScale + scale_y_continuous(expand = c(0, 0), limits = c(0,190), breaks = seq(0,160,40))
-
-#grid.arrange(p4,p5,p6, ncol=1)
-
-multiplot <- function(p4, p5, p6, plotlist = NULL, file, cols = 1, layout = NULL) {
-  require(grid)
-
-  plots <- c(list(p4,p5,p6), plotlist)
-
-  numPlots = length(plots)
-
-  if (is.null(layout)) {
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                    ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-
-  if (numPlots == 1) {
-    print(plots[[1]])
-
-  } else {
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
-    for (i in 1:numPlots) {
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
-
+require(grid)
+grid.arrange(arrangeGrob(p4,p5,p6, ncol=1, grobs=list(left = textGrob("Global Y-axis Label", rot = 90, vjust = 0.5))), heights=c(0.315,0.375,0.315))
 
 
 ```
@@ -591,12 +562,12 @@ ggplot(grants.ca, aes(number, Freq, fill=time)) +
     facet_wrap(~type.grant, ncol=3) +
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="Number of grant applications", y="Number of responses")+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=4/3, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.key=element_blank(),
            strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.9, 0.97), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
+          legend.position=c(0.95, 0.92), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + 
   colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,950), breaks = c(0,250,500,750,950))
 ```
@@ -645,7 +616,7 @@ out2<-by(data = success.ca, INDICES = success.ca$type, FUN = function(n){
     geom_bar(stat="identity", position='dodge')  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Percent of successful grants", y="Number of responses", title=n$type)+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=1/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.key=element_blank(),
           strip.text.y = element_text(size=12, face="bold", color="black"),
@@ -698,7 +669,7 @@ success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundam
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
   guides(fill=guide_legend(title=NULL)) +
-  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
+  theme(aspect.ratio=1/4, axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
          strip.text.y = element_text(size=12, face="bold", color="black"),
@@ -734,10 +705,10 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
 ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+
-  theme(panel.grid.major = element_blank(), 
+  theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),
-        legend.position=c(0.91, 0.92),
+        legend.position=c(0.89, 0.91),
         axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.x=element_text(size = 11),
         axis.title.y=element_text(size = 11)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
@@ -772,10 +743,10 @@ ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="Importance of external partnerships", y="Number of responses")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.key=element_blank(),
-          legend.position=c(0.91, 0.92), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
+          legend.position=c(0.89, 0.91), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,480))
 ```
@@ -789,10 +760,10 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
 p10<-ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+
-  theme(panel.grid.major = element_blank(), 
+  theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),
-        legend.position=c(0.91, 0.92),
+        legend.position=c(0.89, 0.91),
         axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.x=element_text(size = 11),
         axis.title.y=element_text(size = 11)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
@@ -811,14 +782,14 @@ p11<-ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="Importance of external partnerships", y="Number of responses")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
-    theme(panel.grid.major = element_blank(),
+    theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           legend.key=element_blank(),
-          legend.position=c(0.91, 0.92), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
+          legend.position=c(0.89, 0.91), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,480))
 
-grid.arrange(p10,p11, nrow=1)
+grid.arrange(p10,p11, widths=c(0.5,0.5), nrow=1)
 
 ```
 
@@ -840,7 +811,7 @@ colScale <- scale_fill_manual(name = "year",values = myColors14)
 ggplot(canada, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + 
   facet_wrap(~type, nrow=2, scales = "free_y") + colScale +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.922, 0.98),
+    theme(aspect.ratio=3/4, legend.position=c(0.922, 0.98),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           legend.key.size = unit(0.3, "cm"),
           strip.background = element_rect(colour="white", fill="white"),panel.grid.major = element_blank(),
@@ -885,7 +856,7 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       labs(x="", y="Number of responses", fill="")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
       geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
-      theme(axis.text.x = element_text(angle=0, vjust=0.4),
+      theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,535)) + colScale
@@ -914,7 +885,7 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
-        theme(axis.text.x = element_text(),
+        theme(aspect.ratio=3/4, axis.text.x = element_text(),
               axis.text.x = element_text(angle=45, vjust=0.4),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
@@ -949,7 +920,7 @@ p13<-ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       labs(x="", y="Number of responses", fill="")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
       geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
-      theme(axis.text.x = element_text(angle=0, vjust=0.4),
+      theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,535)) + colScale
@@ -977,7 +948,7 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
 p14<-ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
-        theme(axis.text.x = element_text(),
+        theme(aspect.ratio=3/4, axis.text.x = element_text(),
               axis.text.x = element_text(angle=45, vjust=0.4),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) +
@@ -1025,7 +996,7 @@ colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
 ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
-    theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9),
+    theme(aspect.ratio=1/4, axis.text.x = element_text(angle=0, vjust=0.5, size = 9),
           panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
            strip.text.y = element_text(size=12, face="bold", color="black"),
@@ -1068,7 +1039,7 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     guides(fill=FALSE) +
  labs(x="", y="Number of responses")+
-  theme(axis.text.x = element_text(angle=0, vjust=0.5),
+  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9))+
