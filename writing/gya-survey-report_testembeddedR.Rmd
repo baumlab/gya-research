@@ -579,7 +579,7 @@ p4<-ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),legend.text=element_text(size = 9),
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
-        legend.position=c(0.93, 0.86), 
+        legend.position=c(0.93, 0.88), 
         legend.title=element_blank()) +
   colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,380))
 
@@ -1072,7 +1072,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
-  labs(list(title= "For-Profit", x="% research funding", y = "Number of responses"))+
+  labs(list(title= "For-Profit", x="", y = "Number of responses"))+
   scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=c(0, 250, 500, 750, 1000, 1250))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 p1
@@ -1087,12 +1087,12 @@ colScale <- scale_fill_manual(name = "year",values = myColors14)
 
 p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.922, 0.98),
+    theme(legend.position=c(0.9, 0.93),
           legend.key.size = unit(0.3, "cm"),plot.title = element_text(size=12, hjust = 0.5),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
-  labs(title="Government", x="% research funding", y = "Number of responses")+
+  labs(title="Government", x="", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=c(0, 250, 500, 750, 1000, 1250))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 p2
@@ -1136,7 +1136,7 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
-  labs(title="Non-governnmental", x="% research funding", y = "Number of responses")+
+  labs(title="Non-governnmental", x="% research funding", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=c(0, 250, 500, 750, 1000, 1250))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 p4
@@ -1157,75 +1157,24 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
-  labs(title="Other", x="% research funding", y = "Number of responses")+
+  labs(title="Other", x="% research funding", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=c(0, 250, 500, 750, 1000, 1250))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 p5
 
 ##put them all together
+require(gtable)
+legend = gtable_filter(ggplotGrob(p1), "guide-box") 
+grid.draw(legend)
 
-g_legend<-function(a.gplot){
-  tmp <- ggplot_gtable(ggplot_build(a.gplot))
-  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-  legend <- tmp$grobs[[leg]]
-  return(legend)}
-
-mylegend<-g_legend(p1)
-
-grid.arrange(arrangeGrob(p1+theme(legend.position = "none"),p2+theme(legend.position = "none"),
-                         p3+theme(legend.position = "none"),p4+theme(legend.position = "none"),
-                         p5+theme(legend.position = "none"), layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5)))
+grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+                         p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
+                         p5+ theme(legend.position="none"),
+                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))))
 
 
 
 ```
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
-
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-
-  numPlots = length(plots)
-
-  # If layout is NULL, then use 'cols' to determine layout
-  if (is.null(layout)) {
-    # Make the panel
-    # ncol: Number of columns of plots
-    # nrow: Number of rows needed, calculated from # of cols
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                    ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-
- if (numPlots==1) {
-    print(plots[[1]])
-
-  } else {
-    # Set up the page
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
-    # Make each plot, in the correct location
-    for (i in 1:numPlots) {
-      # Get the i,j matrix positions of the regions that contain this subplot
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
-
-multiplot(p1,p2,p3,p4,p5, layout = matrix(c(1,1,1,2,2,2,3,3,4,4,5,5),nrow=2, byrow=TRUE))
-
-
-
-
-
-
-
-
-
-
 
 
 <!--Part 4 - Funding Trends in your country of work-->
