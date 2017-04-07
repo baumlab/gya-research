@@ -19,13 +19,13 @@ jpeg(file="figures/funding_gap.jpeg")
 gap_long<-gather(d.v.a, grant, amount, -year, -no.researchers.nse, -nse.discovery, -nse.innovation, -no.researchers.ssh, -ssh.discovery, -ssh.innovation)
 
 ggplot(gap_long, aes(year, amount, col=grant, group=grant))+
-  geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
+  geom_line(size=1) + scale_x_continuous(breaks=2005:2013) + 
   labs(x="", y="Total Expenditure Per Canadian Researcher \n(2015 constant dollars)") + 
   theme(legend.title=element_blank(),
         plot.margin=unit(c(0.2,0,-0.2,0.8), "cm"),
         axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
-        axis.text.x=element_blank(),
         strip.background = element_blank(),
+        axis.text.x=element_text(angle=0),
         legend.position=c(0.9,0.90),
         strip.text.x = element_blank())  +
   scale_colour_manual(values=c(brewer.pal(2, name="Paired")), labels=c("NSE", "SSH"))
