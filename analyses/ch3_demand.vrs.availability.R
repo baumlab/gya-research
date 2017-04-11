@@ -13,14 +13,13 @@ palette(brewer.pal(n=8, name="Dark2"))
 
 ## graph of difference between availability and demand
 
-jpeg(file="figures/funding_gap.jpeg")
-#pdf(file="figures/funding_gap.pdf", height=7, width =11)
+pdf(file="figures/funding_gap.pdf", height=7, width =11)
 
 gap_long<-gather(d.v.a, grant, amount, -year, -no.researchers.nse, -nse.discovery, -nse.innovation, -no.researchers.ssh, -ssh.discovery, -ssh.innovation)
 
 ggplot(gap_long, aes(year, amount, col=grant, group=grant))+
-  geom_line(size=1) + scale_x_continuous(breaks=2005:2013) + 
-  labs(x="", y="Total Expenditure Per Canadian Researcher \n(2015 constant dollars)") + 
+  geom_line(size=1) + scale_x_continuous(breaks=2005:2015) + 
+  labs(x="", y="Total Expenditure Per Canadian Researcher \n(2016 constant dollars)") + 
   theme(legend.title=element_blank(),
         plot.margin=unit(c(0.2,0,-0.2,0.8), "cm"),
         axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
