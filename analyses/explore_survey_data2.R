@@ -255,6 +255,8 @@ require(tidyr)
 survey.long<-gather(survey.type, type, percent, -Location, -gender, -Country_work, -Country, -what_participant_group, -field_research, -total_research)
 tail(survey.long)
 
+write.csv(survey.long, file="data/4.1a.nubmer.calculations.csv", row.names=FALSE)
+
 #######################################
 #####do same as above but for past data
 
