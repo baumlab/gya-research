@@ -295,6 +295,96 @@ ggplot(res.plot, aes(percent, fill=ID)) +
   
 ```
 
+```{r, echo=FALSE, fig.cap="Figure 4.3 OLD Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
+
+## make sure that Use-inspired is the middle level in the legend
+res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+
+res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
+res.plot$percent<-as.numeric(as.character(res.plot$percent))
+res.plot$type<-as.character(res.plot$type)
+
+# add time variable
+res.plot$time<-ifelse(grepl( "current", res.plot$type),"Current", "Past")
+res.plot$type[res.plot$type=="percent_Applied_Research_past"]<-"Applied"
+res.plot$type[res.plot$type=="percent_Applied_Research_current"]<-"Applied"
+res.plot$type[res.plot$type=="percent_Fundamental_Research_past"]<-"Fundamental"
+res.plot$type[res.plot$type=="percent_fundemental_research_current"]<-"Fundamental"
+res.plot$type[res.plot$type=="percent_Use_inspired_Research_past"]<-"Use-inspired"
+res.plot$type[res.plot$type=="percent_Use_inspired_Research_current"]<-"Use-inspired"
+res.plot$time[res.plot$time=="Current"]<-"2011-2015"
+res.plot$time[res.plot$time=="Past"]<-"2006-2010"
+
+# change order of the levels
+res.plot$time<-as.factor(res.plot$time)
+res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(2,1)])
+
+res.plot$type<-as.factor(res.plot$type)
+res.plot$type<-factor(res.plot$type, levels(res.plot$type)[c(2,3,1)])
+
+res.plot$time<-factor(res.plot$time)
+res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(1,2)])
+
+#myColors<-(brewer.pal(9, "Blues"))
+#myColors<-myColors[c(5,9)]
+#colScale <- scale_fill_manual(name = "time",values = myColors)
+
+res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="Canada") & res.plot$Country_work=="" & res.plot$Country=="Canada"),]
+res.plot$ID<-paste(res.plot$type, res.plot$time)
+
+# change order of the levels
+res.plot$ID<-as.factor(res.plot$ID)
+res.plot$ID<-factor(res.plot$ID, levels(res.plot$ID)[c(4,3,6,5,2,1)])
+
+
+# add colours 
+mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
+mycols<-as.data.frame(mycols)
+mycols$ID<-levels(res.plot$ID)
+res.plot$col<-mycols$mycols[match(res.plot$ID, mycols$ID)]
+res.plot$col<-factor(res.plot$col, levels(res.plot$col)[c(3,5,4,2,6,1)])
+mycols<-as.character(unique(res.plot$col))
+colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010", "2011-2015"))
+
+#res.plot<-res.plot[res.plot$Country_work=="Canada" | (!(res.plot$Country_work=="Canada") & res.plot$Country_work=="" & res.plot$Country=="Canada"),]
+
+ggplot(res.plot, aes(percent, fill=time)) +
+    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    labs(x="Percent", y="Number of responses", title="")+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          strip.text.y = element_text(size=12, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.95, 0.19), legend.margin=unit(100,"cm")) + 
+    facet_wrap(~type, nrow=3) + colScale +
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300))
+
+library(gridExtra)
+#####add (a)
+xs <- split(res.plot,f = res.plot$type)
+p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
+    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    labs(x="Percent", y="Number of responses", title="")+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          strip.text.x = element_text(size=12, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.90, 0.81), legend.spacing=unit(100,"cm")) + 
+    facet_wrap(~type, nrow=3) +
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300))
+
+p2 <- p1 %+% xs$`Use-inspired`
+p3 <- p1 %+% xs$Applied
+p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))
+p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))
+p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))
+grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=12), y=0.96))
+
+```
+
+
 ```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
 #Change yes or no
 #yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
@@ -759,7 +849,7 @@ do.call(grid.arrange, out2)
 
 ```
  
-```{r, echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Fig 4.11 (now 4.4) Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
 canada<-part3.change[part3.change$Country_work=="Canada" | (!(part3.change$Country_work=="Canada") & part3.change$Country_work=="" & part3.change$Country=="Canada"),]
 
 ##switch to long format
@@ -864,7 +954,7 @@ ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,480))
 ```
 
-```{r, echo=TRUE, fig.cap="Fig 4.4 Importance of practical applications and external partnerships. (4.12 + 4.13)", warning=FALSE}
+```{r, echo=TRUE, fig.cap="Fig 4.4 (now 4.3) Importance of practical applications and external partnerships. (4.12 + 4.13)", warning=FALSE}
 ###4.12
 myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
