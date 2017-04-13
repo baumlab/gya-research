@@ -161,6 +161,64 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
   scale_y_continuous(expand = c(0,0), limits = c(0,410))
 ```
 
+```{r, echo=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", warning=FALSE, fig.width=14}
+##plot1
+
+# assign colour scale
+myColors1<-(brewer.pal(9, "Blues"))
+myColors1<-myColors1[-c(1:2)]
+names(myColors1)<- levels(experience_can$Var1)
+colScale <- scale_fill_manual(name = "Var1",values = myColors1)
+
+g4.1<-ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
+  geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  geom_text(aes(label=Freq, vjust=-0.40), size=3)+
+  scale_x_discrete(labels=c("Senior \nacademic", "Early career \nacademic", "Postdoc or \nRA", "Senior \nnon-academic", "Early career \nnon-academic")) +
+  labs(y="Number of responses", x="") +
+  guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
+  theme(aspect.ratio=1/2,legend.title=element_blank(), 
+        legend.text=element_text(size=10), 
+        axis.text.y=element_text(size=9),
+        axis.text.x=element_text(angle=0, size=9), 
+        axis.title=element_text(size=11),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        plot.margin=unit(c(1,1,-0.25,1), "cm")) + 
+  colScale + guides(fill=FALSE)+
+  scale_y_continuous(expand = c(0,0), limits = c(0,910))
+g4.1
+
+
+##plot 2
+
+## setting colour scale to keep colours identical between similar plots
+myColors2<-(brewer.pal(9, "Blues"))
+myColors2<-myColors2[-c(1)]
+names(myColors2) <- levels(field.can$field_research)
+colScale <- scale_fill_manual(name = "field_research",values = myColors2)
+
+g4.2<-ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
+    geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  labs(y="Number of responses",x="", title="")  +
+  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\n Life Science", "Engineering", "Inter-\ndisciplinary\n Science", "Social Science/\n Humanities", "Other")) +
+  geom_text(aes(label=Freq), vjust=-0.40, size=3) + 
+  theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
+         axis.text.x=element_text(angle=0, size=9),
+         axis.title=element_text(size=11),
+         panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(),
+         plot.margin=unit(c(-0.25,1,1,1), "cm")) + 
+  guides(fill=FALSE) + colScale+
+  scale_y_continuous(expand = c(0,0), limits = c(0,420))
+g4.2
+
+pdf(file="figures/4.1and4.2(old)_CareerStageAndFieldOfResearch.pdf", width = 11, height= 7)
+
+grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
+
+dev.off()
+```
+
 **4.1 Type of Research Conducted**  
 Canadian survey respondents included researchers conducting all three types of research: fundamental, use-inspired, and applied. Very few researchers (1.2%) considered themselves to currently do only one type of research: 0.1% applied, 0.3% use-inspired, 0.8% fundamental (Figure 4.3). There was a 11% drop in the number of researchers that only did fundamental research between the two time frames.  This drop could have been caused by funding availability. Over one quarter (29%) of researchers consider that over half of their research program is in fundamental science currently. The number of researchers that consider over half of their research program is in applied science currently is 10% and in use-inspired only 9%.  There should be proportionally more research funding for fundamental science than applied or use-inspired. Limited research funding was most likely the reason why there was a drop in fundamental research and an increase in both use-inspired and applied (researchers that considered 50% or more of their past research fundamental -38%, applied -6%, use-inspired - 6%).
 
@@ -295,7 +353,7 @@ ggplot(res.plot, aes(percent, fill=ID)) +
   
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.3 OLD Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
+```{r, echo=FALSE, fig.cap="Figure 4.3 OLD (4.1a) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -371,18 +429,22 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
           panel.grid.minor = element_blank(),
           strip.text.x = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.92, 0.86), legend.spacing=unit(100,"cm")) + 
+          legend.position=c(0.93, 0.795), legend.spacing=unit(100,"cm"))+ 
     facet_wrap(~type, nrow=3) +
   scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300))
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))
-p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))
-p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))
+p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"))
+p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"))
+p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
-grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.98, hjust = -.75))
+pdf(file = "Figures/4.1a_13Apr.pdf", width = 11, height = 8)
 
+grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
+
+
+dev.off()
 ```
 
 
@@ -420,7 +482,7 @@ p2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,430))+annotate('text', 5.4,420, label="(b)", size=5)
+  scale_y_continuous(expand = c(0, 0), limits = c(0,435))+annotate('text', 5.4,420, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5)
   
 
 print(p2)
@@ -459,6 +521,7 @@ ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_
 
 ##plot 1
 
+#old version which is now the correct version
 xs <- split(res.plot,f = res.plot$type)
 p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
@@ -468,39 +531,42 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
           panel.grid.minor = element_blank(),
           strip.text.x = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.90, 0.81), legend.spacing=unit(100,"cm")) + 
+          legend.position=c(0.93, 0.795), legend.spacing=unit(100,"cm"))+ 
     facet_wrap(~type, nrow=3) +
   scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300))
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))
-p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))
-p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))
-g1<-grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=12), y=0.96))
+p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"))
+p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"))
+p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
+grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 
+
+## newer version - update not using this version anymore
 # add colours to res.plot
-#mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
-#mycols<-as.data.frame(mycols)
-#mycols$ID<-levels(res.plot$ID)
-#res.plot$col<-mycols$mycols[match(res.plot$ID, mycols$ID)]
-#res.plot$col<-factor(res.plot$col, levels(res.plot$col)[c(3,1,4,2,6,5)])
-#mycols<-as.character(unique(res.plot$col))
-#colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010\nFundamental", "2011-2015\nFundamental","2006-2010\nUse-inspired", "2011-2015\nUse-inspired","2006-2010\nApplied", "2011-2015\nApplied"))
+mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
+mycols<-as.data.frame(mycols)
+mycols$ID<-levels(res.plot$ID)
+res.plot$col<-mycols$mycols[match(res.plot$ID, mycols$ID)]
+res.plot$col<-factor(res.plot$col, levels(res.plot$col)[c(3,1,4,2,6,5)])
+mycols<-as.character(unique(res.plot$col))
+colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010\nFundamental", "2011-2015\nFundamental","2006-2010\nUse-inspired", "2011-2015\nUse-inspired","2006-2010\nApplied", "2011-2015\nApplied"))
 
-#g1<-ggplot(res.plot, aes(percent, fill=ID)) +
-#    geom_histogram(position='dodge', binwidth=20, bins=seq(0, 100, 20))  +
-#    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-#    labs(x="Percent", y="Number of responses")+
-#    theme(panel.grid.major = element_blank(),
-#          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
-#          strip.text.y = element_text(size=12, face="bold", color="black"), legend.key.size=unit(0.65,"cm"),legend.key=element_rect(color=NA, size=40),
-#          strip.background = element_rect(colour="white", fill="white"),
-#          legend.position=c(0.78, 0.91), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
-#          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
-#  scale_x_continuous(breaks=seq(0,100,20), expand = c(0.015,0.015))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) +annotate('text', -9,388, label="(a)", size=5)
+g1<-ggplot(res.plot, aes(percent, fill=ID)) +
+    geom_histogram(position='dodge', binwidth=20, bins=seq(0, 100, 20))  +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    labs(x="Percent", y="Number of responses")+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
+          strip.text.y = element_text(size=12, face="bold", color="black"), legend.key.size=unit(0.65,"cm"),legend.key=element_rect(color=NA, size=40),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.78, 0.91), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
+          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
+  scale_x_continuous(breaks=seq(0,100,20), expand = c(0.015,0.015))+scale_y_continuous(expand=c(0,0), limits=c(0,400),breaks=c(0,100,200,300,400)) +annotate('text', -9,388, label="(a)", size=5)
 
-#g1
+g1
+
 
 ###plot2
 
@@ -508,11 +574,11 @@ myColors4<-(brewer.pal(9, "Blues"))
 myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
 g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11),panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.text.x = element_text(angle=0, vjust=0.5),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors4)+
+  theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11),panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses", x="")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,430))+annotate('text', 5.3,415, label="(b)", size=5)+scale_x_discrete(labels=c("Funding\n  ", "Interest\n  ", 
-                                    "Career\n  ", "Social\n  ", "Other\n  "))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,435))+annotate('text', 0.65,423, label="(b)", size=5)+scale_x_discrete(labels=c("Funding\n  ", "Interest\n  ", 
+                                    "Career\n  ", "Social\n  ", "Other\n  "))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
 #g2
 
 
@@ -522,12 +588,12 @@ myColors5<-myColors5[c(4,4,4,4,4,4)]
 
 g3<-ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x=NULL, y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,137))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.3,132, label="(c)", size=5)+scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", 
-                                    "Neutral", "Slightly\nnegative", "Very\nnegative"))
-#g3
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x=NULL, y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,137))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.35,133, label="(c)", size=5)+scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", 
+                                    "Neutral", "Slightly\nnegative", "Very\nnegative"),limits = rev(levels(change.view.ca$gender)))
+g3
 
 #width<-matrix(c(50,10,50,10), ncol=1, nrow = 2)
-
+g4<-NULL # to make a blank spot for 'a'
 
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   library(grid)
@@ -565,8 +631,21 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
+##Make layout - update changing 'a' back to the original (3 figures instead of one) so 'a' is wrong in this
+#pdf(file="figures/4.1_13apr_with.wrong.a.pdf", width = 8, height = 11)
+#multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
+##Make the layout but with the 'a' spot empty so the real 'a' can be put in by copy editor if I dont have time to try it on here
+pdf(file="figures/4.1_ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
+multiplot(g4, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
+
+##tyring to put the right (old version) into the layout ###havent gotten it to work yet
+#pdf(file="figures/4.1_13apr_right.a.pdf", width = 8, height = 11)
+#multiplot(arr(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35)), g2, g3, layout = matrix(c(1,1,1,1,1,1,2,3),nrow=4, byrow=TRUE))
+
+
+
+dev.off()
 ```
 
 
@@ -695,7 +774,7 @@ p4<-ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.93, 0.88), 
         legend.title=element_blank()) +
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,350))+scale_x_discrete(limits = rev(levels(part$Var1)))+annotate('text', 0.5,337, label="(a)", size=5)
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,350))+scale_x_discrete(limits = rev(levels(part$Var1)))+annotate('text', 0.5,337, label="(a)", size=5)+labs(y="Number of responses")
 p4
 
 ###4.7
@@ -704,14 +783,15 @@ myColors7<-myColors7[c(9, 8,7,6,5,3)]
 
 p5<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + 
     geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
+    theme( axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
           legend.position=c(0.8, 0.78), 
           legend.title=element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) + 
   geom_text(aes(label=Freq), vjust=-0.5, size=3)+
-  labs(x="", y="", title="")+scale_fill_manual(name = "Var1",values = myColors7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,450))+annotate('text', 5.3,431, label="(b)", size=5)
+  labs(x="", y="Number of responses")+scale_fill_manual(name = "Var1",values = myColors7)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,450))+annotate('text', 5.3,431, label="(b)", size=5)+scale_x_discrete(labels=c("Funding\n ", "Interest\n", 
+                                    "Career\n", "Social\n", "Other\n "))
 p5
 
 ###4.8
@@ -725,13 +805,12 @@ p6<-ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
-  labs(x="", y="") + colScale + scale_y_continuous(expand = c(0, 0), limits = c(0,165 ), breaks = seq(0,160,40))+scale_x_discrete(limits = rev(levels(view$Var1)))+annotate('text', 0.65,158, label="(c)", size=5)+scale_x_discrete(labels=c("Very\nnegative", "Slightly\nnegative", 
-                                    "Neutral", "Slightly\npositive", "Very\npositive"))
+  labs(x="", y="") + colScale + scale_y_continuous(expand = c(0, 0), limits = c(0,165 ), breaks = seq(0,160,40))+scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", "Neutral", "Slightly\nnegative", "Very\nnegative"))+annotate('text', 0.65,158, label="(c)", size=5)
 p6
 
 
 #put them all together
-pdf(file="figures/4.2_12Apr.pdf")
+
 
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   library(grid)
@@ -769,20 +848,12 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
+pdf(file="figures/4.2_13Apr.pdf")
+
 multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
-
-
-
-#label=textGrob("Number of responses", x=unit(0.9, "npc"), y=unit(0.5, "npc"), rot = 90, vjust = 0.5, gp=gpar(fontsize=11)) # make global y axis title
-#require(grid)
-#grid.arrange(arrangeGrob(p4, p5, p6, ncol = 1, left =label)) #plot graphs with global y axis title
-  
+ 
 dev.off()
-  #arrangeGrob(p4,p5,p6, ncol=1), grobs=list(left)
-                         
-                         #        , heights=c(0.315,0.375,0.315))
-
 
 ```
  
@@ -913,7 +984,7 @@ mycols10$id<-levels(success.ca$id)
 success.ca$col<-mycols10$mycols10[match(success.ca$id, mycols10$id)]
 success.ca$col<-factor(success.ca$col, levels(success.ca$col)[c(3,1,4,2,6,5)])
 
-pdf(file="figures/4.10(appendix)_12Apr.pdf", height=7, width =11)
+pdf(file="figures/4.10(appendix)_13Apr.pdf", height=7, width =11)
 
 out2<-by(data = success.ca, INDICES = success.ca$type, FUN = function(n){
   n <- droplevels(n)
@@ -1082,7 +1153,7 @@ p10<-ggplot(prac.ca, aes(Var2, Freq, fill=Var1)) +
         axis.title.y=element_text(size = 11)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
-  labs(x="Importance of suggesting practical research applications", y="Number of responses")+ colScale+
+  labs(x="", y="Number of responses")+ colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,440))+annotate('text', 0.65,423, label="(a)", size=5)
 p10
 
@@ -1095,7 +1166,7 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 p11<-ggplot(part.ca, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="Importance of external partnerships", y="")+
+    labs(x="", y="")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
@@ -1105,7 +1176,7 @@ p11<-ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,480))+annotate('text', 0.65,460, label="(b)", size=5)
 p11
 
-pdf(file="figures/4.3_12Apr.pdf", width = 11, height= 7)
+pdf(file="figures/4.3_13Apr.pdf", width = 11, height= 7)
 
 grid.arrange(p10,p11, widths=c(0.5,0.5), nrow=1)
 
@@ -1490,7 +1561,7 @@ p13<-ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,550)) + colScale+annotate('text', 0.6,525, label="(a)", size=5)
+  scale_y_continuous(expand = c(0, 0), limits = c(0,550)) + colScale+annotate('text', 0.6,525, label="(a)", size=5)+ theme(plot.margin=unit(c(1,1,1,1), "cm"))
 p13
 
 
@@ -1522,12 +1593,12 @@ p14<-ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9)) +
         labs(x="", y="", fill="") +
   scale_x_discrete(labels=c( "Fundamental\n    ", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1260))+ colScale+annotate('text', 0.6,1200, label="(b)", size=5)
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1260))+ colScale+annotate('text', 0.6,1200, label="(b)", size=5)+ theme(plot.margin=unit(c(1,1,1,-1), "cm"))
 p14
 
-pdf(file="figures/4.5_12Apr.pdf", width = 11, height = 7)
+pdf(file="figures/4.5_13Apr.pdf", width = 11, height = 7)
 
-grid.arrange(p13, p14, nrow=1)
+grid.arrange(p13, p14, nrow=1,widths=c(0.535,0.465))
 
 dev.off()
 ```
