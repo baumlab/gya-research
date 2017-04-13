@@ -450,15 +450,15 @@ dev.off()
 
 ```{r, echo=FALSE, fig.cap="Figure 4.4 Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
 #Change yes or no
-#yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
-#canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
-#                                                  yes.no$Country_work=="" & yes.no$Country=="Canada"),]
-#canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
-#canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
+yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
+canada<-yes.no[yes.no$Country_work=="Canada" | (!(yes.no$Country_work=="Canada") & 
+                                                  yes.no$Country_work=="" & yes.no$Country=="Canada"),]
+canada.yesno<-aggregate(Country~ changed_10yrs, canada, length)
+canada.yesno<-canada.yesno[!canada.yesno$changed_10yrs=="",]
 
-#p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
-#  theme(panel.grid.major = element_blank(),
-#          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,675))+ annotate('text', 3.5,660, label="(a)", size=5)
+p1<-ggplot(data=canada.yesno, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,675))+ annotate('text', 3.5,660, label="(a)", size=5)
   
 ####reason for change  
 reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
@@ -475,6 +475,9 @@ sum.canada<-data.frame(table(canada.long$reason.change.ca, canada.long$yes.ca))
 sum.canada<-sum.canada[!sum.canada$Var1=="",]
 
 sum.canada$Var1<-revalue(sum.canada$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
+# change order of the levels
+sum.canada$Var1<-factor(sum.canada$Var1,levels(sum.canada$Var1)[c(2,3,1,5,4)])
+
 myColors4<-(brewer.pal(9, "Blues"))
 myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
@@ -577,9 +580,9 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
   theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11),panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses", x="")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,435))+annotate('text', 0.65,423, label="(b)", size=5)+scale_x_discrete(labels=c("Funding\n  ", "Interest\n  ", 
+  scale_y_continuous(expand = c(0, 0), limits = c(0,435))+annotate('text', 5.35,423, label="(b)", size=5)+scale_x_discrete(labels=c("Funding\n  ", "Interest\n  ", 
                                     "Career\n  ", "Social\n  ", "Other\n  "))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
-#g2
+g2
 
 
 ###plot 3
@@ -636,7 +639,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 #multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 ##Make the layout but with the 'a' spot empty so the real 'a' can be put in by copy editor if I dont have time to try it on here
-pdf(file="figures/4.1_ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
+pdf(file="figures/4.1b.c._ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
 multiplot(g4, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 ##tyring to put the right (old version) into the layout ###havent gotten it to work yet
