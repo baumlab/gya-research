@@ -1356,7 +1356,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
-  labs(list(title= "For-Profit", x="", y = "Number of responses"))+
+  labs(list(title= "Industry", x="", y = "Number of responses"))+
   scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=c(0, 250, 500, 750, 1000, 1250))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 p1
@@ -1451,7 +1451,7 @@ require(gtable)
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-pdf(file="figures/4.14(appendix)_12Apr.pdf", height=7, width =11)
+pdf(file="figures/4.14(appendix)_14Apr.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
