@@ -1,23 +1,23 @@
 
 ### creating plots for Megan Dodd + Julia Baum for global young academy document
-require(tidyr); require(scales); require(gridExtra); require(RColorBrewer); require(ggplot2)
+require(tidyr); require(scales); require(gridExtra); require(RColorBrewer); require(ggplot2); require(cowplot)
 
 
 setwd("/Users/jpwrobinson/Google_Drive/R_PROJECTS_DATA/VISUALISATIONS/global-young-academy-gdp")
 setwd("/Users/IMAC3/Google\ Drive/R_PROJECTS_DATA/VISUALISATIONS/global-young-academy-gdp")
-setwd("/Users/kristinatietjen/Google_Drive/R_Projects/GYA")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 theme_set(theme_minimal(base_size=14))
 
 palette(brewer.pal(n=8, name="Dark2"))
 
 ## read in data
-dat1<-read.csv("data/part5-international-july/aug11/NSERC_grants_10Apr.csv", check.names=FALSE)
-dat2<-read.csv("data/part5-international-july/aug11/SSHRC_grants_apr10.csv", check.names=FALSE)
-dat3<-read.csv("data/part5-international-july/aug11/NSERC_success.csv", check.names=FALSE)
-dat4<-read.csv("data/part5-international-july/aug11/SSHRC_success.csv", check.names=FALSE)
-dat5<-read.csv("data/part5-international-july/aug11/CIHR_grants_Apr17.csv", check.names=FALSE)
-dat6<-read.csv("data/part5-international-july/aug11/CIHR_success.csv", check.names=FALSE)
-dat7<-read.csv("data/part5-international-july/aug11/highered_researchers.csv", check.names=FALSE)
+dat1<-read.csv("data/from_James/part5-international-july/aug11/NSERC_grants_10Apr.csv", check.names=FALSE)
+dat2<-read.csv("data/from_James/part5-international-july/aug11/SSHRC_grants_apr10.csv", check.names=FALSE)
+dat3<-read.csv("data/from_James/part5-international-july/aug11/NSERC_success.csv", check.names=FALSE)
+dat4<-read.csv("data/from_James/part5-international-july/aug11/SSHRC_success.csv", check.names=FALSE)
+dat5<-read.csv("data/from_James/part5-international-july/aug11/CIHR_grants_Apr17.csv", check.names=FALSE)
+dat6<-read.csv("data/from_James/part5-international-july/aug11/CIHR_success.csv", check.names=FALSE)
+dat7<-read.csv("data/from_James/part5-international-july/aug11/highered_researchers.csv", check.names=FALSE)
 
 #pdf(file="figures/GYA_agencydata_apr10_2017.pdf", height=7, width=11)
 # png(file="figures/GYA_agencydata_aug11_2016.png", pointsize=20,height=900, width=1500)
@@ -28,7 +28,7 @@ dat7<-read.csv("data/part5-international-july/aug11/highered_researchers.csv", c
 # NSERC
 
 #jpeg(file="figures/jpeg/apr2017/GYA_agencydata_3.1_apr10_2017.jpeg")
-pdf(file="figures/GYA_agencydata_3.1_4panels_apr20_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.1_4panels_apr29_2017.pdf", height=7, width=11)
 
 dat1<-gather(dat1,  Year, value, -panel, -Type)
 dat1$value<-as.numeric(dat1$value)
@@ -68,7 +68,7 @@ n2<-ggplot(dat1[dat1$panel=='mid',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Number of Grants\n Awarded (Fiscal Year)\n "
+ylabel <- "Number of Grants\n Awarded\n(Fiscal Year)"
 n3<-ggplot(dat1[dat1$panel=='bot',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -85,7 +85,6 @@ n3<-ggplot(dat1[dat1$panel=='bot',], aes(Year, value, col=Type, group=Type)) +
     annotate("text", "2005", 11000, label="(c)", hjust=2) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
-
 
 #print(grid.arrange(g1, g2, g3, nrow=3))
 
@@ -106,7 +105,7 @@ dat3$star[dat3$Type=="Discovery Grants Number of Awards" & dat3$value%in%c(2135,
 
 
 
-ylabel <- "Percent of Projects\n Funded\n "
+ylabel <- "Percent of Projects\n Funded"
 n4<-ggplot(dat3[dat3$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   #geom_point(data=dat3[dat3$panel=='top' & dat3$star=='star',], aes(Year, value), col='red', shape=8)+
@@ -121,7 +120,7 @@ n4<-ggplot(dat3[dat3$panel=='top',], aes(Year, value, col=Type, group=Type)) +
         strip.text.x = element_blank())  +
   scale_y_continuous(labels=comma) +
   scale_colour_manual(values=c(brewer.pal(2, name="Paired")), labels=c("Discovery", "Innovation"))+
-  annotate("text", "2005", 80, label="(a)", hjust=2) +
+  annotate("text", "2005", 80, label="(d)", hjust=2) +
 # facet_wrap(~Type, scales="free")+
  guides(col=FALSE)
 
@@ -160,9 +159,10 @@ n6<-ggplot(dat3[dat3$panel=='bot',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-
+library("cowplot")
 #print(grid.arrange(g1, g2, g3, nrow=3))
-print(grid.arrange(n1, n2, n3, n4, nrow=4))
+#print(grid.arrange(n1, n2, n3, n4, heights=c(0.25,0.25,0.25,0.25), nrow=4))
+plot_grid(n1, n2, n3, n4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
 
 dev.off()
 
@@ -172,7 +172,7 @@ dev.off()
 
 # SSHRC
 #pdf(file="figures/GYA_agencydata_3.2_apr10_2017.pdf", height=7, width=11)
-pdf(file="figures/GYA_agencydata_3.2_4panels_apr20_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.2_4panels_apr29_2017.pdf", height=7, width=11)
 
 dat2<-gather(dat2,  Year, value, -panel, -Type)
 dat2$value<-as.numeric(dat2$value)
@@ -246,7 +246,7 @@ dat4<-gather(dat4,  Year, value, -panel, -Type)
 dat4$value<-as.numeric(dat4$value)
 
 
-ylabel <- "Percent of Projects\n Funded\n "
+ylabel <- "Percent of Projects\n Funded"
 s4<-ggplot(dat4[dat4$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -259,7 +259,7 @@ s4<-ggplot(dat4[dat4$panel=='top',], aes(Year, value, col=Type, group=Type)) +
         strip.text.x = element_blank())  +
   scale_y_continuous(labels=comma) +
   scale_colour_manual(values=c(brewer.pal(2, name="Paired")), labels=c("Connection Grant", "Insight Grant", "Standard Research Grant"))+
-  annotate("text", "2005", 80, label="(a)", hjust=2) 
+  annotate("text", "2005", 80, label="(d)", hjust=2) 
 # facet_wrap(~Type, scales="free")+
 # guides(col=FALSE)
 
@@ -285,7 +285,9 @@ s5<-ggplot(dat4[dat4$panel=='bot',], aes(Year, value, col=Type, group=Type)) +
 
 #print(grid.arrange(s4, s5, nrow=2))
 
-print(grid.arrange(s1, s2, s3,s4, nrow=4))
+#print(grid.arrange(s1, s2, s3,s4, nrow=4))
+plot_grid(s1, s2, s3, s4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
+
 
 dev.off()
 
@@ -296,19 +298,19 @@ dev.off()
 # CIHR grants
 
 
-pdf(file="figures/GYA_agencydata_3.3_apr17_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.3_apr29_2017.pdf", height=7, width=11)
 
 dat5<-gather(dat5,  Year, value, -panel, -Type)
 dat5$value<-as.numeric(dat5$value)
 
 
-ylabel <- "Expenditure\n (Millions of \n2016 Constant Dollars)\n "
+ylabel <- "Expenditure\n (Millions of 2016\nConstant Dollars)"
 g1<-ggplot(dat5[dat5$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
   theme(legend.title=element_blank(),
   	plot.margin=unit(c(0.2,0,-0.2,0.5), "cm"),
-  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=10),
+  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
   	 axis.text.x=element_blank(),
   	 strip.background = element_blank(),
   	 legend.position=c(0.9,0.4),
@@ -319,13 +321,13 @@ g1<-ggplot(dat5[dat5$panel=='top',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Average Award Value\n (2016 Constant Dollars)"
+ylabel <- "Average Award Value\n(2016 Constant Dollars)"
 g2<-ggplot(dat5[dat5$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
   theme(legend.title=element_blank(),
   	plot.margin=unit(c(0,0,-0.2,0.15), "cm"),
-  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=10),
+  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
   	 axis.text.x=element_blank(),
   	 strip.background = element_blank(),
   	 legend.position=c(0.8,0.8),
@@ -336,13 +338,13 @@ g2<-ggplot(dat5[dat5$panel=='mid',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Number of Grants\n Awarded\n "
+ylabel <- "Number of Grants\n Awarded\n(Fiscal Year)"
 g3<-ggplot(dat5[dat5$panel=='bot',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
   theme(legend.title=element_blank(),
   	plot.margin=unit(c(0,0,-0.2,0.45), "cm"),
-  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=10),
+  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
   	 axis.text.x=element_blank(),
   	 strip.background = element_blank(),
   	 legend.position=c(0.88,0.9),
@@ -367,13 +369,13 @@ dat6<-gather(dat6,  Year, value, -Type)
 dat6$value<-as.numeric(dat6$value)
 
 
-ylabel <- "Percent of\n Projects Funded\n "
+ylabel <- "Percent of Projects\nFunded"
 g4<-ggplot(dat6, aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
   theme(legend.title=element_blank(),
   	plot.margin=unit(c(0,0,-0.2,0.95), "cm"),
-  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=10),
+  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
   	 axis.text.x=element_text(angle=0),
   	 strip.background = element_blank(),
   	 legend.position=c(0.8,0.8),
@@ -385,7 +387,8 @@ g4<-ggplot(dat6, aes(Year, value, col=Type, group=Type)) +
   # guides(col=FALSE)
 
 
-print(grid.arrange(g1, g2, g3,g4, nrow=4))
+#print(grid.arrange(g1, g2, g3,g4, nrow=4))
+plot_grid(g1, g2, g3, g4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
 
 dev.off()
 #-----------------------#-----------------------#-----------------------
