@@ -71,6 +71,10 @@ states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", 
           "Maine", "Louisiana", "Indiana", "Hawaii", "Alabama", "Tennessee", "Oklahoma", "New Mexico",
           "Missouri", "Mississippi", "Iowa", "Delaware", "Colorado", "Illinois")
 
+#########     #################     ###############
+####Not all states are listed above #######
+#########     #################     ###############
+
 prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New Brunswick", 
         "Newfoundland and Labrador", "Manitoba", "Saskatchewan", "Prince Edward Island", "Yukon Territory", 
         "Nunavut")
