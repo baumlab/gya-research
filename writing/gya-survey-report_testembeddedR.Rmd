@@ -22,10 +22,9 @@ The online survey was open from the end of May through early October 2016, and r
 Survey Data Analysis  
 To extract survey responses for Canadian researchers, we selected all respondents who reported 'Canada' as their country of work, as well as those respondents who did not report a country of work (i.e. field was blank) but whose location was within Canada. We conducted all statistical analyses in the open source software R (Version 3.3.1).
 **Note that numbers not all the same because respondents did not always answer every question**
-
-<!-- Import Canadian data, calculate sample sizes -->
-```{r, echo=FALSE, message=FALSE, hide=TRUE, warning=FALSE, message=FALSE} 
-## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+```{r, echo=FALSE, message=FALSE, loading data, warning=FALSE}
+#<!-- Import Canadian data, calculate sample sizes -->
+ ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
 #setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 #setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
@@ -117,6 +116,8 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience_can$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
+pdf(file="figures/4.1_CareerStage.pdf", width = 11, height= 7)
+
 ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   geom_text(aes(label=Freq, vjust=-1), size=3)+
@@ -132,6 +133,8 @@ ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.minor = element_blank()) + 
   colScale + guides(fill=FALSE)+
   scale_y_continuous(expand = c(0,0), limits = c(0,910))
+dev.off()
+
 ```
 
 <!-- Generate Canadian research discipline figure -->
@@ -147,6 +150,8 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field.can$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
+pdf(file="figures/4.2_FieldofResearch.pdf", width = 11, height= 7)
+
 ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of responses",x="", title="")  +
@@ -159,6 +164,8 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
          panel.grid.minor = element_blank()) + 
   guides(fill=FALSE) + colScale+
   scale_y_continuous(expand = c(0,0), limits = c(0,410))
+
+dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", warning=FALSE, fig.width=14}
@@ -642,7 +649,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 pdf(file="figures/4.1b.c._ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
 multiplot(g4, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
-##tyring to put the right (old version) into the layout ###havent gotten it to work yet
+##trying to put the right (old version) into the layout ###havent gotten it to work yet
 #pdf(file="figures/4.1_13apr_right.a.pdf", width = 8, height = 11)
 #multiplot(arr(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35)), g2, g3, layout = matrix(c(1,1,1,1,1,1,2,3),nrow=4, byrow=TRUE))
 
