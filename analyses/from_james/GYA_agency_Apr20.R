@@ -124,7 +124,7 @@ n4<-ggplot(dat3[dat3$panel=='top',], aes(Year, value, col=Type, group=Type)) +
 # facet_wrap(~Type, scales="free")+
  guides(col=FALSE)
 
-ylabel <- "Number of Projects\n Awarded"
+ylabel <- "Number of Projects Awarded\nby Competition Year"
 n5<-ggplot(dat3[dat3$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   #geom_point(data=dat3[dat3$panel=='mid' & dat3$star=='star',], aes(Year, value), col='red', shape=8)+
@@ -276,7 +276,7 @@ s4<-ggplot(dat4[dat4$panel=='top',], aes(Year, value, col=Type, group=Type)) +
 # guides(col=FALSE)
 
 
-ylabel <- "Number of Projects\n Awarded"
+ylabel <- "Number of Projects Awarded\nby Competition Year"
 s5<-ggplot(dat4[dat4$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   #geom_point(data=dat4[dat4$panel=='mid' & dat4$star=='star',], aes(Year, value), col='red', shape=8)+
