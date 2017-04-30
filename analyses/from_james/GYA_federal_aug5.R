@@ -4,22 +4,23 @@
 
 setwd("/Users/jpwrobinson/Google_Drive/R_PROJECTS_DATA/VISUALISATIONS/global-young-academy-gdp")
 setwd("/Users/IMAC3/Google_Drive/R_PROJECTS_DATA/VISUALISATIONS/global-young-academy-GDP")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 theme_set(theme_minimal(base_size=14))
 require(tidyr); require(scales); require(grid); require(RColorBrewer)
 
 palette(brewer.pal(n=8, name="Dark2"))
 
 ## read in data
-dat1<-read.csv("data/part5-international-july/aug5/federal/graph1.csv", check.names=FALSE)
-dat2<-read.csv("data/part5-international-july/aug5/federal/graph2.csv", check.names=FALSE)
-dat3<-read.csv("data/part5-international-july/aug5/federal/graph3.csv", check.names=FALSE)
-dat4<-read.csv("data/part5-international-july/aug5/federal/graph4.csv", check.names=FALSE)
-dat5<-read.csv("data/part5-international-july/aug5/federal/graph5.csv", check.names=FALSE)
-dat6<-read.csv("data/part5-international-july/aug5/federal/graph6.csv", check.names=FALSE)
-dat7<-read.csv("data/part5-international-july/aug5/federal/graph7.csv", check.names=FALSE)
+dat1<-read.csv("data/from_James/part5-international-july/aug5/federal/graph1.csv", check.names=FALSE)
+dat2<-read.csv("data/from_James/part5-international-july/aug5/federal/graph2.csv", check.names=FALSE)
+dat3<-read.csv("data/from_James/part5-international-july/aug5/federal/graph3.csv", check.names=FALSE)
+dat4<-read.csv("data/from_James/part5-international-july/aug5/federal/graph4.csv", check.names=FALSE)
+dat5<-read.csv("data/from_James/part5-international-july/aug5/federal/graph5.csv", check.names=FALSE)
+dat6<-read.csv("data/from_James/part5-international-july/aug5/federal/graph6.csv", check.names=FALSE)
+dat7<-read.csv("data/from_James/part5-international-july/aug5/federal/graph7.csv", check.names=FALSE)
 
 
-pdf(file="figures/GYA_federal_aug5_2016.pdf", height=7, width=11)
+#pdf(file="figures/GYA_federal_aug5_2016.pdf", height=7, width=11)
 # png(file="figures/GYA_federal_aug5_2016.png", pointsize=20,height=900, width=1500)
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 1 #-----------------------
@@ -211,6 +212,7 @@ ggplot(dat5, aes(as.numeric(year), value, col=Type)) +
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 6 #-----------------------
 #-----------------------#-----------------------#-----------------------
+dat6<-read.csv("data/from_James/part5-international-july/aug5/federal/graph6.csv", check.names=FALSE)
 dat6<-gather(dat6, Year, value, -panel, -type, -sector)
 ylabel="Number of Researchers Employed per Sector"
 dat6$sector<-revalue(dat6$sector, c("Natural Sciences and Engineering"="(a) Natural Sciences and Engineering"))
@@ -218,12 +220,13 @@ dat6$sector<-revalue(dat6$sector, c("Social Sciences and Humanities"="(b) Social
 
 dat6<-dat6[!dat6$type=='Business enterprise',]
 
+pdf(file="figures/from_James/GYA_figure3.4_29April17_3.pdf", height=8, width =11)
 
 ggplot(dat6, aes(as.numeric(Year), value, col=type)) + 
   geom_line(size=1) + scale_x_continuous(breaks=seq(2005, 2015,1)) + 
   labs(x="", y=ylabel) + 
   facet_wrap(~ sector)+
-  theme(legend.title=element_blank(),
+  theme(aspect.ratio=3/4, legend.title=element_blank(),
   	legend.position=c(0.85, 0.4),
   	# plot.margin=unit(c(0,0,-0.2,0.8), "cm"),
   	 axis.title.y=element_text(hjust=0.5, vjust=-1),
@@ -234,6 +237,9 @@ ggplot(dat6, aes(as.numeric(Year), value, col=type)) +
    # annotate("text", 1998, 34000, label="(a) All Sectors", hjust=0) +
   guides(col=guide_legend(nrow=3)) +
   scale_colour_manual(values=c(brewer.pal(4, name="Paired")))
+
+
+dev.off()
 
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 7 #-----------------------

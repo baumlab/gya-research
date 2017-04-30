@@ -4,22 +4,23 @@
 
 setwd("/Users/jpwrobinson/Google_Drive/R_PROJECTS_DATA/VISUALISATIONS/global-young-academy-gdp")
 setwd("/Users/IMAC3/Google\ Drive/R_PROJECTS_DATA/VISUALISATIONS/global-young-academy-gdp")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 theme_set(theme_minimal(base_size=14))
 require(tidyr); require(scales); require(grid); require(RColorBrewer)
 
 palette(brewer.pal(n=8, name="Dark2"))
 
 ## read in data
-dat1<-read.csv("data/part5-international-july/aug5/federal/graph1.csv", check.names=FALSE)
-dat2<-read.csv("data/part5-international-july/aug5/federal/graph2.csv", check.names=FALSE)
-dat3<-read.csv("data/part5-international-july/aug5/federal/graph3.csv", check.names=FALSE)
-dat4<-read.csv("data/part5-international-july/aug5/federal/graph4.csv", check.names=FALSE)
-dat5<-read.csv("data/part5-international-july/aug5/federal/graph5.csv", check.names=FALSE)
-dat6<-read.csv("data/part5-international-july/aug5/federal/graph6.csv", check.names=FALSE)
-dat7<-read.csv("data/part5-international-july/aug5/federal/graph7.csv", check.names=FALSE)
+dat1<-read.csv("data/from_James/part5-international-july/aug5/federal/graph1.csv", check.names=FALSE)
+dat2<-read.csv("data/from_James/part5-international-july/aug5/federal/graph2.csv", check.names=FALSE)
+dat3<-read.csv("data/from_James/part5-international-july/aug5/federal/graph3.csv", check.names=FALSE)
+dat4<-read.csv("data/from_James/part5-international-july/aug5/federal/graph4.csv", check.names=FALSE)
+dat5<-read.csv("data/from_James/part5-international-july/aug5/federal/graph5.csv", check.names=FALSE)
+dat6<-read.csv("data/from_James/part5-international-july/aug5/federal/graph6.csv", check.names=FALSE)
+dat7<-read.csv("data/from_James/part5-international-july/aug5/federal/graph7.csv", check.names=FALSE)
 
 
-pdf(file="figures/GYA_federal_aug5_2016.pdf", height=7, width=11)
+#pdf(file="figures/GYA_federal_aug5_2016.pdf", height=7, width=11)
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 1 #-----------------------
 #-----------------------#-----------------------#-----------------------
@@ -204,25 +205,31 @@ ggplot(dat5, aes(as.numeric(year), value, col=Type)) +
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 6 #-----------------------
 #-----------------------#-----------------------#-----------------------
+dat6<-read.csv("data/from_James/part5-international-july/aug5/federal/graph6.csv", check.names=FALSE)
 dat6<-gather(dat6, Year, value, -panel, -type, -sector)
 ylabel="Number of Researchers Employed per Sector"
 
+pdf(file="figures/from_James/GYA_figure3.4_29April17_3.pdf", height=3, width = 7)
+
 ggplot(dat6, aes(as.numeric(Year), value, col=type)) + 
-  geom_line(size=1) + scale_x_continuous(breaks=seq(2005, 2015,1)) + 
+  geom_line(size=0.5) + scale_x_continuous(breaks=seq(2005, 2015,1)) + 
   labs(x="", y=ylabel) + 
   facet_wrap(~ sector)+
   theme(legend.title=element_blank(),
   	legend.position=c(0.8, 0.8),
-  	# plot.margin=unit(c(0,0,-0.2,0.8), "cm"),
-  	 axis.title.y=element_text(hjust=0.5, vjust=-1),
-  	 axis.text.x=element_text(angle=0))+
+  	 #plot.margin=unit(c(0,0,-0.2,0.8), "cm"),
+  	 axis.title.y=element_text(hjust=0.5, vjust=-1, size=6),
+  	 axis.text.x=element_text(angle=0, size=5),  axis.text.y=element_text( size=5),  axis.title.x=element_text(size=6),
+  	legend.text = element_text(size=5),strip.text.x = element_text(size=7))+
   	 # strip.background = element_blank(),
-       # strip.text.x = element_blank())  +
   scale_y_continuous(labels=comma)+
    # annotate("text", 1998, 34000, label="(a) All Sectors", hjust=0) +
-  guides(col=guide_legend(nrow=3))
+  guides(col=guide_legend(nrow=3))+
+  coord_trans(y=)
 
-#-----------------------#-----------------------#-----------------------
+dev.off()
+
+ #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 7 #-----------------------
 #-----------------------#-----------------------#-----------------------
 
