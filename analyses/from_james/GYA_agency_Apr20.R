@@ -249,8 +249,13 @@ s3<-ggplot(dat2[dat2$panel=='bot',], aes(Year, value, col=Type, group=Type)) +
 
 # SSHRC grant success
 
-dat4<-read.csv("data/from_James/part5-international-july/aug11/SSHRC_success.csv", check.names=FALSE)
+dat4<-read.csv("data/from_James/part5-international-july/aug11/SSHRC_success.csv", header=TRUE, check.names=FALSE)
 dat4<-gather(dat4,  Year, value, -panel, -Type)
+
+
+dat4$value <- sapply(dat4$value, as.character)
+dat4$value[is.na(dat4$value)] <- " "
+
 dat4$value<-as.numeric(dat4$value)
 
 #dat3$star<-"nostar"
@@ -315,12 +320,12 @@ s6<-ggplot(dat4[dat4$panel=='bot',], aes(Year, value, col=Type, group=Type)) +
 
 #print(grid.arrange(s4, s5, nrow=2))
 
-pdf(file="figures/from_James/GYA_agencydata_3.2_4panels_apr29_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.2_4panels_may1_2017.pdf", height=7, width=11)
 #print(grid.arrange(s1, s2, s3,s4, nrow=4))
 plot_grid(s1, s2, s3, s4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
 dev.off()
 
-pdf(file="figures/from_James/GYA_agencydata_b2_apr29_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_b2_may1_2017.pdf", height=7, width=11)
 plot_grid(s5, s6, align = "v", nrow = 2, rel_heights = c(1/2, 1/2))
 dev.off()
 
