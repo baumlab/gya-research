@@ -1,13 +1,13 @@
 ---
 title: "Israeli online survey on fundamental research"
 author: ''
-date: "16 September 2016"
+date: "3 May 2017"
 output:
-  word_document: default
+  pdf_document: null
   fig_width: 18
   html_document: default
-  pdf_document: null
   fig_height: 4
+  word_document: default
 ---
 
 **Introduction**  
@@ -96,7 +96,7 @@ Researchers from many different disciplines were represented in the survey. Almo
 <!-- Generate Israeli career stage figure -->
 ```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of Israeli survey respondents by career stage", warning=FALSE, fig.width=14}
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
 
 theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
@@ -168,7 +168,7 @@ ggplot(field.is, aes(x = reorder(field_research, -Freq), Freq, fill=field_resear
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", warning=FALSE, fig.width=14}
+```{r, eval=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", warning=FALSE, include=FALSE}
 ##plot1
 
 # assign colour scale
@@ -222,10 +222,10 @@ grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 #dev.off()
 ```
 
-**4.1 Type of Research Conducted**  
+<!--**4.1 Type of Research Conducted**  -->
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
-```{r, echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
+```{r, echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -265,7 +265,7 @@ colScale <- scale_fill_manual(name = "ID",values = mycols)
 res.plot<-res.plot[res.plot$Country_work=="Israel" | (!(res.plot$Country_work=="Israel") & res.plot$Country_work=="" & res.plot$Country=="Israel"),]
 res.plot$ID<-paste(res.plot$type, res.plot$time)
 
-table(res.plot$percent,res.plot$time,res.plot$type)
+#table(res.plot$percent,res.plot$time,res.plot$type)
 #write.csv(res.plot, file="data/4.1a.calculations.csv", row.names = FALSE)
 
 # change order of the levels
@@ -280,10 +280,12 @@ res.plot$col<-mycols$mycols[match(res.plot$ID, mycols$ID)]
 res.plot$col<-factor(res.plot$col, levels(res.plot$col)[c(3,1,4,2,6,5)])
 mycols<-as.character(unique(res.plot$col))
 colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010 Fundamental", "2011-2015 Fundamental","2006-2010 Use-inspired", "2011-2015 Use-inspired","2006-2010 Applied", "2011-2015 Applied"))
+#table(res.plot$type, res.plot$time, res.plot$col)
+
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
-    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=4)) +
     labs(x="Percent", y="Number of responses")+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
@@ -314,7 +316,7 @@ ggplot(res.plot, aes(percent, fill=ID)) +
   
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, fig.width=10}
+```{r, echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -473,33 +475,33 @@ ggplot(change.view.is, aes(x=view_change_of_type, y=gender, fill=view_change_of_
 
 ```
 
-```{r, echo=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", message=FALSE, warning=FALSE, fig.width=10}
+```{r, eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
 
 ##plot 1
 
 #old version which is now the correct version
-xs <- split(res.plot,f = res.plot$type)
-p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
-    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
-    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-    labs(x="Percent", y="Number of responses", title="")+
-    theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          strip.text.x = element_text(size=12, face="bold", color="black"),
-          strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.93, 0.795), legend.spacing=unit(100,"cm"))+ 
-    facet_wrap(~type, nrow=3) +
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,35),breaks=c(0,10,20,30))
+#xs <- split(res.plot,f = res.plot$type)
+#p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
+#    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+#    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+#    labs(x="Percent", y="Number of responses", title="")+
+#    theme(panel.grid.major = element_blank(),
+#          panel.grid.minor = element_blank(),
+#          strip.text.x = element_text(size=12, face="bold", color="black"),
+#          strip.background = element_rect(colour="white", fill="white"),
+#          legend.position=c(0.93, 0.795), legend.spacing=unit(100,"cm"))+ 
+#    facet_wrap(~type, nrow=3) +
+#  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,35),breaks=c(0,10,20,30))
 
-p2 <- p1 %+% xs$`Use-inspired`
-p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"))
-p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"))
-p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
-grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
+#p2 <- p1 %+% xs$`Use-inspired`
+#p3 <- p1 %+% xs$Applied
+#p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"))
+#p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"))
+#p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
+#grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 
 
-## newer version - update not using this version anymore
+## newer version - 
 # add colours to res.plot
 mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
 mycols<-as.data.frame(mycols)
@@ -603,7 +605,7 @@ multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 
 <!--Part 2 - External Partnerships-->
-**4.2 External Partnerships**   
+<!--**4.2 External Partnerships**   -->
 
 ```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
 part2.b.a<-part2.b.a[part2.b.a$Country_work=="Israel" | (!(part2.b.a$Country_work=="Israel") & part2.b.a$Country_work=="" & part2.b.a$Country=="Israel"),]
@@ -702,7 +704,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
 
 ```
  
-```{r, echo=FALSE, fig.cap="Figure 4.5 (previously 4.2) External Research Partnerships. ( 4.6 + 4.7 + 4.8 )", warning=FALSE}
+```{r, eval=FALSE, fig.cap="Figure ( 4.6 + 4.7 + 4.8 ) External Research Partnerships. ", warning=FALSE, include=FALSE}
 ###4.6
 myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
@@ -805,10 +807,10 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
  
  
 <!--Part 3 - Grant Application History-->
-**4.3 Research Grants**  
+<!--**4.3 Research Grants**  -->
 
 
-```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", warning=FALSE, fig.height=12}
+```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
 #israel<-subset(part3.grants.long, Country=="Israel")
 israel<-part3.grants.long[part3.grants.long$Country_work=="Israel" | (!(part3.grants.long$Country_work=="Israel") & part3.grants.long$Country_work=="" & part3.grants.long$Country=="Israel"),]
 israel$type.grant<-as.character(israel$type.grant)
@@ -843,7 +845,7 @@ grants.is$ID<-factor(grants.is$ID, levels(grants.is$ID)[c(4,3,6,5,2,1)])
 
 #pdf(file="figures/4.9(appendix)_12Apr.pdf", height=7, width =11)
 
-library(gridExtra)
+
 #####add (a)
 xs <- split(grants.is,f = grants.is$type.grant)
 p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) + 
@@ -858,7 +860,7 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.81, 0.91), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + 
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,50), breaks = c(0,10,20,30,40,50))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,150), breaks = c(0,25,50,75,100,125, 150))
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
@@ -1071,7 +1073,7 @@ ggplot(part.is, aes(Var2, Freq, fill=Var1))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,60))
 ```
 
-```{r, echo=FALSE, fig.cap="Fig (4.12+4.13) Importance of practical applications and external partnerships.", warning=FALSE}
+```{r, eval=FALSE, fig.cap="Fig (4.12+4.13) Importance of practical applications and external partnerships.", warning=FALSE, include=FALSE}
 ###4.12
 myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
@@ -1119,7 +1121,7 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", fig.height=12, warning=FALSE}
+```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.",  warning=FALSE}
 
 israel<-p3_master.long[p3_master.long$Country_work=="Israel" | (!(p3_master.long$Country_work=="Israel") & p3_master.long$Country_work=="" & p3_master.long$Country=="Israel"),]
 
@@ -1146,7 +1148,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
   labs(list(title= "Industry", x="", y = "Number of responses"))+
   scale_y_continuous(expand =c(0,0), limits=c(0,180), breaks=c(0, 25, 50, 75, 100, 125, 150, 175))+
   scale_x_continuous( breaks = seq(0, 100, 10))
-p1
+
 
 
 ##Government
@@ -1166,7 +1168,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
   labs(title="Government", x="", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,180), breaks=c(0, 25, 50, 75, 100, 125, 150, 175))+
   scale_x_continuous( breaks = seq(0, 100, 10))
-p2
+
 
 
 
@@ -1188,7 +1190,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
   labs(title="Internal",x="% research funding", y = "Number of responses")+
   scale_y_continuous(expand =c(0,0), limits=c(0,180), breaks=c(0, 25, 50, 75, 100, 125, 150, 175))+
   scale_x_continuous( breaks = seq(0, 100, 10))
-p3
+
 
 
 
@@ -1210,7 +1212,7 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
   labs(title="Non-governnmental", x="% research funding", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,180), breaks=c(0, 25, 50, 75, 100, 125, 150, 175))+
   scale_x_continuous( breaks = seq(0, 100, 10))
-p4
+
 
 
 ## Other
@@ -1231,10 +1233,10 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
   labs(title="Other", x="% research funding", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,180), breaks=c(0, 25, 50, 75, 100, 125, 150, 175))+
   scale_x_continuous( breaks = seq(0, 100, 10))
-p5
+
 
 ##put them all together
-require(gtable)
+
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
@@ -1251,7 +1253,7 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
 
 
 <!--Part 4 - Funding Trends in your country of work-->
-**4.4 Perspectives on the State of Fundamental Research in Israel**  
+<!--**4.4 Perspectives on the State of Fundamental Research in Israel**-->
 
 ```{r, echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to Canadian government. Researchers were asked how important they thought fundamental research was to the Canadian government. Responses were/were not significantly different between genders."}
 ## order bars from very important (left) to can't comment (right)
