@@ -10,10 +10,11 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
 ## read data
 
-survey.all<-read.csv("data/Survey-Responses-Oct.3.850pm-Toronto.csv", header=TRUE)
+#survey.all<-read.csv("data/Survey-Responses-Oct.3.850pm-Toronto.csv", header=TRUE)
+survey.all<-read.csv("data/Survey_Responses_Apr_24_2017_9pm_Toronto.csv", header=TRUE)
 
-
-suveycols<-c("Status","Location"	,"what_participant_group",
+suveycols<-c("Status", "Internal_ID", "Language",	"Created_At",	"Updated_At", "Location",	"Username",	"GET_Variables",
+             "Number_of_Saves",	"Weighted_Score",	"Completion_Time",	"Invite_Code",	"Invite_Email",	"Invite_Name",	"Collector", "what_participant_group",
   "percent_fundemental_research_current",	"percent_Use_inspired_Research_current"	,
   "percent_Applied_Research_current",	"changed_10yrs",	"percent_Fundamental_Research_past"	,
   "percent_Use_inspired_Research_past",	"percent_Applied_Research_past",	"Main_reason_change_interest_related",
@@ -37,9 +38,14 @@ suveycols<-c("Status","Location"	,"what_participant_group",
   "high_priority_applied",	"high_priority_no_change",	"high_priority_comments",	"available_funding_fundamental",
   "available_funding_use_inspired",	"available_funding_applied",	"next_generation",	"next_generation_Comments",
   "field_research",	"PhD_Year",	"Country_work",	"gender")
+
+##change column names
+
+colnames(survey.all)<-suveycols
+
 ## remove some unnecessary columns
 survey.all$'Username'<-NULL
-survey.all$'Updated_At'<-NULL
+#survey.all$'Updated_At'<-NULL  # needed to cut the data off at 8 Nov  well remove this col after that
 survey.all$'Number_of_Saves'<-NULL
 survey.all$'Internal_ID'<-NULL
 survey.all$'Language'<-NULL
@@ -54,27 +60,57 @@ survey.all$'Invite_Email'<-NULL
 survey.all$'Invite_Name'<-NULL
 survey.all$'Collector'<-NULL
 survey.all$'final_comments'<-NULL
-##change column names
 
-colnames(survey.all)<-suveycols
 
 ## check number of complete vs. incomplete
-table(survey.all$Status)
+table(survey.all$Status)    #2654 complete but we are going to cut it at 8 Nov
 
 ### keep complete data only
 survey<-survey.all[survey.all$Status=="Complete",]
 dim(survey)
+
+### cut the survey at 8 Nov 
+survey$Updated_At<-as.character(survey$Updated_At)
+dates.times<-ldply(strsplit(survey$Updated_At, '/'))
+head(dates.times)
+survey$day<-dates.times$V2
+survey$month<-dates.times$V1    
+survey$year.time<-dates.times$V3
+year.and.times<-ldply(strsplit(survey$year.time, ' '))
+survey$year<-paste("20", year.and.times$V1, sep="")    #dont care about the time
+
+#add 0s to the front of single digit dates
+survey$month<-ifelse(nchar(survey$month)==1, paste(0, survey$month, sep=""), survey$month)
+survey$day<-ifelse(nchar(survey$day)==1, paste(0, survey$day, sep=""), survey$day)
+#paste together
+survey$date<-with(survey, paste(day, month, str_replace_all(year, '20', ''), sep='-'))
+survey$date<-as.Date(survey$date, format="%d-%m-%y")
+
+survey<-survey[survey$date<"2016-11-08",]
+
+dim(survey)   #2627   good there were 27 completed surveys after nov 8
+
+#remove date etc. columns - they are not needed anymore
+survey$'Updated_At'<-NULL
+survey$'day'<-NULL
+survey$'month'<-NULL
+survey$'year.time'<-NULL
+survey$'year'<-NULL
+survey$'date'<-NULL
+
+
 ### change Canada and USA
+#########     #################     ###############
+####Not all states are listed - only the ones that coorespond to responses in the survey #######
 states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
           "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",
           "Wisconsin", "Virginia", "Utah", "Ohio", "North Carolina", "New Jersey", "New Hampshire", 
           "Maine", "Louisiana", "Indiana", "Hawaii", "Alabama", "Tennessee", "Oklahoma", "New Mexico",
-          "Missouri", "Mississippi", "Iowa", "Delaware", "Colorado", "Illinois")
+          "Iowa", "Colorado", "Illinois", "Connecticut", "Georgia", "Rhode Island",
+          "Kansas", "Idaho", "District of Columbia")
 
-#########     #################     ###############
-####Not all states are listed above #######
-#########     #################     ###############
 
+#does not include northwest territories as it is not in the survey
 prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New Brunswick", 
         "Newfoundland and Labrador", "Manitoba", "Saskatchewan", "Prince Edward Island", "Yukon Territory", 
         "Nunavut")
@@ -106,8 +142,8 @@ dicipline
 career.stage<-table(Canada$what_participant_group)
 career.stage
 
-Canada$what_participant_group<-revalue(Canada$what_participant_group, c("Senior academic researcher with >10 years of experience applying for research grants"="Senior academic >10 yrs",
-                                                                        'Non-academic researcher conducting or managing research in industry or government with >10 years of experience'='Non-academic >10yrs', 
+Canada$what_participant_group<-revalue(Canada$what_participant_group, c("Senior academic researcher with > 10 years of experience applying for research grants"="Senior academic >10 yrs",
+                                                                        'Non-academic researcher conducting or managing research in industry or government with > 10 years of experience'='Non-academic >10yrs', 
                                                                         'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
                                                                         'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
                                                                         'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
@@ -147,6 +183,8 @@ dim(canada); dim(temp)
 table(temp$field_research)
 
 ca<-subset(canada, select = c("Location", "Country", "Country_work") )
+
+
 survey.what<-subset(survey, select=c("Location", "Country", "gender", "field_research", "Country_work", "PhD_Year", "what_participant_group"))
 
 
