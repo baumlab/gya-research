@@ -116,7 +116,7 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience_is$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-#pdf(file="figures/4.1_CareerStage.pdf", width = 11, height= 7)
+pdf(file="figures/israel/4.1_CareerStage.pdf", width = 11, height= 7)
 
 ggplot(experience_is, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -132,8 +132,8 @@ ggplot(experience_is, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) + 
   colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,150))
-#dev.off()
+  scale_y_continuous(expand = c(0,0), limits = c(0,135))
+dev.off()
 
 ```
 
@@ -150,12 +150,12 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field.is$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/4.2_FieldofResearch.pdf", width = 11, height= 7)
+pdf(file="figures/israel/4.2_FieldofResearch.pdf", width = 11, height= 7)
 
 ggplot(field.is, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of responses",x="", title="")  +
-  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine\n& Life\nScience", "Engineering", "Inter-\ndisciplinary\nScience", "Social\nScience/\nHumanities", "Other")) +
+  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\nLife Science", "Engineering", "Interdisciplinary\nScience", "Social Science/\nHumanities", "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
          axis.text.x=element_text(angle=0, size=9),
@@ -163,9 +163,9 @@ ggplot(field.is, aes(x = reorder(field_research, -Freq), Freq, fill=field_resear
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank()) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,100))
+  scale_y_continuous(expand = c(0,0), limits = c(0,90))
 
-#dev.off()
+dev.off()
 ```
 
 ```{r, eval=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", warning=FALSE, include=FALSE}
@@ -446,12 +446,17 @@ myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
 p2<-ggplot(sum.israel, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +scale_fill_manual(name = "Var1",values = myColors4)+
-  labs(y="")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,42))+annotate('text', 5.4,420, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5)
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +
+  scale_fill_manual(name = "Var1",values = myColors4)+
+  labs(y="Number of responses")+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,42))+annotate('text', 5.4,420, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
+pdf(file="figures/israel/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
+
 print(p2)
+
+dev.off()
 
 #grid.arrange(p1, p2, nrow=1)
 ```
@@ -469,10 +474,13 @@ change.view.is$view_change_of_type<-factor(change.view.is$view_change_of_type,
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
+pdf(file="figures/israel/4.5_ViewFieldChange.pdf", width = 11, height= 7)
+
 ggplot(change.view.is, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,20))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.4,133, label="(c)", size=5)
 
+dev.off()
 ```
 
 ```{r, eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
@@ -624,6 +632,8 @@ myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors6)
 
+pdf(file="figures/israel/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
+
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
   geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
@@ -635,6 +645,8 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         legend.position=c(0.91, 0.92), 
         legend.title=element_blank()) +
   colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,35))
+
+dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.7 Did it change and reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
@@ -694,6 +706,8 @@ myColors8<-(brewer.pal(9, "Blues"))
 myColors8<-myColors8[c(4,4,4,4,4)]
 colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 
+pdf(file="figures/israel/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
+
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   guides(fill=FALSE)+
@@ -701,6 +715,8 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
   labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,22), breaks = seq(0,20,10))
+
+dev.off()
 
 ```
  
@@ -982,7 +998,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/4.4_12Apr.pdf", height=7, width =11)
+pdf(file="figures/israel/4.11_ChangeSuccessRate.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -1000,7 +1016,7 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   labs(x="", y="Number of responses", fill="")+ colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,95))
 
-#dev.off()
+dev.off()
 
 
 ```
@@ -1024,9 +1040,10 @@ myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
+pdf(file="figures/israel/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
 
 ggplot(prac.is, aes(Var2, Freq, fill=Var1)) + 
-  geom_bar(stat="identity", position = "dodge")+
+  geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.5, hjust=0.2, size=3, position = position_dodge(width = 0.95))+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),legend.text=element_text(size = 9),
@@ -1038,7 +1055,7 @@ ggplot(prac.is, aes(Var2, Freq, fill=Var1)) +
   labs(x="Importance of suggesting practical research applications", y="Number of responses")+ colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,50))
   
-
+dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
@@ -1059,9 +1076,10 @@ myColors13<-(brewer.pal(9, "Blues"))
 myColors13<-rev(myColors13[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 
+pdf(file="figures/israel/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
 
 ggplot(part.is, aes(Var2, Freq, fill=Var1))+ 
-  geom_bar(stat="identity", position = "dodge")+
+  geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.5, hjust=0.3, size=3, position = position_dodge(width = 0.8))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="Importance of external partnerships", y="Number of responses")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
@@ -1071,6 +1089,8 @@ ggplot(part.is, aes(Var2, Freq, fill=Var1))+
           legend.position=c(0.13, 0.9), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,60))
+
+dev.off()
 ```
 
 ```{r, eval=FALSE, fig.cap="Fig (4.12+4.13) Importance of practical applications and external partnerships.", warning=FALSE, include=FALSE}
