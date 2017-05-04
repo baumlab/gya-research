@@ -1275,7 +1275,7 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2+ theme(legend.pos
 <!--Part 4 - Funding Trends in your country of work-->
 <!--**4.4 Perspectives on the State of Fundamental Research in Israel**-->
 
-```{r, echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to Canadian government. Researchers were asked how important they thought fundamental research was to the Canadian government. Responses were/were not significantly different between genders."}
+```{r, echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to Israeli government. Researchers were asked how important they thought fundamental research was to the Israeli government. Responses were/were not significantly different between genders."}
 ## order bars from very important (left) to can't comment (right)
 important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
@@ -1295,6 +1295,8 @@ myColors15<-(brewer.pal(9, "Blues"))
 myColors15<-(myColors15[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
+pdf(file="figures/israel/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
+
 ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
       labs(x="", y="Number of responses", fill="")+
@@ -1303,10 +1305,12 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,90)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,85)) + colScale
+
+dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by Canadian government. Researchers were asked whether any types of research had become higher priority for the Canadian government. Responses were/were not significantly different between genders."}
+```{r, echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by Israeli government. Researchers were asked whether any types of research had become higher priority for the Israeli government. Responses were/were not significantly different between genders."}
 ## order bars into applied > use > fundamental > no change
 priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                  "high_priority_no_change"))
@@ -1327,15 +1331,19 @@ myColors16<-(brewer.pal(9, "Blues"))
 myColors16<-(myColors16[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
+pdf(file="figures/israel/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
         theme(aspect.ratio=3/4, 
-              axis.text.x = element_text(angle=45, vjust=0.4, size=9),
+              axis.text.x = element_text(angle=0, vjust=0.4, size=9),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9)) +
         labs(x="", y="Number of responses", fill="") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
   geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,107))+ colScale
+
+dev.off()
 ```
 
 
@@ -1371,7 +1379,7 @@ availability.is$what.type<-revalue(availability.is$what.type, c("available_fundi
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-#pdf(file="figures/4.17_12Apr.pdf", height=7, width =11)
+pdf(file="figures/israel/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
 
 ggplot(data=availability.is, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -1389,7 +1397,7 @@ ggplot(data=availability.is, aes(x=level, Freq, fill=what.type))+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
   scale_y_continuous(expand = c(0, 0), limits = c(0,70), breaks = seq(0,70,20))
 
-#dev.off()
+dev.off()
 
 
 ```
@@ -1416,6 +1424,8 @@ myColors18<-(brewer.pal(9, "Blues"))
 myColors18<-(myColors18[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors18)
 
+pdf(file="figures/israel/4.18_EffectNextGeneration.pdf", height=7, width =11)
+
 ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +
         scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
@@ -1427,5 +1437,7 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.y=element_text(size=9))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,60))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,58))+colScale
+
+dev.off()
 ```
