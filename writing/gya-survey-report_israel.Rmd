@@ -637,7 +637,7 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
   colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,35))
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.7 Reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
+```{r, echo=FALSE, fig.cap="Figure 4.7 Did it change and reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
 ### was there change
 israel<-subset(part2.change, Country=="Israel")
 israel<-part2.change[part2.change$Country_work=="Israel" | (!(part2.change$Country_work=="Israel") & part2.change$Country_work=="" & part2.change$Country=="Israel"),]
@@ -1242,7 +1242,7 @@ grid.draw(legend)
 
 #pdf(file="figures/4.14(appendix)_14Apr.pdf", height=7, width =11)
 
-grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2+ theme(legend.position="none"),
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
                          p5+ theme(legend.position="none"),
                          layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))))
