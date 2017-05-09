@@ -336,7 +336,7 @@ dev.off()
 # CIHR grants
 
 
-pdf(file="figures/from_James/GYA_agencydata_3.3_apr29_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.3_test.pdf", height=7, width=11)
 
 dat5<-gather(dat5,  Year, value, -panel, -Type)
 dat5$value<-as.numeric(dat5$value)
@@ -408,22 +408,19 @@ dat6$value<-as.numeric(dat6$value)
 
 
 ylabel <- "Percent of Projects\nFunded"
-g4<-ggplot(dat6, aes(Year, value, col=Type, group=Type)) + 
-  geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
+g4<-ggplot(dat6, aes(Year, value, linetype=Type, group=Type )) + 
+  geom_line(size=1, col='#a6cee3') + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
   theme(legend.title=element_blank(),
-  	plot.margin=unit(c(0,0,-0.2,0.95), "cm"),
-  	 axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
-  	 axis.text.x=element_text(angle=0),
-  	 strip.background = element_blank(),
-  	 legend.position=c(0.8,0.8),
-       strip.text.x = element_blank())  +
+        plot.margin=unit(c(0,0,-0.2,0.95), "cm"),
+        axis.title.y=element_text(hjust=0.5, vjust=-1,size=12),
+        axis.text.x=element_text(angle=0),
+        strip.background = element_blank(),
+        legend.position=c(0.8,0.8),
+        strip.text.x = element_blank())  +
   scale_y_continuous(labels=comma) +
-  scale_colour_manual(values=c(brewer.pal(2, name="Paired")), labels=c("Core Open Operating Grant Approval Rate (%)", "Core Open Operating Grant Success Rate (%)"))+
-    annotate("text", "2005", 55, label="(d)", hjust=2) 
-  # facet_wrap(~Type, scales="free")+
-  # guides(col=FALSE)
-
+  #scale_colour_manual(values=('#a6cee3')) +
+  annotate("text", "2005", 55, label="(d)", hjust=2) +scale_linetype_manual(values=c("solid", "dashed")) 
 
 #print(grid.arrange(g1, g2, g3,g4, nrow=4))
 plot_grid(g1, g2, g3, g4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
