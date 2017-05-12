@@ -1,5 +1,5 @@
 ---
-title: "Global online survey on fundamental research"
+title: "Global (without Canada) online survey on fundamental research"
 author: ''
 date: "9 May 2017"
 output:
@@ -91,60 +91,6 @@ percent.ssh <- ((dim(n.ssh)[1])/(dim(survey)[1]))*100 #Calculate the % of respon
 In total, `r dim(survey)[1]`  researchers completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
 
 Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", warning=FALSE, fig.width=14}
-
-locations<-aggregate(gender ~ Country, survey, length)
-locations<-locations[!locations$Country=="",]
-locations<-droplevels(locations)
-
-pdf(file="figures/global/ResponsesByCountry.pdf", width = 11, height= 7)
-
-ggplot(locations, aes(x = reorder(Country, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
-  geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
-  #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
-  lims(y=c(0, 1200)) + theme(legend.title=element_text(size=12), 
-                             legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-dev.off()  
-  
-##1b  top 20+
-require(plotrix)
-country.list<-c("Canada" , "France",
-                    "Germany","United Kingdom","Italy","Japan", "Russia","Korea, South",
-                      "United States","Australia","Austria","Belgium",
-                      "Ireland","Brazil", "Poland","Finland",
-                       "Netherlands","New Zealand","Norway",
-                      "Spain","Sweden","Switzerland","Turkey","Israel",
-                      "India","Bangladesh","Uruguay","Malaysia","New Zealand","Taiwan","Denmark")
-
-country.top<-survey[survey$Country_work %in% country.list,]
-head(country.top)
-locations.top<-aggregate(gender ~ Country_work, country.top, length)
-gender.top<-aggregate(Country_work ~ gender, country.top, length)
-locations.top[order(match(locations.top,gender.top))]
-locations.top<-droplevels(locations.top)
-
-require(colorRamps)
-barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)]
-
-par(mar=c(7,4,4,2))
-gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(266,1200),horiz=F, xaxlab=barlabs, xlab="", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 265, 1265,1300),las=2, col=c(blue2red(29)))
-
-
-#ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
- # theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
-  #geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
-  #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
-  #lims(y=c(0, 1600)) + theme(legend.title=element_text(size=12), 
-   #                          legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
-  #theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-```
-
 
 <!-- Generate  career stage figure -->
 ```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", warning=FALSE, fig.width=14}

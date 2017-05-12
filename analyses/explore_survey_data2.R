@@ -114,75 +114,101 @@ states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", 
 prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New Brunswick", 
         "Newfoundland and Labrador", "Manitoba", "Saskatchewan", "Prince Edward Island", "Yukon Territory", 
         "Nunavut")
-
+##create column that has the country name in it but change the US states and the CA provinces to just be USA and Canada
 survey$Country<-as.character(survey$Location)
 survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
 survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
 survey$Country<-as.factor(survey$Country)
 
+###<this is being coded after the Canadian report was finished>###
+#now going to do what we did for the Canadian survey where we looked at both the Country_work column and the Country column to assign 
+#they are from - going to put it in a new column
+
+survey$nation<-NA
+###need to still add in countries in Country column
+countrylist<-unique(survey$Country_work)
+countrylist<-as.character(countrylist)
+countrylist<-countrylist[!countrylist==""]
+
+
+for(i in countrylist){survey$nation<-survey[survey$Country_work==i | (!(survey$Country_work==i) & 
+                                                                    survey$Country_work=="" & survey$Country==i),]}
+
+for(i in countrylist){
+  if(survey$Country_work==i){
+    survey$nation<-i
+  }
+  else if(!(survey$Country_work==i) & 
+          survey$Country_work=="" & survey$Country==i){
+            survey$nation<-i
+  }
+  else{}
+}
+
+
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 
 ##Create a csv of just canadian responses for Megan
-Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
-                                                  survey$Country_work=="" & survey$Country=="Canada"),]
-head(Canada)
-write.csv(Canada, file="data/gya-only-Canada.csv", row.names = FALSE)
+#Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
+#                                                 survey$Country_work=="" & survey$Country=="Canada"),]
+#head(Canada)
+#write.csv(Canada, file="data/gya-only-Canada.csv", row.names = FALSE)
 
 
-#how many of each 
-colnames(survey)
-Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
-                                                 survey$Country_work=="" & survey$Country=="Canada"),]
-gender<-table(Canada$gender)
-gender
+#how many of each for canada report 
+#colnames(survey)
+#Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
+#                                                survey$Country_work=="" & survey$Country=="Canada"),]
+#gender<-table(Canada$gender)
+#gender
 
-dicipline<-table(Canada$field_research)
-dicipline
+#dicipline<-table(Canada$field_research)
+#dicipline
 
-career.stage<-table(Canada$what_participant_group)
-career.stage
+#career.stage<-table(Canada$what_participant_group)
+#career.stage
 
-Canada$what_participant_group<-revalue(Canada$what_participant_group, c("Senior academic researcher with > 10 years of experience applying for research grants"="Senior academic >10 yrs",
-                                                                        'Non-academic researcher conducting or managing research in industry or government with > 10 years of experience'='Non-academic >10yrs', 
-                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
-                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
-                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
+#Canada$what_participant_group<-revalue(Canada$what_participant_group, c("Senior academic researcher with > 10 years of experience applying for research grants"="Senior academic >10 yrs",
+#                                                                        'Non-academic researcher conducting or managing research in industry or government with > 10 years of experience'='Non-academic >10yrs', 
+#                                                                        'Early career academic researcher with <10 years experience applying for research grants since completion of PhD' = 'Early academic <10yrs',
+#                                                                        'Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future'="Post doc",
+#                                                                        'Non-academic researcher conducting or managing research in industry or government with <10 years of experience'='Non-academic <10yrs'))
 
-g.careerstage<-table(Canada$gender, Canada$what_participant_group)
-g.careerstage
+#g.careerstage<-table(Canada$gender, Canada$what_participant_group)
+#g.careerstage
 
-g.dicipline<-table(Canada$gender, Canada$field_research)
-g.dicipline
+#g.dicipline<-table(Canada$gender, Canada$field_research)
+#g.dicipline
 
-dicipline.careerstage<-table(Canada$what_participant_group, Canada$field_research)
-dicipline.careerstage
+#dicipline.careerstage<-table(Canada$what_participant_group, Canada$field_research)
+#dicipline.careerstage
 
-current<-subset(Canada, select=c("percent_Applied_Research_current", "percent_Use_inspired_Research_current", "percent_fundemental_research_current"))
-current.res<-current[!(current$percent_Applied_Research_current=="")& (current$percent_Use_inspired_Research_current=="") &(current$percent_fundemental_research_current==""),]
-current.res<-droplevels(current.res)
-head(current.res$percent_Applied_Research_current)
-length(current.res$percent_Applied_Research_current)
+#current<-subset(Canada, select=c("percent_Applied_Research_current", "percent_Use_inspired_Research_current", "percent_fundemental_research_current"))
+#current.res<-current[!(current$percent_Applied_Research_current=="")& (current$percent_Use_inspired_Research_current=="") &(current$percent_fundemental_research_current==""),]
+#current.res<-droplevels(current.res)
+#head(current.res$percent_Applied_Research_current)
+#length(current.res$percent_Applied_Research_current)
 
-distribution<-subset(Canada, select=c("distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government"    ,  
-                                     "distriution_funding_11_15_for_profit"  ,     "distriution_funding_11_15_nongov"     ,      "distriution_funding_11_15_other"  ,         
-                                "distriution_funding_6_10_internal"  ,        "distriution_funding_6_10_government"    ,   
-                                    "distriution_funding_6_10_for_profit"   ,     "distriution_funding_6_10_nongov"   ,         "distriution_funding_6_10_other"))
-head(distribution$distriution_funding_6_10_government)
-distribution<-distribution[!(distribution$distriution_funding_6_10_government=="New researcher (no funding in these years)"),]
-distribution<-droplevels(distribution)
-head(distribution$distriution_funding_6_10_government)
-length(distribution$distriution_funding_6_10_government)
+#distribution<-subset(Canada, select=c("distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government"    ,  
+#                                     "distriution_funding_11_15_for_profit"  ,     "distriution_funding_11_15_nongov"     ,      "distriution_funding_11_15_other"  ,         
+#                                "distriution_funding_6_10_internal"  ,        "distriution_funding_6_10_government"    ,   
+#                                    "distriution_funding_6_10_for_profit"   ,     "distriution_funding_6_10_nongov"   ,         "distriution_funding_6_10_other"))
+#head(distribution$distriution_funding_6_10_government)
+#distribution<-distribution[!(distribution$distriution_funding_6_10_government=="New researcher (no funding in these years)"),]
+#distribution<-droplevels(distribution)
+#head(distribution$distriution_funding_6_10_government)
+#length(distribution$distriution_funding_6_10_government)
 
 
 #############
 ####Part5####
 #############
-canada<-subset(survey, Country=="Canada")
-temp<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & survey$Country_work=="" & survey$Country=="Canada"),]
-dim(canada); dim(temp)
-table(temp$field_research)
+#canada<-subset(survey, Country=="Canada")
+#temp<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & survey$Country_work=="" & survey$Country=="Canada"),]
+#dim(canada); dim(temp)
+#table(temp$field_research)
 
-ca<-subset(canada, select = c("Location", "Country", "Country_work") )
+#ca<-subset(canada, select = c("Location", "Country", "Country_work") )
 
 
 survey.what<-subset(survey, select=c("Location", "Country", "gender", "field_research", "Country_work", "PhD_Year", "what_participant_group"))
