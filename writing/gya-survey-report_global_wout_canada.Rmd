@@ -50,6 +50,16 @@ part3.part.long<-read.csv(file="../data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
+
+countrylist<-unique(survey$Country_work)
+countrylist<-as.character(countrylist)
+countrylist<-countrylist[!countrylist==""]
+countrylist.wCA<-countrylist[!countrylist=="Canada"]
+
+####leaving off here
+n.gbl.wCA.res <- survey[(survey$Country_work=countrylist.wCA | survey$Country=countrylist.wCA),]  #Count how many responses from researchers w/out CA
+
+
 #Gender:
 n.gbl.res.men <- survey[survey$gender=="Male",]               #Count how many responses from  male researchers
 percent.men<-((dim(n.gbl.res.men)[1])/(dim(survey)[1]))*100      #Calculate the % of responses from  male researchers
