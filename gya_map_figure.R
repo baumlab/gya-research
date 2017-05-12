@@ -10,8 +10,8 @@ library(maptools)
 
 #map.world <- map_data(map="world")
 
-#setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
-setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
+#setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 country_work<-aggregate(gender ~ Country_work, survey, length)

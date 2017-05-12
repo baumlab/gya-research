@@ -124,25 +124,15 @@ survey$Country<-as.factor(survey$Country)
 #now going to do what we did for the Canadian survey where we looked at both the Country_work column and the Country column to assign 
 #they are from - going to put it in a new column
 
-survey$nation<-NA
-###need to still add in countries in Country column
-countrylist<-unique(survey$Country_work)
-countrylist<-as.character(countrylist)
-countrylist<-countrylist[!countrylist==""]
+
+# Assign your new variable nation all values from Country_work.
+survey$nation <- survey$Country_work
 
 
-for(i in countrylist){survey$nation<-survey[survey$Country_work==i | (!(survey$Country_work==i) & 
-                                                                    survey$Country_work=="" & survey$Country==i),]}
-
-for(i in countrylist){
-  if(survey$Country_work==i){
-    survey$nation<-i
-  }
-  else if(!(survey$Country_work==i) & 
-          survey$Country_work=="" & survey$Country==i){
-            survey$nation<-i
-  }
-  else{}
+# If your new variable survey$nation is still empty (i.e. there wasn’t anything in Country_work),
+if(survey$nation==""){
+  # then assign the IP address value (survey$Country) to survey$nation
+  survey$nation <- survey$Country
 }
 
 
