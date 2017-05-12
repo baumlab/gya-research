@@ -51,13 +51,13 @@ p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
 #Gender:
-survey <- survey[survey$gender=="Male",]               #Count how many responses from  male researchers
-percent.men<-((dim(survey)[1])/(dim(survey)[1]))*100      #Calculate the % of responses from  male researchers
-n.is.res.women <- survey[survey$gender=="Female",]           #Count how many responses from  female researchers
-percent.women<-((dim(survey)[1])/(dim(survey)[1]))*100  #Calculate the % of responses from  female researchers
+n.gbl.res.men <- survey[survey$gender=="Male",]               #Count how many responses from  male researchers
+percent.men<-((dim(n.gbl.res.men)[1])/(dim(survey)[1]))*100      #Calculate the % of responses from  male researchers
+n.gbl.res.women <- survey[survey$gender=="Female",]           #Count how many responses from  female researchers
+percent.women<-((dim(n.gbl.res.women)[1])/(dim(survey)[1]))*100  #Calculate the % of responses from  female researchers
 
 #Career Stage Tabulations:
-#table(n.is.res$what_participant_group)
+#table(survey$what_participant_group)
 n.seniorac <- survey[survey$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
 percent.seniorac<-((dim(survey)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  senior academic researchers
 n.earlyac <- survey[survey$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
@@ -88,7 +88,7 @@ percent.ssh <- ((dim(n.ssh)[1])/(dim(survey)[1]))*100 #Calculate the % of respon
 ```
 
 **Results**  
-In total, `r dim(n.is.res)[1]`  researchers completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+In total, `r dim(survey)[1]`  researchers completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
 
 Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
@@ -130,7 +130,7 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) + 
   colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,1350))
+  scale_y_continuous(expand = c(0,0), limits = c(0,1750))
 dev.off()
 
 ```
@@ -161,7 +161,7 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank()) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,620))
+  scale_y_continuous(expand = c(0,0), limits = c(0,780))
 
 dev.off()
 ```
@@ -282,7 +282,7 @@ pdf(file="figures/global/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
-    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=4)) +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Percent", y="Number of responses")+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
@@ -391,7 +391,7 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
           panel.grid.minor = element_blank(),
           strip.text.x = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.93, 0.795), legend.spacing=unit(100,"cm"))+ 
+          legend.position=c(0.93, 0.74), legend.spacing=unit(100,"cm"))+ 
     facet_wrap(~type, nrow=3) +
   scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,550),breaks=c(0,100,200,300, 400, 500))
 
@@ -420,7 +420,7 @@ global.yes.no<-global.yes.no[!global.yes.no$changed_10yrs=="",]
 
 p1<-ggplot(data=global.yes.no, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,1340))+ annotate('text', 3.5,660, label="(a)", size=5)
+          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,1370))+ annotate('text', 0.5,1343, label="(a)", size=5)
   
 ####reason for change  
 reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
@@ -442,11 +442,11 @@ myColors4<-(brewer.pal(9, "Blues"))
 myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
 p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
+  theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 800))+annotate('text', 5.4,420, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 800))+annotate('text', 5.4,785, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
 #pdf(file="figures/global/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
@@ -478,7 +478,7 @@ pdf(file="figures/global/4.5_ViewFieldChange.pdf", width = 11, height= 7)
 
 ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,240))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,335))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
 dev.off()
 ```
@@ -619,9 +619,11 @@ multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 b.part<-data.frame(table(survey$partnership_outside_before))
 b.part<-b.part[!b.part$Var1=="",]
+b.part<-droplevels(b.part)
 b.part$time<-"Past"
 a.part<-data.frame(table(survey$partnership_outside))
 a.part<-a.part[!a.part$Var1=="",]
+a.part<-droplevels(a.part)
 a.part$time<-"Current"
 
 part<-rbind(a.part, b.part)
@@ -643,9 +645,9 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),legend.text=element_text(size = 9),
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
-        legend.position=c(0.91, 0.92), 
+        legend.position=c(0.08, 0.94), 
         legend.title=element_blank()) +
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,800))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1150))
 
 dev.off()
 ```
@@ -662,13 +664,13 @@ myColors<-myColors[c(9, 7,5)]
 g1<-ggplot(data=change.part.glb, aes(x=Var1, y=Freq, fill=Var1))+ 
     geom_bar(stat='identity') + 
     guides(fill=FALSE) + 
-    labs(x="", y="No. of responses",title="")+
+    labs(x="", y="Number of responses",title="")+
   geom_text(aes(label=Freq), vjust=-0.5)+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) + 
   scale_fill_manual(name = "Var1",values = myColors) +
   #annotate('text', 3.25,606, label="(a)", size=7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1050))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,1410))
 
 ### reason
 reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -Location, -what_participant_group, -field_research)
@@ -682,7 +684,7 @@ myColors7<-myColors7[c(9, 8,7,6,5,3)]
 
 g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + 
     geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
+    theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
           legend.position=c(0.8, 0.8), 
           legend.title=element_blank(),
           panel.grid.major = element_blank(),
@@ -722,7 +724,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
-  labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,240), breaks = seq(0,200,50))
+  labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,325), breaks = seq(0,300,50))
 
 dev.off()
 
@@ -1046,7 +1048,7 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 pdf(file="figures/global/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
 
 ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) + 
-  geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.5, hjust=0.2, size=3, position = position_dodge(width = 0.95))+
+  geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),legend.text=element_text(size = 9),
@@ -1080,14 +1082,14 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 pdf(file="figures/global/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
 
 ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+ 
-  geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.5, hjust=0.3, size=3, position = position_dodge(width = 0.8))+
+  geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="Importance of external partnerships", y="Number of responses")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
           legend.key=element_blank(),
-          legend.position=c(0.13, 0.9), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
+          legend.position=c(0.11, 0.93), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,870))
 
@@ -1179,7 +1181,7 @@ colScale <- scale_fill_manual(name = "year",values = myColors14)
 
 p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.1, 0.91),
+    theme(legend.position=c(0.9, 0.91),
           legend.key.size = unit(0.3, "cm"),plot.title = element_text(size=12, hjust = 0.5, face="bold"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
@@ -1244,7 +1246,7 @@ colScale <- scale_fill_manual(name = "year",values = myColors14)
 
 p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.922, 0.98),
+    theme(legend.position=c(0.8, 0.91),
           legend.key.size = unit(0.3, "cm"),plot.title = element_text(size=12, hjust = 0.5, face="bold"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
@@ -1263,7 +1265,7 @@ pdf(file="figures/global/4.14_DistributionFunding.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
-                         p5+ theme(legend.position="none"),
+                         p5,
                          layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))))
 
 dev.off()
