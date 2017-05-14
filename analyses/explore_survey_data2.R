@@ -125,8 +125,18 @@ survey$Country<-as.factor(survey$Country)
 #they are from - going to put it in a new column
 
 
-# Assign your new variable nation all values from Country_work.
+# Assign the new variable nation all values from Country_work.
 survey$nation <- survey$Country_work
+
+
+ifelse(survey$nation=="",survey$nation<-survey$Country,NULL)
+
+
+for(i in survey$nation){
+ if (i == "")
+   (survey$nation<-survey$Country)
+  else(survey$nation<-survey$Country_work)
+}
 
 
 # If your new variable survey$nation is still empty (i.e. there wasn’t anything in Country_work),

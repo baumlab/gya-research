@@ -57,7 +57,10 @@ countrylist<-countrylist[!countrylist==""]
 countrylist.wCA<-countrylist[!countrylist=="Canada"]
 
 ####leaving off here
-n.gbl.wCA.res <- survey[(survey$Country_work=countrylist.wCA | survey$Country=countrylist.wCA),]  #Count how many responses from researchers w/out CA
+
+n.gbl.wCA.res <- survey[survey$Country_work=countrylist.wCA | (survey$Country_work=="" & survey$Country=countrylist.wCA),]  ##removing CA responses
+
+#Count how many responses from researchers w/out CA
 
 
 #Gender:
@@ -124,7 +127,7 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-pdf(file="figures/global/4.1_CareerStage.pdf", width = 11, height= 7)
+#pdf(file="figures/global/4.1_CareerStage.pdf", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -141,7 +144,7 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.minor = element_blank()) + 
   colScale + guides(fill=FALSE)+
   scale_y_continuous(expand = c(0,0), limits = c(0,1750))
-dev.off()
+#dev.off()
 
 ```
 
