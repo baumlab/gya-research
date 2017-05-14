@@ -131,6 +131,7 @@ survey$nation <- survey$Country_work
 survey$nation[survey$Country_work==""]<-survey$Country ## there is a warning but seems to work
 
 
+#make a csv of the complete responses 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 
 ##Create a csv of just canadian responses for Megan

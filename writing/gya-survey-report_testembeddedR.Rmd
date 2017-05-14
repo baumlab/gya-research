@@ -33,6 +33,7 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
 survey<-read.csv(file="../data/gya-without-incomplete.csv")
 n.Cdn.res <- survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
              survey$Country_work=="" & survey$Country=="Canada"),]  #Count how many responses from Canadian researchers
+#n.Cdn.res<-survey[survey$nation=="Canada",]
 survey.what<-read.csv(file="../data/gya-country-responses.csv")
 research<-read.csv(file="../data/gya-surveys-cleaned-research.csv")
 #research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")

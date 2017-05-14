@@ -11,7 +11,7 @@ output:
 ---
 
 **Introduction**  
-In addition to the official data presented in Chapters 2 and 3, we also developed and ran a quantitative online survey to query researchers about their perceptions of, and experiences with, funding for fundamental research. An important aim of the survey was to provide an understanding researcher's personal experiences and outlook on the research funding landscape. We had an excellent response to the survey, with over xxxx  researchers completing it, suggesting that fundamental research funding is a high priority topic for Canadian researchers. Herein, we detail the survey questions and results. 
+In addition to the official data presented in Chapters 2 and 3, we also developed and ran a quantitative online n.gbl.wCA.res to query researchers about their perceptions of, and experiences with, funding for fundamental research. An important aim of the n.gbl.wCA.res was to provide an understanding researcher's personal experiences and outlook on the research funding landscape. We had an excellent response to the survey, with over xxxx  researchers completing it, suggesting that fundamental research funding is a high priority topic for Canadian researchers. Herein, we detail the survey questions and results. 
 
 **Methods**  
 Online Survey  
@@ -50,63 +50,55 @@ part3.part.long<-read.csv(file="../data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
-
-countrylist<-unique(survey$Country_work)
-countrylist<-as.character(countrylist)
-countrylist<-countrylist[!countrylist==""]
-countrylist.wCA<-countrylist[!countrylist=="Canada"]
-
-####leaving off here
-
-n.gbl.wCA.res <- survey[survey$Country_work=countrylist.wCA | (survey$Country_work=="" & survey$Country=countrylist.wCA),]  ##removing CA responses
+##removing CA responses
+n.gbl.wCA.res <- survey[survey$nation!="Canada",]
 
 #Count how many responses from researchers w/out CA
 
-
 #Gender:
-n.gbl.res.men <- survey[survey$gender=="Male",]               #Count how many responses from  male researchers
-percent.men<-((dim(n.gbl.res.men)[1])/(dim(survey)[1]))*100      #Calculate the % of responses from  male researchers
-n.gbl.res.women <- survey[survey$gender=="Female",]           #Count how many responses from  female researchers
-percent.women<-((dim(n.gbl.res.women)[1])/(dim(survey)[1]))*100  #Calculate the % of responses from  female researchers
+n.gbl.res.men <- n.gbl.wCA.res[n.gbl.wCA.res$gender=="Male",]               #Count how many responses from  male researchers
+percent.men<-((dim(n.gbl.res.men)[1])/(dim(n.gbl.wCA.res)[1]))*100      #Calculate the % of responses from  male researchers
+n.gbl.res.women <- n.gbl.wCA.res[n.gbl.wCA.res$gender=="Female",]           #Count how many responses from  female researchers
+percent.women<-((dim(n.gbl.res.women)[1])/(dim(n.gbl.wCA.res)[1]))*100  #Calculate the % of responses from  female researchers
 
 #Career Stage Tabulations:
-#table(survey$what_participant_group)
-n.seniorac <- survey[survey$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
-percent.seniorac<-((dim(survey)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  senior academic researchers
-n.earlyac <- survey[survey$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
-percent.earlyac<-((dim(n.earlyac)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  early academic researchers
-n.pdf <- survey[survey$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
-percent.pdf<-((dim(n.pdf)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  post-docs
-n.nonACearly <- survey[survey$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
-percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from early career non-academics
-n.nonACsenior <- survey[survey$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
-percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from early career non-academics
-n.unk <- survey[survey$what_participant_group=="",]
-percent.unk<-((dim(n.unk)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from unknown career stage
+#table(n.gbl.wCA.res$what_participant_group)
+n.seniorac <- n.gbl.wCA.res[n.gbl.wCA.res$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
+percent.seniorac<-((dim(n.gbl.wCA.res)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  senior academic researchers
+n.earlyac <- n.gbl.wCA.res[n.gbl.wCA.res$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
+percent.earlyac<-((dim(n.earlyac)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  early academic researchers
+n.pdf <- n.gbl.wCA.res[n.gbl.wCA.res$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
+percent.pdf<-((dim(n.pdf)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  post-docs
+n.nonACearly <- n.gbl.wCA.res[n.gbl.wCA.res$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
+percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from early career non-academics
+n.nonACsenior <- n.gbl.wCA.res[n.gbl.wCA.res$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
+percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from early career non-academics
+n.unk <- n.gbl.wCA.res[n.gbl.wCA.res$what_participant_group=="",]
+percent.unk<-((dim(n.unk)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from unknown career stage
 
 #Discipline Tabulations:
-n.natural <- survey[survey$field_research=="Natural Science",]
-percent.natural <- ((dim(n.natural)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  natural scientists
-n.physics <- survey[survey$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
-percent.physics <- ((dim(n.physics)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  physical scientists
-n.med <- survey[survey$field_research=="Medicine and Life Science",]
-percent.med <- ((dim(n.med)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  med/life scientists
-n.eng <- survey[survey$field_research=="Engineering",]
-percent.eng <- ((dim(n.eng)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  engineering scientists
-n.int <- survey[survey$field_research=="Interdisciplinary Science",]
-percent.int <- ((dim(n.int)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
-n.ssh <- survey[survey$field_research=="Social Science / Humanities",]
-percent.ssh <- ((dim(n.ssh)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.natural <- n.gbl.wCA.res[n.gbl.wCA.res$field_research=="Natural Science",]
+percent.natural <- ((dim(n.natural)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  natural scientists
+n.physics <- n.gbl.wCA.res[n.gbl.wCA.res$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
+percent.physics <- ((dim(n.physics)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  physical scientists
+n.med <- n.gbl.wCA.res[n.gbl.wCA.res$field_research=="Medicine and Life Science",]
+percent.med <- ((dim(n.med)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  med/life scientists
+n.eng <- n.gbl.wCA.res[n.gbl.wCA.res$field_research=="Engineering",]
+percent.eng <- ((dim(n.eng)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  engineering scientists
+n.int <- n.gbl.wCA.res[n.gbl.wCA.res$field_research=="Interdisciplinary Science",]
+percent.int <- ((dim(n.int)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.ssh <- n.gbl.wCA.res[n.gbl.wCA.res$field_research=="Social Science / Humanities",]
+percent.ssh <- ((dim(n.ssh)[1])/(dim(n.gbl.wCA.res)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
 ```
 
 **Results**  
-In total, `r dim(survey)[1]`  researchers completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+In total, `r dim(n.gbl.wCA.res)[1]`  researchers completed the online n.gbl.wCA.res. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the n.gbl.wCA.res respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
 
-Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
+Researchers from many different disciplines were represented in the n.gbl.wCA.res. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
 <!-- Generate  career stage figure -->
-```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", warning=FALSE, fig.width=14}
+```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of  n.gbl.wCA.res respondents by career stage", warning=FALSE, fig.width=14}
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
 
@@ -114,7 +106,7 @@ theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
 ## myColors <- brewer.pal(6,"Set1")
 
-experience<-data.frame(table(survey$what_participant_group))
+experience<-data.frame(table(n.gbl.wCA.res$what_participant_group))
 experience<-experience[!experience$Var1=="",]
 experience<-droplevels(experience)
 
@@ -127,7 +119,7 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-#pdf(file="figures/global/4.1_CareerStage.pdf", width = 11, height= 7)
+#pdf(file="figures/global/w_out_Canada/4.1_CareerStage.pdf", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -149,8 +141,8 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
 ```
 
 <!-- Generate  research discipline figure -->
-```{r, echo=FALSE, fig.cap="Figure 4.2 Survey responses by field of research", warning=FALSE, fig.width=14}
-field<-data.frame(table(survey$field_research))
+```{r, echo=FALSE, fig.cap="Figure 4.2 n.gbl.wCA.res responses by field of research", warning=FALSE, fig.width=14}
+field<-data.frame(table(n.gbl.wCA.res$field_research))
 field<-field[!field$Var1=="",]
 field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
@@ -161,7 +153,7 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-pdf(file="figures/global/4.2_FieldofResearch.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.2_FieldofResearch.pdf", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -291,7 +283,7 @@ mycols<-as.character(unique(res.plot$col))
 colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010 Fundamental", "2011-2015 Fundamental","2006-2010 Use-inspired", "2011-2015 Use-inspired","2006-2010 Applied", "2011-2015 Applied"))
 #table(res.plot$type, res.plot$time, res.plot$col)
 
-pdf(file="figures/global/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
@@ -415,7 +407,7 @@ p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
 
-pdf(file="figures/global/4.3.2_ResearchProportion.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.3.2_ResearchProportion.pdf", width = 11, height= 7)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
@@ -477,7 +469,7 @@ dev.off()
 
 ```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
 
-view.propor<-survey[!survey$view_change_of_type=="",]
+view.propor<-n.gbl.wCA.res[!n.gbl.wCA.res$view_change_of_type=="",]
 view.propor<-droplevels(view.propor)
 change.view.glb<-aggregate(gender~ view_change_of_type, view.propor, length)
 # change order of the levels
@@ -487,7 +479,7 @@ change.view.glb$view_change_of_type<-factor(change.view.glb$view_change_of_type,
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
-pdf(file="figures/global/4.5_ViewFieldChange.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.5_ViewFieldChange.pdf", width = 11, height= 7)
 
 ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
@@ -630,11 +622,11 @@ multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 ```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", warning=FALSE}
 
-b.part<-data.frame(table(survey$partnership_outside_before))
+b.part<-data.frame(table(n.gbl.wCA.res$partnership_outside_before))
 b.part<-b.part[!b.part$Var1=="",]
 b.part<-droplevels(b.part)
 b.part$time<-"Past"
-a.part<-data.frame(table(survey$partnership_outside))
+a.part<-data.frame(table(n.gbl.wCA.res$partnership_outside))
 a.part<-a.part[!a.part$Var1=="",]
 a.part<-droplevels(a.part)
 a.part$time<-"Current"
@@ -648,7 +640,7 @@ myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors6)
 
-pdf(file="figures/global/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
 
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
@@ -668,7 +660,7 @@ dev.off()
 ```{r, echo=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
 ### was there change
 
-change.part.glb<-data.frame(table(survey$partnership_change_10yrs))
+change.part.glb<-data.frame(table(n.gbl.wCA.res$partnership_change_10yrs))
 change.part.glb<-change.part.glb[!change.part.glb$Var1=="",]
 change.part.glb$Var1<-revalue(change.part.glb$Var1, c("Can't comment (new researcher)"="Can't comment"))
 change.part.glb$Var1<-factor(change.part.glb$Var1, levels=c("Yes", "No", "Can't comment"))
@@ -708,7 +700,7 @@ g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) +
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-pdf(file="figures/global/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
 
@@ -718,7 +710,7 @@ dev.off()
 
 ```{r, echo=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", warning=FALSE}
 
-view<-data.frame(table(survey$view_change_partnership))
+view<-data.frame(table(n.gbl.wCA.res$view_change_partnership))
 view<-view[!view$Var1=="",]
 
 # change order of the levels
@@ -729,7 +721,7 @@ myColors8<-(brewer.pal(9, "Blues"))
 myColors8<-myColors8[c(4,4,4,4,4)]
 colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 
-pdf(file="figures/global/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
@@ -880,7 +872,7 @@ grants.gbl$ID<-paste(grants.gbl$type.grant, grants.gbl$time)
 grants.gbl$ID<-as.factor(grants.gbl$ID)
 grants.gbl$ID<-factor(grants.gbl$ID, levels(grants.gbl$ID)[c(4,3,6,5,2,1)])
 
-pdf(file="figures/global/4.9_NumberGrantApps.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.9_NumberGrantApps.pdf", height=7, width =11)
 
 
 #####add (a)
@@ -958,7 +950,7 @@ mycols10$id<-levels(success.gbl$id)
 success.gbl$col<-mycols10$mycols10[match(success.gbl$id, mycols10$id)]
 success.gbl$col<-factor(success.gbl$col, levels(success.gbl$col)[c(3,1,4,2,6,5)])
 
-pdf(file="figures/global/4.10_GrantAppSuccess.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.10_GrantAppSuccess.pdf", height=7, width =11)
 
 out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
   n <- droplevels(n)
@@ -1018,7 +1010,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-pdf(file="figures/global/4.11_ChangeSuccessRate.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.11_ChangeSuccessRate.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -1058,7 +1050,7 @@ myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
-pdf(file="figures/global/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
 
 ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
@@ -1092,7 +1084,7 @@ myColors13<-(brewer.pal(9, "Blues"))
 myColors13<-rev(myColors13[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 
-pdf(file="figures/global/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
 
 ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
@@ -1273,7 +1265,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-pdf(file="figures/global/4.14_DistributionFunding.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.14_DistributionFunding.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
@@ -1306,7 +1298,7 @@ myColors15<-(brewer.pal(9, "Blues"))
 myColors15<-(myColors15[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
-pdf(file="figures/global/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
 
 ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
@@ -1339,7 +1331,7 @@ myColors16<-(brewer.pal(9, "Blues"))
 myColors16<-(myColors16[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
-pdf(file="figures/global/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
 
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
@@ -1384,7 +1376,7 @@ availability.gbl$what.type<-revalue(availability.gbl$what.type, c("available_fun
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-pdf(file="figures/global/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
 
 ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -1428,7 +1420,7 @@ myColors18<-(brewer.pal(9, "Blues"))
 myColors18<-(myColors18[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors18)
 
-pdf(file="figures/global/4.18_EffectNextGeneration.pdf", height=7, width =11)
+pdf(file="figures/global/w_out_Canada/4.18_EffectNextGeneration.pdf", height=7, width =11)
 
 ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +
