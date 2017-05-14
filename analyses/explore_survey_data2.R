@@ -127,23 +127,8 @@ survey$Country<-as.factor(survey$Country)
 
 # Assign the new variable nation all values from Country_work.
 survey$nation <- survey$Country_work
-
-
-ifelse(survey$nation=="",survey$nation<-survey$Country,NULL)
-
-
-for(i in survey$nation){
- if (i == "")
-   (survey$nation<-survey$Country)
-  else(survey$nation<-survey$Country_work)
-}
-
-
-# If your new variable survey$nation is still empty (i.e. there wasn’t anything in Country_work),
-if(survey$nation==""){
-  # then assign the IP address value (survey$Country) to survey$nation
-  survey$nation <- survey$Country
-}
+# If there was a blank then use the information from the Country column that derived from the IP address column
+survey$nation[survey$Country_work==""]<-survey$Country ## there is a warning but seems to work
 
 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
