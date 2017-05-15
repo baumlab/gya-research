@@ -66,14 +66,14 @@ ggplot(country_work, aes(x = reorder(Country_work, -gender), gender)) + geom_bar
 ##1 # of responses by country
 locations<-aggregate(gender ~ nation, survey, length)
 
-pdf(file="figures/responses_country.pdf", height=7, width=11)
+pdf(file="figures/responses_country.pdf", height=8, width=11)
 
 ggplot(locations, aes(x = reorder(nation, -gender), gender )) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
   geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
   #geom_text(aes(label=Country_work), angle=90, hjust=-0.5) 
-  lims(y=c(0, 1350)) + theme(legend.title=element_text(size=12), 
+  theme(legend.title=element_text(size=12), 
                              legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_y_continuous(expand = c(0,0), limits=c(0, 1400)) 
 
 dev.off()
 
