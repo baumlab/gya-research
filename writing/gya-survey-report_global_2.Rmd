@@ -94,7 +94,7 @@ Researchers from many different disciplines were represented in the survey. Almo
 
 
 
-```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", warning=FALSE, fig.width=14}
+```{r, eval=FALSE, fig.cap="Number of responses by country", fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
 
 locations<-aggregate(gender ~ Country, survey, length)
 locations<-locations[!locations$Country=="",]

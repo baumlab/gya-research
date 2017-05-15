@@ -14,7 +14,7 @@ setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 #setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
 
 survey<-read.csv(file="data/gya-without-incomplete.csv")
-country_work<-aggregate(gender ~ Country_work, survey, length)
+nations<-aggregate(gender ~ nation, survey, length)
 
 
 
@@ -31,7 +31,7 @@ gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
 
 # add our colored regions
-gg <- gg + geom_map(data=country_work, map=wrld, aes(map_id=Country_work, fill=gender),  color="white", size=0.25)
+gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nations, fill=gender),  color="white", size=0.25)
 gg
 
 
