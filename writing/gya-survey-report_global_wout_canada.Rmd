@@ -119,7 +119,7 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-#pdf(file="figures/global/w_out_Canada/4.1_CareerStage.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.1_CareerStage.pdf", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -135,8 +135,8 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) + 
   colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,1750))
-#dev.off()
+  scale_y_continuous(expand = c(0,0), limits = c(0,860))
+dev.off()
 
 ```
 
@@ -166,7 +166,7 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank()) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,780))
+  scale_y_continuous(expand = c(0,0), limits = c(0,360))
 
 dev.off()
 ```
@@ -229,9 +229,12 @@ grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
 ```{r, echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE}
+#remove CA responses
+research.w.CA <- research[research$nation!="Canada",]
+
 
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot<-subset(research.w.CA, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
@@ -295,7 +298,7 @@ ggplot(res.plot, aes(percent, fill=ID)) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.72, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,550),breaks=c(0,100, 200, 300, 400, 500))
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,275),breaks=c(0,50,100,150, 200,250))
 
 dev.off()
 
@@ -324,8 +327,12 @@ dev.off()
 
 ```{r, echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE}
 
+#remove CA responses
+research.w.CA <- research[research$nation!="Canada",]
+
+
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot<-subset(research.w.CA, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
@@ -398,7 +405,7 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.93, 0.74), legend.spacing=unit(100,"cm"))+ 
     facet_wrap(~type, nrow=3) +
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,550),breaks=c(0,100,200,300, 400, 500))
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,275),breaks=c(0,100,200,275))
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
@@ -417,18 +424,22 @@ dev.off()
 
 
 ```{r, echo=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
-#Change yes or no
-yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
+#remove CA responses
+research.change.w.CA <- research.change[research.change$nation!="Canada",]
 
-global.yes.no<-aggregate(Country~ changed_10yrs, yes.no, length)
+
+#Change yes or no
+yes.no<-subset(research.change.w.CA, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
+
+global.yes.no<-aggregate(gender~ changed_10yrs, yes.no, length)
 global.yes.no<-global.yes.no[!global.yes.no$changed_10yrs=="",]
 
-p1<-ggplot(data=global.yes.no, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
+p1<-ggplot(data=global.yes.no, aes(x=changed_10yrs, y=gender, fill=gender))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,1370))+ annotate('text', 0.5,1343, label="(a)", size=5)
+          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=gender), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,700))+ annotate('text', 0.5,1343, label="(a)", size=5)
   
 ####reason for change  
-reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
+reason<-subset(research.change.w.CA, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
                                        "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
 
 # switch to long format
@@ -451,7 +462,7 @@ p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 800))+annotate('text', 5.4,785, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 375))+annotate('text', 5.4,785, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
 #pdf(file="figures/global/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
@@ -460,7 +471,7 @@ p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 
 #dev.off()
 
-pdf(file="figures/global/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
+pdf(file="figures/global/w_out_Canada/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
 
 grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 
@@ -468,6 +479,7 @@ dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
+
 
 view.propor<-n.gbl.wCA.res[!n.gbl.wCA.res$view_change_of_type=="",]
 view.propor<-droplevels(view.propor)
@@ -483,7 +495,7 @@ pdf(file="figures/global/w_out_Canada/4.5_ViewFieldChange.pdf", width = 11, heig
 
 ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,335))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,200))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
 dev.off()
 ```
@@ -652,12 +664,13 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.08, 0.94), 
         legend.title=element_blank()) +
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1150))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,590))
 
 dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", warning=FALSE}
+
 ### was there change
 
 change.part.glb<-data.frame(table(n.gbl.wCA.res$partnership_change_10yrs))
@@ -675,10 +688,15 @@ g1<-ggplot(data=change.part.glb, aes(x=Var1, y=Freq, fill=Var1))+
         panel.grid.minor = element_blank()) + 
   scale_fill_manual(name = "Var1",values = myColors) +
   #annotate('text', 3.25,606, label="(a)", size=7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1410))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,760))
 
 ### reason
-reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -Location, -what_participant_group, -field_research)
+
+#remove CA responses
+part2.reason.w.CA <- part2.reason[part2.reason$nation!="Canada",]
+
+
+reason.pt.long<-gather(part2.reason.w.CA, change.reason, yes, -Country,-Country_work, -nation, -gender, -Location, -what_participant_group, -field_research)
 sum.global<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
 sum.global$Var1<-revalue(sum.global$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
@@ -696,7 +714,7 @@ g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) +
           panel.grid.minor = element_blank()) + 
   geom_text(aes(label=Freq), vjust=-0.5, size=3)+
   labs(x="", y="Number of responses", title="")+scale_fill_manual(name = "Var1",values = myColors7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,795))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,360))
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
@@ -729,7 +747,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
-  labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,325), breaks = seq(0,300,50))
+  labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,175), breaks = seq(0,300,50))
 
 dev.off()
 
@@ -842,6 +860,11 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 
 ```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
+
+#remove CA responses
+part3.grants.long <- part3.grants.long[part3.grants.long$nation!="Canada",]
+
+
 part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
 
 
@@ -889,7 +912,7 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.81, 0.91), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + 
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1850), breaks = c(0,200,400,600,800,1000,1200,1400,1600,1800))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1000), breaks = c(0,200,400,600,800,1000))
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
@@ -917,7 +940,12 @@ dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", warning=FALSE}
+
 part3.success.long<-read.csv(file="../data/gya-part3.success.long.csv")
+
+
+#remove CA responses
+part3.success.long <- part3.success.long[part3.success.long$nation!="Canada",]
 
 part3.success.long$type<-as.character(part3.success.long$type)
 
@@ -968,7 +996,7 @@ out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
           strip.background = element_rect(colour="white", fill="white"),
            axis.title.y=element_text(size=11),plot.title = element_text(size=12, face="bold", hjust=0.5),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale +
-    scale_y_continuous(expand=c(0,0), limits=c(0,400))
+    scale_y_continuous(expand=c(0,0), limits=c(0,210))
  })
 do.call(grid.arrange, out2)
 
@@ -993,8 +1021,11 @@ dev.off()
  
 ```{r, echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", warning=FALSE}
 
+#remove CA responses
+part3.change.w.CA <- part3.change[part3.change$nation!="Canada",]
+
 ##switch to long format
-change.long.gbl<-gather(part3.change, type, level, -Location, -gender, -Country, -Country_work, -what_participant_group, -field_research)
+change.long.gbl<-gather(part3.change.w.CA, type, level, -Location, -nation, -gender, -Country, -Country_work, -what_participant_group, -field_research)
 success.change<-with(change.long.gbl, data.frame(table(type, level)))
 #remove no response
 success.change<-success.change[!success.change$level=="",]
@@ -1026,7 +1057,7 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
   labs(x="", y="Number of responses", fill="")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1150))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,550))
 
 dev.off()
 
@@ -1034,6 +1065,10 @@ dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
+
+#remove CA responses
+part3.prac.long <- part3.prac.long[part3.prac.long$nation!="Canada",]
+
 
 part3.prac.long$year<-as.character(part3.prac.long$year)
 
@@ -1063,12 +1098,15 @@ ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="Importance of suggesting practical research applications", y="Number of responses")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,900))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,420))
   
 dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", warning=FALSE}
+
+#remove CA responses
+part3.part.long <- part3.part.long[part3.part.long$nation!="Canada",]
 
 part3.part.long$year<-as.character(part3.part.long$year)
 
@@ -1096,7 +1134,7 @@ ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+
           legend.key=element_blank(),
           legend.position=c(0.11, 0.93), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,870))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,380))
 
 dev.off()
 ```
@@ -1151,6 +1189,9 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
 ```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.",  warning=FALSE}
 
+#remove CA responses
+p3_master.long <- p3_master.long[p3_master.long$nation!="Canada",]
+
 ##revalue the year values
 p3_master.long$year<- revalue(p3_master.long$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
 #change order of levels
@@ -1171,7 +1212,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(list(title= "Industry", x="", y = "Number of responses"))+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=seq(0, 1300, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1191,7 +1232,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Government", x="", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=seq(0, 1300, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1213,7 +1254,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Internal",x="% research funding", y = "Number of responses")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=seq(0, 1300, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1235,7 +1276,7 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Non-governnmental", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=seq(0, 1300, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1256,7 +1297,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Other", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1300), breaks=seq(0, 1300, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1281,8 +1322,13 @@ dev.off()
 <!--**4.4 Perspectives on the State of Fundamental Research**-->
 
 ```{r, echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders."}
+
+#remove CA responses
+part4.w.CA <- part4[part4$nation!="Canada",]
+
+
 ## order bars from very important (left) to can't comment (right)
-important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
+important<-subset(part4.w.CA, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
 ## using table to count cases of each category
 sum.important<-data.frame(table(important$opinion_fundamental_important))
@@ -1308,17 +1354,22 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1000)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,465)) + colScale
 
 dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders."}
+
+#remove CA responses
+part4.w.CA <- part4[part4$nation!="Canada",]
+
+
 ## order bars into applied > use > fundamental > no change
-priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
+priority<-subset(part4.w.CA, select=c("Location","Country",'nation','Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
 
 ## switch to long format
-priority.long<-gather(priority, what.type, higher.priority, -Location, -gender, -Country, -Country_work)
+priority.long<-gather(priority, what.type, higher.priority, -Location, -nation, -gender, -Country, -Country_work)
 # remove non-responses (n = 1066)
 priority.long<-priority.long[!priority.long$higher.priority=="",]
 per.change<-aggregate(higher.priority~what.type, priority.long, sum)
@@ -1341,19 +1392,24 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9)) +
         labs(x="", y="Number of responses", fill="") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,2300))+ colScale
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1050))+ colScale
 
 dev.off()
 ```
 
 
 ```{r, echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years, for each research category. Responses were/were not significantly different between genders. "}
+
+#remove CA responses
+part4.w.CA <- part4[part4$nation!="Canada",]
+
+
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
+availability.change<-subset(part4.w.CA, select=c("Location", "Country","nation",'Country_work', "gender", "available_funding_fundamental",  
                                              "available_funding_use_inspired", "available_funding_applied"))
 ## switch to long format
-availability.change.long.gbl<-gather(availability.change, what.type, level, -gender, -Location, -Country, -Country_work)
+availability.change.long.gbl<-gather(availability.change, what.type, level, -gender, -nation, -Location, -Country, -Country_work)
 availability.gbl<-with(availability.change.long.gbl, data.frame(table(what.type, level)))
 
 #remove non response
@@ -1392,7 +1448,7 @@ ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,900), breaks = seq(0,900,100))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,560), breaks = seq(0,550,100))
 
 dev.off()
 
@@ -1401,8 +1457,12 @@ dev.off()
 
 ```{r, echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
 
+#remove CA responses
+part4.w.CA <- part4[part4$nation!="Canada",]
+
+
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))
+next.generation<-subset(part4.w.CA, select=c("Location", "Country","Country_work", "gender","next_generation"))
 # remove non-response
 next.generation<-next.generation[!next.generation$next_generation=="",]
 
@@ -1433,7 +1493,7 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.y=element_text(size=9))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,800))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,450))+colScale
 
 dev.off()
 ```
