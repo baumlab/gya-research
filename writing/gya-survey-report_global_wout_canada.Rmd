@@ -98,7 +98,7 @@ In total, `r dim(n.gbl.wCA.res)[1]`  non-Canadian researchers completed the onli
 Researchers from many different disciplines were represented in the n.gbl.wCA.res. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
 <!-- Generate  career stage figure -->
-```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of  n.gbl.wCA.res respondents by career stage", warning=FALSE, fig.width=14}
+```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of non-canadian survey respondents by career stage", warning=FALSE, fig.width=14}
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
 
