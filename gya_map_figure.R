@@ -37,7 +37,7 @@ gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
 
 # add our colored regions
-gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)+ scale_fill_continuous(name="Number of\nresponses")
 
 #gg<- gg +scale_fill_continuous(expand=c(0,0), limits=c(0,1350),breaks=c(0,50,100,150, 200,250, 500, 750, 1000, 1250))
 
@@ -98,13 +98,13 @@ gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
 
 # add our colored regions (not canada)
-gg <- gg + geom_map(data=nations.wCA, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+gg <- gg + geom_map(data=nations.wCA, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)+ scale_fill_continuous(name="Number of\nresponses")
 # add our colored regions (canada)
 #gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="tomato2",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)     # saved as red
 #gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="mediumseagreen",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)  # saved as green2
 #gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="springgreen3",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)    # saved as green
 #gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="slategray2",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)     #saved as lightblue
-#gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="grey",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)      # saved as grey
+gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="grey",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)      # saved as grey
 
 
 #pdf(file="figures/map_w.out_CA_1.pdf", width = 11, height= 7)
