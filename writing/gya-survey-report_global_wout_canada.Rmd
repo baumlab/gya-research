@@ -125,7 +125,7 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_x_discrete(labels=c("Senior academic", "Early career\nacademic", "Postdoc or RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
-  labs(y="Number of responses", x="") +
+  labs(y="Number of responses", x="", title="Responses by career stage (without Canadian responses)") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(aspect.ratio=1/2,legend.title=element_blank(), 
         legend.text=element_text(size=10), 
@@ -133,7 +133,7 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         axis.text.x=element_text(angle=0, size=9), 
         axis.title=element_text(size=11),
         panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank()) + 
+        panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   colScale + guides(fill=FALSE)+
   scale_y_continuous(expand = c(0,0), limits = c(0,860))
 dev.off()
@@ -157,14 +157,14 @@ pdf(file="figures/global/w_out_Canada/4.2_FieldofResearch.pdf", width = 11, heig
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  labs(y="Number of responses",x="", title="")  +
+  labs(y="Number of responses",x="", title="Responses by field of research (without Canadian responses)")  +
   scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\nLife Science", "Engineering", "Interdisciplinary\nScience", "Social Science/\nHumanities", "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
          axis.text.x=element_text(angle=0, size=9),
          axis.title=element_text(size=11),
          panel.grid.major = element_blank(),
-         panel.grid.minor = element_blank()) + 
+         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   guides(fill=FALSE) + colScale+
   scale_y_continuous(expand = c(0,0), limits = c(0,360))
 
@@ -291,13 +291,13 @@ pdf(file="figures/global/w_out_Canada/4.3.1_ResearchProportion.pdf", width = 11,
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-    labs(x="Percent", y="Number of responses")+
+    labs(x="Percent", y="Number of responses", title="Reseach type by proportion (without Canadian responses)")+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.72, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
-          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
+          legend.position=c(0.7, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
+          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) + colScale + 
   scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,275),breaks=c(0,50,100,150, 200,250))
 
 dev.off()
@@ -409,7 +409,7 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"))
+p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by proportion (without Canadian responses)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5))
 p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"))
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
@@ -436,7 +436,7 @@ global.yes.no<-global.yes.no[!global.yes.no$changed_10yrs=="",]
 
 p1<-ggplot(data=global.yes.no, aes(x=changed_10yrs, y=gender, fill=gender))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank())+geom_text(aes(label=gender), vjust=-0.5)+labs(y="Number of responses")+ scale_y_continuous(expand = c(0, 0), limits = c(0,700))+ annotate('text', 0.5,1343, label="(a)", size=5)
+          panel.grid.minor = element_blank(), axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5))+geom_text(aes(label=gender), vjust=-0.5)+labs(y="Number of responses", title="Change in research type\n(without Canadian responses)")+ scale_y_continuous(expand = c(0, 0), limits = c(0,700))+ annotate('text', 0.5,1343, label="(a)", size=5)
   
 ####reason for change  
 reason<-subset(research.change.w.CA, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
@@ -444,7 +444,7 @@ reason<-subset(research.change.w.CA, select=c("Location","Country","Country_work
 
 # switch to long format
 require(tidyr)
-global.long<-gather(reason, reason.change.glb, yes.glb, -Location, -gender, -Country_work, -Country)
+global.long<-gather(reason, reason.change.glb, yes.glb, -Location, -nation, -gender, -Country_work, -Country)
 # using table to count cases of each category
 sum.global<-data.frame(table(global.long$reason.change.glb, global.long$yes.glb))
 #remove non-response
@@ -459,9 +459,9 @@ myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
 p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank()) +guides(fill=FALSE) +
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
-  labs(y="Number of responses")+
+  labs(y="Number of responses", title="Reason for change in research type\n(without Canadian responses)")+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 375))+annotate('text', 5.4,785, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
@@ -494,8 +494,8 @@ myColors5<-myColors5[c(4,4,4,4,4,4)]
 pdf(file="figures/global/w_out_Canada/4.5_ViewFieldChange.pdf", width = 11, height= 7)
 
 ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
-  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,200))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type (without Canadian responses)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,200))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
 dev.off()
 ```
@@ -657,13 +657,13 @@ pdf(file="figures/global/w_out_Canada/4.6_LevelsOfPartnership.pdf", width = 11, 
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
   geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
-  labs(x="", y="Number of responses", fill="")+
+  labs(x="", y="Number of responses", fill="", title="Level of partnership outside of academia (without Canadian responses)")+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),legend.text=element_text(size = 9),
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.08, 0.94), 
-        legend.title=element_blank()) +
+        legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,590))
 
 dev.off()
@@ -682,10 +682,10 @@ myColors<-myColors[c(9, 7,5)]
 g1<-ggplot(data=change.part.glb, aes(x=Var1, y=Freq, fill=Var1))+ 
     geom_bar(stat='identity') + 
     guides(fill=FALSE) + 
-    labs(x="", y="Number of responses",title="")+
+    labs(x="", y="Number of responses",title="Change in level of external partnerships (without Canadian responses)")+
   geom_text(aes(label=Freq), vjust=-0.5)+
   theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank()) + 
+        panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   scale_fill_manual(name = "Var1",values = myColors) +
   #annotate('text', 3.25,606, label="(a)", size=7)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,760))
@@ -711,9 +711,9 @@ g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) +
           legend.position=c(0.8, 0.8), 
           legend.title=element_blank(),
           panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank()) + 
+          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   geom_text(aes(label=Freq), vjust=-0.5, size=3)+
-  labs(x="", y="Number of responses", title="")+scale_fill_manual(name = "Var1",values = myColors7)+
+  labs(x="", y="Number of responses", title="Reason for change in level of external partnerships (without Canadian responses)")+scale_fill_manual(name = "Var1",values = myColors7)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,360))
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
@@ -746,8 +746,8 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   guides(fill=FALSE)+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
-  labs(x="", y="Number of responses") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,175), breaks = seq(0,300,50))
+        axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11), plot.title = element_text(hjust = 0.5)) + 
+  labs(x="", y="Number of responses", title="Opinion of change in level of external partnerships (without Canadian responses)") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,175), breaks = seq(0,300,50))
 
 dev.off()
 
@@ -860,7 +860,7 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 
 ```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
-
+part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
 #remove CA responses
 part3.grants.long <- part3.grants.long[part3.grants.long$nation!="Canada",]
 
@@ -895,6 +895,10 @@ grants.gbl$ID<-paste(grants.gbl$type.grant, grants.gbl$time)
 grants.gbl$ID<-as.factor(grants.gbl$ID)
 grants.gbl$ID<-factor(grants.gbl$ID, levels(grants.gbl$ID)[c(4,3,6,5,2,1)])
 
+
+## add colors
+mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
+
 pdf(file="figures/global/w_out_Canada/4.9_NumberGrantApps.pdf", height=7, width =11)
 
 
@@ -916,11 +920,11 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values =mycols[c(4,5)], labels=c("2006-2010", "2011-2015"))+labs(title="Fundamental")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
+p1<-p1+scale_fill_manual(name = "ID",values =mycols[c(2,4)], labels=c("2006-2010", "2011-2015"))+labs(title="Fundamental")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
 p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(title="Use-inspired")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
-p3<-p3+scale_fill_manual(name = "ID",values =mycols[c(2,3)], labels=c("2006-2010", "2011-2015"))+labs(title="Applied")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
+p3<-p3+scale_fill_manual(name = "ID",values =mycols[c(3,5)], labels=c("2006-2010", "2011-2015"))+labs(title="Applied")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
 
-grid.arrange(p1,p2,p3, nrow=1)
+grid.arrange(p1,p2,p3, nrow=1, top=textGrob("Number of research grant applications (without Canadian responses)",gp=gpar(fontsize=17)))
 
 dev.off()
 
@@ -1051,12 +1055,12 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
         panel.grid.minor = element_blank(),
          strip.text.x = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-        legend.position=c(0.15, 0.9))+
+        legend.position=c(0.15, 0.9), plot.title = element_text(hjust = 0.5))+
   guides(fill=FALSE)+
   geom_text(aes(label=Freq, vjust=-0.4),size=3) +
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
-  labs(x="", y="Number of responses", fill="")+ colScale+
+  labs(x="", y="Number of responses", fill="", title="Change in grant success rate (without Canadian responses)")+ colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,550))
 
 dev.off()
@@ -1094,10 +1098,10 @@ ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) +
         legend.key=element_blank(),legend.text=element_text(size = 9),
         legend.position=c(0.89, 0.91),
         axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.x=element_text(size = 11),
-        axis.title.y=element_text(size = 11)) +
+        axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
-  labs(x="Importance of suggesting practical research applications", y="Number of responses")+ colScale+
+  labs(x="Importance of suggesting practical research applications", y="Number of responses", title="Importance of practical application for grant success (without Canadian responses)")+ colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,420))
   
 dev.off()
@@ -1127,13 +1131,13 @@ pdf(file="figures/global/w_out_Canada/4.13_ImportancePartnersApplication.pdf", h
 ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="Importance of external partnerships", y="Number of responses")+
+    labs(x="Importance of external partnerships", y="Number of responses", title="Importance of external partnership to the success of grants (without Canadian responses)")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
           legend.key=element_blank(),
           legend.position=c(0.11, 0.93), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
-          axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11)) + colScale+
+          axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) + colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,380))
 
 dev.off()
@@ -1311,7 +1315,7 @@ pdf(file="figures/global/w_out_Canada/4.14_DistributionFunding.pdf", height=7, w
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
                          p5,
-                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))))
+                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (without Canadian responses)",gp=gpar(fontsize=17)))
 
 dev.off()
 
@@ -1348,12 +1352,12 @@ pdf(file="figures/global/w_out_Canada/4.15_PerceivedImportanceFundamentalGovernm
 
 ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
-      labs(x="", y="Number of responses", fill="")+
+      labs(x="", y="Number of responses", fill="", title="Perceived importance of fundamental research to their government (without Canadian responses)")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
       geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9)) +
+            panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,465)) + colScale
 
 dev.off()
@@ -1389,8 +1393,8 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         theme(aspect.ratio=3/4, 
               axis.text.x = element_text(angle=0, vjust=0.4, size=9),
               panel.grid.major = element_blank(),
-              panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9)) +
-        labs(x="", y="Number of responses", fill="") +
+              panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
+        labs(x="", y="Number of responses", fill="", title="Perceived change in research priority by their government (without Canadian responses)") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
   geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1050))+ colScale
 
@@ -1441,9 +1445,9 @@ ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
           panel.grid.minor = element_blank(),
            strip.text.x = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.8, 0.2), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9)) +
+          legend.position=c(0.8, 0.2), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
     guides(fill=FALSE)+
-    labs(x="", y="Number of responses", fill="")+
+    labs(x="", y="Number of responses", fill="", title="Anticipated change in funding (without Canadian responses)")+
     scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
@@ -1487,11 +1491,11 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
         scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     guides(fill=FALSE) +
- labs(x="", y="Number of responses")+
+ labs(x="", y="Number of responses", title="Effect of funding changes on the next generation of researchers (without Canadian responses)")+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-          axis.title.y=element_text(size=11), axis.text.y=element_text(size=9))+
+          axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,450))+colScale
 
