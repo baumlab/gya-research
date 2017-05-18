@@ -119,7 +119,7 @@ barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
 
 pdf(file="figures/global/responses_country_gapplot.pdf", height=8, width=11)
 
-par(mar=c(7,4,4,2))
+par(mar=c(11,4,4,2))
 gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
             ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1350), main = "Responses by country",las=2, col=c(blue2red(29)))
 
@@ -128,47 +128,63 @@ dev.off()
 
 ## >10 responses
 
-locations<-aggregate(gender ~ nation, survey, length)
-locations<-locations[!locations$nation=="",]
-locations$gender<-as.numeric(locations$gender)
-locations<-locations[locations$gender>10,]
+locations.more<-aggregate(gender ~ nation, survey, length)
+locations.more<-locations.more[!locations.more$nation=="",]
+locations.more$gender<-as.numeric(locations.more$gender)
+locations.more<-locations.more[locations.more$gender>10,]
 require(colorRamps);require(plotrix)
-barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
 
-color<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
 
 
 pdf(file="figures/global/responses_country_10+_gapplot_1.pdf", height=8, width=11)
 
 par(mar=c(7,4,4,2))
-gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300), main = "Countries with greater than 10 responses",las=2, col=color)
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300), main = "Countries with greater than 10 responses",las=2, col=color1)
 
 dev.off()
 
 #col=c(blue2red(29))
 
-## <10 responses
+## <=10 responses
 
-locations<-aggregate(gender ~ nation, survey, length)
-locations<-locations[!locations$nation=="",]
-locations$gender<-as.numeric(locations$gender)
-locations<-locations[locations$gender<=10,]
+locations.less<-aggregate(gender ~ nation, survey, length)
+locations.less<-locations.less[!locations.less$nation=="",]
+locations.less$gender<-as.numeric(locations.less$gender)
+locations.less<-locations.less[locations.less$gender<=10,]
 require(colorRamps);require(plotrix)
-barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
 
-color<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+color2<-'#1f78b4'
+color2<-rep(color2,55)
 
-pdf(file="figures/global/responses_country_10-_gapplot.pdf", height=8, width=11)
+pdf(file="figures/global/responses_country_10-_gapplot_1.pdf", height=8, width=11)
 
-par(mar=c(7,4,4,2))
-barplot(sort(locations$gender,decreasing=TRUE), names.arg = locations$nation[order(locations$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
-            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=c(blue2red(55)), axis.lty="solid", space=0)
+par(mar=c(11,4,4,2))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color, axis.lty="solid", space=0, xaxs="i")
 box()
 
 dev.off()
 
+#c(blue2red(55)
 
+
+##combine  >10 and <= 10 figures
+
+pdf(file="figures/global/responses_country_10+&10-_gapplot.pdf", height=8, width=15)
+layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
+par(mar=c(11,4,4,2))
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300), main = "Countries with greater\nthan 10 responses",las=2, col=color1)
+par(mar=c(11,2,4,1))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+box()
+
+dev.off()
 
 ####not updated#####################################
 ##1b  top 20+
