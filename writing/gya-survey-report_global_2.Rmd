@@ -113,6 +113,7 @@ dev.off()
   
 ### responses by country gap plot
 locations<-aggregate(gender ~ nation, survey, length)
+locations<-locations[!locations$nation=="",]
 require(colorRamps);require(plotrix)
 barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
 
@@ -124,7 +125,52 @@ gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xax
 
 dev.off()
 
-####not updated
+
+## >10 responses
+
+locations<-aggregate(gender ~ nation, survey, length)
+locations<-locations[!locations$nation=="",]
+locations$gender<-as.numeric(locations$gender)
+locations<-locations[locations$gender>10,]
+require(colorRamps);require(plotrix)
+barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+
+color<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+
+
+pdf(file="figures/global/responses_country_10+_gapplot_1.pdf", height=8, width=11)
+
+par(mar=c(7,4,4,2))
+gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300), main = "Countries with greater than 10 responses",las=2, col=color)
+
+dev.off()
+
+#col=c(blue2red(29))
+
+## <10 responses
+
+locations<-aggregate(gender ~ nation, survey, length)
+locations<-locations[!locations$nation=="",]
+locations$gender<-as.numeric(locations$gender)
+locations<-locations[locations$gender<=10,]
+require(colorRamps);require(plotrix)
+barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+
+color<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+
+pdf(file="figures/global/responses_country_10-_gapplot.pdf", height=8, width=11)
+
+par(mar=c(7,4,4,2))
+barplot(sort(locations$gender,decreasing=TRUE), names.arg = locations$nation[order(locations$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=c(blue2red(55)), axis.lty="solid", space=0)
+box()
+
+dev.off()
+
+
+
+####not updated#####################################
 ##1b  top 20+
 require(plotrix)
 country.list<-c("Canada" , "France",
