@@ -907,6 +907,8 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 
 ```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
+part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
+
 part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
 
 
@@ -937,6 +939,10 @@ grants.gbl$ID<-paste(grants.gbl$type.grant, grants.gbl$time)
 grants.gbl$ID<-as.factor(grants.gbl$ID)
 grants.gbl$ID<-factor(grants.gbl$ID, levels(grants.gbl$ID)[c(4,3,6,5,2,1)])
 
+##colors
+mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
+#mycols<-as.data.frame(mycols)
+
 pdf(file="figures/global/4.9_NumberGrantApps.pdf", height=7, width =11)
 
 
@@ -958,11 +964,11 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values =mycols[c(4,5)], labels=c("2006-2010", "2011-2015"))+labs(title="Fundamental")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
+p1<-p1+scale_fill_manual(name = "ID",values =mycols[c(2,4)], labels=c("2006-2010", "2011-2015"))+labs(title="Fundamental")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
 p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(title="Use-inspired")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
-p3<-p3+scale_fill_manual(name = "ID",values =mycols[c(2,3)], labels=c("2006-2010", "2011-2015"))+labs(title="Applied")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
+p3<-p3+scale_fill_manual(name = "ID",values =mycols[c(3,5)], labels=c("2006-2010", "2011-2015"))+labs(title="Applied")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
 
-grid.arrange(p1,p2,p3, nrow=1)
+grid.arrange(p1,p2,p3, nrow=1, top=textGrob("Number of research grant applications",gp=gpar(fontsize=17)))
 
 dev.off()
 
@@ -1032,7 +1038,7 @@ out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
           strip.text.x = element_text(size=12, face="bold", color="black", hjust=0.5),
           strip.background = element_rect(colour="white", fill="white"),
            axis.title.y=element_text(size=11),plot.title = element_text(size=12, face="bold", hjust=0.5),
-          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) + colScale +
+          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale +
     scale_y_continuous(expand=c(0,0), limits=c(0,400))
  })
 do.call(grid.arrange, out2)
@@ -1215,7 +1221,7 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 ```
 
 ```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.",  warning=FALSE}
-
+p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 ##revalue the year values
 p3_master.long$year<- revalue(p3_master.long$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
 #change order of levels
@@ -1234,7 +1240,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
-          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
+          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(list(title= "Industry", x="", y = "Number of responses"))+
   scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
@@ -1254,7 +1260,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           legend.key.size = unit(0.3, "cm"),plot.title = element_text(size=12, hjust = 0.5, face="bold"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
-          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
+          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Government", x="", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
@@ -1276,7 +1282,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           legend.key.size = unit(0.3, "cm"),plot.title = element_text(size=12, hjust = 0.5, face="bold"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
-          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
+          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Internal",x="% research funding", y = "Number of responses")+
   scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
@@ -1298,7 +1304,7 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           legend.key.size = unit(0.3, "cm"),plot.title = element_text(size=12, hjust = 0.5, face="bold"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
-          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
+          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Non-governnmental", x="% research funding", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
@@ -1319,7 +1325,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           legend.key.size = unit(0.3, "cm"),plot.title = element_text(size=12, hjust = 0.5, face="bold"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
-          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
+          axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Other", x="% research funding", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
@@ -1335,7 +1341,7 @@ pdf(file="figures/global/4.14_DistributionFunding.pdf", height=7, width =11)
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
                          p5,
-                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))))
+                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding",gp=gpar(fontsize=17)))
 
 dev.off()
 
