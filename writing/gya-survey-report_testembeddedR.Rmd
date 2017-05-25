@@ -151,7 +151,7 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field.can$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-pdf(file="figures/4.2_FieldofResearch.pdf", width = 11, height= 7)
+#pdf(file="figures/4.2_FieldofResearch.pdf", width = 11, height= 7)
 
 ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -165,6 +165,8 @@ ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_resea
          panel.grid.minor = element_blank()) + 
   guides(fill=FALSE) + colScale+
   scale_y_continuous(expand = c(0,0), limits = c(0,410))
+
+
 
 dev.off()
 ```
@@ -675,7 +677,6 @@ g2<-ggplot(sum.canada, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
   scale_y_continuous(expand = c(0, 0), limits = c(0,435))+annotate('text', 5.35,423, label="(a)", size=5)+
   scale_x_discrete(labels=c("Funding\n  ", "Interest\n  ", 
                                     "Career\n  ", "Social\n  ", "Other\n  "))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
-g2
 
 
 ###plot 2
@@ -686,13 +687,15 @@ g3<-ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change
   theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11)) +guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x=NULL, y="")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,137))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.35,133, label="(b)", size=5)+scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", 
                                     "Neutral", "Slightly\nnegative", "Very\nnegative"),limits = rev(levels(change.view.ca$gender)))
-g3
 
 
 
-pdf(file="figures/4.2_ResearchFoci_29apr.pdf", width = 11, height = 8)
-grid.arrange(g2, g3, ncol=2)
+#pdf(file="figures/4.2_ResearchFoci_29apr.pdf", width = 6.4, height = 2.25)
+#grid.arrange(g2, g3, ncol=2)
+g2.3<-arrangeGrob(g2, g3, ncol=2)
+g2.3
 
+ggsave("figures/4.2_FieldofResearch_25May17.pdf",g2.3, width = 6.4, height = 2.25, units = "in", scale=2)
 
 dev.off()
 ```
@@ -1644,9 +1647,13 @@ p14<-ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
   geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1260))+ colScale+annotate('text', 0.6,1200, label="(b)", size=5)+ theme(plot.margin=unit(c(1,1,1,-1), "cm"))
 p14
 
-pdf(file="figures/4.5_13Apr.pdf", width = 11, height = 7)
+#pdf(file="figures/4.5_13Apr.pdf", width = 11, height = 7)
 
-grid.arrange(p13, p14, nrow=1,widths=c(0.535,0.465))
+#grid.arrange(p13, p14, nrow=1,widths=c(0.535,0.465))
+g13.14<-arrangeGrob(p13,p14,nrow=1,widths=c(0.535,0.465) )
+
+
+ggsave("figures/4.5_25May17.pdf",g13.14, width = 6.4, height = 2.25, units = "in", scale=2)
 
 dev.off()
 ```
@@ -1686,7 +1693,7 @@ availability.ca$what.type<-revalue(availability.ca$what.type, c("available_fundi
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-pdf(file="figures/4.17_12Apr.pdf", height=7, width =11)
+#pdf(file="figures/4.17_12Apr.pdf", height=7, width =11)
 
 ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -1703,6 +1710,8 @@ ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     facet_wrap(~what.type,nrow=3)+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
   scale_y_continuous(expand = c(0, 0), limits = c(0,580), breaks = seq(0,500,100))
+
+
 
 dev.off()
 
@@ -1737,12 +1746,14 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     guides(fill=FALSE) +
  labs(x="", y="Number of responses")+
-  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5),
+  theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-          axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9))+
+          axis.title.y=element_text(size=11), axis.text.y=element_text(size=9))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,345))+colScale
+
+ggsave("figures/4.18_25May17.pdf", width = 6.4, height = 2.4, units = "in", scale=2)
 ```
 
 **Influence of gender, career stage, and dicipline on survey responses**  
