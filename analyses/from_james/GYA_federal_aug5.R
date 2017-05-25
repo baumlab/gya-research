@@ -6,7 +6,7 @@ setwd("/Users/jpwrobinson/Google_Drive/R_PROJECTS_DATA/VISUALISATIONS/global-you
 setwd("/Users/IMAC3/Google_Drive/R_PROJECTS_DATA/VISUALISATIONS/global-young-academy-GDP")
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 theme_set(theme_minimal(base_size=14))
-require(tidyr); require(scales); require(grid); require(RColorBrewer)
+require(tidyr); require(scales); require(grid); require(RColorBrewer); require(ggplot2); require(Cairo); require(quartz)
 
 palette(brewer.pal(n=8, name="Dark2"))
 
@@ -186,20 +186,27 @@ grid.arrange(g1%+% dat4.sub, g2, layout_matrix = rbind(1,1,1,2,2))
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 5 #-----------------------
 #-----------------------#-----------------------#-----------------------
-
-
+theme_set(theme_minimal(base_size=14))
+dat5<-read.csv("data/from_James/part5-international-july/aug5/federal/graph5.csv", check.names=FALSE)
 dat5<-gather(dat5,  year, value, -Type)
 
 ylabel='Expenditure (Millions of 2015 Constant Dollars)'
 
+#pdf(file="figures/from_James/GYA_box3.1_24May17_2.pdf", height=1.95, width =6.2)
+#jpeg("Plot3.jpeg", width = 6.2, height = 1.95, units = 'in', res = 600)
+
 ggplot(dat5, aes(as.numeric(year), value, col=Type)) + 
-  geom_line(size=1) + scale_x_continuous(breaks=seq(2005, 2015,1)) + 
+  geom_line(size=1) + scale_x_continuous(breaks=seq(2005, 2016,1)) + 
   labs(x="", y=ylabel) + 
   theme(legend.title=element_blank(),
   	legend.position="bottom",
   	plot.margin=unit(c(0,0,-0.2,0.8), "cm"),
+  	#plot.margin=unit(c(0,0,0,0), "cm"),
   	 axis.title.y=element_text(hjust=0.5, vjust=-1),
+  	#axis.title.x=element_text(size=11),
+  	#axis.text.y=element_text(size=9),
   	 axis.text.x=element_text(angle=0),
+  #	legend.text = element_text(size=9),
   	 strip.background = element_blank(),
        strip.text.x = element_blank())  +
   scale_y_continuous(labels=comma)+
@@ -207,7 +214,9 @@ ggplot(dat5, aes(as.numeric(year), value, col=Type)) +
   guides(col=guide_legend(nrow=2)) +
   scale_colour_manual(values=c(brewer.pal(4, name="Paired")))
 
+#ggsave("mtcars.pdf", width = 6.2, height = 1.95, units = "in")
 
+dev.off()
 
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 6 #-----------------------
@@ -244,10 +253,12 @@ dev.off()
 #-----------------------#-----------------------#-----------------------
 	#----------------------- GRAPH 7 #-----------------------
 #-----------------------#-----------------------#-----------------------
-
+dat7<-read.csv("data/from_James/part5-international-july/aug5/federal/graph7.csv", check.names=FALSE)
 dat7<-gather(dat7, Year, value, -panel, -type)
 
 ylabel='Expenditure\n (Millions of 2015 Constant Dollars)'
+
+#pdf(file="figures/from_James/GYA_box3.1_24May17.pdf", height=8, width =11)
 
 g1<-ggplot(dat7[!dat7$type=="Personnel",],
 			aes(Year, value, fill=type)) + geom_bar(stat="identity") +  scale_y_continuous(labels=comma) +
@@ -257,12 +268,13 @@ g1<-ggplot(dat7[!dat7$type=="Personnel",],
 				legend.title=element_blank(),
 				legend.background=element_rect(fill="white"),
 				legend.key.height=unit(0, 'cm'),
-				legend.margin = unit(0, "cm"),
+				#legend.margin = unit(0, "cm"),
 				plot.margin=unit(c(0,0,0,0), "cm"),
 				axis.title.y=element_text(hjust=0.5, size=12),
 				axis.text.x=element_text()) +
 scale_fill_manual(values=c(brewer.pal(2, name="Paired")))
 			# scale_x_continuous(breaks=seq(2005, 2015, 1))
+
 
 ylabel="Number of personnel engaged in R&D"
 
