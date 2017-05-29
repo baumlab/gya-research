@@ -27,14 +27,14 @@ dat7<-read.csv("data/from_James/part5-international-july/aug11/highered_research
 
 # NSERC
 
-#jpeg(file="figures/jpeg/apr2017/GYA_agencydata_3.1_apr10_2017.jpeg")
+#jpeg(file="figures/jpeg/apr2017/GYA_agencydata_3.1_may28_2017.jpeg")
 
 
 dat1<-gather(dat1,  Year, value, -panel, -Type)
 dat1$value<-as.numeric(dat1$value)
 
 
-ylabel <- "Expenditure\n (Millions of 2016 \nConstant Dollars)"
+ylabel <- "Expenditure\n (Millions of 2016 \nconstant dollars)"
 n1<-ggplot(dat1[dat1$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -51,7 +51,7 @@ n1<-ggplot(dat1[dat1$panel=='top',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   # guides(col=FALSE)
 
-ylabel <- "Average Award Value\n (2016 Constant Dollars)"
+ylabel <- "Average award value\n (2016 constant dollars)"
 n2<-ggplot(dat1[dat1$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -68,7 +68,7 @@ n2<-ggplot(dat1[dat1$panel=='mid',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Number of Grants\n Awarded\n(Fiscal Year)"
+ylabel <- "Number of grants\n awarded\n(Fiscal year)"
 n3<-ggplot(dat1[dat1$panel=='bot',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -105,7 +105,7 @@ dat3$value<-as.numeric(dat3$value)
 
 
 
-ylabel <- "Percent of Projects\n Funded"
+ylabel <- "Per cent of projects\n funded"
 n4<-ggplot(dat3[dat3$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   #geom_point(data=dat3[dat3$panel=='top' & dat3$star=='star',], aes(Year, value), col='red', shape=8)+
@@ -124,7 +124,7 @@ n4<-ggplot(dat3[dat3$panel=='top',], aes(Year, value, col=Type, group=Type)) +
 # facet_wrap(~Type, scales="free")+
  guides(col=FALSE)
 
-ylabel <- "Number of Projects Awarded\nby Competition Year"
+ylabel <- "Number of projects awarded\nby competition year"
 n5<-ggplot(dat3[dat3$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   #geom_point(data=dat3[dat3$panel=='mid' & dat3$star=='star',], aes(Year, value), col='red', shape=8)+
@@ -142,7 +142,7 @@ n5<-ggplot(dat3[dat3$panel=='mid',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Average Percent of Budget\n Awarded to Successful\n Applications"
+ylabel <- "Average per cent of budget\n awarded to successful\n applications"
 n6<-ggplot(dat3[dat3$panel=='bot',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -163,12 +163,12 @@ library("cowplot")
 #print(grid.arrange(g1, g2, g3, nrow=3))
 #print(grid.arrange(n1, n2, n3, n4, heights=c(0.25,0.25,0.25,0.25), nrow=4))
 
-pdf(file="figures/from_James/GYA_agencydata_3.1_4panels_apr29_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.1_4panels_may28_2017.pdf", height=7, width=11)
 plot_grid(n1, n2, n3, n4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
 dev.off()
 
 
-pdf(file="figures/from_James/GYA_agencydata_b1_apr29_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_b1_may28_2017.pdf", height=7, width=11)
 plot_grid(n5,n6, align="v", nrow = 2, rel_heights = c(1/2, 1/2))
 
 dev.off()
@@ -186,7 +186,7 @@ dat2<-gather(dat2,  Year, value, -panel, -Type)
 dat2$value<-as.numeric(dat2$value)
 
 
-ylabel <- "Expenditure\n (Millions of 2016 \nConstant Dollars)"
+ylabel <- "Expenditure\n (Millions of 2016 \nconstant dollars)"
 s1<-ggplot(dat2[dat2$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -203,7 +203,7 @@ s1<-ggplot(dat2[dat2$panel=='top',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   # guides(col=FALSE)
 
-ylabel <- "Average Award Value\n (2016 Constant Dollars)"
+ylabel <- "Average award value\n (2016 constant dollars)"
 s2<-ggplot(dat2[dat2$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -220,7 +220,7 @@ s2<-ggplot(dat2[dat2$panel=='mid',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Number of Grants\n Awarded\n(Fiscal Year)"
+ylabel <- "Number of grants\n awarded\n(Fiscal year)"
 s3<-ggplot(dat2[dat2$panel=='bot',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -263,7 +263,7 @@ dat4$value<-as.numeric(dat4$value)
 #dat3$star[dat3$Type=="Discovery Grants Number of Awards" & dat3$value%in%c(2135, 2026, 2005, 2059)]<-'star'
 
 
-ylabel <- "Percent of Projects\n Funded"
+ylabel <- "Per cent of projects\n funded"
 s4<-ggplot(dat4[dat4$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -281,7 +281,7 @@ s4<-ggplot(dat4[dat4$panel=='top',], aes(Year, value, col=Type, group=Type)) +
 # guides(col=FALSE)
 
 
-ylabel <- "Number of Projects Awarded\nby Competition Year"
+ylabel <- "Number of projects awarded\nby competition year"
 s5<-ggplot(dat4[dat4$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   #geom_point(data=dat4[dat4$panel=='mid' & dat4$star=='star',], aes(Year, value), col='red', shape=8)+
@@ -300,7 +300,7 @@ s5<-ggplot(dat4[dat4$panel=='mid',], aes(Year, value, col=Type, group=Type)) +
   guides(col=FALSE)
 
 
-ylabel <- "Average Percent of Budget\n Awarded to Successful\n Applications"
+ylabel <- "Average per cent of budget\n awarded to successful\n applications"
 s6<-ggplot(dat4[dat4$panel=='bot',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -320,12 +320,12 @@ s6<-ggplot(dat4[dat4$panel=='bot',], aes(Year, value, col=Type, group=Type)) +
 
 #print(grid.arrange(s4, s5, nrow=2))
 
-pdf(file="figures/from_James/GYA_agencydata_3.2_4panels_may1_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.2_4panels_may28_2017.pdf", height=7, width=11)
 #print(grid.arrange(s1, s2, s3,s4, nrow=4))
 plot_grid(s1, s2, s3, s4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
 dev.off()
 
-pdf(file="figures/from_James/GYA_agencydata_b2_may1_2017.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_b2_may28_2017.pdf", height=7, width=11)
 plot_grid(s5, s6, align = "v", nrow = 2, rel_heights = c(1/2, 1/2))
 dev.off()
 
@@ -336,13 +336,13 @@ dev.off()
 # CIHR grants
 
 
-pdf(file="figures/from_James/GYA_agencydata_3.3_test.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.3_test_28May.pdf", height=7, width=11)
 
 dat5<-gather(dat5,  Year, value, -panel, -Type)
 dat5$value<-as.numeric(dat5$value)
 
 
-ylabel <- "Expenditure\n (Millions of 2016\nConstant Dollars)"
+ylabel <- "Expenditure\n (Millions of 2016\nconstant dollars)"
 g1<-ggplot(dat5[dat5$panel=='top',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -359,7 +359,7 @@ g1<-ggplot(dat5[dat5$panel=='top',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Average Award Value\n(2016 Constant Dollars)"
+ylabel <- "Average award value\n(2016 constant dollars)"
 g2<-ggplot(dat5[dat5$panel=='mid',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -376,7 +376,7 @@ g2<-ggplot(dat5[dat5$panel=='mid',], aes(Year, value, col=Type, group=Type)) +
   # facet_wrap(~Type, scales="free")+
   guides(col=FALSE)
 
-ylabel <- "Number of Grants\n Awarded\n(Fiscal Year)"
+ylabel <- "Number of grants\n awarded\n(Fiscal year)"
 g3<-ggplot(dat5[dat5$panel=='bot',], aes(Year, value, col=Type, group=Type)) + 
   geom_line(size=1) + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 
@@ -407,7 +407,7 @@ dat6<-gather(dat6,  Year, value, -Type)
 dat6$value<-as.numeric(dat6$value)
 
 
-ylabel <- "Percent of Projects\nFunded"
+ylabel <- "Per cent of projects\nfunded"
 g4<-ggplot(dat6, aes(Year, value, linetype=Type, group=Type )) + 
   geom_line(size=1, col='#a6cee3') + #scale_x_continuous(breaks=NULL) + 
   labs(x="", y=ylabel) + 

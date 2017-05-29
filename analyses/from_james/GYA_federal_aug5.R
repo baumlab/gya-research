@@ -190,7 +190,7 @@ theme_set(theme_minimal(base_size=14))
 dat5<-read.csv("data/from_James/part5-international-july/aug5/federal/graph5.csv", check.names=FALSE)
 dat5<-gather(dat5,  year, value, -Type)
 
-ylabel='Expenditure\n(Millions of 2015\nConstant Dollars)'
+ylabel='Expenditure\n(Millions of 2015\nconstant dollars)'
 
 #pdf(file="figures/from_James/GYA_box3.1_24May17_2.pdf", height=1.95, width =6.2)
 #jpeg("Plot3.jpeg", width = 6.2, height = 1.95, units = 'in', res = 600)
@@ -214,7 +214,7 @@ ggplot(dat5, aes(as.numeric(year), value, col=Type)) +
   guides(col=guide_legend(nrow=2)) +
   scale_colour_manual(values=c(brewer.pal(4, name="Paired")))
 
-ggsave("figures/from_James/GYA_box3.1_24May17_2.pdf", width = 6.2, height = 1.95, units = "in", scale=2)
+ggsave("figures/from_James/GYA_box3.1_28May17_2.pdf", width = 6.2, height = 1.95, units = "in", scale=2)
 
 dev.off()
 
@@ -223,7 +223,7 @@ dev.off()
 #-----------------------#-----------------------#-----------------------
 dat6<-read.csv("data/from_James/part5-international-july/aug5/federal/graph6.csv", check.names=FALSE)
 dat6<-gather(dat6, Year, value, -panel, -type, -sector)
-ylabel="Number of Researchers Employed per Sector"
+ylabel="Number of researchers employed per sector"
 dat6$sector<-revalue(dat6$sector, c("Natural Sciences and Engineering"="(a) Natural Sciences and Engineering"))
 dat6$sector<-revalue(dat6$sector, c("Social Sciences and Humanities"="(b) Social Sciences and Humanities"))
 
@@ -247,7 +247,7 @@ ggplot(dat6, aes(as.numeric(Year), value, col=type)) +
   guides(col=guide_legend(nrow=3)) +
   scale_colour_manual(values=c(brewer.pal(4, name="Paired")))
 
-ggsave("figures/from_James/GYA_figure 3.4_24May17.pdf", width = 6.4, height = 2.4, units = "in", scale=2)
+ggsave("figures/from_James/GYA_figure 3.4_28May17.pdf", width = 6.4, height = 2.4, units = "in", scale=2)
 
 dev.off()
 
