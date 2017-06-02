@@ -436,9 +436,10 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Per cent", y="Number of responses", title="")+
     theme(panel.grid.major = element_blank(),
+          plot.title = element_text(face="bold"),
           panel.grid.minor = element_blank(),
           #strip.text.x = element_text(size=12, face="bold", color="black"),
-          strip.text.x = element_text(size=12, color="black"),
+          strip.text.x = element_text(size=12, color="black", face="bold"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.93, 0.795), legend.spacing=unit(100,"cm"))+ 
     facet_wrap(~type, nrow=3) +
@@ -446,11 +447,11 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"))
+p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(face="bold"))
 p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"))
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
-pdf(file = "Figures/4.1a_29May.pdf", width = 11, height = 8)
+pdf(file = "Figures/4.1a_1Jun.pdf", width = 11, height = 8)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
@@ -764,7 +765,7 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
 
 ### reason
 part2.reason<-part2.reason[part2.reason$Country_work=="Canada" | (!(part2.reason$Country_work=="Canada") & part2.reason$Country_work=="" & part2.reason$Country=="Canada"),]
-reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -Location, -what_participant_group, -field_research)
+reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -nation, -Location, -what_participant_group, -field_research)
 sum.canada<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
 sum.canada$Var1<-revalue(sum.canada$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
@@ -857,7 +858,7 @@ p6<-ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11)) + 
-  labs(x="", y="") + colScale + scale_y_continuous(expand = c(0, 0), limits = c(0,165 ), breaks = seq(0,160,40))+scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", "Neutral", "Slightly\nnegative", "Very\nnegative"))+annotate('text', 0.65,158, label="(c)", size=5)
+  labs(x="", y="") + colScale + scale_y_continuous(expand = c(0, 0), limits = c(0,165 ), breaks = seq(0,160,40))+scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", "Neutral\n", "Slightly\nnegative", "Very\nnegative"))+annotate('text', 0.65,158, label="(c)", size=5)
 p6
 
 
@@ -900,7 +901,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-pdf(file="figures/4.2_13Apr.pdf")
+pdf(file="figures/4.2_1June.pdf")
 
 multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
@@ -1613,8 +1614,8 @@ p13<-ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       geom_bar(stat='identity', position='dodge')+ 
       labs(x="", y="Number of responses", fill="")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
-      geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
-      theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
+      geom_text(aes(label=Freq, vjust=-0.5), size=3.5) + guides(fill=FALSE)+
+      theme(#aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9)) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,550)) + colScale+annotate('text', 0.6,525, label="(a)", size=5)+ theme(plot.margin=unit(c(1,1,1,1), "cm"))
@@ -1644,21 +1645,21 @@ colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
 p14<-ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
-        theme(aspect.ratio=3/4, 
+        theme(#aspect.ratio=3/4, 
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9)) +
         labs(x="", y="", fill="") +
   scale_x_discrete(labels=c( "Fundamental\n    ", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1260))+ colScale+annotate('text', 0.6,1200, label="(b)", size=5)+ theme(plot.margin=unit(c(1,1,1,-1), "cm"))
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3.5) +scale_y_continuous(expand = c(0, 0), limits = c(0,1260))+ colScale+annotate('text', 0.6,1200, label="(b)", size=5)+ theme(plot.margin=unit(c(1,1,1,-1), "cm"))
 p14
 
 #pdf(file="figures/4.5_13Apr.pdf", width = 11, height = 7)
 
 #grid.arrange(p13, p14, nrow=1,widths=c(0.535,0.465))
-g13.14<-arrangeGrob(p13,p14,nrow=1,widths=c(0.535,0.465) )
+g13.14<-arrangeGrob(p13,p14,nrow=1,widths=c(0.53 ,0.47) )
 
 
-ggsave("figures/4.5_25May17.pdf",g13.14, width = 6.4, height = 2.25, units = "in", scale=2)
+ggsave("figures/4.5_1Jun17.pdf",g13.14, width = 6.4, height = 2.25, units = "in", scale=2)
 
 dev.off()
 ```
@@ -1666,7 +1667,7 @@ dev.off()
 
 
 
-```{r, echo=FALSE, fig.cap="Fig 4.17 (now 4.7) Anticipated change in research funding in next five years in Canada. Researchers were asked whether the availability of research funding would change in the next five years, for each research category. Responses were/were not significantly different between genders. "}
+```{r, echo=FALSE, fig.cap="Fig 4.17 (now 4.8) Anticipated change in research funding in next five years in Canada. Researchers were asked whether the availability of research funding would change in the next five years, for each research category. Responses were/were not significantly different between genders. "}
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
@@ -1698,14 +1699,14 @@ availability.ca$what.type<-revalue(availability.ca$what.type, c("available_fundi
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-pdf(file="figures/4.17_May29.pdf", height=7, width =11)
+pdf(file="figures/4.17_1Jun.pdf", height=7, width =11)
 
 ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
     theme(aspect.ratio=1/4, axis.text.x = element_text(angle=0, vjust=0.5, size = 9),
           panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
-           strip.text.x = element_text(size=12, face="bold", color="black"),
+           strip.text = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.8, 0.2), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9)) +
     guides(fill=FALSE)+
@@ -1723,7 +1724,7 @@ dev.off()
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.18 (now 4.8) Effect of change in research funding on research careers of next generation in Canada. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
+```{r, echo=FALSE, fig.cap="Fig 4.18 (now 4.7) Effect of change in research funding on research careers of next generation in Canada. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders."}
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))

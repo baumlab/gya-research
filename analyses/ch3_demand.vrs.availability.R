@@ -45,11 +45,11 @@ differ.long$grant<-ifelse(grepl( "nserc", differ.long$type),"(a) NSE", "(b) SSH"
 #change levels so fundamental is on top in legend
 differ.long$type<-factor(differ.long$type, levels(differ.long$type)[c(2,1,4,3)])
 
-pdf(file="figures/funding_trend_3.5_28May.pdf", height=8, width =11)
+pdf(file="figures/funding_trend_3.5_1Jun.pdf", height=8, width =11)
 
 ggplot(differ.long, aes(as.numeric(year), value, col=type)) + 
   geom_line(size=1) + scale_x_continuous(breaks=seq(2005, 2015,1)) + 
-  labs(x="", y="Expenditure per canadian researcher\n(2016 constant dollars)") + 
+  labs(x="", y="Expenditure per Canadian researcher\n(2016 constant dollars)") + 
   facet_wrap(~ grant)+
   theme(aspect.ratio=3/4, legend.title=element_blank(),
         legend.position=c(0.6, 0.85),
