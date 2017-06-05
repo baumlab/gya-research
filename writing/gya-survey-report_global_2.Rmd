@@ -85,6 +85,8 @@ percent.int <- ((dim(n.int)[1])/(dim(survey)[1]))*100 #Calculate the % of respon
 n.ssh <- survey[survey$field_research=="Social Science / Humanities",]
 percent.ssh <- ((dim(n.ssh)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
+
+require(ggplot2)
 ```
 
 **Results**  
@@ -164,7 +166,7 @@ pdf(file="figures/global/responses_country_10-_gapplot_1.pdf", height=8, width=1
 
 par(mar=c(11,4,4,2))
 barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
-            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color, axis.lty="solid", space=0, xaxs="i")
+            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
 box()
 
 dev.off()
@@ -178,7 +180,7 @@ pdf(file="figures/global/responses_country_10+&10-_gapplot.pdf", height=8, width
 layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300), main = "Countries with greater\nthan 10 responses",las=2, col=color1)
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300), main = "Countries with greater than 10 responses",las=2, col=color1)
 par(mar=c(11,2,4,1))
 barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
             ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
