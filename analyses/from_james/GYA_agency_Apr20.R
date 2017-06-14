@@ -336,7 +336,7 @@ dev.off()
 # CIHR grants
 
 
-pdf(file="figures/from_James/GYA_agencydata_3.3_test_28May.pdf", height=7, width=11)
+pdf(file="figures/from_James/GYA_agencydata_3.3_14Jun.pdf", height=7, width=11)
 
 dat5<-gather(dat5,  Year, value, -panel, -Type)
 dat5$value<-as.numeric(dat5$value)
@@ -420,7 +420,7 @@ g4<-ggplot(dat6, aes(Year, value, linetype=Type, group=Type )) +
         strip.text.x = element_blank())  +
   scale_y_continuous(labels=comma) +
   #scale_colour_manual(values=('#a6cee3')) +
-  annotate("text", "2005", 55, label="(d)", hjust=2) +scale_linetype_manual(values=c("solid", "dashed")) 
+  annotate("text", "2005", 55, label="(d)", hjust=2) +scale_linetype_manual(values=c("solid", "dotdash")) 
 
 #print(grid.arrange(g1, g2, g3,g4, nrow=4))
 plot_grid(g1, g2, g3, g4, align = "v", nrow = 4, rel_heights = c(1/4, 1/4, 1/4, 1/4))
