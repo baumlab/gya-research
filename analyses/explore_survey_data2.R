@@ -6,7 +6,7 @@ setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
-
+require(plyr); require(stringr)
 
 ## read data
 
@@ -184,6 +184,7 @@ write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 #distribution<-droplevels(distribution)
 #head(distribution$distriution_funding_6_10_government)
 #length(distribution$distriution_funding_6_10_government)
+
 
 
 #############
