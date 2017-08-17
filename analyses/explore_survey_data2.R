@@ -11,7 +11,7 @@ require(plyr); require(stringr)
 ## read data
 
 #survey.all<-read.csv("data/Survey-Responses-Oct.3.850pm-Toronto.csv", header=TRUE)
-survey.all<-read.csv("data/Survey_Responses_Apr_24_2017_9pm_Toronto.csv", header=TRUE)
+survey.all<-read.csv("data/fromAnina_15Aug17_survey.responses.csv", header=TRUE)
 
 suveycols<-c("Status", "Internal_ID", "Language",	"Created_At",	"Updated_At", "Location",	"Username",	"GET_Variables",
              "Number_of_Saves",	"Weighted_Score",	"Completion_Time",	"Invite_Code",	"Invite_Email",	"Invite_Name",	"Collector", "what_participant_group",
@@ -37,7 +37,7 @@ suveycols<-c("Status", "Internal_ID", "Language",	"Created_At",	"Updated_At", "L
   "opinion_fundamental_important",	"high_priority_fundamental",	"high_priority_use_inspired",
   "high_priority_applied",	"high_priority_no_change",	"high_priority_comments",	"available_funding_fundamental",
   "available_funding_use_inspired",	"available_funding_applied",	"next_generation",	"next_generation_Comments",
-  "field_research",	"PhD_Year",	"Country_work",	"gender")
+  "field_research",	"PhD_Year",	"Country_work",	"gender", 'final_comments')
 
 ##change column names
 
@@ -70,33 +70,33 @@ survey<-survey.all[survey.all$Status=="Complete",]
 dim(survey)
 
 ### cut the survey at 8 Nov 
-survey$Updated_At<-as.character(survey$Updated_At)
-dates.times<-ldply(strsplit(survey$Updated_At, '/'))
-head(dates.times)
-survey$day<-dates.times$V2
-survey$month<-dates.times$V1    
-survey$year.time<-dates.times$V3
-year.and.times<-ldply(strsplit(survey$year.time, ' '))
-survey$year<-paste("20", year.and.times$V1, sep="")    #dont care about the time
+#survey$Updated_At<-as.character(survey$Updated_At)
+#dates.times<-ldply(strsplit(survey$Updated_At, '/'))
+#head(dates.times)
+#survey$day<-dates.times$V2
+#survey$month<-dates.times$V1    
+#survey$year.time<-dates.times$V3
+#year.and.times<-ldply(strsplit(survey$year.time, ' '))
+#survey$year<-paste("20", year.and.times$V1, sep="")    #dont care about the time
 
 #add 0s to the front of single digit dates
-survey$month<-ifelse(nchar(survey$month)==1, paste(0, survey$month, sep=""), survey$month)
-survey$day<-ifelse(nchar(survey$day)==1, paste(0, survey$day, sep=""), survey$day)
+#survey$month<-ifelse(nchar(survey$month)==1, paste(0, survey$month, sep=""), survey$month)
+#survey$day<-ifelse(nchar(survey$day)==1, paste(0, survey$day, sep=""), survey$day)
 #paste together
-survey$date<-with(survey, paste(day, month, str_replace_all(year, '20', ''), sep='-'))
-survey$date<-as.Date(survey$date, format="%d-%m-%y")
+#survey$date<-with(survey, paste(day, month, str_replace_all(year, '20', ''), sep='-'))
+#survey$date<-as.Date(survey$date, format="%d-%m-%y")
 
-survey<-survey[survey$date<"2016-11-08",]
+#survey<-survey[survey$date<"2016-11-08",]
 
-dim(survey)   #2627   good there were 27 completed surveys after nov 8
+#dim(survey)   #2627   good there were 27 completed surveys after nov 8
 
 #remove date etc. columns - they are not needed anymore
-survey$'Updated_At'<-NULL
-survey$'day'<-NULL
-survey$'month'<-NULL
-survey$'year.time'<-NULL
-survey$'year'<-NULL
-survey$'date'<-NULL
+#survey$'Updated_At'<-NULL
+#survey$'day'<-NULL
+#survey$'month'<-NULL
+#survey$'year.time'<-NULL
+#survey$'year'<-NULL
+#survey$'date'<-NULL
 
 
 ### change Canada and USA
