@@ -11,7 +11,7 @@ require(plyr); require(stringr)
 ## read data
 
 #survey.all<-read.csv("data/Survey-Responses-Oct.3.850pm-Toronto.csv", header=TRUE)
-survey.all<-read.csv("data/fromAnina_15Aug17_survey.responses.csv", header=TRUE)
+survey.all<-read.csv("data/fromAnina_7Aug17_survey.responses.csv", header=TRUE)
 
 suveycols<-c("Status", "Internal_ID", "Language",	"Created_At",	"Updated_At", "Location",	"Username",	"GET_Variables",
              "Number_of_Saves",	"Weighted_Score",	"Completion_Time",	"Invite_Code",	"Invite_Email",	"Invite_Name",	"Collector", "what_participant_group",
