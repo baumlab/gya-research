@@ -11,7 +11,7 @@ require(plyr); require(stringr)
 ## read data
 
 #survey.all<-read.csv("data/Survey-Responses-Oct.3.850pm-Toronto.csv", header=TRUE)
-survey.all<-read.csv("data/fromAnina_7Aug17_survey.responses.csv", header=TRUE)
+survey.all<-read.csv("data/responses_KT_20Sept17.csv", header=TRUE)
 
 suveycols<-c("Status", "Internal_ID", "Language",	"Created_At",	"Updated_At", "Location",	"Username",	"GET_Variables",
              "Number_of_Saves",	"Weighted_Score",	"Completion_Time",	"Invite_Code",	"Invite_Email",	"Invite_Name",	"Collector", "what_participant_group",
@@ -63,7 +63,7 @@ survey.all$'final_comments'<-NULL
 
 
 ## check number of complete vs. incomplete
-table(survey.all$Status)    #2654 complete but we are going to cut it at 8 Nov
+table(survey.all$Status)    #2654 complete but we are going to cut it at 8 Nov - 20Sept17  2873 and maybe not cutting it anymore
 
 ### keep complete data only
 survey<-survey.all[survey.all$Status=="Complete",]
