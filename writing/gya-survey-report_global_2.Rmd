@@ -3,11 +3,11 @@ title: "Global online survey on fundamental research"
 author: ''
 date: "9 May 2017"
 output:
-  html_document: default
-  fig_width: 18
-  fig_height: 4
-  pdf_document: null
   word_document: default
+  fig_width: 18
+  html_document: default
+  pdf_document: null
+  fig_height: 4
 ---
 
 **Introduction**  
