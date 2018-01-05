@@ -2,7 +2,7 @@
 
 ## Read in and explore the GYA data
 
-setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
+#setwd("/Users/jpwrobinson/Documents/git_repos/gya-research")
 
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
@@ -11,7 +11,9 @@ require(plyr); require(stringr)
 ## read data
 
 #survey.all<-read.csv("data/Survey-Responses-Oct.3.850pm-Toronto.csv", header=TRUE)
-survey.all<-read.csv("data/responses_KT_10Oct17.csv", header=TRUE)
+survey.all<-read.csv("data/responses_kt_4Jan18.csv", header=TRUE)
+
+#change col names again to shorten them even more (was changed before reading into R)
 
 suveycols<-c("Status", "Internal_ID", "Language",	"Created_At",	"Updated_At", "Location",	"Username",	"GET_Variables",
              "Number_of_Saves",	"Weighted_Score",	"Completion_Time",	"Invite_Code",	"Invite_Email",	"Invite_Name",	"Collector", "what_participant_group",
@@ -39,7 +41,7 @@ suveycols<-c("Status", "Internal_ID", "Language",	"Created_At",	"Updated_At", "L
   "available_funding_use_inspired",	"available_funding_applied",	"next_generation",	"next_generation_Comments",
   "field_research",	"PhD_Year",	"Country_work",	"gender", 'final_comments')
 
-##change column names
+##change column names      
 
 colnames(survey.all)<-suveycols
 
@@ -63,7 +65,7 @@ survey.all$'final_comments'<-NULL
 
 
 ## check number of complete vs. incomplete
-table(survey.all$Status)    #2654 complete but we are going to cut it at 8 Nov - 20Sept17  2873 and maybe not cutting it anymore
+table(survey.all$Status)    #2654 complete but we are going to cut it at 8 Nov - 4Jan18  2918 and maybe not cutting it anymore
 
 ### keep complete data only
 survey<-survey.all[survey.all$Status=="Complete",]
@@ -101,7 +103,9 @@ dim(survey)
 
 ### change Canada and USA
 #########     #################     ###############
+
 ####Not all states are listed - only the ones that coorespond to responses in the survey #######
+#unique(survey$location)   #check that this is the complete list every time importing new data  - also make sure that Georgia is Georgia the state and not the country
 states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", "Vermont","Texas",
           "Michigan", "Maryland", "Florida", "Washington", "Oregon", "Nevada", "Minnesota", "Arizona",
           "Wisconsin", "Virginia", "Utah", "Ohio", "North Carolina", "New Jersey", "New Hampshire", 
@@ -110,7 +114,7 @@ states<-c("California","New York", "Pennsylvania", "Nebraska", "Massachusetts", 
           "Kansas", "Idaho", "District of Columbia")
 
 
-#does not include northwest territories as it is not in the survey
+#does not include northwest territories as it is not in the survey  - check each time
 prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New Brunswick", 
         "Newfoundland and Labrador", "Manitoba", "Saskatchewan", "Prince Edward Island", "Yukon Territory", 
         "Nunavut")
@@ -186,6 +190,12 @@ write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 #length(distribution$distriution_funding_6_10_government)
 
 
+###%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+###^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Cleaning and subsetting data 
+###^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+###%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# all subsetted csvs saved at bottom of all the code
 
 #############
 ####Part5####
@@ -211,7 +221,8 @@ survey.what<-subset(survey, select=c("Location", "nation", "Country", "gender", 
 ## read in non-subsetted data again
 survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
 
-part1<-subset(survey, select = c("Location","nation", "Country", "Country_work", "gender","what_participant_group"  , "field_research",   "percent_fundemental_research_current"  ,     "percent_Use_inspired_Research_current"   ,  
+part1<-subset(survey, select = c("Location","nation", "Country", "Country_work", "gender","what_participant_group"  , "field_research",   "percent_fundemental_research_current"  ,    
+                                 "percent_Use_inspired_Research_current"   ,  
                                   "percent_Applied_Research_current"   ,        "changed_10yrs"        ,                      "percent_Fundamental_Research_past"         ,
                                   "percent_Use_inspired_Research_past"  ,       "percent_Applied_Research_past"    ,          "Main_reason_change_interest_related" ,      
                                  "Main_reason_change_Career_related" ,         "Main_reason_change_Funding_related" ,        "Main_reason_change_Socially_related" ,      
@@ -293,7 +304,7 @@ colnames(survey.type)
 survey.type$total_research<-rowSums(survey.type[,11:13])
 
 head(survey.type[survey.type$total_research>100,])
-## need to change 64 surveys that are over 100%
+## need to change surveys that are over 100%
 survey.type$percent_Applied_Research_current<-ifelse(survey.type$total_research>100,(survey.type$percent_Applied_Research_current/survey.type$total_research)*100, survey.type$percent_Applied_Research_current)
 survey.type$percent_fundemental_research_current<-ifelse(survey.type$total_research>100,(survey.type$percent_fundemental_research_current/survey.type$total_research)*100, survey.type$percent_fundemental_research_current)
 survey.type$percent_Use_inspired_Research_current<-ifelse(survey.type$total_research>100,(survey.type$percent_Use_inspired_Research_current/survey.type$total_research)*100, survey.type$percent_Use_inspired_Research_current)
@@ -310,71 +321,7 @@ require(tidyr)
 survey.long<-gather(survey.type, type, percent, -Location, -gender, -nation, -Country_work, -Country, -what_participant_group, -field_research, -total_research)
 tail(survey.long)
 
-#write.csv(survey.long, file="data/4.1a.nubmer.calculations.csv", row.names=FALSE)
-
-#######################################
-#####do same as above but for past data
-
-## read in non-subsetted data again
-#survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
-
-## 1. change all relevant variables to characters.......
-#survey$percent_Applied_Research_past<-as.character(survey$percent_Applied_Research_past)
-#survey$percent_Applied_Research_current<-as.character(survey$percent_Applied_Research_current)
-#survey$percent_fundemental_research_current<-as.character(survey$percent_fundemental_research_current)
-#survey$percent_Fundamental_Research_past<-as.character(survey$percent_Fundamental_Research_past)
-#survey$percent_Use_inspired_Research_current<-as.character(survey$percent_Use_inspired_Research_current)
-#survey$percent_Use_inspired_Research_past<-as.character(survey$percent_Use_inspired_Research_past)
-
-#require(stringr)
-## remove all % symbols 
-#survey$percent_Applied_Research_past<-str_replace_all(survey$percent_Applied_Research_past, "[%]", "")
-#survey$percent_Applied_Research_current<-str_replace_all(survey$percent_Applied_Research_current, "[%]", "")
-#survey$percent_Use_inspired_Research_current<-str_replace_all(survey$percent_Use_inspired_Research_current, "[%]", "")
-#survey$percent_fundemental_research_current<-str_replace_all(survey$percent_fundemental_research_current, "[%]", "")
-#survey$percent_Fundamental_Research_past<-str_replace_all(survey$percent_Fundamental_Research_past, "[%]", "")
-#survey$percent_Use_inspired_Research_past<-str_replace_all(survey$percent_Use_inspired_Research_past, "[%]", "")
-
-#part1.past<-subset(survey, select=c("Location","Country",  "gender", "percent_Applied_Research_past", "percent_Fundamental_Research_past", 
-#                                "percent_Use_inspired_Research_past"))
-
-## everything's fixed. % are gone.
-
-### now we are going to standardise the % for each survey
-## 1. if every category is blank, turn to NA
-#part1.past$percent_Fundamental_Research_past[part1.past$percent_Fundamental_Research_past=="" & 
-#                                             part1.past$percent_Applied_Research_past=="" & part1.past$percent_Use_inspired_Research_past==""]<-NA
-#part1.past$percent_Applied_Research_past[is.na(part1.past$percent_Fundamental_Research_past) & 
-#                                          part1.past$percent_Applied_Research_past=="" & part1.past$percent_Use_inspired_Research_past==""]<-NA
-#part1.past$percent_Use_inspired_Research_past[is.na(part1.past$percent_Fundamental_Research_past) &
-#                                               is.na(part1.past$percent_Applied_Research_past) & part1.past$percent_Use_inspired_Research_past==""]<-NA
-
-## 2. categories with answers and blanks, turn blanks to 0
-#part1.past$percent_Fundamental_Research_past[part1.past$percent_Fundamental_Research_past==""]<-0
-#part1.past$percent_Applied_Research_past[part1.past$percent_Applied_Research_past==""]<-0
-#part1.past$percent_Use_inspired_Research_past[part1.past$percent_Use_inspired_Research_past==""]<-0
-
-#part1.past<-part1.past[!is.na(part1.past$percent_Fundamental_Research_past),]
-#part1.past<-part1.past[!(part1.past$percent_Fundamental_Research_past==0 & part1.past$percent_Applied_Research_past==0 & part1.past$percent_Use_inspired_Research_past==0),]
-
-## 3. Standardise % values > 100 in total
-#part1.past$percent_Applied_Research_past<-as.numeric(part1.past$percent_Applied_Research_past)
-#part1.past$percent_Fundamental_Research_past<-as.numeric(part1.past$percent_Fundamental_Research_past)
-#part1.past$percent_Use_inspired_Research_past<-as.numeric(part1.past$percent_Use_inspired_Research_past)
-#part1.past$total_research<-rowSums(part1.past[,4:6])
-
-#head(part1.past[part1.past$total_research>100,])
-## need to change 64 surveys that are over 100%
-#part1.past$percent_Applied_Research_past<-ifelse(part1.past$total_research>100,(part1.past$percent_Applied_Research_past/part1.past$total_research)*100, part1.past$percent_Applied_Research_past)
-#part1.past$percent_Fundamental_Research_past<-ifelse(part1.past$total_research>100,(part1.past$percent_Fundamental_Research_past/part1.past$total_research)*100, part1.past$percent_Fundamental_Research_past)
-#part1.past$percent_Use_inspired_Research_past<-ifelse(part1.past$total_research>100,(part1.past$percent_Use_inspired_Research_past/part1.past$total_research)*100, part1.past$percent_Use_inspired_Research_past)
-
-#head(part1.past[part1.past$total_research>100,])
-
-## switch to long format
-#require(tidyr)
-#survey.long.past<-gather(part1.past, type_past, percent_past, -Location, -gender, -Country)
-
+#saved
 
 #### yes/no have the portions changed and why
 
@@ -384,14 +331,14 @@ survey<-read.csv("data/gya-without-incomplete.csv", header=TRUE)
 survey.change<-subset(survey, select=c("Location","Country","Country_work", "nation",  "gender","what_participant_group"  , "field_research", "changed_10yrs", "Main_reason_change_interest_related", 
                                 "Main_reason_change_Career_related", "Main_reason_change_Funding_related","Main_reason_change_Socially_related",
                                 "Main_reason_change_Other"))
-
+#saved
 
 #### how do you view this cahnge in the type of research?
 survey<-read.csv(file="data/gya-without-incomplete.csv")
 
 part1.view<-subset(survey, select=c("Location","Country","Country_work", "nation",  "gender","what_participant_group"  , "field_research", "view_change_of_type"))
 
-
+#saved
 
 
 
@@ -407,7 +354,7 @@ survey.part4<-subset(survey, select=c("Location","Country","Country_work", "nati
                                "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", 
                                "high_priority_no_change", "available_funding_fundamental", "available_funding_use_inspired", "available_funding_applied",
                                "next_generation"))
-
+#saved
 #######################
 #######Part 2##########
 #######################
@@ -418,28 +365,33 @@ part2<-subset(survey, select=c("Country","Country_work", "nation", "gender","wha
                                "partnership_outside_before", "reason_partnership_change_interest", "reason_partnership_change_career", 
                                "reason_partnership_change_socially",  "reason_partnership_change_funding", "reason_partnership_change_other",
                                "view_change_partnership"))
+#saved
 
 #### level of partnership that your reserach currently has outside of academia before and after
 part2.b.a<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group"  , "field_research", "Location", "partnership_outside","partnership_outside_before"))
 #remove non responses
 part2.b.a<-part2.b.a[!part2.b.a$partnership_outside=="",]
 part2.b.a<-part2.b.a[!part2.b.a$partnership_outside_before=="",]
+#saved
 
 ####Level of partnership change in past 10 yrs
 part2.change<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group"  , "field_research", "Location","partnership_change_10yrs"))
 #remove non responses
 part2.change<-part2.change[!part2.change$partnership_change_10yrs=="",]
+#saved
 
 ####Reason for change
 part2.reason<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group", "field_research", "Location","reason_partnership_change_interest", "reason_partnership_change_career", 
                                      "reason_partnership_change_socially",  "reason_partnership_change_funding", "reason_partnership_change_other"))
+#saved
 
 #### View of Change
 part2.view<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group", "field_research", "Location","view_change_partnership"))
+#saved
 
 #remove non responses
 part2.view<-part2.view[!part2.view$view_change_partnership=="",]
-
+#saved
 
 ##################
 ##### Part 3 #####
@@ -465,6 +417,7 @@ part3<-subset(survey, select=c("Country","Country_work", "nation", "gender","wha
                                 "success_change_10yrs_fundamental"  ,        "success_change_10yrs_use"   ,               
                                "success_change_10yrs_applied"))
 
+#saved
 
 ## number of grant applications 
 part3.grants<-subset(part3, select = c("Country","Country_work", "gender", "nation", "Location","what_participant_group", "field_research","external_pi_grant_11_15_fundamental" , "external_pi_grant_11_15_use" ,              
@@ -712,7 +665,7 @@ p3_master.long<-gather(p3_master, type, percent,-info, -year, -survey, -total.fu
 
 head(p3_master.long)
 
-
+#saved
 
 
 
@@ -721,7 +674,7 @@ head(p3_master.long)
 part3.change<-subset(part3, select = c("Country", "Country_work", "gender", "nation", "Location","what_participant_group", "field_research", "success_change_10yrs_fundamental"  ,        "success_change_10yrs_use"   ,               
                                        "success_change_10yrs_applied"))
 head(part3.change)
-
+#saved
 
 
 
