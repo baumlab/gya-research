@@ -1,0 +1,90 @@
+---
+title: "gya-incomplete-survey"
+author: "Kristina Tietjen"
+date: "3/1/2018"
+output: pdf_document
+---
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, loading_data, warning=FALSE}
+rm(list=ls())
+
+dev.off()
+
+#<!-- Import data, calculate sample sizes -->
+ ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
+## load in survey data
+survey.incom<-read.csv(file="../data/gya-survey-incomplete.csv")
+#Count how many responses from  researchers
+survey.what<-read.csv(file="../data/incomplete/gya-incomplete-country-responses.csv")
+research<-read.csv(file="../data/incomplete/gya-incomplete-surveys-cleaned-research.csv")
+research.change<-read.csv(file="../data/incomplete/gya-incomplete-change-reason.csv")
+part4<-read.csv(file="../data/incomplete/gya-incomplete-survey-part4.csv")
+part2.b.a<-read.csv(file="../data/incomplete/gya-incomplete-part2.before.after.csv")
+part2.change<-read.csv(file="../data/incomplete/gya-incomplete-part2.change.csv")
+part2.reason<-read.csv(file="../data/incomplete/gya-incomplete-part2.reason.csv")
+part2.view<-read.csv(file="../data/incomplete/gya-incomplete-part2.view.csv")
+part1.view<-read.csv(file="../data/incomplete/gya-incomplete-part1.view.csv")
+part3.change<-read.csv(file="../data/incomplete/gya-incomplete-part3.change.csv")
+part3.grants.long<-read.csv(file="../data/incomplete/gya-incomplete-part3.grants.long.csv")
+part3.success.long<-read.csv(file="../data/incomplete/gya-incomplete-part3.success.long.csv")
+part3.prac.long<-read.csv(file="../data/incomplete/gya-incomplete-part3.prac.long.csv")
+part3.part.long<-read.csv(file="../data/incomplete/gya-incomplete-part3.part.long.csv")
+p3_master.long<-read.csv(file="../data/incomplete/gya-incomplete-p3_master.long.csv")
+p3_master <- read.csv(file="../data/incomplete/gya-incomplete-p3_master.csv")
+
+
+#Gender:
+n.gbl.res.men <- survey.incom[survey.incom$gender=="Male",]               #Count how many responses from  male researchers
+percent.men<-((dim(n.gbl.res.men)[1])/(dim(survey.incom)[1]))*100      #Calculate the % of responses from  male researchers
+n.gbl.res.women <- survey.incom[survey.incom$gender=="Female",]           #Count how many responses from  female researchers
+percent.women<-((dim(n.gbl.res.women)[1])/(dim(survey.incom)[1]))*100  #Calculate the % of responses from  female researchers
+
+#Career Stage Tabulations:
+#table(survey.incom$what_participant_group)
+n.seniorac <- survey.incom[survey.incom$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
+percent.seniorac<-((dim(n.seniorac)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  senior academic researchers
+n.earlyac <- survey.incom[survey.incom$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
+percent.earlyac<-((dim(n.earlyac)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  early academic researchers
+n.pdf <- survey.incom[survey.incom$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
+percent.pdf<-((dim(n.pdf)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  post-docs
+n.nonACearly <- survey.incom[survey.incom$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
+percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from early career non-academics
+n.nonACsenior <- survey.incom[survey.incom$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
+percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from early career non-academics
+n.unk <- survey.incom[survey.incom$what_participant_group=="",]
+percent.unk<-((dim(n.unk)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from unknown career stage
+
+#Discipline Tabulations:
+n.natural <- survey.incom[survey.incom$field_research=="Natural Science",]
+percent.natural <- ((dim(n.natural)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  natural scientists
+n.physics <- survey.incom[survey.incom$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
+percent.physics <- ((dim(n.physics)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  physical scientists
+n.med <- survey.incom[survey.incom$field_research=="Medicine and Life Science",]
+percent.med <- ((dim(n.med)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  med/life scientists
+n.eng <- survey.incom[survey.incom$field_research=="Engineering",]
+percent.eng <- ((dim(n.eng)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  engineering scientists
+n.int <- survey.incom[survey.incom$field_research=="Interdisciplinary Science",]
+percent.int <- ((dim(n.int)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.ssh <- survey.incom[survey.incom$field_research=="Social Science / Humanities",]
+percent.ssh <- ((dim(n.ssh)[1])/(dim(survey.incom)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+
+
+require(ggplot2)
+```
+
+
+**Results**  
+In total, `r dim(survey)[1]`  researchers completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+
+Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
+
+
+
+
+
+
+
+
+

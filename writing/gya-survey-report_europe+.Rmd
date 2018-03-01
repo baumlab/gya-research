@@ -1,7 +1,7 @@
 ---
 title: "Europe+ online survey on fundamental research"
 author: ''
-date: "4 Jan 2018"
+date: "1 March 2018"
 output:
   word_document: default
   fig_width: 18
@@ -23,7 +23,11 @@ Survey Data Analysis
 
 **Note that numbers not all the same because respondents did not always answer every question**
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, loading_data, warning=FALSE}
-#<!-- Import Canadian data, calculate sample sizes -->
+rm(list=ls())
+
+dev.off()
+
+#<!-- Import data, calculate sample sizes -->
  ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
 #setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
@@ -49,6 +53,16 @@ part3.prac.long<-read.csv(file="../data/gya-part3.prac.long.csv")
 part3.part.long<-read.csv(file="../data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 p3_master <- read.csv(file="../data/gya-p3_master.csv")
+
+
+##selecting for some of Europe, USA, Canada, Australia, New Zealand, Russia  (Europe+)
+developed<-c("Canada","Australia", "Russia","Germany", "United Kingdom", "Netherlands", "United States", "New Zealand","France", "Switzerland", "Poland",              
+ "Portugal", "Italy",  "Belgium",  "Norway", "Finland", "Greece","Cyprus",  "Hungary", "Spain","Romania", "Denmark","Austria", "Sweden",                
+ "Estonia", "Malta", "Iceland", "Ireland" )
+
+n.gbl.devp<-survey[survey$nation%in% developed,]
+
+
 
 #Gender:
 n.gbl.res.men <- survey[survey$gender=="Male",]               #Count how many responses from  male researchers
