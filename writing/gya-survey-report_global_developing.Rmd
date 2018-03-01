@@ -124,7 +124,7 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-#pdf(file="figures/global/developing/4.1_CareerStage.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.1_CareerStage.pdf", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -158,7 +158,7 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/global/developing/4.2_FieldofResearch.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.2_FieldofResearch.pdf", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -223,7 +223,7 @@ g4.2<-ggplot(field.is, aes(x = reorder(field_research, -Freq), Freq, fill=field_
   guides(fill=FALSE) + colScale+
   scale_y_continuous(expand = c(0,0), limits = c(0,100))
 
-#pdf(file="figures/4.1and4.2(old)_CareerStageAndFieldOfResearch.pdf", width = 11, height= 7)
+#pdf(file="figures/devloping/4.1and4.2(old)_CareerStageAndFieldOfResearch.pdf", width = 11, height= 7)
 
 grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 
@@ -290,7 +290,7 @@ mycols<-as.character(unique(res.plot$col))
 colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010 Fundamental", "2011-2015 Fundamental","2006-2010 Use-inspired", "2011-2015 Use-inspired","2006-2010 Applied", "2011-2015 Applied"))
 #table(res.plot$type, res.plot$time, res.plot$col)
 
-#pdf(file="figures/global/developing/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
@@ -417,7 +417,7 @@ p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
 
-#pdf(file="figures/global/developing/4.3.2_ResearchProportion.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.3.2_ResearchProportion.pdf", width = 11, height= 7)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
@@ -467,13 +467,13 @@ p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
   labs(y="Number of responses", title="Reason for change in research type\n(Developing nations)")+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 93))+annotate('text', 5.35,86, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
-#pdf(file="figures/global/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
 
 #print(p2)
 
 #dev.off()
 
-#pdf(file="figures/global/developing/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
 
 grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 
@@ -493,7 +493,7 @@ change.view.glb$view_change_of_type<-factor(change.view.glb$view_change_of_type,
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
-#pdf(file="figures/global/developing/4.5_ViewFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.5_ViewFieldChange.pdf", width = 11, height= 7)
 
 ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
@@ -614,15 +614,15 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 
 ##Make layout - update changing 'a' back to the original (3 figures instead of one) so 'a' is wrong in this
-#pdf(file="figures/4.1_13apr_with.wrong.a.pdf", width = 8, height = 11)
+#pdf(file="figures/developing/4.1_13apr_with.wrong.a.pdf", width = 8, height = 11)
 #multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 ##Make the layout but with the 'a' spot empty so the real 'a' can be put in by copy editor if I dont have time to try it on here
-#pdf(file="figures/4.1b.c._ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
+#pdf(file="figures/developing/4.1b.c._ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
 multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 ##trying to put the right (old version) into the layout ###havent gotten it to work yet
-#pdf(file="figures/4.1_13apr_right.a.pdf", width = 8, height = 11)
+#pdf(file="figures/developing/4.1_13apr_right.a.pdf", width = 8, height = 11)
 #multiplot(arr(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35)), g2, g3, layout = matrix(c(1,1,1,1,1,1,2,3),nrow=4, byrow=TRUE))
 
 
@@ -654,7 +654,7 @@ myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors6)
 
-#pdf(file="figures/global/developing/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
 
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
@@ -719,7 +719,7 @@ g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) +
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-#pdf(file="figures/global/developing/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
 
@@ -740,7 +740,7 @@ myColors8<-(brewer.pal(9, "Blues"))
 myColors8<-myColors8[c(4,4,4,4,4)]
 colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 
-#pdf(file="figures/global/developing/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
@@ -844,7 +844,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-#pdf(file="figures/4.2_13Apr.pdf")
+#pdf(file="figures/developing/4.2_13Apr.pdf")
 
 multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
@@ -901,7 +901,7 @@ grants.gbl$ID<-factor(grants.gbl$ID, levels(grants.gbl$ID)[c(4,3,6,5,2,1)])
 ## add colors
 mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
 
-#pdf(file="figures/global/developing/4.9_NumberGrantApps.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.9_NumberGrantApps.pdf", height=7, width =11)
 
 
 #####add (a)
@@ -984,7 +984,7 @@ mycols10$id<-levels(success.gbl$id)
 success.gbl$col<-mycols10$mycols10[match(success.gbl$id, mycols10$id)]
 success.gbl$col<-factor(success.gbl$col, levels(success.gbl$col)[c(3,1,4,2,6,5)])
 
-#pdf(file="figures/global/developing/4.10_GrantAppSuccess.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.10_GrantAppSuccess.pdf", height=7, width =11)
 
 out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
   n <- droplevels(n)
@@ -1048,7 +1048,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/global/developing/4.11_ChangeSuccessRate.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.11_ChangeSuccessRate.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -1093,7 +1093,7 @@ myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
-#pdf(file="figures/global/developing/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
 
 ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
@@ -1131,7 +1131,7 @@ myColors13<-(brewer.pal(9, "Blues"))
 myColors13<-rev(myColors13[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 
-#pdf(file="figures/global/developing/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
 
 ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
@@ -1188,7 +1188,7 @@ p11<-ggplot(part.is, aes(Var2, Freq, fill=Var1))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,60))+annotate('text', 0.65,460, label="(b)", size=5)
 p11
 
-#pdf(file="figures/4.3_13Apr.pdf", width = 11, height= 7)
+#pdf(file="figures/developing/4.3_13Apr.pdf", width = 11, height= 7)
 
 grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
@@ -1316,7 +1316,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-#pdf(file="figures/global/developing/4.14_DistributionFunding.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.14_DistributionFunding.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
@@ -1354,7 +1354,7 @@ myColors15<-(brewer.pal(9, "Blues"))
 myColors15<-(myColors15[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
-#pdf(file="figures/global/developing/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
 
 ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
@@ -1392,7 +1392,7 @@ myColors16<-(brewer.pal(9, "Blues"))
 myColors16<-(myColors16[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
-#pdf(file="figures/global/developing/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
 
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
@@ -1442,7 +1442,7 @@ availability.gbl$what.type<-revalue(availability.gbl$what.type, c("available_fun
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-#pdf(file="figures/global/developing/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
 
 ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -1491,7 +1491,7 @@ myColors18<-(brewer.pal(9, "Blues"))
 myColors18<-(myColors18[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors18)
 
-#pdf(file="figures/global/developing/4.18_EffectNextGeneration.pdf", height=7, width =11)
+#pdf(file="figures/developing/4.18_EffectNextGeneration.pdf", height=7, width =11)
 
 ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +

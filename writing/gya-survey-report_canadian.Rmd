@@ -117,7 +117,7 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience_can$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-pdf(file="figures/4.1_CareerStage.pdf", width = 11, height= 7)
+pdf(file="figures/canadian/4.1_CareerStage.pdf", width = 11, height= 7)
 
 ggplot(experience_can, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -151,7 +151,7 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field.can$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/4.2_FieldofResearch.pdf", width = 11, height= 7)
+#pdf(file="figures/canadian/4.2_FieldofResearch.pdf", width = 11, height= 7)
 
 ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -222,7 +222,7 @@ g4.2<-ggplot(field.can, aes(x = reorder(field_research, -Freq), Freq, fill=field
   scale_y_continuous(expand = c(0,0), limits = c(0,420))
 g4.2
 
-pdf(file="figures/4.1and4.2(old)_CareerStageAndFieldOfResearch_28may.pdf", width = 11, height= 7)
+pdf(file="figures/canadian/4.1and4.2(old)_CareerStageAndFieldOfResearch_28may.pdf", width = 11, height= 7)
 
 grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 
@@ -451,7 +451,7 @@ p1<-p1+scale_fill_manual(name = "ID",values =mycols[4:5], labels=c("2006-2010", 
 p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"))
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
-pdf(file = "Figures/4.1a_1Jun.pdf", width = 11, height = 8)
+pdf(file = "Figures/canadian/4.1a_1Jun.pdf", width = 11, height = 8)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
@@ -652,7 +652,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 #multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 ##Make the layout but with the 'a' spot empty so the real 'a' can be put in by copy editor if I dont have time to try it on here
-pdf(file="figures/4.1b.c._ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
+pdf(file="figures/canadian/4.1b.c._ResearchFoci_13apr_blank.a.pdf", width = 8, height = 11)
 multiplot(g4, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
 ##trying to put the right (old version) into the layout ###havent gotten it to work yet
@@ -697,7 +697,7 @@ g3<-ggplot(change.view.ca, aes(x=view_change_of_type, y=gender, fill=view_change
 g2.3<-arrangeGrob(g2, g3, ncol=2)
 g2.3
 
-ggsave("figures/4.2_FieldofResearch_28May17.pdf",g2.3, width = 6.4, height = 2.25, units = "in", scale=2)
+ggsave("figures/canadian/4.2_FieldofResearch_28May17.pdf",g2.3, width = 6.4, height = 2.25, units = "in", scale=2)
 
 dev.off()
 ```
@@ -901,7 +901,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-pdf(file="figures/4.2_1June.pdf")
+pdf(file="figures/canadian/4.2_1June.pdf")
 
 multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 
@@ -959,7 +959,7 @@ grants.ca$ID<-paste(grants.ca$type.grant, grants.ca$time)
 grants.ca$ID<-as.factor(grants.ca$ID)
 grants.ca$ID<-factor(grants.ca$ID, levels(grants.ca$ID)[c(4,3,6,5,2,1)])
 
-pdf(file="figures/4.9(appendix)_12Apr.pdf", height=7, width =11)
+pdf(file="figures/canadian/4.9(appendix)_12Apr.pdf", height=7, width =11)
 
 library(gridExtra)
 #####add (a)
@@ -1037,7 +1037,7 @@ mycols10$id<-levels(success.ca$id)
 success.ca$col<-mycols10$mycols10[match(success.ca$id, mycols10$id)]
 success.ca$col<-factor(success.ca$col, levels(success.ca$col)[c(3,1,4,2,6,5)])
 
-pdf(file="figures/4.10(appendix)_13Apr.pdf", height=7, width =11)
+pdf(file="figures/canadian/4.10(appendix)_13Apr.pdf", height=7, width =11)
 
 out2<-by(data = success.ca, INDICES = success.ca$type, FUN = function(n){
   n <- droplevels(n)
@@ -1099,7 +1099,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'= 'Use \u2014 inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-pdf(file="figures/4.4_29May_2.pdf", height=7, width =11)
+pdf(file="figures/canadian/4.4_29May_2.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -1233,7 +1233,7 @@ p11<-ggplot(part.ca, aes(Var2, Freq, fill=Var1))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,480))+annotate('text', 0.65,460, label="(b)", size=5)
 p11
 
-pdf(file="figures/4.3_13Apr.pdf", width = 11, height= 7)
+pdf(file="figures/canadian/4.3_13Apr.pdf", width = 11, height= 7)
 
 grid.arrange(p10,p11, widths=c(0.5,0.5), nrow=1)
 
@@ -1300,7 +1300,7 @@ g[["width"]][panels] = list(unit(10, "cm"), unit(10, "cm"), unit(10, "cm"), unit
 
 #device.width = convertWidth(sum(g[["width"]]), "inches", valueOnly=TRUE)
 
-pdf("test.pdf", width=40)
+pdf("Figures/canadian/test.pdf", width=40)
 grid.draw(g)
 dev.off()
 
@@ -1505,7 +1505,7 @@ require(gtable)
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-pdf(file="figures/4.14(appendix)_31May.pdf", height=7, width =11)
+pdf(file="figures/canadian/4.14(appendix)_31May.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
@@ -1659,7 +1659,7 @@ p14
 g13.14<-arrangeGrob(p13,p14,nrow=1,widths=c(0.53 ,0.47) )
 
 
-ggsave("figures/4.5_1Jun17.pdf",g13.14, width = 6.4, height = 2.25, units = "in", scale=2)
+ggsave("figures/canadian/4.5_1Jun17.pdf",g13.14, width = 6.4, height = 2.25, units = "in", scale=2)
 
 dev.off()
 ```
@@ -1699,7 +1699,7 @@ availability.ca$what.type<-revalue(availability.ca$what.type, c("available_fundi
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-pdf(file="figures/4.17_1Jun.pdf", height=7, width =11)
+pdf(file="figures/canadian/4.17_1Jun.pdf", height=7, width =11)
 
 ggplot(data=availability.ca, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -1759,7 +1759,7 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,345))+colScale
 
-ggsave("figures/4.18_25May17.pdf", width = 6.4, height = 2.4, units = "in", scale=2)
+ggsave("figures/canadian/4.18_25May17.pdf", width = 6.4, height = 2.4, units = "in", scale=2)
 ```
 
 **Influence of gender, career stage, and dicipline on survey responses**  
