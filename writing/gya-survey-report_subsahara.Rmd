@@ -1,29 +1,19 @@
 ---
-title: "Global online survey on fundamental research"
-author: ''
-date: "4 Jan 2018"
-output:
-  word_document: default
-  fig_width: 18
-  html_document: default
-  pdf_document: null
-  fig_height: 4
+title: "Sub-Sahara Africa"
+author: "Kristina Tietjen"
+date: "3/1/2018"
+output: pdf_document
 ---
-
-**Introduction**  
-We developed and ran a quantitative online survey to query researchers about their perceptions of, and experiences with, funding for fundamental research. An important aim of the survey was to provide an understanding of researcher's personal experiences and outlook on the research funding landscape. We had an excellent response to the survey, with over xxxx researchers completing it, suggesting that fundamental research funding is a high priority topic for researchers. Herein, we detail the survey questions and results. 
-
-**Methods**  
-Online Survey  
-The survey was open to researchers from all disciplines (e.g. science, social sciences, humanities, engineering, medicine) and career stages, with the proviso that they had some experience applying for research funding. The survey gathered detailed information in four major areas: 1) the types of research the scholars conduct (fundamental, use-inspired, applied), 2) the extent of external partnerships in their research, 3) their grant success rates, and 4) how important they perceive fundamental research is to the  federal government and its future prospects in . The survey also enquired how each of these factors have changed over time for the researchers. Finally, the survey gathered basic information from each respondent about gender, discipline, career stage and the year their PhD was obtained. The full survey is provided in Appendix 2. 
-
-The online survey was open from the end of May through xxxxxxxx, and ran on the Fluid Surveys platform (fluidsurveys.com). Note that the survey was open to researchers from any country in the world because it is was run as part of a global survey through the Global Young Academy. To disseminate the survey to researchers, we gathered email addresses from  university websites for as many faculty members as possible and emailed individual researchers directly. We also shared the survey broadly on social media, as well as through the Global Young Academy network, on scientific list serves, and through personal connections. 
 
 Survey Data Analysis  
 
 **Note that numbers not all the same because respondents did not always answer every question**
-```{r, echo=FALSE, message=FALSE, warning=FALSE, loading_data, warning=FALSE}
-#<!-- Import Canadian data, calculate sample sizes -->
+```{r message=FALSE, warning=FALSE, include=FALSE, loading_data, warning=FALSE}
+rm(list=ls())
+
+dev.off()
+
+#<!-- Import data, calculate sample sizes -->
  ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
 #setwd("/Users/IMAC3/Documents/git-jpwrobinson/gya-research")
@@ -50,199 +40,171 @@ part3.part.long<-read.csv(file="../data/gya-part3.part.long.csv")
 p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
+
+##selecting for some of Europe, USA, Canada, Australia, New Zealand, Russia  (Europe+)
+subsaharaafrica<-read.csv("../data/subsahara.csv")
+subsaharaafrica <- as.data.frame(subsaharaafrica)
+subsaharaafrica <- subsaharaafrica[ , 1]
+
+subsahara<-survey[survey$nation%in%subsaharaafrica,]
+
+#check
+unique(subsahara$nation)
+subsahara <- droplevels(subsahara)
+
+
 #Gender:
-n.gbl.res.men <- survey[survey$gender=="Male",]               #Count how many responses from  male researchers
-percent.men<-((dim(n.gbl.res.men)[1])/(dim(survey)[1]))*100      #Calculate the % of responses from  male researchers
-n.gbl.res.women <- survey[survey$gender=="Female",]           #Count how many responses from  female researchers
-percent.women<-((dim(n.gbl.res.women)[1])/(dim(survey)[1]))*100  #Calculate the % of responses from  female researchers
+n.subsahara.res.men <- subsahara[subsahara$gender=="Male",]               #Count how many responses from  male researchers
+percent.men<-((dim(n.subsahara.res.men)[1])/(dim(subsahara)[1]))*100      #Calculate the % of responses from  male researchers
+n.subsahara.res.women <- subsahara[subsahara$gender=="Female",]           #Count how many responses from  female researchers
+percent.women<-((dim(n.subsahara.res.women)[1])/(dim(subsahara)[1]))*100  #Calculate the % of responses from  female researchers
 
 #Career Stage Tabulations:
-#table(survey$what_participant_group)
-n.seniorac <- survey[survey$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
-percent.seniorac<-((dim(n.seniorac)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  senior academic researchers
-n.earlyac <- survey[survey$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
-percent.earlyac<-((dim(n.earlyac)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  early academic researchers
-n.pdf <- survey[survey$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
-percent.pdf<-((dim(n.pdf)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  post-docs
-n.nonACearly <- survey[survey$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
-percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from early career non-academics
-n.nonACsenior <- survey[survey$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
-percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from early career non-academics
-n.unk <- survey[survey$what_participant_group=="",]
-percent.unk<-((dim(n.unk)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from unknown career stage
+#table(subsahara$what_participant_group)
+n.seniorac <- subsahara[subsahara$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
+percent.seniorac<-((dim(n.seniorac)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  senior academic researchers
+n.earlyac <- subsahara[subsahara$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
+percent.earlyac<-((dim(n.earlyac)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  early academic researchers
+n.pdf <- subsahara[subsahara$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
+percent.pdf<-((dim(n.pdf)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  post-docs
+n.nonACearly <- subsahara[subsahara$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
+percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from early career non-academics
+n.nonACsenior <- subsahara[subsahara$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
+percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from early career non-academics
+n.unk <- subsahara[subsahara$what_participant_group=="",]
+percent.unk<-((dim(n.unk)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from unknown career stage
 
 #Discipline Tabulations:
-n.natural <- survey[survey$field_research=="Natural Science",]
-percent.natural <- ((dim(n.natural)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  natural scientists
-n.physics <- survey[survey$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
-percent.physics <- ((dim(n.physics)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  physical scientists
-n.med <- survey[survey$field_research=="Medicine and Life Science",]
-percent.med <- ((dim(n.med)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  med/life scientists
-n.eng <- survey[survey$field_research=="Engineering",]
-percent.eng <- ((dim(n.eng)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  engineering scientists
-n.int <- survey[survey$field_research=="Interdisciplinary Science",]
-percent.int <- ((dim(n.int)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
-n.ssh <- survey[survey$field_research=="Social Science / Humanities",]
-percent.ssh <- ((dim(n.ssh)[1])/(dim(survey)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.natural <- subsahara[subsahara$field_research=="Natural Science",]
+percent.natural <- ((dim(n.natural)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  natural scientists
+n.physics <- subsahara[subsahara$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
+percent.physics <- ((dim(n.physics)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  physical scientists
+n.med <- subsahara[subsahara$field_research=="Medicine and Life Science",]
+percent.med <- ((dim(n.med)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  med/life scientists
+n.eng <- subsahara[subsahara$field_research=="Engineering",]
+percent.eng <- ((dim(n.eng)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  engineering scientists
+n.int <- subsahara[subsahara$field_research=="Interdisciplinary Science",]
+percent.int <- ((dim(n.int)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.ssh <- subsahara[subsahara$field_research=="Social Science / Humanities",]
+percent.ssh <- ((dim(n.ssh)[1])/(dim(subsahara)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
 
 require(ggplot2)
 ```
 
 **Results**  
-In total, `r dim(survey)[1]`  researchers completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+In total, `r dim(subsahara)[1]`  researchers completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
 
 Researchers from many different disciplines were represented in the survey. `r round(sum(percent.natural,percent.physics))` percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
 
-
-```{r, eval=FALSE, fig.cap="Number of responses by country", fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
-###write csv for Anina with country numbers
-
-locations<-aggregate(gender ~ nation, survey, length)
-locations<-locations[!locations$nation=="",]
-locations<-droplevels(locations)
-
-write.csv(locations, file="data/country_responses_4Jan18.csv", row.names = FALSE)
-
+##Figures of number of responses by country (these are also saved as individual PDFs)
+```{r echo=FALSE, fig.cap="Number of responses by country", fig.width=11, fig.height=8, message=FALSE, warning=FALSE}
 ###create figures
 
-locations<-aggregate(gender ~ nation, survey, length)
+locations<-aggregate(gender ~ nation, subsahara, length)
 locations<-locations[!locations$nation=="",]
 locations<-droplevels(locations)
 
-pdf(file="figures/global/responses_country_4Jan18.pdf", width = 11, height= 8)
+#pdf(file="figures/subsahara/responses_country_1Mar18.pdf", width = 11, height= 8)
 
 ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
   geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
   #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
    theme(legend.title=element_text(size=12), 
                              legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12), plot.title = element_text(hjust = 0.5)) + 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_y_continuous(expand = c(0,0), limits=c(0, 1400)) 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_y_continuous(expand = c(0,0), limits=c(0, 8)) 
 
-dev.off()  
-  
-### responses by country gap plot
-locations<-aggregate(gender ~ nation, survey, length)
-locations<-locations[!locations$nation=="",]
-require(colorRamps);require(plotrix)
-barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
-
-pdf(file="figures/global/responses_country_gapplot_4Jan18.pdf", height=8, width=11)
-
-par(mar=c(11,4,4,2))
-gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(351,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1300,1350), main = "Responses by country",las=2, col=c(blue2red(29)))
-
-dev.off()
+#dev.off()  
+#   
+# ### responses by country gap plot
+# locations<-aggregate(gender ~ nation, subsahara, length)
+# locations<-locations[!locations$nation=="",]
+# require(colorRamps);require(plotrix)
+# barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+# 
+# #pdf(file="figures/subsahara/responses_country_gapplot_4Jan18.pdf", height=8, width=11)
+# 
+# par(mar=c(11,4,4,2))
+# gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(60,170),horiz=F, xaxlab=barlabs, xlab="     ", 
+#             ylab="Number of responses", ytics=c(0,10,20,30,40,50,60,170,180,190,200), main = "Responses by country",las=2, col=c(blue2red(29)))
+# 
+# #dev.off()
 
 
 ## >10 responses
-
-locations.more<-aggregate(gender ~ nation, survey, length)
-locations.more<-locations.more[!locations.more$nation=="",]
-locations.more$gender<-as.numeric(locations.more$gender)
-locations.more<-locations.more[locations.more$gender>10,]
-require(colorRamps);require(plotrix)
-barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
-
-color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
-
-
-pdf(file="figures/global/responses_country_10+_gapplot_4Jan18.pdf", height=8, width=11)
-
-par(mar=c(7,4,4,2))
-gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300,1350), main = "Countries with greater than 10 responses",las=2, col=color1)
-
-dev.off()
+# 
+# locations.more<-aggregate(gender ~ nation, subsahara, length)
+# locations.more<-locations.more[!locations.more$nation=="",]
+# locations.more$gender<-as.numeric(locations.more$gender)
+# locations.more<-locations.more[locations.more$gender>10,]
+# require(colorRamps);require(plotrix)
+# barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+# 
+# color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+# 
+# 
+# #pdf(file="figures/subsahara/responses_country_10+_gapplot_4Jan18.pdf", height=8, width=11)
+# 
+# par(mar=c(7,4,4,2))
+# gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(61,169),horiz=F, xaxlab=barlabs, xlab="     ", 
+#             ylab="Number of responses", ytics=c(52,55,60,170,180,200), main = "Countries with greater than 10 responses",las=2, col=color1)
+# 
+# #dev.off()
 
 #col=c(blue2red(29))
-
-## <=10 responses
-
-locations.less<-aggregate(gender ~ nation, survey, length)
-locations.less<-locations.less[!locations.less$nation=="",]
-locations.less$gender<-as.numeric(locations.less$gender)
-locations.less<-locations.less[locations.less$gender<=10,]
-require(colorRamps);require(plotrix)
-barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
-
-color2<-'#1f78b4'
-color2<-rep(color2,55)
-
-pdf(file="figures/global/responses_country_10-_gapplot_4Jan18.pdf", height=8, width=11)
-
-par(mar=c(11,4,4,2))
-barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
-            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
-box()
-
-dev.off()
+# 
+# ## <=10 responses
+# 
+# locations.less<-aggregate(gender ~ nation, subsahara, length)
+# locations.less<-locations.less[!locations.less$nation=="",]
+# locations.less$gender<-as.numeric(locations.less$gender)
+# locations.less<-locations.less[locations.less$gender<=10,]
+# require(colorRamps);require(plotrix)
+# barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
+# 
+# color2<-'#1f78b4'
+# color2<-rep(color2,55)
+# 
+# #pdf(file="figures/subsahara/responses_country_10-_gapplot_4Jan18.pdf", height=8, width=11)
+# 
+# par(mar=c(11,4,4,2))
+# barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+#             ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,7),col=color2, axis.lty="solid", space=0, xaxs="i")
+# box()
+# 
+# #dev.off()
 
 #c(blue2red(55)
 
+# 
+# ##combine  >10 and <= 10 figures
+# 
+# locations.more<-aggregate(gender ~ nation, subsahara, length)
+# locations.more<-locations.more[!locations.more$nation=="",]
+# locations.more$gender<-as.numeric(locations.more$gender)
+# locations.more<-locations.more[locations.more$gender>10,]
+# require(colorRamps);require(plotrix)
+# barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+# 
+# color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+# #pdf(file="figures/subsahara/responses_country_10+&10-_gapplot_4Jan18.pdf", height=8, width=15)
+# layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
+# par(mar=c(11,4,4,2))
+# gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(61,169),horiz=F, xaxlab=barlabs, xlab="     ", 
+#             ylab="Number of responses", ytics=c(52,55,60,170,180,200), main = "Countries with greater than 10 responses",las=2, col=color1)
+# par(mar=c(11,2,4,1))
+# barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+#             ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+# box()
+# 
+# #dev.off()
 
-##combine  >10 and <= 10 figures
-
-locations.more<-aggregate(gender ~ nation, survey, length)
-locations.more<-locations.more[!locations.more$nation=="",]
-locations.more$gender<-as.numeric(locations.more$gender)
-locations.more<-locations.more[locations.more$gender>10,]
-require(colorRamps);require(plotrix)
-barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
-
-color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
-pdf(file="figures/global/responses_country_10+&10-_gapplot_4Jan18.pdf", height=8, width=15)
-layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
-par(mar=c(11,4,4,2))
-gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(351,1250),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350,1300,1350), main = "Countries with greater than 10 responses",las=2, col=color1)
-par(mar=c(11,2,4,1))
-barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
-            ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
-box()
-
-dev.off()
-
-####not updated#####################################
-##1b  top 20+
-require(plotrix)
-country.list<-c("Canada" , "France",
-                    "Germany","United Kingdom","Italy","Japan", "Russia","Korea, South",
-                      "United States","Australia","Austria","Belgium",
-                      "Ireland","Brazil", "Poland","Finland",
-                       "Netherlands","New Zealand","Norway",
-                      "Spain","Sweden","Switzerland","Turkey","Israel",
-                      "India","Bangladesh","Uruguay","Malaysia","New Zealand","Taiwan","Denmark")
-
-country.top<-survey[survey$Country_work %in% country.list,]
-head(country.top)
-locations.top<-aggregate(gender ~ Country_work, country.top, length)
-gender.top<-aggregate(Country_work ~ gender, country.top, length)
-locations.top[order(match(locations.top,gender.top))]
-locations.top<-droplevels(locations.top)
-
-require(colorRamps)
-barlabs<-locations.top$Country_work[order(locations.top$gender, decreasing=TRUE)]
-
-par(mar=c(7,4,4,2))
-gap.barplot(sort(locations.top$gender,decreasing=TRUE), gap=c(266,1200),horiz=F, xaxlab=barlabs, xlab="", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 265, 1265,1300),las=2, col=c(blue2red(29)))
-
-
-#ggplot(locations.top, aes(x = reorder(Country_work, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5)) +
- # theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="")  + 
-  #geom_text(aes(label=gender), angle=90, hjust=-1, size=3) +
-  #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
-  #lims(y=c(0, 1600)) + theme(legend.title=element_text(size=12), 
-   #                          legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12)) + 
-  #theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```
 
 
 <!-- Generate  career stage figure -->
-```{r, echo=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", fig.width=14, message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
 
@@ -285,7 +247,7 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
 ```
 
 <!-- Generate  research discipline figure -->
-```{r, echo=FALSE, fig.cap="Figure 4.2 Survey responses by field of research", fig.width=14, message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.2 Survey responses by field of research", fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
 field<-data.frame(table(survey$field_research))
 field<-field[!field$Var1=="",]
 field$Var1<-reorder(field$Var1, field$Freq)
@@ -315,7 +277,7 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", message=FALSE, warning=FALSE, include=FALSE}
 ##plot1
 
 # assign colour scale
@@ -371,7 +333,7 @@ grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 <!--**4.1 Type of Research Conducted**  -->
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
-```{r, echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE,message=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, include=FALSE}
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -465,7 +427,7 @@ ggplot(res.plot, aes(percent, fill=ID)) +
   
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE,message=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, include=FALSE }
 
 ## make sure that Use-inspired is the middle level in the legend
 res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
@@ -559,7 +521,7 @@ grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 ```
 
 
-```{r, echo=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes,  no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.",  warning=FALSE,message=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.",  message=FALSE, include=FALSE,warning=FALSE}
 #Change yes or no
 yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
 
@@ -611,7 +573,7 @@ grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
+```{r eval=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
 
 view.propor<-survey[!survey$view_change_of_type=="",]
 view.propor<-droplevels(view.propor)
@@ -633,7 +595,7 @@ ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of
 #dev.off()
 ```
 
-```{r, eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
 
 ##plot 1
 
@@ -765,7 +727,7 @@ multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 <!--Part 2 - External Partnerships-->
 <!--**4.2 External Partnerships**   -->
 
-```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", message=FALSE, warning=FALSE, include=FALSE}
 
 b.part<-data.frame(table(survey$partnership_outside_before))
 b.part<-b.part[!b.part$Var1=="",]
@@ -802,7 +764,7 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", message=FALSE, warning=FALSE, include=FALSE}
 ### was there change
 
 change.part.glb<-data.frame(table(survey$partnership_change_10yrs))
@@ -853,7 +815,7 @@ grid.arrange(g1, g2, ncol=1)
 
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", message=FALSE, warning=FALSE, include=FALSE}
 
 view<-data.frame(table(survey$view_change_partnership))
 view<-view[!view$Var1=="",]
@@ -880,7 +842,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
 
 ```
  
-```{r, eval=FALSE, fig.cap="Figure ( 4.6 + 4.7 + 4.8 ) External Research Partnerships. ", message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Figure ( 4.6 + 4.7 + 4.8 ) External Research Partnerships. ", message=FALSE, warning=FALSE, include=FALSE}
 ###4.6
 myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
@@ -986,7 +948,7 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 <!--**4.3 Research Grants**  -->
 
 
-```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE, include=FALSE}
 part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
 
 part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
@@ -1067,7 +1029,7 @@ grid.arrange(p1,p2,p3, nrow=1, top=textGrob("Number of research grant applicatio
 #  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,950), breaks = c(0,250,500,750,950))
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful,  in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", message=FALSE, warning=FALSE,warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", message=FALSE, include=FALSE}
 part3.success.long<-read.csv(file="../data/gya-part3.success.long.csv")
 
 part3.success.long$type<-as.character(part3.success.long$type)
@@ -1142,7 +1104,7 @@ do.call(grid.arrange, out2)
 
 ```
  
-```{r, echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years,  for each research category.", message=FALSE, warning=FALSE,warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", message=FALSE, include=FALSE}
 
 ##switch to long format
 change.long.gbl<-gather(part3.change, type, level, -Location, -gender, -Country,-nation, -Country_work, -what_participant_group, -field_research)
@@ -1184,7 +1146,7 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful,  in 2006-2010 and in 2011-2015.", message=FALSE, warning=FALSE,warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", message=FALSE, include=FALSE}
 
 part3.prac.long$year<-as.character(part3.prac.long$year)
 
@@ -1219,7 +1181,7 @@ ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) +
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful,in 2006-2010 and in 2011-2015.",  message=FALSE, warning=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful,  in 2006-2010 and in 2011-2015.",  message=FALSE, include=FALSE}
 
 part3.part.long$year<-as.character(part3.part.long$year)
 
@@ -1252,7 +1214,7 @@ ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+
 #dev.off()
 ```
 
-```{r, eval=FALSE, fig.cap="Fig (4.12+4.13) Importance of practical applications and external partnerships.", message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Fig (4.12+4.13) Importance of practical applications and external partnerships.", message=FALSE, warning=FALSE, include=FALSE}
 ###4.12
 myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
@@ -1300,7 +1262,7 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", message=FALSE, warning=FALSE, include=FALSE}
 p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 ##revalue the year values
 p3_master.long$year<- revalue(p3_master.long$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
@@ -1429,7 +1391,7 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
 <!--Part 4 - Funding Trends in your country of work-->
 <!--**4.4 Perspectives on the State of Fundamental Research**-->
 
-```{r, echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE, include=FALSE}
 ## order bars from very important (left) to can't comment (right)
 important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
@@ -1462,7 +1424,7 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE, include=FALSE}
 ## order bars into applied > use > fundamental > no change
 priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
 
@@ -1496,7 +1458,7 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
 ```
 
 
-```{r, echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years.", message=FALSE, warning=FALSE, include=FALSE}
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
@@ -1548,7 +1510,7 @@ ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE, include=FALSE}
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))
