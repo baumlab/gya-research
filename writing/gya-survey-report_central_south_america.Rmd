@@ -41,7 +41,7 @@ p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
 
-##selecting for some of Europe, USA, Canada, Australia, New Zealand, Russia  (Europe+)
+##selecting for central and south american countries + Caribbean
 cen.south.america<-read.csv("../data/central_south_america.csv")
 cen.south.america <- as.data.frame(cen.south.america)
 cen.south.america <- cen.south.america[ , 1]

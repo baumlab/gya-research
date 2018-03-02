@@ -41,7 +41,7 @@ p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
 
-##selecting for some of Europe, USA, Canada, Australia, New Zealand, Russia  (Europe+)
+##selecting for sub saharan african countries
 subsaharaafrica<-read.csv("../data/subsahara.csv")
 subsaharaafrica <- as.data.frame(subsaharaafrica)
 subsaharaafrica <- subsaharaafrica[ , 1]
