@@ -122,7 +122,7 @@ prov<-c("Ontario", "Quebec", "British Columbia", "Alberta", "Nova Scotia", "New 
         "Nunavut")
 ##create column that has the country name in it but change the US states and the CA provinces to just be USA and Canada
 survey$Country<-as.character(survey$Location)
-survey$Country<-ifelse(survey$Country%in%states, 'USA', survey$Country)
+survey$Country<-ifelse(survey$Country%in%states, 'United States', survey$Country)
 survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
 survey$Country<-as.factor(survey$Country)
 
@@ -134,15 +134,36 @@ head(survey.countries)
 write.csv(survey.countries, file = "data/gya-country_compare.csv", row.names = FALSE)
 
 ###<this is being coded after the Canadian report was finished>###
-#now going to do what we did for the Canadian survey where we looked at both the Country_work column and the Country column to assign 
-#they are from - going to put it in a new column
+# create a column nation that will have what country we will use them for following this protocol:
+# use what the put in the Country_work column
+# if that doesnt make sense (i.e. antartica)
+# then use what is in Country column (country is from the location column but updated to have USA and Canada instead of individual state and province names)
+# if that still doesnt make sense or there isnt a value there then put in 'other' category
 
 
 # Assign the new variable nation all values from Country_work.
-survey$nation <- survey$Country_work
-# If there was a blank then use the information from the Country column that derived from the IP address column
-survey$nation[survey$Country_work==""]<-survey$Country ## there is a warning but seems to work
+survey$nation <- as.character(survey$Country_work)
 
+#check
+nation <- as.data.frame(survey)
+nation <- nation[ , c(3, 73,75, 76)]
+
+# If there was a blank then use the information from the Country column that derived from the IP address column
+survey$nation <- ifelse(survey$nation == "", as.character(survey$Country), survey$nation)
+
+#check
+nation <- as.data.frame(survey)
+nation <- nation[ , c(3, 73,75, 76)]
+
+#now to fix the ones that are obviously not correct
+survey$nation <- ifelse(survey$nation == "Antarctica", as.character(survey$Country), survey$nation)
+
+#check
+nation <- as.data.frame(survey)
+nation <- nation[ , c(3, 73,75, 76)]
+
+#now make a csv so we can go through and find more 'wrong' answers
+write.csv(nation, file = "data/gya-nations_look.csv", row.names = FALSE)
 
 #make a csv of the complete responses 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
