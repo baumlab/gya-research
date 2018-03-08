@@ -155,7 +155,7 @@ survey$nation <- ifelse(survey$nation == "", as.character(survey$Country), surve
 nation <- as.data.frame(survey)
 nation <- nation[ , c(3, 73,75, 76)]
 
-#now to fix the ones that are obviously not correct
+#now to fix the ones that are obviously not correct - start with antarctica - no one recieves funding from there
 survey$nation <- ifelse(survey$nation == "Antarctica", as.character(survey$Country), survey$nation)
 
 #check
@@ -164,6 +164,29 @@ nation <- nation[ , c(3, 73,75, 76)]
 
 #now make a csv so we can go through and find more 'wrong' answers
 write.csv(nation, file = "data/gya-nations_look.csv", row.names = FALSE)
+
+#now to fix the ones that are obviously not correct - the rest
+survey$nation <- ifelse((survey$nation == "Bangladesh" & survey$Country == "Japan"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Barbados" & survey$Country == "Canada"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Benin" & survey$Country == "Germany"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Central African Republic" & survey$Country == "Canada"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Chad" & survey$Country == "Canada"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Ethiopia" & survey$Country == "United Kingdom"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Gabon" & survey$Country == "United States"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Indonesia" & survey$Country == "Netherlands"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Iran" & survey$Country == "Canada"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Marshall Islands" & survey$Country == "Malta"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Mauritius" & survey$Country == "Netherlands"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Nigeria" & survey$Country == "United Kingdom"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Uganda" & survey$Country == "Belgium"), as.character(survey$Country), survey$nation)
+
+
+#check
+nation2 <- as.data.frame(survey)
+nation2 <- nation2[ , c(3, 73,75, 76)]
+
+#now make a csv so we can go through and find more 'wrong' answers
+write.csv(nation2, file = "data/gya-nations_check.csv", row.names = FALSE)
 
 #make a csv of the complete responses 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
