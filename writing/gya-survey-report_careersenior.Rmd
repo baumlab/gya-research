@@ -1,7 +1,7 @@
 ---
 title: "senior career stage"
 author: "Kristina Tietjen"
-date: "3/1/2018"
+date: "3/8/2018"
 output: pdf_document
 ---
 
@@ -123,7 +123,7 @@ barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
 
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(260,799),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 869), main = "Responses by country",las=2, col=c(blue2red(29)))
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 884), main = "Responses by country",las=2, col=c(blue2red(29)))
 
 #dev.off()
 
@@ -144,7 +144,7 @@ color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4',
 
 par(mar=c(7,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(260,799),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 869), main = "Countries with greater than 10 responses",las=2, col=color1)
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 884), main = "Countries with greater than 10 responses",las=2, col=color1)
 
 #dev.off()
 
@@ -188,7 +188,7 @@ color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4',
 layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(260,799),horiz=F, xaxlab=barlabs, xlab="     ", 
-            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 869), main = "Countries with greater than 10 responses",las=2, col=color1)
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250, 884), main = "Countries with greater than 10 responses",las=2, col=color1)
 par(mar=c(11,2,4,1))
 barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
             ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
