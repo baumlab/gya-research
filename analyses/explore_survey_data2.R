@@ -126,12 +126,12 @@ survey$Country<-ifelse(survey$Country%in%states, 'United States', survey$Country
 survey$Country<-ifelse(survey$Country%in%prov, 'Canada', survey$Country)
 survey$Country<-as.factor(survey$Country)
 
-
-# look at what people said their country of work was compared to where the location was
-survey.countries <- survey
-survey.countries <- survey.countries[ , c(3, 73,75)]
-head(survey.countries)
-write.csv(survey.countries, file = "data/gya-country_compare.csv", row.names = FALSE)
+# 
+# # look at what people said their country of work was compared to where the location was
+# survey.countries <- survey
+# survey.countries <- survey.countries[ , c(3, 73,75)]
+# head(survey.countries)
+# write.csv(survey.countries, file = "data/gya-country_compare.csv", row.names = FALSE)
 
 ###<this is being coded after the Canadian report was finished>###
 # create a column nation that will have what country we will use them for following this protocol:
@@ -178,7 +178,14 @@ survey$nation <- ifelse((survey$nation == "Iran" & survey$Country == "Canada"), 
 survey$nation <- ifelse((survey$nation == "Marshall Islands" & survey$Country == "Malta"), as.character(survey$Country), survey$nation)
 survey$nation <- ifelse((survey$nation == "Mauritius" & survey$Country == "Netherlands"), as.character(survey$Country), survey$nation)
 survey$nation <- ifelse((survey$nation == "Nigeria" & survey$Country == "United Kingdom"), as.character(survey$Country), survey$nation)
-survey$nation <- ifelse((survey$nation == "Uganda" & survey$Country == "Belgium"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "India" & survey$Country == "Netherlands"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "India" & survey$Country == "Canada"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "India" & survey$Country == "Switzerland"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "India" & survey$Country == "Germany"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Uruguay" & survey$Country == "United States"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Uruguay" & survey$Country == "Canada"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Uruguay" & survey$Country == "Iceland"), as.character(survey$Country), survey$nation)
+survey$nation <- ifelse((survey$nation == "Uruguay" & survey$Country == "France"), as.character(survey$Country), survey$nation)
 
 
 #check

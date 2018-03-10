@@ -140,7 +140,7 @@
 "Israel","Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Social Science / Humanities",40,60,0,60,40,0,100
 "Israel","Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,100,0,0,100
 "Ontario","Israel","Canada","Israel","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Social Science / Humanities",70,0,30,100,0,0,100
-"Netherlands","India","Netherlands","India","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",90,0,10,100,0,0,100
+"Netherlands","Netherlands","Netherlands","India","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",90,0,10,100,0,0,100
 "Israel","Israel","Israel","Israel","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,30,20,60,40,0,100
 "Israel","Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",60,20,20,20,30,50,100
 "Israel","Israel","Israel","Israel","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",50,0,50,90,0,10,100
@@ -1083,12 +1083,12 @@
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",20,60,20,80,20,0,100
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",80,20,0,10,60,30,100
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Natural Science",60,0,40,50,0,50,100
-"New York","Uruguay","United States","Uruguay","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,80,10,0,90
+"New York","United States","United States","Uruguay","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",50,50,0,80,10,0,90
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,40,40,60,20,20,100
 "Uruguay","Uruguay","Uruguay","Uruguay","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",9.09090909090909,81.8181818181818,0,18.1818181818182,81.8181818181818,0,110
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Interdisciplinary Science",10,40,50,60,10,10,80
 "Uruguay","Uruguay","Uruguay","Uruguay","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",20,0,80,0,0,100,100
-"Quebec","Uruguay","Canada","Uruguay","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,70,0,50,50,0,100
+"Quebec","Canada","Canada","Uruguay","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,70,0,50,50,0,100
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",52.6315789473684,0,0,47.3684210526316,52.6315789473684,0,190
 "Uruguay","Uruguay","Uruguay","Uruguay","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",90,10,0,100,0,0,100
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",30,40,30,50,30,20,100
@@ -1111,8 +1111,8 @@
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,40,0,90,10,0,100
 "","Egypt","","Egypt","Female","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",45.4545454545455,45.4545454545455,45.4545454545455,36.3636363636364,36.3636363636364,27.2727272727273,110
 "Malaysia","Malaysia","Malaysia","Malaysia","Female","Senior academic researcher with >10 years of experience applying for research grants","Engineering",30,20,50,80,10,10,100
-"Belgium","Belgium","Belgium","Uganda","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",30,10,30,20,0,20,40
-"Ontario","India","Canada","India","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",100,0,0,70,0,30,100
+"Belgium","Uganda","Belgium","Uganda","Male","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Social Science / Humanities",30,10,30,20,0,20,40
+"Ontario","Canada","Canada","India","Female","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Medicine and Life Science",100,0,0,70,0,30,100
 "Chile","Chile","Chile","Chile","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",50,20,30,50,10,40,100
 "Uruguay","Uruguay","Uruguay","Uruguay","Male","Senior academic researcher with >10 years of experience applying for research grants","Physical Science (eg. math, physics, chemistry, computer science)",70,20,10,100,0,0,100
 "Chile","Chile","Chile","Chile","Male","Senior academic researcher with >10 years of experience applying for research grants","Medicine and Life Science",60,20,20,50,30,20,100
@@ -1186,6 +1186,6 @@
 "Australia","Australia","Australia","Australia","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Natural Science",10,10,80,80,10,10,100
 "Illinois","United Kingdom","United States","United Kingdom","Female","Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future","Medicine and Life Science",80,20,0,100,0,0,100
 "Australia","Australia","Australia","Australia","Male","Senior academic researcher with >10 years of experience applying for research grants","Engineering",0,50,50,50,50,0,100
-"Germany","India","Germany","India","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",40,50,10,20,80,0,100
+"Germany","Germany","Germany","India","Male","Early career academic researcher with <10 years experience applying for research grants since completion of PhD","Interdisciplinary Science",40,50,10,20,80,0,100
 "Australia","Australia","Australia","Australia","Female","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",60,30,10,100,0,0,100
 "India","India","India","India","Male","Senior academic researcher with >10 years of experience applying for research grants","Natural Science",80,0,20,100,0,0,100
