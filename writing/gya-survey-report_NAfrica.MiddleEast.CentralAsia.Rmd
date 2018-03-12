@@ -45,11 +45,11 @@ p3_master <- read.csv(file="../data/gya-p3_master.csv")
 
 
 ##selecting for north africa, middle east, and central asian countries
-na.me.ca<-read.csv("../data/nafrica_middleeast_centralasia.csv")
-na.me.ca <- as.data.frame(na.me.ca)
-na.me.ca <- na.me.ca[ , 1]
+na_me_ca<-read.csv("../data/nafrica_middleeast_centralasia.csv")
+na_me_ca <- as.data.frame(na_me_ca)
+na_me_ca <- na_me_ca[ , 1]
 
-na.me.ca<-survey[survey$nation%in%na.me.ca,]
+na.me.ca<-survey[survey$nation%in%na_me_ca,]
 
 #check
 unique(na.me.ca$nation)
@@ -207,7 +207,7 @@ box()
 
 
 <!-- Generate  career stage figure -->
-```{r eval=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.1 Number of  survey respondents by career stage", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
 
@@ -215,11 +215,11 @@ theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
 ## myColors <- brewer.pal(6,"Set1")
 
-experience<-data.frame(table(survey$what_participant_group))
+experience<-data.frame(table(na.me.ca$what_participant_group))
 experience<-experience[!experience$Var1=="",]
 experience<-droplevels(experience)
 
-experience$Var1<-revalue(experience$Var1, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with > 10 years of experience" = "Non-academic research >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with > 10 years of experience applying for research grants" = "Senior academic researcher"))
+experience$Var1<-revalue(experience$Var1, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic research >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 experience$Var1<-reorder(experience$Var1, experience$Freq)
 
 # assign colour scale
@@ -228,7 +228,7 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-#pdf(file="figures/global/4.1_CareerStage.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.1_CareerStage_11March18.pdf", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -244,14 +244,14 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,1900))
+  scale_y_continuous(expand = c(0,0), limits = c(0,160))
 #dev.off()
 
 ```
 
 <!-- Generate  research discipline figure -->
-```{r eval=FALSE, fig.cap="Figure 4.2 Survey responses by field of research", fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
-field<-data.frame(table(survey$field_research))
+```{r echo=FALSE, fig.cap="Figure 4.2 Survey responses by field of research", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
+field<-data.frame(table(na.me.ca$field_research))
 field<-field[!field$Var1=="",]
 field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
@@ -262,7 +262,7 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/global/4.2_FieldofResearch.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.2_FieldofResearch_11March18.pdf", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
@@ -275,7 +275,7 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,830))
+  scale_y_continuous(expand = c(0,0), limits = c(0,100))
 
 #dev.off()
 ```
@@ -326,7 +326,7 @@ g4.2<-ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   guides(fill=FALSE) + colScale+
   scale_y_continuous(expand = c(0,0), limits = c(0,830))
 
-#pdf(file="figures/global/4.1and4.2_CareerStageAndFieldOfResearch.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.1and4.2_CareerStageAndFieldOfResearch.pdf", width = 11, height= 7)
 
 grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 
@@ -336,33 +336,37 @@ grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 <!--**4.1 Type of Research Conducted**  -->
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
-```{r eval=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental Use-inspired or Applied research in the past and in their current research.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
+
+#select for just north africa etc
+research.na.me.ca<-research[research$nation%in%na_me_ca,]
+research.na.me.ca <- droplevels(research.na.me.ca)
 
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot.na.me.ca<-subset(research.na.me.ca, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
-res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
-res.plot$percent<-as.numeric(as.character(res.plot$percent))
-res.plot$type<-as.character(res.plot$type)
+res.plot.na.me.ca$percent<-str_replace_all(res.plot.na.me.ca$percent, "%", "")
+res.plot.na.me.ca$percent<-as.numeric(as.character(res.plot.na.me.ca$percent))
+res.plot.na.me.ca$type<-as.character(res.plot.na.me.ca$type)
 
 # add time variable
-res.plot$time<-ifelse(grepl( "current", res.plot$type),"Current", "Past")
-res.plot$type[res.plot$type=="percent_Applied_Research_past"]<-"Applied"
-res.plot$type[res.plot$type=="percent_Applied_Research_current"]<-"Applied"
-res.plot$type[res.plot$type=="percent_Fundamental_Research_past"]<-"Fundamental"
-res.plot$type[res.plot$type=="percent_fundemental_research_current"]<-"Fundamental"
-res.plot$type[res.plot$type=="percent_Use_inspired_Research_past"]<-"Use-inspired"
-res.plot$type[res.plot$type=="percent_Use_inspired_Research_current"]<-"Use-inspired"
+res.plot.na.me.ca$time<-ifelse(grepl( "current", res.plot.na.me.ca$type),"Current", "Past")
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Applied_Research_past"]<-"Applied"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Applied_Research_current"]<-"Applied"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Fundamental_Research_past"]<-"Fundamental"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_fundemental_research_current"]<-"Fundamental"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Use_inspired_Research_past"]<-"Use-inspired"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Use_inspired_Research_current"]<-"Use-inspired"
 
 # change order of the levels
-res.plot$time<-as.factor(res.plot$time)
-res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(2,1)])
+res.plot.na.me.ca$time<-as.factor(res.plot.na.me.ca$time)
+res.plot.na.me.ca$time<-factor(res.plot.na.me.ca$time, levels(res.plot.na.me.ca$time)[c(2,1)])
 
-res.plot$type<-as.factor(res.plot$type)
-res.plot$type<-factor(res.plot$type, levels(res.plot$type)[c(2,3,1)])
+res.plot.na.me.ca$type<-as.factor(res.plot.na.me.ca$type)
+res.plot.na.me.ca$type<-factor(res.plot.na.me.ca$type, levels(res.plot.na.me.ca$type)[c(2,3,1)])
 
-res.plot$time<-factor(res.plot$time)
-res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(1,2)])
+res.plot.na.me.ca$time<-factor(res.plot.na.me.ca$time)
+res.plot.na.me.ca$time<-factor(res.plot.na.me.ca$time, levels(res.plot.na.me.ca$time)[c(1,2)])
 
 #myColors<-(brewer.pal(9, "Blues"))
 #myColors<-myColors[c(5,9)]
@@ -372,28 +376,28 @@ mycols<-c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c')
 
 colScale <- scale_fill_manual(name = "ID",values = mycols)
 
-res.plot$ID<-paste(res.plot$type, res.plot$time)
+res.plot.na.me.ca$ID<-paste(res.plot.na.me.ca$type, res.plot.na.me.ca$time)
 
-#table(res.plot$percent,res.plot$time,res.plot$type)
-#write.csv(res.plot, file="data/4.1a.calculations.csv", row.names = FALSE)
+#table(res.plot.na.me.ca$percent,res.plot.na.me.ca$time,res.plot.na.me.ca$type)
+#write.csv(res.plot.na.me.ca, file="data/4.1a.calculations.csv", row.names = FALSE)
 
 # change order of the levels
-res.plot$ID<-as.factor(res.plot$ID)
-res.plot$ID<-factor(res.plot$ID, levels(res.plot$ID)[c(4,3,6,5,2,1)])
+res.plot.na.me.ca$ID<-as.factor(res.plot.na.me.ca$ID)
+res.plot.na.me.ca$ID<-factor(res.plot.na.me.ca$ID, levels(res.plot.na.me.ca$ID)[c(4,3,6,5,2,1)])
 
 # add colours to res.plot
 mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
 mycols<-as.data.frame(mycols)
-mycols$ID<-levels(res.plot$ID)
-res.plot$col<-mycols$mycols[match(res.plot$ID, mycols$ID)]
-res.plot$col<-factor(res.plot$col, levels(res.plot$col)[c(3,1,4,2,6,5)])
-mycols<-as.character(unique(res.plot$col))
+mycols$ID<-levels(res.plot.na.me.ca$ID)
+res.plot.na.me.ca$col<-mycols$mycols[match(res.plot.na.me.ca$ID, mycols$ID)]
+res.plot.na.me.ca$col<-factor(res.plot.na.me.ca$col, levels(res.plot.na.me.ca$col)[c(3,1,4,2,6,5)])
+mycols<-as.character(unique(res.plot.na.me.ca$col))
 colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010 Fundamental", "2011-2015 Fundamental","2006-2010 Use-inspired", "2011-2015 Use-inspired","2006-2010 Applied", "2011-2015 Applied"))
-#table(res.plot$type, res.plot$time, res.plot$col)
+#table(res.plot.na.me.ca$type, res.plot.na.me.ca$time, res.plot.na.me.ca$col)
 
-#pdf(file="figures/global/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.3.1_ResearchProportion_11March18.pdf", width = 11, height= 7)
 
-ggplot(res.plot, aes(percent, fill=ID)) +
+ggplot(res.plot.na.me.ca, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
     labs(x="Percent", y="Number of responses", title="Type of research by proportion")+
@@ -401,87 +405,69 @@ ggplot(res.plot, aes(percent, fill=ID)) +
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.7, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
+          legend.position=c(0.7, 0.92), axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) + colScale + 
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,630),breaks=c(0,100, 200, 300, 400, 500,600))
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,40),breaks=c(0,10, 20, 30, 40))
 
 #dev.off()
-
-#+annotate('text',5.4 ,294, label="(a)", size=5)
-
-#out<-by(data = res.plot, INDICES = res.plot$type, FUN = function(m){
-#  m <- droplevels(m)
-#  m$col<-factor(m$col, levels(m$col)[c(3,1,4,2,6,5)])
-#  mycols<-as.character(unique(m$col))
-#  colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010", "2011-2015"))
-#  m <- ggplot(m, aes(percent, fill=ID)) +
-#    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
-#    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-#    labs(x="Percent", y="Number of responses", title=m$type)+
-#    theme(panel.grid.major = element_blank(),
-#          panel.grid.minor = element_blank(),
-#          strip.text.y = element_text(size=12, face="bold", color="black"),
-#          strip.background = element_rect(colour="white", fill="white"),
-#          legend.position=c(0.94, 0.72), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
-#          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale + 
-#  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,300),breaks=c(0,100,200,300)) 
-# })
-#do.call(grid.arrange, out)
-  
 ```
 
-```{r eval=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE, include=FALSE }
+```{r echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental,  use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", fig.height=7, fig.width=11, warning=FALSE, message=FALSE}
+
+#select for just north africa etc
+research.na.me.ca<-research[research$nation%in%na_me_ca,]
+research.na.me.ca <- droplevels(research.na.me.ca)
 
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot.na.me.ca<-subset(research.na.me.ca, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
-res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
-res.plot$percent<-as.numeric(as.character(res.plot$percent))
-res.plot$type<-as.character(res.plot$type)
+res.plot.na.me.ca$percent<-str_replace_all(res.plot.na.me.ca$percent, "%", "")
+res.plot.na.me.ca$percent<-as.numeric(as.character(res.plot.na.me.ca$percent))
+res.plot.na.me.ca$type<-as.character(res.plot.na.me.ca$type)
 
 # add time variable
-res.plot$time<-ifelse(grepl( "current", res.plot$type),"Current", "Past")
-res.plot$type[res.plot$type=="percent_Applied_Research_past"]<-"Applied"
-res.plot$type[res.plot$type=="percent_Applied_Research_current"]<-"Applied"
-res.plot$type[res.plot$type=="percent_Fundamental_Research_past"]<-"Fundamental"
-res.plot$type[res.plot$type=="percent_fundemental_research_current"]<-"Fundamental"
-res.plot$type[res.plot$type=="percent_Use_inspired_Research_past"]<-"Use-inspired"
-res.plot$type[res.plot$type=="percent_Use_inspired_Research_current"]<-"Use-inspired"
-res.plot$time[res.plot$time=="Current"]<-"2011-2015"
-res.plot$time[res.plot$time=="Past"]<-"2006-2010"
+res.plot.na.me.ca$time<-ifelse(grepl( "current", res.plot.na.me.ca$type),"Current", "Past")
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Applied_Research_past"]<-"Applied"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Applied_Research_current"]<-"Applied"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Fundamental_Research_past"]<-"Fundamental"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_fundemental_research_current"]<-"Fundamental"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Use_inspired_Research_past"]<-"Use-inspired"
+res.plot.na.me.ca$type[res.plot.na.me.ca$type=="percent_Use_inspired_Research_current"]<-"Use-inspired"
+res.plot.na.me.ca$time[res.plot.na.me.ca$time=="Current"]<-"2011-2015"
+res.plot.na.me.ca$time[res.plot.na.me.ca$time=="Past"]<-"2006-2010"
 
 # change order of the levels
-#res.plot$time<-as.factor(res.plot$time)
-#res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(2,1)])
+#res.plot.na.me.ca$time<-as.factor(res.plot.na.me.ca$time)
+#res.plot.na.me.ca$time<-factor(res.plot.na.me.ca$time, levels(res.plot.na.me.ca$time)[c(2,1)])
 
-res.plot$type<-as.factor(res.plot$type)
-res.plot$type<-factor(res.plot$type, levels(res.plot$type)[c(2,3,1)])
+res.plot.na.me.ca$type<-as.factor(res.plot.na.me.ca$type)
+res.plot.na.me.ca$type<-factor(res.plot.na.me.ca$type, levels(res.plot.na.me.ca$type)[c(2,3,1)])
 
-res.plot$time<-factor(res.plot$time)
-res.plot$time<-factor(res.plot$time, levels(res.plot$time)[c(1,2)])
+res.plot.na.me.ca$time<-factor(res.plot.na.me.ca$time)
+res.plot.na.me.ca$time<-factor(res.plot.na.me.ca$time, levels(res.plot.na.me.ca$time)[c(1,2)])
 
 #myColors<-(brewer.pal(9, "Blues"))
 #myColors<-myColors[c(5,9)]
 #colScale <- scale_fill_manual(name = "time",values = myColors)
 
-res.plot$ID<-paste(res.plot$type, res.plot$time)
+res.plot.na.me.ca$ID<-paste(res.plot.na.me.ca$type, res.plot.na.me.ca$time)
 
 # change order of the levels
-res.plot$ID<-as.factor(res.plot$ID)
-res.plot$ID<-factor(res.plot$ID, levels(res.plot$ID)[c(4,3,6,5,2,1)])
+res.plot.na.me.ca$ID<-as.factor(res.plot.na.me.ca$ID)
+res.plot.na.me.ca$ID<-factor(res.plot.na.me.ca$ID, levels(res.plot.na.me.ca$ID)[c(4,3,6,5,2,1)])
 
 
 # add colours 
 mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
 mycols<-as.data.frame(mycols)
-mycols$ID<-levels(res.plot$ID)
-res.plot$col<-mycols$mycols[match(res.plot$ID, mycols$ID)]
-res.plot$col<-factor(res.plot$col, levels(res.plot$col)[c(3,5,4,2,6,1)])
-mycols<-as.character(unique(res.plot$col))
+mycols$ID<-levels(res.plot.na.me.ca$ID)
+res.plot.na.me.ca$col<-mycols$mycols[match(res.plot.na.me.ca$ID, mycols$ID)]
+res.plot.na.me.ca$col<-factor(res.plot.na.me.ca$col, levels(res.plot.na.me.ca$col)[c(3,5,4,2,6,1)])
+mycols<-as.character(unique(res.plot.na.me.ca$col))
 colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010", "2011-2015"))
 
 
-#ggplot(res.plot, aes(percent, fill=time)) +
+#ggplot(res.plot.na.me.ca, aes(percent, fill=time)) +
 #    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
 #    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
 #    labs(x="Percent", y="Number of responses", title="")+
@@ -495,7 +481,7 @@ colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010", 
 
 library(gridExtra)
 #####add (a)
-xs <- split(res.plot,f = res.plot$type)
+xs <- split(res.plot.na.me.ca,f = res.plot.na.me.ca$type)
 p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
@@ -506,7 +492,7 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.93, 0.74), legend.spacing=unit(100,"cm"), plot.title = element_text(hjust = 0.5))+ 
     facet_wrap(~type, nrow=3) +
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,630),breaks=c(0,100,200,300, 400, 500,600))
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,40),breaks=c(0,10,20,30, 40))
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
@@ -515,7 +501,7 @@ p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ labs(title="")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
 
-#pdf(file="figures/global/4.3.2_ResearchProportion.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.3.2_ResearchProportion_11March18.pdf", width = 11, height= 7)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
@@ -524,61 +510,66 @@ grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 ```
 
 
-```{r eval=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.",  message=FALSE, include=FALSE,warning=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", fig.height=7, fig.width=11, warning=FALSE, message=FALSE}
+
+#select for just north africa etc
+research.change.na.me.ca<-research.change[research.change$nation%in%na_me_ca,]
+research.change.na.me.ca <- droplevels(research.change.na.me.ca)
+
 #Change yes or no
-yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
+yes.no.na.me.ca<-subset(research.change.na.me.ca, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
 
-global.yes.no<-aggregate(Country~ changed_10yrs, yes.no, length)
-global.yes.no<-global.yes.no[!global.yes.no$changed_10yrs=="",]
+mid.e.yes.no<-aggregate(Country~ changed_10yrs, yes.no.na.me.ca, length)
+mid.e.yes.no<-mid.e.yes.no[!mid.e.yes.no$changed_10yrs=="",]
 
-p1<-ggplot(data=global.yes.no, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
+p1<-ggplot(data=mid.e.yes.no, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5))+
-  geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses", title="Change in research type")+ scale_y_continuous(expand = c(0, 0), limits = c(0,1500))+ annotate('text', 0.5,1470, label="(a)", size=5)
+  geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses", title="Change in research type")+ scale_y_continuous(expand = c(0, 0), limits = c(0,145))+ annotate('text', 0.5,1470, label="(a)", size=5)
 
 ####reason for change  
-reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
+reason.na.me.ca<-subset(research.change.na.me.ca, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
                                        "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
 
 # switch to long format
 require(tidyr)
-global.long<-gather(reason, reason.change.glb, yes.glb, -Location, -gender, -Country_work, -Country)
+mid.e.long<-gather(reason.na.me.ca, reason.change, yes, -Location, -gender, -Country_work, -Country)
 # using table to count cases of each category
-sum.global<-data.frame(table(global.long$reason.change.glb, global.long$yes.glb))
+sum.mid.e<-data.frame(table(mid.e.long$reason.change, mid.e.long$yes))
 #remove non-response
-sum.global<-sum.global[!sum.global$Var1=="",]
+sum.mid.e<-sum.mid.e[!sum.mid.e$Var1=="",]
 
-sum.global$Var1<-revalue(sum.global$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
+sum.mid.e$Var1<-revalue(sum.mid.e$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
 # change order of the levels
-sum.global$Var1<-factor(sum.global$Var1,levels(sum.global$Var1)[c(2,3,1,5,4)])
+sum.mid.e$Var1<-factor(sum.mid.e$Var1,levels(sum.mid.e$Var1)[c(2,3,1,5,4)])
 
 myColors4<-(brewer.pal(9, "Blues"))
 myColors4<-myColors4[c(9, 8,7,6,5,3)]
 
-p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+p2<-ggplot(sum.mid.e, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses", title="Reason for change in research type")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 900))+annotate('text', 5.4,885, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 60))+annotate('text', 5.4,885, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
 
 
-#pdf(file="figures/global/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
 
 #print(p2)
 
 #dev.off()
 
-#pdf(file="figures/global/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.4a&b_ReasonForFieldChange_11March18.pdf", width = 11, height= 7)
 
 grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 
 #dev.off()
 ```
 
-```{r eval=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
-view.propor<-survey[!survey$view_change_of_type=="",]
+view.propor<-na.me.ca[!na.me.ca$view_change_of_type=="",]
 view.propor<-droplevels(view.propor)
 change.view.glb<-aggregate(gender~ view_change_of_type, view.propor, length)
 # change order of the levels
@@ -588,12 +579,12 @@ change.view.glb$view_change_of_type<-factor(change.view.glb$view_change_of_type,
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
-#pdf(file="figures/global/4.5_ViewFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.5_ViewFieldChange_11march18.pdf", width = 11, height= 7)
 
 ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), 
         axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of research type change")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,400))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of research type change")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,40))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
 #dev.off()
 ```
@@ -730,13 +721,13 @@ multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 <!--Part 2 - External Partnerships-->
 <!--**4.2 External Partnerships**   -->
 
-```{r eval=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
-b.part<-data.frame(table(survey$partnership_outside_before))
+b.part<-data.frame(table(na.me.ca$partnership_outside_before))
 b.part<-b.part[!b.part$Var1=="",]
 b.part<-droplevels(b.part)
 b.part$time<-"Past"
-a.part<-data.frame(table(survey$partnership_outside))
+a.part<-data.frame(table(na.me.ca$partnership_outside))
 a.part<-a.part[!a.part$Var1=="",]
 a.part<-droplevels(a.part)
 a.part$time<-"Current"
@@ -750,7 +741,7 @@ myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors6)
 
-#pdf(file="figures/global/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.6_LevelsOfPartnership_11March18.pdf", width = 11, height= 7)
 
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
@@ -762,15 +753,16 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.08, 0.94), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,150))
 
 #dev.off()
 ```
 
-```{r eval=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
+
 ### was there change
 
-change.part.glb<-data.frame(table(survey$partnership_change_10yrs))
+change.part.glb<-data.frame(table(na.me.ca$partnership_change_10yrs))
 change.part.glb<-change.part.glb[!change.part.glb$Var1=="",]
 change.part.glb$Var1<-revalue(change.part.glb$Var1, c("Can't comment (new researcher)"="Can't comment"))
 change.part.glb$Var1<-factor(change.part.glb$Var1, levels=c("Yes", "No", "Can't comment"))
@@ -785,19 +777,24 @@ g1<-ggplot(data=change.part.glb, aes(x=Var1, y=Freq, fill=Var1))+
         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   scale_fill_manual(name = "Var1",values = myColors) +
   #annotate('text', 3.25,606, label="(a)", size=7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1550))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,150))
 
 ### reason
-reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -nation, -Location, -what_participant_group, -field_research)
-sum.global<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
-sum.global$Var1<-revalue(sum.global$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
-sum.global$Var1<-reorder(sum.global$Var1, -sum.global$Freq)
+#select for just north africa etc
+part2.reason.na.me.ca<-part2.reason[part2.reason$nation%in%na_me_ca,]
+part2.reason.na.me.ca <- droplevels(part2.reason.na.me.ca)
+
+reason.pt.long.mid.e<-gather(part2.reason.na.me.ca, change.reason, yes, -Country,-Country_work, -gender, -nation, -Location, -what_participant_group, -field_research)
+sum.mid.e<-data.frame(table(reason.pt.long.mid.e$change.reason, reason.pt.long.mid.e$yes))
+
+sum.mid.e$Var1<-revalue(sum.mid.e$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
+sum.mid.e$Var1<-reorder(sum.mid.e$Var1, -sum.mid.e$Freq)
 
 myColors7<-(brewer.pal(9, "Blues"))
 myColors7<-myColors7[c(9, 8,7,6,5,3)]
 
-g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + 
+g2<-ggplot(sum.mid.e, aes(x=Var1, y=Freq, fill=Var1)) + 
     geom_bar(stat='identity')+  guides(fill=FALSE) +
     theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size = 11),
           legend.position=c(0.8, 0.8), 
@@ -806,11 +803,11 @@ g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) +
           panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   geom_text(aes(label=Freq), vjust=-0.5, size=3)+
   labs(x="", y="Number of responses", title="Reason for change in level of partnership")+scale_fill_manual(name = "Var1",values = myColors7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,890))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,50))
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-#pdf(file="figures/global/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.7a&b_PartnershipChange&Reason_11March18.pdf", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
 
@@ -818,20 +815,20 @@ grid.arrange(g1, g2, ncol=1)
 
 ```
 
-```{r eval=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
-view<-data.frame(table(survey$view_change_partnership))
+view<-data.frame(table(na.me.ca$view_change_partnership))
 view<-view[!view$Var1=="",]
 
 # change order of the levels
 
-view$Var1<-factor(view$Var1, levels(view$Var1)[c(6,4,2,3,5)])
+view$Var1<-factor(view$Var1, levels(view$Var1)[c(5, 4,2,3,1)])
 
 myColors8<-(brewer.pal(9, "Blues"))
 myColors8<-myColors8[c(4,4,4,4,4)]
 colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 
-#pdf(file="figures/global/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.8_ViewChangePartnership_11March18.pdf", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
@@ -839,13 +836,13 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11), plot.title = element_text(hjust = 0.5)) + 
-  labs(x="", y="Number of responses", title="Opinion of change in partnership level") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,380), breaks = seq(0,350,50))
+  labs(x="", y="Number of responses", title="Opinion of change in partnership level") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,40), breaks = seq(0,40,10))
 
 #dev.off()
 
 ```
  
-```{r eval=FALSE, fig.cap="Figure ( 4.6 + 4.7 + 4.8 ) External Research Partnerships. ", message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Figure ( 4.6 + 4.7 + 4.8 ) External Research Partnerships. ", message=FALSE, warning=FALSE,fig.width=11, fig.height=7, include=FALSE}
 ###4.6
 myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
@@ -951,48 +948,52 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 <!--**4.3 Research Grants**  -->
 
 
-```{r eval=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
 
-part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
+#select for just north africa etc
+part3.grants.long.mid.e<-part3.grants.long[part3.grants.long$nation%in%na_me_ca,]
+part3.grants.long.mid.e <- droplevels(part3.grants.long.mid.e)
+
+part3.grants.long.mid.e$type.grant<-as.character(part3.grants.long.mid.e$type.grant)
 
 
 #add time variable
-part3.grants.long$time<-ifelse(grepl("11_15", part3.grants.long$type.grant), "2011-2015", "2006-2010")
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
+part3.grants.long.mid.e$time<-ifelse(grepl("11_15", part3.grants.long.mid.e$type.grant), "2011-2015", "2006-2010")
+part3.grants.long.mid.e$type.grant[part3.grants.long.mid.e$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
+part3.grants.long.mid.e$type.grant[part3.grants.long.mid.e$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
+part3.grants.long.mid.e$type.grant[part3.grants.long.mid.e$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
+part3.grants.long.mid.e$type.grant[part3.grants.long.mid.e$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
+part3.grants.long.mid.e$type.grant[part3.grants.long.mid.e$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
+part3.grants.long.mid.e$type.grant[part3.grants.long.mid.e$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
 
-grants.gbl<-data.frame(with(part3.grants.long, table(type.grant,time,number)))
-grants.gbl$type.grant<-as.factor(grants.gbl$type.grant)
+grants.mid.e<-data.frame(with(part3.grants.long.mid.e, table(type.grant,time,number)))
+grants.mid.e$type.grant<-as.factor(grants.mid.e$type.grant)
 
 
 #change order of levels
-grants.gbl$number<-factor(grants.gbl$number, levels(grants.gbl$number)[c(1,2,6,7,3,4,5)])
-grants.gbl$type.grant<-factor(grants.gbl$type.grant, levels(grants.gbl$type.grant)[c(2,3,1)])
+grants.mid.e$number<-factor(grants.mid.e$number, levels(grants.mid.e$number)[c(1,2,6,7,3,4,5)])
+grants.mid.e$type.grant<-factor(grants.mid.e$type.grant, levels(grants.mid.e$type.grant)[c(2,3,1)])
 
 #myColors9<-(brewer.pal(9, "Blues"))
 #myColors9<-rev(myColors9[c(9, 5)])
 #colScale <- scale_fill_manual(name = "time",values = myColors9)
 
-grants.gbl$ID<-paste(grants.gbl$type.grant, grants.gbl$time)
+grants.mid.e$ID<-paste(grants.mid.e$type.grant, grants.mid.e$time)
 
 # change order of the levels
-grants.gbl$ID<-as.factor(grants.gbl$ID)
-grants.gbl$ID<-factor(grants.gbl$ID, levels(grants.gbl$ID)[c(4,3,6,5,2,1)])
+grants.mid.e$ID<-as.factor(grants.mid.e$ID)
+grants.mid.e$ID<-factor(grants.mid.e$ID, levels(grants.mid.e$ID)[c(4,3,6,5,2,1)])
 
 ##colors
 mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
 #mycols<-as.data.frame(mycols)
 
-#pdf(file="figures/global/4.9_NumberGrantApps.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.9_NumberGrantApps_11March18.pdf", height=7, width =11)
 
 
 #####add (a)
-xs <- split(grants.gbl,f = grants.gbl$type.grant)
+xs <- split(grants.mid.e,f = grants.mid.e$type.grant)
 p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) + 
     geom_bar(stat="identity", position = "dodge")+
     #facet_wrap(~type.grant, ncol=3) +
@@ -1005,7 +1006,7 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.81, 0.91), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) + 
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,2100), breaks = c(0,200,400,600,800,1000,1200,1400,1600,1800,2000))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,200), breaks = c(0,50,100,150,200))
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
@@ -1032,43 +1033,45 @@ grid.arrange(p1,p2,p3, nrow=1, top=textGrob("Number of research grant applicatio
 #  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,950), breaks = c(0,250,500,750,950))
 ```
 
-```{r eval=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", message=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful, in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", fig.height=7, fig.width=11, message=FALSE}
 part3.success.long<-read.csv(file="../data/gya-part3.success.long.csv")
 
-part3.success.long$type<-as.character(part3.success.long$type)
+#select for just north africa etc
+part3.success.long.mid.e<-part3.success.long[part3.success.long$nation%in%na_me_ca,]
+part3.success.long.mid.e <- droplevels(part3.success.long.mid.e)
+
+part3.success.long.mid.e$type<-as.character(part3.success.long.mid.e$type)
 
 #add time variable
-part3.success.long$time<-ifelse(grepl("11_15", part3.success.long$type), "2011-2015", "2006-2010")
-part3.success.long$type[part3.success.long$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
-part3.success.long$type[part3.success.long$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
-part3.success.long$type[part3.success.long$type=="successful_grants_11_15_use"]<-"Use-Inspired"
-part3.success.long$type[part3.success.long$type=="successful_grants_6_10_use"]<-"Use-Inspired"
-part3.success.long$type[part3.success.long$type=="successful_grants_11_15_applied"]<-"Applied"
-part3.success.long$type[part3.success.long$type=="successful_grants_6_10_applied"]<-"Applied"
+part3.success.long.mid.e$time<-ifelse(grepl("11_15", part3.success.long.mid.e$type), "2011-2015", "2006-2010")
+part3.success.long.mid.e$type[part3.success.long.mid.e$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
+part3.success.long.mid.e$type[part3.success.long.mid.e$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
+part3.success.long.mid.e$type[part3.success.long.mid.e$type=="successful_grants_11_15_use"]<-"Use-Inspired"
+part3.success.long.mid.e$type[part3.success.long.mid.e$type=="successful_grants_6_10_use"]<-"Use-Inspired"
+part3.success.long.mid.e$type[part3.success.long.mid.e$type=="successful_grants_11_15_applied"]<-"Applied"
+part3.success.long.mid.e$type[part3.success.long.mid.e$type=="successful_grants_6_10_applied"]<-"Applied"
 
-success.gbl<-data.frame(with(part3.success.long, table(type, percent,time)))
-
-
+success.mid.e<-data.frame(with(part3.success.long.mid.e, table(type, percent,time)))
 
 #change order of types
-success.gbl$type<-as.factor(success.gbl$type)
-success.gbl$type<-factor(success.gbl$type, levels(success.gbl$type)[c(2,3,1)])
+success.mid.e$type<-as.factor(success.mid.e$type)
+success.mid.e$type<-factor(success.mid.e$type, levels(success.mid.e$type)[c(2,3,1)])
 
-success.gbl$id<-paste(success.gbl$type, success.gbl$time)
+success.mid.e$id<-paste(success.mid.e$type, success.mid.e$time)
 
 # change order of the levels
-success.gbl$id<-as.factor(success.gbl$id)
-success.gbl$id<-factor(success.gbl$id, levels(success.gbl$id)[c(3,4,5,6,1,2)])
+success.mid.e$id<-as.factor(success.mid.e$id)
+success.mid.e$id<-factor(success.mid.e$id, levels(success.mid.e$id)[c(3,4,5,6,1,2)])
 
 mycols10<-c('#1f78b4','#a6cee3','#33a02c','#b2df8a','#e31a1c', '#fb9a99')
 mycols10<-as.data.frame(mycols10)
-mycols10$id<-levels(success.gbl$id)
-success.gbl$col<-mycols10$mycols10[match(success.gbl$id, mycols10$id)]
-success.gbl$col<-factor(success.gbl$col, levels(success.gbl$col)[c(3,1,4,2,6,5)])
+mycols10$id<-levels(success.mid.e$id)
+success.mid.e$col<-mycols10$mycols10[match(success.mid.e$id, mycols10$id)]
+success.mid.e$col<-factor(success.mid.e$col, levels(success.mid.e$col)[c(3,1,4,2,6,5)])
 
-#pdf(file="figures/global/4.10_GrantAppSuccess.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.10_GrantAppSuccess_11March18.pdf", height=7, width =11)
 
-out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
+out2<-by(data = success.mid.e, INDICES = success.mid.e$type, FUN = function(n){
   n <- droplevels(n)
   n$col<-factor(n$col, levels(n$col)[c(3,1,4,2,6,5)])
   mycols10<-as.character(unique(n$col))
@@ -1084,7 +1087,7 @@ out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
           strip.background = element_rect(colour="white", fill="white"),
            axis.title.y=element_text(size=11),plot.title = element_text(size=12, face="bold", hjust=0.5),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale +
-    scale_y_continuous(expand=c(0,0), limits=c(0,450))
+    scale_y_continuous(expand=c(0,0), limits=c(0,40))
  })
 do.call(grid.arrange, out2)
 
@@ -1107,11 +1110,15 @@ do.call(grid.arrange, out2)
 
 ```
  
-```{r eval=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", message=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", message=FALSE, fig.height=7, fig.width=11}
+
+#select for just north africa etc
+part3.change.mid.e<-part3.change[part3.change$nation%in%na_me_ca,]
+part3.change.mid.e <- droplevels(part3.change.mid.e)
 
 ##switch to long format
-change.long.gbl<-gather(part3.change, type, level, -Location, -gender, -Country,-nation, -Country_work, -what_participant_group, -field_research)
-success.change<-with(change.long.gbl, data.frame(table(type, level)))
+change.long.mid.e<-gather(part3.change.mid.e, type, level, -Location, -gender, -Country,-nation, -Country_work, -what_participant_group, -field_research)
+success.change<-with(change.long.mid.e, data.frame(table(type, level)))
 #remove no response
 success.change<-success.change[!success.change$level=="",]
 success.change<-droplevels(success.change)
@@ -1126,7 +1133,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/global/4.11_ChangeSuccessRate.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.11_ChangeSuccessRate_11March18.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -1142,33 +1149,37 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
   labs(x="", y="Number of responses", fill="", title="Change in grant success rates")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1300))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,110))
 
 #dev.off()
 
 
 ```
 
-```{r eval=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", message=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", fig.height=7, fig.width=11, message=FALSE}
 
-part3.prac.long$year<-as.character(part3.prac.long$year)
+#select for just north africa etc
+part3.prac.long.mid.e<-part3.prac.long[part3.prac.long$nation%in%na_me_ca,]
+part3.prac.long.mid.e <- droplevels(part3.prac.long.mid.e)
 
-part3.prac.long$year[part3.prac.long$year=="practical_applications_important_11_15"]<-"2011-2015"
-part3.prac.long$year[part3.prac.long$year=="practical_applications_important_6_10"]<-"2006-2010"
+part3.prac.long.mid.e$year<-as.character(part3.prac.long.mid.e$year)
+
+part3.prac.long.mid.e$year[part3.prac.long.mid.e$year=="practical_applications_important_11_15"]<-"2011-2015"
+part3.prac.long.mid.e$year[part3.prac.long.mid.e$year=="practical_applications_important_6_10"]<-"2006-2010"
 
 
-prac.gbl<-data.frame(table(part3.prac.long$year, part3.prac.long$level))
+prac.mid.e<-data.frame(table(part3.prac.long.mid.e$year, part3.prac.long.mid.e$level))
 
 #change order of levels
-prac.gbl$Var2<-factor(prac.gbl$Var2, levels(prac.gbl$Var2)[c(2,6,4,5,3,1)])
+prac.mid.e$Var2<-factor(prac.mid.e$Var2, levels(prac.mid.e$Var2)[c(2,6,4,5,3,1)])
 
 myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
-#pdf(file="figures/global/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.12_ImportancePracticalApplication_11March18.pdf", height=7, width =11)
 
-ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) + 
+ggplot(prac.mid.e, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
@@ -1179,30 +1190,34 @@ ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="Importance of suggesting practical research applications", y="Number of responses", title="Importance of practical application of research for grant success")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,950))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,70))
   
 #dev.off()
 ```
 
-```{r eval=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful,  in 2006-2010 and in 2011-2015.",  message=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", fig.height=7, fig.width=11, message=FALSE}
 
-part3.part.long$year<-as.character(part3.part.long$year)
+#select for just north africa etc
+part3.part.long.mid.e<-part3.part.long[part3.part.long$nation%in%na_me_ca,]
+part3.part.long.mid.e <- droplevels(part3.part.long.mid.e)
 
-part3.part.long$year[part3.part.long$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
-part3.part.long$year[part3.part.long$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
+part3.part.long.mid.e$year<-as.character(part3.part.long.mid.e$year)
 
-part.gbl<-data.frame(table(part3.part.long$year, part3.part.long$level))
+part3.part.long.mid.e$year[part3.part.long.mid.e$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
+part3.part.long.mid.e$year[part3.part.long.mid.e$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
+
+part.mid.e<-data.frame(table(part3.part.long.mid.e$year, part3.part.long.mid.e$level))
 #change order of levels
-part.gbl$Var2<-factor(part.gbl$Var2, levels(part.gbl$Var2)[c(2,5,6,4,3,1)])
+part.mid.e$Var2<-factor(part.mid.e$Var2, levels(part.mid.e$Var2)[c(2,5,6,4,3,1)])
 
 ## add colour scale
 myColors13<-(brewer.pal(9, "Blues"))
 myColors13<-rev(myColors13[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 
-#pdf(file="figures/global/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.13_ImportancePartnersApplication_11March18.pdf", height=7, width =11)
 
-ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+ 
+ggplot(part.mid.e, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="Importance of external partnerships", y="Number of responses", title="Importance of including partners (non-academia) for the success of grant applications")+
@@ -1212,7 +1227,7 @@ ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+
           legend.key=element_blank(),
           legend.position=c(0.11, 0.93), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) + colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,980))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,70))
 
 #dev.off()
 ```
@@ -1265,15 +1280,20 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
 ```
 
-```{r eval=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
+
+#select for just north africa etc
+p3_master.long.mid.e<-p3_master.long[p3_master.long$nation%in%na_me_ca,]
+p3_master.long.mid.e <- droplevels(p3_master.long.mid.e)
+
 ##revalue the year values
-p3_master.long$year<- revalue(p3_master.long$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
+p3_master.long.mid.e$year<- revalue(p3_master.long.mid.e$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
 #change order of levels
-p3_master.long$year<-factor(p3_master.long$year, levels(p3_master.long$year)[c(2,1)])
+p3_master.long.mid.e$year<-factor(p3_master.long.mid.e$year, levels(p3_master.long.mid.e$year)[c(2,1)])
 
 ##For-Profit
-fp<-p3_master.long[p3_master.long$type=="For-Profit",]
+fp<-p3_master.long.mid.e[p3_master.long.mid.e$type=="For-Profit",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1287,12 +1307,12 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(list(title= "Industry", x="", y = "Number of responses"))+
-  scale_y_continuous(expand =c(0,0),limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0),limits=c(0,240), breaks=seq(0, 240, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
 ##Government
-gov<-p3_master.long[p3_master.long$type=="Government",]
+gov<-p3_master.long.mid.e[p3_master.long.mid.e$type=="Government",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1306,7 +1326,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Government", x="", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,240), breaks=seq(0, 240, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1314,7 +1334,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Internal
 
-int<-p3_master.long[p3_master.long$type=="Internal",]
+int<-p3_master.long.mid.e[p3_master.long.mid.e$type=="Internal",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1328,7 +1348,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Internal",x="% research funding", y = "Number of responses")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,240), breaks=seq(0, 240, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1336,7 +1356,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Non-Governmental
 
-ngov<-p3_master.long[p3_master.long$type=="Non-governmental",]
+ngov<-p3_master.long.mid.e[p3_master.long.mid.e$type=="Non-governmental",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1350,14 +1370,14 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Non-governmental", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,240), breaks=seq(0, 240, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
 
 ## Other
 
-other<-p3_master.long[p3_master.long$type=="Other",]
+other<-p3_master.long.mid.e[p3_master.long.mid.e$type=="Other",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1371,7 +1391,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Other", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,240), breaks=seq(0, 240, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 ##put them all together
@@ -1379,7 +1399,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-#pdf(file="figures/global/4.14_DistributionFunding.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.14_DistributionFunding_11March18.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
@@ -1394,9 +1414,14 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
 <!--Part 4 - Funding Trends in your country of work-->
 <!--**4.4 Perspectives on the State of Fundamental Research**-->
 
-```{r eval=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
+
+#select for just north africa etc
+part4.mid.e<-part4[part4$nation%in%na_me_ca,]
+part4.mid.e <- droplevels(part4.mid.e)
+
 ## order bars from very important (left) to can't comment (right)
-important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
+important<-subset(part4.mid.e, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
 ## using table to count cases of each category
 sum.important<-data.frame(table(important$opinion_fundamental_important))
@@ -1412,7 +1437,7 @@ myColors15<-(brewer.pal(9, "Blues"))
 myColors15<-(myColors15[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
-#pdf(file="figures/global/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.15_PerceivedImportanceFundamentalGovernment_11march18.pdf", height=7, width =11)
 
 ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
@@ -1422,14 +1447,17 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1100)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,100)) + colScale
 
 #dev.off()
 ```
 
-```{r eval=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
+#select for just north africa etc
+part4.mid.e<-part4[part4$nation%in%na_me_ca,]
+part4.mid.e <- droplevels(part4.mid.e)
 ## order bars into applied > use > fundamental > no change
-priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
+priority<-subset(part4.mid.e, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
 
 ## switch to long format
 priority.long<-gather(priority, what.type, higher.priority, -Location, -gender, -Country, -Country_work)
@@ -1445,7 +1473,7 @@ myColors16<-(brewer.pal(9, "Blues"))
 myColors16<-(myColors16[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
-#pdf(file="figures/global/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
 
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
@@ -1455,34 +1483,34 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
         labs(x="", y="Number of responses", fill="", title="Perceived change in reserach priority by their government") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,2500))+ colScale
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,160))+ colScale
 
 #dev.off()
 ```
 
 
-```{r eval=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
+availability.change<-subset(part4.mid.e, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
                                              "available_funding_use_inspired", "available_funding_applied"))
 ## switch to long format
-availability.change.long.gbl<-gather(availability.change, what.type, level, -gender, -Location, -Country, -Country_work)
-availability.gbl<-with(availability.change.long.gbl, data.frame(table(what.type, level)))
+availability.change.long.mid.e<-gather(availability.change, what.type, level, -gender, -Location, -Country, -Country_work)
+availability.mid.e<-with(availability.change.long.mid.e, data.frame(table(what.type, level)))
 
 #remove non response
-availability.gbl<-availability.gbl[!availability.gbl$level=="",]
+availability.mid.e<-availability.mid.e[!availability.mid.e$level=="",]
 
 ## change type to factor with levels
-availability.gbl$level<-str_replace_all(availability.gbl$level, "Will ", "")
-availability.gbl$what.type<-as.factor(availability.gbl$what.type)
-availability.gbl$level<-as.factor(availability.gbl$level)
+availability.mid.e$level<-str_replace_all(availability.mid.e$level, "Will ", "")
+availability.mid.e$what.type<-as.factor(availability.mid.e$what.type)
+availability.mid.e$level<-as.factor(availability.mid.e$level)
 
 ## change order of levels
-availability.gbl$level<-factor(availability.gbl$level, levels(availability.gbl$level)[c(4,5,6,3,2,1 )])
-availability.gbl$what.type<-factor(availability.gbl$what.type, levels(availability.gbl$what.type)[c(2,3,1)])
+availability.mid.e$level<-factor(availability.mid.e$level, levels(availability.mid.e$level)[c(4,5,6,3,2,1 )])
+availability.mid.e$what.type<-factor(availability.mid.e$what.type, levels(availability.mid.e$what.type)[c(2,3,1)])
 
-availability.gbl$what.type<-revalue(availability.gbl$what.type, c("available_funding_fundamental"="Fundamental",
+availability.mid.e$what.type<-revalue(availability.mid.e$what.type, c("available_funding_fundamental"="Fundamental",
               'available_funding_use_inspired'='Use-inspired', 'available_funding_applied' = 'Applied'))
 
 ### colour palette
@@ -1490,9 +1518,9 @@ availability.gbl$what.type<-revalue(availability.gbl$what.type, c("available_fun
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-#pdf(file="figures/global/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.17_AnticipatedChangeFunding_11March18.pdf", height=7, width =11)
 
-ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
+ggplot(data=availability.mid.e, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
     theme(aspect.ratio=1/4, axis.text.x = element_text(angle=0, vjust=0.5, size = 9),
           panel.grid.major = element_blank(), 
@@ -1506,17 +1534,17 @@ ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1000), breaks = seq(0,1000,200))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,80), breaks = seq(0,80,20))
 
 #dev.off()
 
 
 ```
 
-```{r eval=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))
+next.generation<-subset(part4.mid.e, select=c("Location", "Country","Country_work", "gender","next_generation"))
 # remove non-response
 next.generation<-next.generation[!next.generation$next_generation=="",]
 
@@ -1534,7 +1562,7 @@ myColors18<-(brewer.pal(9, "Blues"))
 myColors18<-(myColors18[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors18)
 
-#pdf(file="figures/global/4.18_EffectNextGeneration.pdf", height=7, width =11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/4.18_EffectNextGeneration_11March18.pdf", height=7, width =11)
 
 ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +
@@ -1547,7 +1575,7 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,850))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,70))+colScale
 
 #dev.off()
 ```
