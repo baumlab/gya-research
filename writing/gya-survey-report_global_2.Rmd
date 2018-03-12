@@ -108,7 +108,7 @@ Researchers from many different disciplines were represented in the survey. `r r
 # locations<-locations[!locations$nation=="",]
 # locations<-droplevels(locations)
 # 
-# write.csv(locations, file="data/country_responses_8March18.csv", row.names = FALSE)
+# write.csv(locations, file="data/country_responses_March18.csv", row.names = FALSE)
 
 ###create figures
 
@@ -116,7 +116,7 @@ locations<-aggregate(gender ~ nation, survey, length)
 locations<-locations[!locations$nation=="",]
 locations<-droplevels(locations)
 
-#pdf(file="figures/global/responses_country_8March18.pdf", width = 11, height= 8)
+#pdf(file="figures/global/responses_country_12March18.pdf", width = 11, height= 8)
 
 ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
   geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
@@ -133,7 +133,7 @@ locations<-locations[!locations$nation=="",]
 require(colorRamps);require(plotrix)
 barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
 
-#pdf(file="figures/global/responses_country_gapplot_8March18.pdf", height=8, width=11)
+#pdf(file="figures/global/responses_country_gapplot_12March18.pdf", height=8, width=11)
 
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(351,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
@@ -154,7 +154,7 @@ barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
 color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
 
 
-#pdf(file="figures/global/responses_country_10+_gapplot_8March18.pdf", height=8, width=11)
+#pdf(file="figures/global/responses_country_10+_gapplot_12March18.pdf", height=8, width=11)
 
 par(mar=c(7,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
@@ -176,7 +176,7 @@ barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
 color2<-'#1f78b4'
 color2<-rep(color2,55)
 
-#pdf(file="figures/global/responses_country_10-_gapplot_8March18.pdf", height=8, width=11)
+#pdf(file="figures/global/responses_country_10-_gapplot_12March18.pdf", height=8, width=11)
 
 par(mar=c(11,4,4,2))
 barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
@@ -198,7 +198,7 @@ require(colorRamps);require(plotrix)
 barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
 
 color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
-#pdf(file="figures/global/responses_country_10+&10-_gapplot_8March18.pdf", height=8, width=15)
+#pdf(file="figures/global/responses_country_10+&10-_gapplot_12March18.pdf", height=8, width=15)
 layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(351,1250),horiz=F, xaxlab=barlabs, xlab="     ", 

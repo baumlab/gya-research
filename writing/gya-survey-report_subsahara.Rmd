@@ -106,7 +106,7 @@ locations<-aggregate(gender ~ nation, subsahara, length)
 locations<-locations[!locations$nation=="",]
 locations<-droplevels(locations)
 
-#pdf(file="figures/subsahara/responses_country_9Mar18.pdf", width = 11, height= 8)
+#pdf(file="figures/subsahara/responses_country_12Mar18.pdf", width = 11, height= 8)
 
 ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
   geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +

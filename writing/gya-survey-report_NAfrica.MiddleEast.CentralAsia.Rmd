@@ -109,7 +109,7 @@ locations<-aggregate(gender ~ nation, na.me.ca, length)
 locations<-locations[!locations$nation=="",]
 locations<-droplevels(locations)
 
-#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_1Mar18.pdf", width = 11, height= 8)
+#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_12Mar18.pdf", width = 11, height= 8)
 
 ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
   geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
@@ -126,7 +126,7 @@ locations<-locations[!locations$nation=="",]
 require(colorRamps);require(plotrix)
 barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
 
-#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_gapplot_1Mar18.pdf", height=8, width=11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_gapplot_12Mar18.pdf", height=8, width=11)
 
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(60,170),horiz=F, xaxlab=barlabs, xlab="     ", 
@@ -147,7 +147,7 @@ barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
 color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
 
 
-#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_10+_gapplot_1Mar18.pdf", height=8, width=11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_10+_gapplot_12Mar18.pdf", height=8, width=11)
 
 par(mar=c(7,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(61,169),horiz=F, xaxlab=barlabs, xlab="     ", 
@@ -169,7 +169,7 @@ barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
 color2<-'#1f78b4'
 color2<-rep(color2,55)
 
-#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_10-_gapplot_1Mar18.pdf", height=8, width=11)
+#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_10-_gapplot_12Mar18.pdf", height=8, width=11)
 
 par(mar=c(11,4,4,2))
 barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
@@ -191,7 +191,7 @@ require(colorRamps);require(plotrix)
 barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
 
 color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
-#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_10+&10-_gapplot_1Mar18.pdf", height=8, width=15)
+#pdf(file="figures/n.afr_mid.east_cen.asia/responses_country_10+&10-_gapplot_12Mar18.pdf", height=8, width=15)
 layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(61,169),horiz=F, xaxlab=barlabs, xlab="     ", 
