@@ -1,7 +1,7 @@
 ---
 title: "Central and South America"
 author: "Kristina Tietjen"
-date: "3/8/2018"
+date: ""
 output: pdf_document
 ---
 
@@ -335,11 +335,11 @@ grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
 ```{r echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental Use-inspired or Applied research in the past and in their current research.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 #select for just central and south america
-c.s.america<-research[research$nation%in%cen.south.america,]
-c.s.america <- droplevels(c.s.america)
+research.c.s.america<-research[research$nation%in%cen.south.america,]
+research.c.s.america <- droplevels(research.c.s.america)
 
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(c.s.america, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot<-subset(research.c.s.america, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
@@ -413,11 +413,11 @@ ggplot(res.plot, aes(percent, fill=ID)) +
 
 ```{r echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 #select for just central and south america
-c.s.america<-research[research$nation%in%cen.south.america,]
-c.s.america <- droplevels(c.s.america)
+research.c.s.america<-research[research$nation%in%cen.south.america,]
+research.c.s.america <- droplevels(research.c.s.america)
 
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(c.s.america, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot<-subset(research.c.s.america, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
@@ -556,7 +556,7 @@ grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 #dev.off()
 ```
 
-```{r eval=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", fig.height=7, fig.width=11, message=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 view.propor<-c.s.america[!c.s.america$view_change_of_type=="",]
 view.propor<-droplevels(view.propor)
@@ -578,8 +578,6 @@ ggplot(change.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_typ
 
 #dev.off()
 ```
-
-**Figure 4.5 wont knit - will try harder later to get it to knit in but in the mean time there is a pdf of the plot in the folder**
 
 ```{r eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
 
@@ -713,7 +711,7 @@ multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 <!--Part 2 - External Partnerships-->
 <!--**4.2 External Partnerships**   -->
 
-```{r eval=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", fig.height=7, fig.width=11, message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 b.part<-data.frame(table(c.s.america$partnership_outside_before))
 b.part<-b.part[!b.part$Var1=="",]
@@ -749,8 +747,6 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
 
 #dev.off()
 ```
-**Figure 4.6 wont knit either - will try harder later to get it to knit in but in the mean time there is a pdf of the plot in the folder**
-
 
 ```{r echo=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 ### was there change
@@ -998,7 +994,7 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.81, 0.91), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) + 
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,2100), breaks = c(0,200,400,600,800,1000,1200,1400,1600,1800,2000))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,125), breaks = seq(0,125, 25))
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
