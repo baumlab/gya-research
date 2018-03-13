@@ -225,12 +225,12 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-#pdf(file="figures/e.asia_pacific/4.1_CareerStage_11March18.pdf", width = 11, height= 7)
+#pdf(file="figures/e.asia_pacific/4.1_CareerStage_13March18.pdf", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_x_discrete(labels=c("Senior academic", "Early career\nacademic", "Postdoc or RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
+ scale_x_discrete(labels=c("Early career\nacademic",   "Senior academic",  "Postdoc or RA")) +
   labs(y="Number of responses", x="", title="Responses by Career Stage") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(aspect.ratio=1/2,legend.title=element_blank(), 
@@ -259,12 +259,13 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/e.asia_pacific/4.2_FieldofResearch_11March18.pdf", width = 11, height= 7)
+#pdf(file="figures/e.asia_pacific/4.2_FieldofResearch_13March18.pdf", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of responses",x="", title=" Responses by field of research")  +
-  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\nLife Science", "Engineering", "Interdisciplinary\nScience", "Social Science/\nHumanities", "Other")) +
+  scale_x_discrete(labels=c("Medicine &\nLife Science", "Interdisciplinary\nScience","Natural\n Science","Engineering",
+     "Physical\n Science",  "Social Science/\nHumanities")) +
   geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
          axis.text.x=element_text(angle=0, size=9),
