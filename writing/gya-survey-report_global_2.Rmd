@@ -302,12 +302,13 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/global/4.2_FieldofResearch_10March18.pdf", width = 11, height= 7)
+#pdf(file="figures/global/4.2_FieldofResearch_13March18.pdf", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of responses",x="", title=" Responses by field of research")  +
-  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\nLife Science", "Engineering", "Interdisciplinary\nScience", "Social Science/\nHumanities", "Other")) +
+  scale_x_discrete(labels=c("Physical\n Science", "Natural\n Science", "Medicine &\nLife Science", "Engineering",
+    "Social Science/\nHumanities","Interdisciplinary\nScience","Other")) +
   geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
          axis.text.x=element_text(angle=0, size=9),
