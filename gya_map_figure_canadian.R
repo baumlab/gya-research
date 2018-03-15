@@ -41,11 +41,11 @@ gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  co
 
 #gg<- gg +scale_fill_continuous(expand=c(0,0), limits=c(0,1350),breaks=c(0,50,100,150, 200,250, 500, 750, 1000, 1250))
 
-#pdf(file="figures/map_1.pdf", width = 11, height= 7)
+pdf(file="figures/map_1.pdf", width = 11, height= 7)
 
 gg
 
-#dev.off()
+dev.off()
 
 
 # this gives us proper coords. mercator proj is default
@@ -59,33 +59,10 @@ gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = N
                  axis.ticks = element_blank(),
                  legend.position = "right")
 
-#pdf(file="figures/map_proper.coords_1.pdf", width=11, height= 7)
+pdf(file="figures/map_proper.coords_1.pdf", width=11, height= 7)
 gg
 
-#dev.off()
-
-
-# now do it with the color scheme switched - darker = more responses
-gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
-gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)+ scale_fill_continuous(name="Number of\nresponses")
-
-gg <- gg + coord_map()
-gg <- gg + labs(x="", y="")
-gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
-                 panel.border = element_blank(),
-                 panel.background = element_rect(fill = "transparent", colour = NA),
-                 panel.grid = element_blank(),
-                 axis.text = element_blank(),
-                 axis.ticks = element_blank(),
-                 legend.position = "right")
-
-#pdf(file="figures/map_proper.coords_1.pdf", width=11, height= 7)
-gg
-
-#dev.off()
-
-
-
+dev.off()
 
  ###### ##### ##### ##### ##### ##### #####
 ###### now do it all with out Canada ########
