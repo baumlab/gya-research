@@ -100,7 +100,7 @@ locations<-aggregate(gender ~ nation, gbl.senior, length)
 locations<-locations[!locations$nation=="",]
 locations<-droplevels(locations)
 
-pdf(file="figures/senior/responses_country_13Mar18.pdf", width = 11, height= 8)
+#pdf(file="figures/senior/responses_country_13Mar18.pdf", width = 11, height= 8)
 
 ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
   geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
@@ -108,7 +108,7 @@ ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='id
    theme(legend.title=element_text(size=12), 
                              legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12), plot.title = element_text(hjust = 0.5)) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_y_continuous(expand = c(0,0), limits=c(0, 930)) 
-dev.off()  
+#dev.off()  
   
 ### responses by country gap plot
 locations<-aggregate(gender ~ nation, gbl.senior, length)
@@ -116,13 +116,13 @@ locations<-locations[!locations$nation=="",]
 require(colorRamps);require(plotrix)
 barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
 
-pdf(file="figures/senior/responses_country_gapplot_13Mar18.pdf", height=8, width=11)
+#pdf(file="figures/senior/responses_country_gapplot_13Mar18.pdf", height=8, width=11)
 
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(260,799),horiz=F, xaxlab=barlabs, xlab="     ", 
             ylab="Number of responses", ytics=c(0,50,100,150,200,250, 884), main = "Responses by country",las=2, col=c(blue2red(29)))
 
-dev.off()
+#dev.off()
 
 
 ## >10 responses
@@ -137,13 +137,13 @@ barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
 color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
 
 
-pdf(file="figures/senior/responses_country_10+_gapplot_13Mar18.pdf", height=8, width=11)
+#pdf(file="figures/senior/responses_country_10+_gapplot_13Mar18.pdf", height=8, width=11)
 
 par(mar=c(7,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(260,799),horiz=F, xaxlab=barlabs, xlab="     ", 
             ylab="Number of responses", ytics=c(0,50,100,150,200,250, 884), main = "Countries with greater than 10 responses",las=2, col=color1)
 
-dev.off()
+#dev.off()
 
 #col=c(blue2red(29))
 
@@ -159,14 +159,14 @@ barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
 color2<-'#1f78b4'
 color2<-rep(color2,55)
 
-pdf(file="figures/senior/responses_country_10-_gapplot_13Mar18.pdf", height=8, width=11)
+#pdf(file="figures/senior/responses_country_10-_gapplot_13Mar18.pdf", height=8, width=11)
 
 par(mar=c(11,4,4,2))
 barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
             ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
 box()
 
-dev.off()
+#dev.off()
 
 #c(blue2red(55)
 
@@ -181,7 +181,7 @@ require(colorRamps);require(plotrix)
 barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
 
 color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
-pdf(file="figures/senior/responses_country_10+&10-_gapplot_13Mar18.pdf", height=8, width=15)
+#pdf(file="figures/senior/responses_country_10+&10-_gapplot_13Mar18.pdf", height=8, width=15)
 layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
 par(mar=c(11,4,4,2))
 gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(260,799),horiz=F, xaxlab=barlabs, xlab="     ", 
@@ -191,7 +191,7 @@ barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$
             ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
 box()
 
-dev.off()
+#dev.off()
 
 ```
 
@@ -409,13 +409,13 @@ ggplot(res.plot, aes(percent, fill=ID)) +
 ```{r echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+research$what_participant_group<-revalue(research$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+research.gbl.senior<-research[(research$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+research.gbl.senior <- droplevels(research.gbl.senior)
 
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(research, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot<-subset(research.gbl.senior, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
@@ -475,7 +475,7 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.93, 0.74), legend.spacing=unit(100,"cm"), plot.title = element_text(hjust = 0.5))+ 
     facet_wrap(~type, nrow=3) +
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,630),breaks=c(0,100,200,300, 400, 500,600))
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,450),breaks=seq(0,450,50))
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
@@ -484,7 +484,7 @@ p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[2:3], labels=c("2006-2010", "2011-2015"))+ labs(title="")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))
 
 
-#pdf(file="figures/senior/4.3.2_ResearchProportion.pdf", width = 11, height= 7)
+#pdf(file="figures/senior/4.3.2_ResearchProportion_13March18.pdf", width = 11, height= 7)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
@@ -496,13 +496,13 @@ grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 ```{r echo=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.",   fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+research.change$what_participant_group<-revalue(research.change$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+research.change.gbl.senior<-research.change[(research.change$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+research.change.gbl.senior <- droplevels(research.change.gbl.senior)
 
 #Change yes or no
-yes.no<-subset(research.change, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
+yes.no<-subset(research.change.gbl.senior, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
 
 gbl.senior.yes.no<-aggregate(Country~ changed_10yrs, yes.no, length)
 gbl.senior.yes.no<-gbl.senior.yes.no[!gbl.senior.yes.no$changed_10yrs=="",]
@@ -510,17 +510,17 @@ gbl.senior.yes.no<-gbl.senior.yes.no[!gbl.senior.yes.no$changed_10yrs=="",]
 p1<-ggplot(data=gbl.senior.yes.no, aes(x=changed_10yrs, y=Country, fill=Country))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5))+
-  geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses", title="Change in research type")+ scale_y_continuous(expand = c(0, 0), limits = c(0,1500))+ annotate('text', 0.5,1470, label="(a)", size=5)
+  geom_text(aes(label=Country), vjust=-0.5)+labs(y="Number of responses", title="Change in research type")+ scale_y_continuous(expand = c(0, 0), limits = c(0,1045))+ annotate('text', 0.5,1022, label="(a)", size=5)
 
 ####reason for change  
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+research.change$what_participant_group<-revalue(research.change$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+research.change.gbl.senior<-research.change[(research.change$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+research.change.gbl.senior <- droplevels(research.change.gbl.senior)
 
-reason<-subset(research.change, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
+reason<-subset(research.change.gbl.senior, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
                                        "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
 
 # switch to long format
@@ -543,7 +543,7 @@ p2<-ggplot(sum.gbl.senior, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='iden
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses", title="Reason for change in research type")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 900))+annotate('text', 5.4,885, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 623))+annotate('text', 5.4,613, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
 
 
 #pdf(file="figures/senior/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
@@ -552,7 +552,7 @@ p2<-ggplot(sum.gbl.senior, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='iden
 
 #dev.off()
 
-#pdf(file="figures/senior/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/senior/4.4a&b_ReasonForFieldChange_14March18.pdf", width = 11, height= 7)
 
 grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 
@@ -571,12 +571,12 @@ change.view.gbl.senior$view_change_of_type<-factor(change.view.gbl.senior$view_c
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
-#pdf(file="figures/senior/4.5_ViewFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/senior/4.5_ViewFieldChange_14March18.pdf", width = 11, height= 7)
 
 ggplot(change.view.gbl.senior, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), 
         axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of research type change")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,400))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of research type change")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,275))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
 #dev.off()
 ```
@@ -733,7 +733,7 @@ myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors6)
 
-#pdf(file="figures/senior/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/senior/4.6_LevelsOfPartnership_14March18.pdf", width = 11, height= 7)
 
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
@@ -745,7 +745,7 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.08, 0.94), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1250))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,790))
 
 #dev.off()
 ```
@@ -768,17 +768,17 @@ g1<-ggplot(data=change.part.gbl.senior, aes(x=Var1, y=Freq, fill=Var1))+
         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   scale_fill_manual(name = "Var1",values = myColors) +
   #annotate('text', 3.25,606, label="(a)", size=7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1550))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,1070))
 
 ### reason
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part2.reason$what_participant_group<-revalue(part2.reason$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part2.reason.gbl.senior<-part2.reason[(part2.reason$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part2.reason.gbl.senior <- droplevels(part2.reason.gbl.senior)
 
-reason.pt.long<-gather(part2.reason, change.reason, yes, -Country,-Country_work, -gender, -nation, -Location, -what_participant_group, -field_research)
+reason.pt.long<-gather(part2.reason.gbl.senior, change.reason, yes, -Country,-Country_work, -gender, -nation, -Location, -what_participant_group, -field_research)
 sum.gbl.senior<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
 sum.gbl.senior$Var1<-revalue(sum.gbl.senior$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
@@ -796,11 +796,11 @@ g2<-ggplot(sum.gbl.senior, aes(x=Var1, y=Freq, fill=Var1)) +
           panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   geom_text(aes(label=Freq), vjust=-0.5, size=3)+
   labs(x="", y="Number of responses", title="Reason for change in level of partnership")+scale_fill_manual(name = "Var1",values = myColors7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,890))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,620))
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-#pdf(file="figures/senior/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
+#pdf(file="figures/senior/4.7a&b_PartnershipChange&Reason_14March18.pdf", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
 
@@ -821,7 +821,7 @@ myColors8<-(brewer.pal(9, "Blues"))
 myColors8<-myColors8[c(4,4,4,4,4)]
 colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 
-#pdf(file="figures/senior/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/senior/4.8_ViewChangePartnership_14March18.pdf", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
@@ -829,7 +829,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11), plot.title = element_text(hjust = 0.5)) + 
-  labs(x="", y="Number of responses", title="Opinion of change in partnership level") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,380), breaks = seq(0,350,50))
+  labs(x="", y="Number of responses", title="Opinion of change in partnership level") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,270), breaks = seq(0,250,50))
 
 #dev.off()
 
@@ -945,24 +945,24 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part3.grants.long$what_participant_group<-revalue(part3.grants.long$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part3.grants.long.gbl.senior<-part3.grants.long[(part3.grants.long$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part3.grants.long.gbl.senior <- droplevels(part3.grants.long.gbl.senior)
 
-part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
+part3.grants.long.gbl.senior$type.grant<-as.character(part3.grants.long.gbl.senior$type.grant)
 
 
 #add time variable
-part3.grants.long$time<-ifelse(grepl("11_15", part3.grants.long$type.grant), "2011-2015", "2006-2010")
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
+part3.grants.long.gbl.senior$time<-ifelse(grepl("11_15", part3.grants.long.gbl.senior$type.grant), "2011-2015", "2006-2010")
+part3.grants.long.gbl.senior$type.grant[part3.grants.long.gbl.senior$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
+part3.grants.long.gbl.senior$type.grant[part3.grants.long.gbl.senior$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
+part3.grants.long.gbl.senior$type.grant[part3.grants.long.gbl.senior$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
+part3.grants.long.gbl.senior$type.grant[part3.grants.long.gbl.senior$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
+part3.grants.long.gbl.senior$type.grant[part3.grants.long.gbl.senior$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
+part3.grants.long.gbl.senior$type.grant[part3.grants.long.gbl.senior$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
 
-grants.gbl.senior<-data.frame(with(part3.grants.long, table(type.grant,time,number)))
+grants.gbl.senior<-data.frame(with(part3.grants.long.gbl.senior, table(type.grant,time,number)))
 grants.gbl.senior$type.grant<-as.factor(grants.gbl.senior$type.grant)
 
 
@@ -984,7 +984,7 @@ grants.gbl.senior$ID<-factor(grants.gbl.senior$ID, levels(grants.gbl.senior$ID)[
 mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
 #mycols<-as.data.frame(mycols)
 
-#pdf(file="figures/senior/4.9_NumberGrantApps.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.9_NumberGrantApps_14March18.pdf", height=7, width =11)
 
 
 #####add (a)
@@ -1001,7 +1001,7 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.81, 0.91), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) + 
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,2100), breaks = c(0,200,400,600,800,1000,1200,1400,1600,1800,2000))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1200), breaks = c(0,200,400,600,800,1000,1200))
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
@@ -1019,23 +1019,23 @@ grid.arrange(p1,p2,p3, nrow=1, top=textGrob("Number of research grant applicatio
 part3.success.long<-read.csv(file="../data/gya-part3.success.long.csv")
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part3.success.long$what_participant_group<-revalue(part3.success.long$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part3.success.long.gbl.senior<-part3.success.long[(part3.success.long$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part3.success.long.gbl.senior <- droplevels(part3.success.long.gbl.senior)
 
-part3.success.long$type<-as.character(part3.success.long$type)
+part3.success.long.gbl.senior$type<-as.character(part3.success.long.gbl.senior$type)
 
 #add time variable
-part3.success.long$time<-ifelse(grepl("11_15", part3.success.long$type), "2011-2015", "2006-2010")
-part3.success.long$type[part3.success.long$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
-part3.success.long$type[part3.success.long$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
-part3.success.long$type[part3.success.long$type=="successful_grants_11_15_use"]<-"Use-Inspired"
-part3.success.long$type[part3.success.long$type=="successful_grants_6_10_use"]<-"Use-Inspired"
-part3.success.long$type[part3.success.long$type=="successful_grants_11_15_applied"]<-"Applied"
-part3.success.long$type[part3.success.long$type=="successful_grants_6_10_applied"]<-"Applied"
+part3.success.long.gbl.senior$time<-ifelse(grepl("11_15", part3.success.long.gbl.senior$type), "2011-2015", "2006-2010")
+part3.success.long.gbl.senior$type[part3.success.long.gbl.senior$type=="successful_grants_11_15_fundamental"]<-"Fundamental"
+part3.success.long.gbl.senior$type[part3.success.long.gbl.senior$type=="successful_grants_6_10_fundamental"]<-"Fundamental"
+part3.success.long.gbl.senior$type[part3.success.long.gbl.senior$type=="successful_grants_11_15_use"]<-"Use-Inspired"
+part3.success.long.gbl.senior$type[part3.success.long.gbl.senior$type=="successful_grants_6_10_use"]<-"Use-Inspired"
+part3.success.long.gbl.senior$type[part3.success.long.gbl.senior$type=="successful_grants_11_15_applied"]<-"Applied"
+part3.success.long.gbl.senior$type[part3.success.long.gbl.senior$type=="successful_grants_6_10_applied"]<-"Applied"
 
-success.gbl.senior<-data.frame(with(part3.success.long, table(type, percent,time)))
+success.gbl.senior<-data.frame(with(part3.success.long.gbl.senior, table(type, percent,time)))
 
 
 
@@ -1055,7 +1055,7 @@ mycols10$id<-levels(success.gbl.senior$id)
 success.gbl.senior$col<-mycols10$mycols10[match(success.gbl.senior$id, mycols10$id)]
 success.gbl.senior$col<-factor(success.gbl.senior$col, levels(success.gbl.senior$col)[c(3,1,4,2,6,5)])
 
-#pdf(file="figures/senior/4.10_GrantAppSuccess.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.10_GrantAppSuccess_14March18.pdf", height=7, width =11)
 
 out2<-by(data = success.gbl.senior, INDICES = success.gbl.senior$type, FUN = function(n){
   n <- droplevels(n)
@@ -1073,7 +1073,7 @@ out2<-by(data = success.gbl.senior, INDICES = success.gbl.senior$type, FUN = fun
           strip.background = element_rect(colour="white", fill="white"),
            axis.title.y=element_text(size=11),plot.title = element_text(size=12, face="bold", hjust=0.5),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale +
-    scale_y_continuous(expand=c(0,0), limits=c(0,450))
+    scale_y_continuous(expand=c(0,0), limits=c(0,310))
  })
 do.call(grid.arrange, out2)
 
@@ -1085,13 +1085,13 @@ do.call(grid.arrange, out2)
 ```{r echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years, for each research category.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part3.change$what_participant_group<-revalue(part3.change$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part3.change.gbl.senior<-part3.change[(part3.change$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part3.change.gbl.senior <- droplevels(part3.change.gbl.senior)
 
 ##switch to long format
-change.long.gbl.senior<-gather(part3.change, type, level, -Location, -gender, -Country,-nation, -Country_work, -what_participant_group, -field_research)
+change.long.gbl.senior<-gather(part3.change.gbl.senior, type, level, -Location, -gender, -Country,-nation, -Country_work, -what_participant_group, -field_research)
 success.change<-with(change.long.gbl.senior, data.frame(table(type, level)))
 #remove no response
 success.change<-success.change[!success.change$level=="",]
@@ -1107,7 +1107,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/senior/4.11_ChangeSuccessRate.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.11_ChangeSuccessRate_14March18.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -1123,7 +1123,7 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
   labs(x="", y="Number of responses", fill="", title="Change in grant success rates")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1300))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,820))
 
 #dev.off()
 
@@ -1133,18 +1133,18 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
 ```{r echo=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part3.prac.long$what_participant_group<-revalue(part3.prac.long$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part3.prac.long.gbl.senior<-part3.prac.long[(part3.prac.long$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part3.prac.long.gbl.senior <- droplevels(part3.prac.long.gbl.senior)
 
-part3.prac.long$year<-as.character(part3.prac.long$year)
+part3.prac.long.gbl.senior$year<-as.character(part3.prac.long.gbl.senior$year)
 
-part3.prac.long$year[part3.prac.long$year=="practical_applications_important_11_15"]<-"2011-2015"
-part3.prac.long$year[part3.prac.long$year=="practical_applications_important_6_10"]<-"2006-2010"
+part3.prac.long.gbl.senior$year[part3.prac.long.gbl.senior$year=="practical_applications_important_11_15"]<-"2011-2015"
+part3.prac.long.gbl.senior$year[part3.prac.long.gbl.senior$year=="practical_applications_important_6_10"]<-"2006-2010"
 
 
-prac.gbl.senior<-data.frame(table(part3.prac.long$year, part3.prac.long$level))
+prac.gbl.senior<-data.frame(table(part3.prac.long.gbl.senior$year, part3.prac.long.gbl.senior$level))
 
 #change order of levels
 prac.gbl.senior$Var2<-factor(prac.gbl.senior$Var2, levels(prac.gbl.senior$Var2)[c(2,6,4,5,3,1)])
@@ -1153,7 +1153,7 @@ myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
-#pdf(file="figures/senior/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.12_ImportancePracticalApplication_14March18.pdf", height=7, width =11)
 
 ggplot(prac.gbl.senior, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
@@ -1166,7 +1166,7 @@ ggplot(prac.gbl.senior, aes(Var2, Freq, fill=Var1)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="Importance of suggesting practical research applications", y="Number of responses", title="Importance of practical application of research for grant success")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,950))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,625))
   
 #dev.off()
 ```
@@ -1174,17 +1174,17 @@ ggplot(prac.gbl.senior, aes(Var2, Freq, fill=Var1)) +
 ```{r echo=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful, in 2006-2010 and in 2011-2015.",  fig.height=7, fig.width=11, message=FALSE, warning=FALSE,}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part3.part.long$what_participant_group<-revalue(part3.part.long$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part3.part.long.gbl.senior<-part3.part.long[(part3.part.long$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part3.part.long.gbl.senior <- droplevels(part3.part.long.gbl.senior)
 
-part3.part.long$year<-as.character(part3.part.long$year)
+part3.part.long.gbl.senior$year<-as.character(part3.part.long.gbl.senior$year)
 
-part3.part.long$year[part3.part.long$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
-part3.part.long$year[part3.part.long$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
+part3.part.long.gbl.senior$year[part3.part.long.gbl.senior$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
+part3.part.long.gbl.senior$year[part3.part.long.gbl.senior$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
 
-part.gbl.senior<-data.frame(table(part3.part.long$year, part3.part.long$level))
+part.gbl.senior<-data.frame(table(part3.part.long.gbl.senior$year, part3.part.long.gbl.senior$level))
 #change order of levels
 part.gbl.senior$Var2<-factor(part.gbl.senior$Var2, levels(part.gbl.senior$Var2)[c(2,5,6,4,3,1)])
 
@@ -1193,7 +1193,7 @@ myColors13<-(brewer.pal(9, "Blues"))
 myColors13<-rev(myColors13[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 
-#pdf(file="figures/senior/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.13_ImportancePartnersApplication_14March18.pdf", height=7, width =11)
 
 ggplot(part.gbl.senior, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
@@ -1205,7 +1205,7 @@ ggplot(part.gbl.senior, aes(Var2, Freq, fill=Var1))+
           legend.key=element_blank(),
           legend.position=c(0.11, 0.93), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) + colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,980))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,630))
 
 #dev.off()
 ```
@@ -1262,18 +1262,18 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+p3_master.long$what_participant_group<-revalue(p3_master.long$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+p3_master.long.gbl.senior<-p3_master.long[(p3_master.long$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+p3_master.long.gbl.senior <- droplevels(p3_master.long.gbl.senior)
 
 ##revalue the year values
-p3_master.long$year<- revalue(p3_master.long$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
+p3_master.long.gbl.senior$year<- revalue(p3_master.long.gbl.senior$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
 #change order of levels
-p3_master.long$year<-factor(p3_master.long$year, levels(p3_master.long$year)[c(2,1)])
+p3_master.long.gbl.senior$year<-factor(p3_master.long.gbl.senior$year, levels(p3_master.long.gbl.senior$year)[c(2,1)])
 
 ##For-Profit
-fp<-p3_master.long[p3_master.long$type=="For-Profit",]
+fp<-p3_master.long.gbl.senior[p3_master.long.gbl.senior$type=="For-Profit",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1287,12 +1287,12 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(list(title= "Industry", x="", y = "Number of responses"))+
-  scale_y_continuous(expand =c(0,0),limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0),limits=c(0,1800), breaks=seq(0, 1800, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
 ##Government
-gov<-p3_master.long[p3_master.long$type=="Government",]
+gov<-p3_master.long.gbl.senior[p3_master.long.gbl.senior$type=="Government",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1306,7 +1306,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Government", x="", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1800), breaks=seq(0, 1800, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1314,7 +1314,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Internal
 
-int<-p3_master.long[p3_master.long$type=="Internal",]
+int<-p3_master.long.gbl.senior[p3_master.long.gbl.senior$type=="Internal",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1328,7 +1328,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Internal",x="% research funding", y = "Number of responses")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1800), breaks=seq(0, 1800, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1336,7 +1336,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Non-Governmental
 
-ngov<-p3_master.long[p3_master.long$type=="Non-governmental",]
+ngov<-p3_master.long.gbl.senior[p3_master.long.gbl.senior$type=="Non-governmental",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1350,14 +1350,14 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Non-governmental", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1800), breaks=seq(0, 1800, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
 
 ## Other
 
-other<-p3_master.long[p3_master.long$type=="Other",]
+other<-p3_master.long.gbl.senior[p3_master.long.gbl.senior$type=="Other",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1371,7 +1371,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Other", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2800), breaks=seq(0, 2800, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1800), breaks=seq(0, 1800, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 ##put them all together
@@ -1379,7 +1379,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-#pdf(file="figures/senior/4.14_DistributionFunding.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.14_DistributionFunding_14March18.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
@@ -1397,13 +1397,13 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
 ```{r echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part4$what_participant_group<-revalue(part4$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part4.gbl.senior<-part4[(part4$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part4.gbl.senior <- droplevels(part4.gbl.senior)
 
 ## order bars from very important (left) to can't comment (right)
-important<-subset(part4, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
+important<-subset(part4.gbl.senior, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
 
 ## using table to count cases of each category
 sum.important<-data.frame(table(important$opinion_fundamental_important))
@@ -1419,7 +1419,7 @@ myColors15<-(brewer.pal(9, "Blues"))
 myColors15<-(myColors15[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
-#pdf(file="figures/senior/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.15_PerceivedImportanceFundamentalGovernment_14March18.pdf", height=7, width =11)
 
 ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
@@ -1429,7 +1429,7 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1100)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,710)) + colScale
 
 #dev.off()
 ```
@@ -1437,13 +1437,13 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
 ```{r echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part4$what_participant_group<-revalue(part4$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part4.gbl.senior<-part4[(part4$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part4.gbl.senior <- droplevels(part4.gbl.senior)
 
 ## order bars into applied > use > fundamental > no change
-priority<-subset(part4, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
+priority<-subset(part4.gbl.senior, select=c("Location","Country",'Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
 
 ## switch to long format
 priority.long<-gather(priority, what.type, higher.priority, -Location, -gender, -Country, -Country_work)
@@ -1459,7 +1459,7 @@ myColors16<-(brewer.pal(9, "Blues"))
 myColors16<-(myColors16[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
-#pdf(file="figures/senior/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.16_PerceivedChangeResearchPriorityGovernment_14March18.pdf", height=7, width =11)
 
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
@@ -1469,7 +1469,7 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
         labs(x="", y="Number of responses", fill="", title="Perceived change in reserach priority by their government") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,2500))+ colScale
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1600))+ colScale
 
 #dev.off()
 ```
@@ -1478,14 +1478,14 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
 ```{r echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part4$what_participant_group<-revalue(part4$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part4.gbl.senior<-part4[(part4$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part4.gbl.senior <- droplevels(part4.gbl.senior)
 
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-availability.change<-subset(part4, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
+availability.change<-subset(part4.gbl.senior, select=c("Location", "Country",'Country_work', "gender", "available_funding_fundamental",  
                                              "available_funding_use_inspired", "available_funding_applied"))
 ## switch to long format
 availability.change.long.gbl.senior<-gather(availability.change, what.type, level, -gender, -Location, -Country, -Country_work)
@@ -1511,7 +1511,7 @@ availability.gbl.senior$what.type<-revalue(availability.gbl.senior$what.type, c(
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-#pdf(file="figures/senior/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.17_AnticipatedChangeFunding_14March18.pdf", height=7, width =11)
 
 ggplot(data=availability.gbl.senior, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -1527,7 +1527,7 @@ ggplot(data=availability.gbl.senior, aes(x=level, Freq, fill=what.type))+
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1000), breaks = seq(0,1000,200))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,670), breaks = seq(0,650,100))
 
 #dev.off()
 
@@ -1537,13 +1537,13 @@ ggplot(data=availability.gbl.senior, aes(x=level, Freq, fill=what.type))+
 ```{r echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders.", fig.height=7, fig.width=11, message=FALSE, warning=FALSE}
 
 ##selecting for senior career stage respondents
-survey$what_participant_group<-revalue(survey$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
+part4$what_participant_group<-revalue(part4$what_participant_group, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic researcher >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 
-gbl.senior<-survey[(survey$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
-gbl.senior <- droplevels(gbl.senior)
+part4.gbl.senior<-part4[(part4$what_participant_group%in%c("Senior academic researcher" ,"Non-academic researcher >10 yrs experience")),]
+part4.gbl.senior <- droplevels(part4.gbl.senior)
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
-next.generation<-subset(part4, select=c("Location", "Country","Country_work", "gender","next_generation"))
+next.generation<-subset(part4.gbl.senior, select=c("Location", "Country","Country_work", "gender","next_generation"))
 # remove non-response
 next.generation<-next.generation[!next.generation$next_generation=="",]
 
@@ -1561,7 +1561,7 @@ myColors18<-(brewer.pal(9, "Blues"))
 myColors18<-(myColors18[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors18)
 
-#pdf(file="figures/senior/4.18_EffectNextGeneration.pdf", height=7, width =11)
+#pdf(file="figures/senior/4.18_EffectNextGeneration_14March18.pdf", height=7, width =11)
 
 ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +
@@ -1574,7 +1574,7 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,850))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,550))+colScale
 
 #dev.off()
 ```
