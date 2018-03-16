@@ -1,4 +1,6 @@
+rm(list=ls())
 
+dev.off()
 
 ## Creating map of responses
 library(rworldmap)
@@ -67,8 +69,8 @@ gg
 
 # now do it with the color scheme switched - darker = more responses
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
-gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)+ scale_fill_continuous(name="Number of\nresponses")
-
+gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+gg <- gg + scale_fill_continuous(name="Number of\nresponses")
 gg <- gg + coord_map()
 gg <- gg + labs(x="", y="")
 gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
