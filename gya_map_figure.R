@@ -45,7 +45,7 @@ gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  co
 
 #pdf(file="figures/map_1.pdf", width = 11, height= 7)
 
-gg
+#gg
 
 #dev.off()
 
@@ -61,16 +61,17 @@ gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = N
                  axis.ticks = element_blank(),
                  legend.position = "right")
 
-#pdf(file="figures/map_proper.coords_1.pdf", width=11, height= 7)
+#pdf(file="figures/map_proper.coords_1_16March18.pdf", width=11, height= 7)
 gg
 
 #dev.off()
 
 
 # now do it with the color scheme switched - darker = more responses
+gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
 gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
-gg <- gg + scale_fill_continuous(name="Number of\nresponses")
+gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses")
 gg <- gg + coord_map()
 gg <- gg + labs(x="", y="")
 gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
@@ -78,10 +79,10 @@ gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = N
                  panel.background = element_rect(fill = "transparent", colour = NA),
                  panel.grid = element_blank(),
                  axis.text = element_blank(),
-                 axis.ticks = element_blank(),
+                  axis.ticks = element_blank(),
                  legend.position = "right")
 
-#pdf(file="figures/map_proper.coords_1.pdf", width=11, height= 7)
+#pdf(file="figures/map_proper.coords_revcolor.pdf", width=11, height= 7)
 gg
 
 #dev.off()
@@ -98,6 +99,7 @@ survey<-read.csv(file="data/gya-without-incomplete.csv")
 
 #remove Canada
 n.gbl.wCA <- survey[survey$nation!="Canada",]
+n.gbl.wCA <- droplevels(n.gbl.wCA)
 nations.wCA<-aggregate(gender ~ nation, n.gbl.wCA, length)
 
 #now seperate out Canada so it can be a different color
@@ -125,15 +127,15 @@ gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="wh
 # add our colored regions (not canada)
 gg <- gg + geom_map(data=nations.wCA, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)+ scale_fill_continuous(name="Number of\nresponses")
 # add our colored regions (canada)
-#gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="tomato2",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)     # saved as red
+gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="tomato2",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)     # saved as red
 #gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="mediumseagreen",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)  # saved as green2
 #gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="springgreen3",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)    # saved as green
 #gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="slategray2",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)     #saved as lightblue
-gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="grey",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)      # saved as grey
+#gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="grey",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)      # saved as grey
 
 
 #pdf(file="figures/map_w.out_CA_1.pdf", width = 11, height= 7)
-gg
+#gg
 #dev.off()
 
 
@@ -148,7 +150,35 @@ gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = N
                  axis.ticks = element_blank(),
                  legend.position = "right")
 
-pdf(file="figures/map_w.out_CA_proper.coords_1_grey.pdf", width=11, height= 7)
+#pdf(file="figures/map_w.out_CA_proper.coords_1_red_16March18.pdf", width=11, height= 7)
 gg
 
-dev.off()
+#dev.off()
+
+
+
+
+
+#############
+# now do it with the color scheme switched - darker = more responses
+#############
+
+gg <- ggplot()
+gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
+gg <- gg + geom_map(data=nations.wCA, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses")
+gg <- gg + geom_map(data=ca, map=wrld, aes(map_id=nation, fill=gender), fill="grey",  color="white", size=0.25)+geom_text(aes(label=ca$gender, x=-110, y=58), size=5)      # saved as grey
+gg <- gg + coord_map()
+gg <- gg + labs(x="", y="")
+gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
+                 panel.border = element_blank(),
+                 panel.background = element_rect(fill = "transparent", colour = NA),
+                 panel.grid = element_blank(),
+                 axis.text = element_blank(),
+                 axis.ticks = element_blank(),
+                 legend.position = "right")
+
+#pdf(file="figures/map_proper.coords_revcolor_CA_diff_16March18.pdf", width=11, height= 7)
+gg
+
+#dev.off()
