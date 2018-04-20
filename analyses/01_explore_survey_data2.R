@@ -63,11 +63,11 @@ survey.all$'Invite_Code'<-NULL
 survey.all$'Invite_Email'<-NULL
 survey.all$'Invite_Name'<-NULL
 survey.all$'Collector'<-NULL
-survey.all$'final_comments'<-NULL
+#survey.all$'final_comments'<-NULL
 
 
 ## check number of complete vs. incomplete
-table(survey.all$Status)    #2654 complete but we are going to cut it at 8 Nov - 4Jan18  2918 and maybe not cutting it anymore
+table(survey.all$Status)    # 2918 
 
 ### keep complete data only
 survey<-survey.all[survey.all$Status=="Complete",]
@@ -146,21 +146,21 @@ survey$nation <- as.character(survey$Country_work)
 
 #check
 nation <- as.data.frame(survey)
-nation <- nation[ , c(3, 73,75, 76)]
+nation <- nation[ , c(3, 73,76, 77)]
 
 # If there was a blank then use the information from the Country column that derived from the IP address column
 survey$nation <- ifelse(survey$nation == "", as.character(survey$Country), survey$nation)
 
 #check
 nation <- as.data.frame(survey)
-nation <- nation[ , c(3, 73,75, 76)]
+nation <- nation[ , c(3, 73,76, 77)]
 
 #now to fix the ones that are obviously not correct - start with antarctica - no one recieves funding from there
 survey$nation <- ifelse(survey$nation == "Antarctica", as.character(survey$Country), survey$nation)
 
 #check
 nation <- as.data.frame(survey)
-nation <- nation[ , c(3, 73,75, 76)]
+nation <- nation[ , c(3, 73,76, 77)]
 
 #now make a csv so we can go through and find more 'wrong' answers
 write.csv(nation, file = "data/gya-nations_look.csv", row.names = FALSE)
@@ -190,13 +190,29 @@ survey$nation <- ifelse((survey$nation == "Uruguay" & survey$Country == "France"
 
 #check
 nation2 <- as.data.frame(survey)
-nation2 <- nation2[ , c(3, 73,75, 76)]
+nation2 <- nation2[ , c(3, 73,76, 77)]
 
 #now make a csv so we can go through and find more 'wrong' answers
 write.csv(nation2, file = "data/gya-nations_check.csv", row.names = FALSE)
 
 #make a csv of the complete responses 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
+
+#add in a column for developed/developing 
+developed<-c("Canada","Australia", "Israel", "Barbados","Russia","Germany", "United Kingdom", "Netherlands", "Japan","United States", "Taiwan","New Zealand","France", "Switzerland", "Poland",              
+             "Portugal", "Italy",  "Belgium",  "Norway", "Finland", "Greece","Cyprus",  "Hungary", "Spain","Singapore", "Korea, South","Romania", "Denmark","Austria", "Sweden",                
+             "Estonia", "Malta", "Iceland" )
+
+developing<-c("Brazil","South Africa", "Mauritius", "Uruguay","Turkey","Indonesia", "Morocco", "India", "Bangladesh","Ghana", "Malaysia","Vietnam","Nigeria", "Egypt", "Montenegro",              
+              "China", "Serbia",  "Kenya",  "Central African Republic", "Chad", "Chile","Argentina",  "Mexico", "Nepal","Benin", "Ethiopia","Lesotho", "Nicaragua","Philippines", "Colombia",                
+              "Mozambique", "Dominican Republic", "Lebanon","Gabon", "Cameroon", "Uganda", "Iran", "Sudan", "Thailand", "Marshall Islands" ) 
+
+#####!!!!!!!!!$$$$$$$$%%%%%%%%%%%
+#there is one that is just Korea?  make it south korea
+
+survey$class <- ifelse(survey$nation%in%developed, "developed", "developing")
+
+
 
 ##Create a csv of just canadian responses for Megan
 #Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
