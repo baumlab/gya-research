@@ -588,6 +588,46 @@ grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 dev.off()
 ```
 
+```{r, echo=FALSE}
+## looking to see what direction respondents research changed (when it did)
+##data frame with the research proportions data
+#selecting for developing nations
+research.dev <- research[research$nation%in% developing,]
+head(research.dev)
+dim(research.dev)     #780   11
+
+##data frame with whether or not they changed 
+#selecting for developing nations
+research.change.dev <- research.change[research.change$nation%in% developing,]
+head(research.change.dev)
+dim(research.change.dev)   #272  14
+
+## the data frame that has the info on the proportions of research is in the long format so that is why it is so much longer than the other data frame
+# make it not long format
+res.port.dev <- spread(research.dev, type, percent)
+head(res.port.dev)
+dim(res.port.dev)  #130   16   - this is just the ones that had answers for both current and past research proportions (there was only one person that answered 'yes' to if their research type had changed but did not provide 'past' proportions)
+
+##add in the yes/no response to the proportions data frame using the survey id
+#remove 'no' and 'can't comment' first
+yes.dev<- research.change.dev[!research.change.dev$changed_10yrs == "No",]
+yes.dev<- yes.dev[!yes.dev$changed_10yrs == "Can't comment (new researcher)",]
+yes.dev<- yes.dev[!yes.dev$changed_10yrs == "",]
+yes.dev<- droplevels(yes.dev)
+dim(yes.dev)  # 131  14
+head(yes.dev)
+
+res.port.dev$changed<-yes.dev$changed_10yrs[match(res.port.dev$id, yes.dev$id)]
+head(res.port.dev)
+
+# ok have the data - now we have to see how people's research changed
+
+
+
+
+
+```
+
 ```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
 
 
