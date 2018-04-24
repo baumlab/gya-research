@@ -277,17 +277,23 @@ df
 na <- df[df$area=="northamerica",]
 euro <- df[df$area=="europe",]
 
-
+library(maptools)
+#library(rworldmap)
+#library(mapproj)
+library(ggplot2)
 data(wrld_simpl)
 wrld_simpl@data$id <- wrld_simpl@data$NAME
 wrld <- fortify(wrld_simpl, region="id")
 wrld <- subset(wrld, id != "Antarctica")
 
+
 gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
-gg <- gg + geom_map(data=na, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "blue")
+gg <- gg + geom_map(data=df, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25)
+gg <- gg + geom_map(aes(alpha = ..responses..), fill = area) 
+#gg <- gg + geom_map(data=na, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "blue")
 #gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\nNorth America")
-gg <- gg + geom_map(data=euro, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "red")
+#gg <- gg + geom_map(data=euro, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "red")
 #gg <- gg + scale_fill_continuous(high = "#67000d", low = "#fcbba1", name="Number of\nresponses\nEurope")
 gg <- gg + coord_map()
 gg <- gg + labs(x="", y="")
