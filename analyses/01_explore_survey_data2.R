@@ -246,7 +246,7 @@ write.csv(table, "data/category_&_responses_table.csv")
 #ca<-subset(canada, select = c("Location", "Country", "Country_work") )
 
 
-survey.what<-subset(survey, select=c("Location", "nation", "Country", "gender", "field_research", "Country_work", "PhD_Year", "what_participant_group","id"))
+survey.what<-subset(survey, select=c("Location", "nation", "Country", "gender", "field_research", "Country_work", "PhD_Year", "what_participant_group","id", "class"))
 
 
 ###saved
@@ -757,4 +757,151 @@ write.csv(part3.part, file="data/gya-part3.part.csv", row.names = FALSE)
 write.csv(p3_master.long, file="data/gya-p3_master.long.csv", row.names = FALSE)
 
 write.csv(p3_master, file="data/gya-p3_master.csv", row.names = FALSE)
+
+#<------------------------------------------------------------------------------------------>
+#********************************************************************************************
+#               Make a final csv with all of the data combined and cleaned
+#********************************************************************************************
+#<------------------------------------------------------------------------------------------>
+
+# get a list of all of the columns that are needed
+colnames(survey)
+
+head(survey.what)  # this will be the base data frame that the rest will be added to 
+dim(survey.what)  # 2918   10
+final.survey <- survey.what
+#includes columns 3,4,71,72,73,75,76,77,78,79
+
+##each data set will be added in one by one
+
+#columns 5,6,7,9,10,11
+head(survey.long)
+dim(survey.long)  #7140   11    - in the long format so need to widen it
+survey.long.wide <- spread(survey.long, type, percent)
+head(survey.long.wide)
+dim(survey.long.wide)   #1190   15  is only the responses that did have a change in proportion
+##########!!!!!!!!!nto done
+
+#<------------------------->
+#!!!!!!!!!!!!!!!!!!!!!!!!!
+# need to add in all of the answeres for this section
+#!!!!!!!!!!!!!!!!!!!!!!!!
+#<--------------------------->
+
+#columns 8, 12-17
+head(survey.change)
+dim(survey.change)  #2918 
+final.survey$changed_10yrs<-survey.change$changed_10yrs[match(final.survey$id, survey.change$id)]
+final.survey$Main_reason_change_interest_related<-survey.change$Main_reason_change_interest_related[match(final.survey$id, survey.change$id)]
+final.survey$Main_reason_change_Career_related<-survey.change$Main_reason_change_Career_related[match(final.survey$id, survey.change$id)]
+final.survey$Main_reason_change_Funding_related<-survey.change$Main_reason_change_Funding_related[match(final.survey$id, survey.change$id)]
+final.survey$Main_reason_change_Socially_related<-survey.change$Main_reason_change_Socially_related[match(final.survey$id, survey.change$id)]
+final.survey$Main_reason_change_Other<-survey.change$Main_reason_change_Other[match(final.survey$id, survey.change$id)]
+head(final.survey)
+dim(final.survey)  #2918   16   - added 6 columns which is right
+
+#column  18
+head(part1.view)
+dim(part1.view)    #2918    
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey)   #2918   17   - added 1 column - correct
+
+#columns  60-69
+head(survey.part4)
+dim(survey.part4)    #2918
+final.survey$opinion_fundamental_important<-survey.part4$opinion_fundamental_important[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_fundamental<-survey.part4$high_priority_fundamental[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_use_inspired<-survey.part4$high_priority_use_inspired[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_applied<-survey.part4$high_priority_applied[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_no_change<-survey.part4$high_priority_no_change[match(survey.part4$id, survey.change$id)]
+final.survey$available_funding_fundamental<-survey.part4$available_funding_fundamental[match(survey.part4$id, survey.change$id)]
+final.survey$available_funding_use_inspired<-survey.part4$available_funding_use_inspired[match(survey.part4$id, survey.change$id)]
+final.survey$available_funding_applied<-survey.part4$available_funding_applied[match(survey.part4$id, survey.change$id)]
+final.survey$next_generation<-survey.part4$next_generation[match(survey.part4$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) # 2918   26   - added 9 columns  - correct
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+#columns
+head()
+dim()
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) 
+
+
+
+
+#columns  17, 27, 50, 56, 65, 70, 75  (comment columns)
+
+
+
+
+
+
+
+
 
