@@ -3,10 +3,10 @@ title: "Developing countries online survey on fundamental research"
 author: ''
 date: "4 Jan 2018"
 output:
-  html_document: default
+  pdf_document: null
   fig_width: 18
   fig_height: 4
-  pdf_document: null
+  html_document: default
   word_document: default
 ---
 
@@ -23,6 +23,10 @@ Survey Data Analysis
 
 **Note that numbers not all the same because respondents did not always answer every question**
 ```{r, echo=FALSE, message=FALSE, loading_data, warning=FALSE}
+rm(list=ls())
+
+dev.off()
+
 #<!-- Import Canadian data, calculate sample sizes -->
  ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
@@ -95,6 +99,10 @@ percent.int <- ((dim(n.int)[1])/(dim(n.gbl.dev)[1]))*100 #Calculate the % of res
 n.ssh <- n.gbl.dev[n.gbl.dev$field_research=="Social Science / Humanities",]
 percent.ssh <- ((dim(n.ssh)[1])/(dim(n.gbl.dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
+## load required packages
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
+
+
 ```
 
 **Results**  
@@ -102,10 +110,110 @@ In total, `r dim(n.gbl.dev)[1]`  non-Canadian researchers completed the online s
 
 Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
+
+```{r echo=FALSE, fig.cap="Number of responses by country", message=FALSE, warning=FALSE}
+
+###create figures
+
+locations<-aggregate(gender ~ nation, n.gbl.dev, length)
+locations<-locations[!locations$nation=="",]
+locations<-droplevels(locations)
+
+#pdf(file="figures/developing/responses_country.pdf", width = 11, height= 8)
+
+ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
+  geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
+  #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
+   theme(legend.title=element_text(size=12), 
+                             legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12), plot.title = element_text(hjust = 0.5)) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_y_continuous(expand = c(0,0), limits=c(0, 130)) 
+
+#dev.off()  
+  
+### responses by country gap plot
+locations<-aggregate(gender ~ nation, n.gbl.dev, length)
+locations<-locations[!locations$nation=="",]
+
+barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+
+#pdf(file="figures/developing/responses_country_gapplot.pdf", height=8, width=11)
+
+par(mar=c(11,4,4,2))
+gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(51,109),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,10,20,30,40,50,110,118), main = "Responses by country",las=2, col=c(blue2red(29)))
+#dev.off()
+
+
+## >10 responses
+
+locations.more<-aggregate(gender ~ nation, n.gbl.dev, length)
+locations.more<-locations.more[!locations.more$nation=="",]
+locations.more$gender<-as.numeric(locations.more$gender)
+locations.more<-locations.more[locations.more$gender>10,]
+barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+
+color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+
+
+#pdf(file="figures/developing/responses_country_10+_gapplot.pdf", height=8, width=11)
+
+par(mar=c(7,4,4,2))
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(51,109),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,10,20,30,40,50,110,118), main = "Countries with greater than 10 responses",las=2, col=color1)
+
+#dev.off()
+
+#col=c(blue2red(29))
+
+## <=10 responses
+
+locations.less<-aggregate(gender ~ nation, n.gbl.dev, length)
+locations.less<-locations.less[!locations.less$nation=="",]
+locations.less$gender<-as.numeric(locations.less$gender)
+locations.less<-locations.less[locations.less$gender<=10,]
+barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
+
+color2<-'#1f78b4'
+color2<-rep(color2,55)
+
+#pdf(file="figures/developing/responses_country_10-_gapplot.pdf", height=8, width=11)
+
+par(mar=c(11,4,4,2))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+box()
+
+#dev.off()
+
+#c(blue2red(55)
+
+
+##combine  >10 and <= 10 figures
+
+locations.more<-aggregate(gender ~ nation, n.gbl.dev, length)
+locations.more<-locations.more[!locations.more$nation=="",]
+locations.more$gender<-as.numeric(locations.more$gender)
+locations.more<-locations.more[locations.more$gender>10,]
+barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+
+color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+#pdf(file="figures/developing/responses_country_10+&10-_gapplot.pdf", height=8, width=15)
+layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
+par(mar=c(11,4,4,2))
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(51,109),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,10,20,30,40,50,110,118), main = "Countries with greater\nthan 10 responses",las=2, col=color1)
+par(mar=c(11,2,4,1))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+box()
+
+#dev.off()
+
+```
+
 <!-- Generate  career stage figure -->
 ```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of survey respondents from developing nations by career stage", warning=FALSE, fig.width=14}
-## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
+
 
 theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
@@ -140,7 +248,7 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,160))
+  scale_y_continuous(expand = c(0,0), limits = c(0,145))
 #dev.off()
 
 ```
@@ -163,7 +271,7 @@ colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of responses",x="", title="Responses by field of research (Developing nations)")  +
-  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine &\nLife Science", "Engineering", "Interdisciplinary\nScience", "Social Science/\nHumanities", "Other")) +
+  scale_x_discrete(labels=c("Natural\n Science",  "Medicine &\nLife Science","Physical\n Science", "Engineering", "Interdisciplinary\nScience", "Social Science/\nHumanities", "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
          axis.text.x=element_text(angle=0, size=9),
@@ -171,7 +279,7 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,115))
+  scale_y_continuous(expand = c(0,0), limits = c(0,108))
 
 #dev.off()
 ```
@@ -439,7 +547,7 @@ global.yes.no<-global.yes.no[!global.yes.no$changed_10yrs=="",]
 
 p1<-ggplot(data=global.yes.no, aes(x=changed_10yrs, y=gender, fill=gender))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5))+geom_text(aes(label=gender), vjust=-0.5)+labs(y="Number of responses", title="Change in research type\n(Developing nations)")+ scale_y_continuous(expand = c(0, 0), limits = c(0,150))+ annotate('text', 0.6,145, label="(a)", size=5)
+          panel.grid.minor = element_blank(), axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5))+geom_text(aes(label=gender), vjust=-0.5)+labs(y="Number of responses", title="Change in research type\n(Developing nations)")+ scale_y_continuous(expand = c(0, 0), limits = c(0,140))+ annotate('text', 0.6,136, label="(a)", size=5)
 
 ####reason for change  
 reason<-subset(research.change.dev, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
@@ -465,7 +573,7 @@ p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses", title="Reason for change in research type\n(Developing nations)")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 93))+annotate('text', 5.35,86, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 86))+annotate('text', 5.35,84, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 #pdf(file="figures/developing/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
 
@@ -473,11 +581,11 @@ p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
 
 #dev.off()
 
-#pdf(file="figures/developing/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
+pdf(file="figures/developing/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
 
 grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 
-#dev.off()
+dev.off()
 ```
 
 ```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
@@ -493,13 +601,13 @@ change.view.glb$view_change_of_type<-factor(change.view.glb$view_change_of_type,
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
-#pdf(file="figures/developing/4.5_ViewFieldChange.pdf", width = 11, height= 7)
+pdf(file="figures/developing/4.5_ViewFieldChange.pdf", width = 11, height= 7)
 
 ggplot(change.view.glb, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type (Developing nations)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,70))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type (Developing nations)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,63))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
-#dev.off()
+dev.off()
 ```
 
 ```{r, eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
@@ -666,7 +774,7 @@ ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) +
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.08, 0.94), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,150))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,140))
 
 #dev.off()
 ```
@@ -690,7 +798,7 @@ g1<-ggplot(data=change.part.glb, aes(x=Var1, y=Freq, fill=Var1))+
         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   scale_fill_manual(name = "Var1",values = myColors) +
   #annotate('text', 3.25,606, label="(a)", size=7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,150))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,145))
 
 ### reason
 
@@ -748,7 +856,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11), plot.title = element_text(hjust = 0.5)) + 
-  labs(x="", y="Number of responses", title="Opinion of change in level of external partnerships (Developing nations)") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,52), breaks = seq(0,50,5))
+  labs(x="", y="Number of responses", title="Opinion of change in level of external partnerships (Developing nations)") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,50), breaks = seq(0,50,5))
 
 #dev.off()
 
@@ -1002,26 +1110,11 @@ out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
           strip.background = element_rect(colour="white", fill="white"),
            axis.title.y=element_text(size=11),plot.title = element_text(size=12, face="bold", hjust=0.5),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale +
-    scale_y_continuous(expand=c(0,0), limits=c(0,40))
+    scale_y_continuous(expand=c(0,0), limits=c(0,35))
  })
 do.call(grid.arrange, out2)
 
 #dev.off()
-
-#ggplot(success.ca, aes(percent, Freq, fill=time)) + 
-#    geom_bar(stat="identity", position = "dodge")+
-#     facet_wrap(~type, nrow=3) +
-#    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-#    labs(x="Perceived percentage of successful grants", y="Number of responses")+
-#    theme(panel.grid.major = element_blank(),
-#          panel.grid.minor = element_blank(),
-#           strip.text.y = element_text(size=12, face="bold", color="black"),
-#          strip.background = element_rect(colour="white", fill="white"),
-#          legend.position=c(0.955, 0.58), legend.margin=unit(-1000,"cm"), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
-#          axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + colScale+
-#  scale_y_continuous(expand = c(0, 0), limits = c(0,300))
-
-
 
 ```
  
@@ -1106,7 +1199,7 @@ ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="Importance of suggesting practical research applications", y="Number of responses", title="Importance of practical application for grant success (Developing nations)")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,110))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,105))
   
 #dev.off()
 ```
@@ -1143,7 +1236,7 @@ ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+
           legend.key=element_blank(),
           legend.position=c(0.11, 0.93), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) + colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,105))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,95))
 
 #dev.off()
 ```
@@ -1222,7 +1315,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(list(title= "Industry", x="", y = "Number of responses"))+
-  scale_y_continuous(expand =c(0,0),limits=c(0,280), breaks=seq(0, 280, 50))+
+  scale_y_continuous(expand =c(0,0),limits=c(0,250), breaks=seq(0, 250, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1242,7 +1335,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Government", x="", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,280), breaks=seq(0, 280, 50))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1264,7 +1357,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Internal",x="% research funding", y = "Number of responses")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,280), breaks=seq(0, 280, 50))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1286,7 +1379,7 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Non-governmental", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,280), breaks=seq(0, 280, 50))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1307,7 +1400,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Other", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,280), breaks=seq(0, 280, 50))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1364,7 +1457,7 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,120)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,112)) + colScale
 
 #dev.off()
 ```
@@ -1402,7 +1495,7 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
         labs(x="", y="Number of responses", fill="", title="Perceived change in research priority by their government\n(Developing nations)") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,270))+ colScale
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,250))+ colScale
 
 #dev.off()
 ```
@@ -1458,7 +1551,7 @@ ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,120), breaks = seq(0,120,20))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,105), breaks = seq(0,120,20))
 
 #dev.off()
 
@@ -1504,7 +1597,7 @@ ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,70))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,63))+colScale
 
 #dev.off()
 ```

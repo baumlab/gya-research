@@ -195,8 +195,6 @@ nation2 <- nation2[ , c(3, 73,76, 77)]
 #now make a csv so we can go through and find more 'wrong' answers
 write.csv(nation2, file = "data/gya-nations_check.csv", row.names = FALSE)
 
-#make a csv of the complete responses 
-write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 
 #add in a column for developed/developing 
 developed<-c("Canada","Australia", "Israel", "Barbados","Russia","Germany", "United Kingdom", "Netherlands", "Japan","United States", "Taiwan","New Zealand","France", "Switzerland", "Poland",              
@@ -212,7 +210,8 @@ developing<-c("Brazil","South Africa", "Mauritius", "Uruguay","Turkey","Indonesi
 
 survey$class <- ifelse(survey$nation%in%developed, "developed", "developing")
 
-
+#make a csv of the complete responses 
+write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 
 ##Create a csv of just canadian responses for Megan
 #Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
