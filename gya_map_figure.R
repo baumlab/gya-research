@@ -8,6 +8,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(maptools)
 library(mapproj)
+library(rgdal)
 
 
 
@@ -182,3 +183,123 @@ gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = N
 gg
 
 #dev.off()
+
+
+
+
+#<---------------Now going to make the map with two different scales ------------------>
+#one scale with developing and one with developed
+
+#re read in full data
+survey<-read.csv(file="data/gya-without-incomplete.csv")
+# select for just developed
+devlp <- survey[survey$class=="developed",]
+#now aggregate
+nations.devlp<-aggregate(gender ~ nation, devlp, length)
+
+
+#select for just developing
+dev <- survey[survey$class=="developing",]
+#now aggregate
+nations.dev<-aggregate(gender ~ nation, dev, length)
+
+##idfferent approach
+head(nations)
+
+#add in a column for developed/developing 
+developed<-c("Canada","Australia", "Israel", "Barbados","Russia","Germany", "United Kingdom", "Netherlands", "Japan","United States", "Taiwan","New Zealand","France", "Switzerland", "Poland",              
+             "Portugal", "Italy",  "Belgium",  "Norway", "Finland", "Greece","Cyprus",  "Hungary", "Spain","Singapore", "Korea, South","Romania", "Denmark","Austria", "Sweden",                
+             "Estonia", "Malta", "Iceland" )
+
+developing<-c("Brazil","South Africa", "Mauritius", "Uruguay","Turkey","Indonesia", "Morocco", "India", "Bangladesh","Ghana", "Malaysia","Vietnam","Nigeria", "Egypt", "Montenegro",              
+              "China", "Serbia",  "Kenya",  "Central African Republic", "Chad", "Chile","Argentina",  "Mexico", "Nepal","Benin", "Ethiopia","Lesotho", "Nicaragua","Philippines", "Colombia",                
+              "Mozambique", "Dominican Republic", "Lebanon","Gabon", "Cameroon", "Uganda", "Iran", "Sudan", "Thailand", "Marshall Islands" ) 
+nations$class <- ifelse(nations$nation%in%developed, "developed", "developing")
+
+
+# now do it with the color scheme switched - darker = more responses
+gg <- ggplot()
+gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
+gg <- gg + geom_map(data=nations.devlp, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25, fill = "blue")
+gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\ndeveloped nations")
+gg <- gg + geom_map(data=nations.dev, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25, fill = "red")
+gg <- gg + scale_color_identity(high = "#67000d", low = "#fcbba1", name="Number of\nresponses\ndeveloping nations")
+
+gg <- gg + geom_map(data=nations.devlp, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+gg <- gg + scale_fill_continuous(aes = "developed", high = "#132B43", low = "#56B1F7", name="Number of\nresponses\ndeveloped nations")
+gg <- gg + geom_map(data=nations.dev, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+gg <- gg + scale_fill_continuous(aes = "developing", high = "#67000d", low = "#fb6a4a", name="Number of\nresponses\ndeveloping nations")
+
+
+#   gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender), fill = class , color="white", size=0.25)
+#  # gg <- gg + scale_color_manual(values = c())
+# gg <- gg + scale_fill_continuous(values= c(blue, red), name="Number of\nresponses")
+
+
+#gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+#gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses")
+#gg <- gg + scale_fill_continuous(values = , name="Number of\nresponses")
+gg <- gg + coord_map()
+gg <- gg + labs(x="", y="")
+gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
+                 panel.border = element_blank(),
+                 panel.background = element_rect(fill = "transparent", colour = NA),
+                 panel.grid = element_blank(),
+                 axis.text = element_blank(),
+                 axis.ticks = element_blank(),
+                 legend.position = "right")
+
+#pdf(file="figures/map_proper.coords_revcolor.pdf", width=11, height= 7)
+gg
+
+#dev.off()
+
+
+
+# new attempt
+
+devlp_color = brewer.pal(9, "Blues")
+blue<- colorRampPalette(c("#132B43", "#56B1F7"))
+dev_color = brewer.pal(9, "Reds")
+red <-colorRampPalette(c("#67000d","#fc9272"))
+mycols = c(brewer.pal(9,"Blues"), brewer.pal(9, "Reds"))
+
+
+
+##asking question
+
+
+
+df<-read.csv(file="data/questiondata.csv")
+
+df
+
+na <- df[df$area=="northamerica",]
+euro <- df[df$area=="europe",]
+
+
+data(wrld_simpl)
+wrld_simpl@data$id <- wrld_simpl@data$NAME
+wrld <- fortify(wrld_simpl, region="id")
+wrld <- subset(wrld, id != "Antarctica")
+
+gg <- ggplot()
+gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
+gg <- gg + geom_map(data=na, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "blue")
+#gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\nNorth America")
+gg <- gg + geom_map(data=euro, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "red")
+#gg <- gg + scale_fill_continuous(high = "#67000d", low = "#fcbba1", name="Number of\nresponses\nEurope")
+gg <- gg + coord_map()
+gg <- gg + labs(x="", y="")
+gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
+                 panel.border = element_blank(),
+                 panel.background = element_rect(fill = "transparent", colour = NA),
+                 panel.grid = element_blank(),
+                 axis.text = element_blank(),
+                 axis.ticks = element_blank(),
+                 legend.position = "right")
+gg
+
+
+
+
