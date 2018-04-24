@@ -213,6 +213,45 @@ survey$class <- ifelse(survey$nation%in%developed, "developed", "developing")
 #make a csv of the complete responses 
 write.csv(survey, file="data/gya-without-incomplete.csv", row.names=FALSE)
 
+## create a table with country, OCED category, category (developing/developed), # of responses
+#get number of responses for each country
+table<-aggregate(gender ~ nation, survey, length)
+table <- table[!table$nation == "",]
+table <- droplevels(table)
+
+# add column with OECD category
+highincome <- c("Canada","Australia", "Israel", "Barbados","Russia","Germany", "United Kingdom", "Netherlands", "Japan","United States", "Taiwan","New Zealand","France", "Switzerland", "Poland",              
+                "Portugal", "Italy",  "Belgium",  "Norway", "Finland", "Greece","Cyprus",  "Hungary", "Spain","Singapore", "Korea, South","Romania", "Denmark","Austria", "Sweden",                
+                "Estonia", "Malta", "Iceland" )
+
+highermid <- c("Brazil","South Africa", "Mauritius", "Uruguay","Turkey","Malaysia","Montenegro", "China", "Serbia",  "Chile","Argentina", 
+               "Mexico", "Colombia", "Dominican Republic","Lebanon","Gabon","Iran","Thailand", "Marshall Islands" )
+
+lowermid <- c("Indonesia", "Morocco", "India", "Ghana","Vietnam", "Nigeria","Egypt","Nicaragua", "Philippines","Cameroon")
+
+lowincome <- c("Bangladesh","Kenya","Central African Republic","Chad", "Nepal","Benin","Ethiopia","Lesotho","Mozambique","Uganda","Sudan")
+
+table$oecd <- "High Income"
+table$oecd <- ifelse(table$nation%in%highermid, "Higher Middle Income", table$oecd)
+table$oecd <- ifelse(table$nation%in%lowermid, "Lower Middle Income", table$oecd)
+table$oecd <- ifelse(table$nation%in%lowincome, "Low Income", table$oecd)
+
+#check
+table
+
+# add column with collapsed category
+table$class <- ifelse(table$nation%in%developed, "Developed", "Developing")
+
+# change column names
+tablenames <- c("Country", "Number of Responses", "OECD Category", "Collapsed Category")
+colnames(table)<-tablenames
+table
+
+#save csv
+write.csv(table, "data/category_&_responses_table.csv")
+
+
+################!!!!!!!!!!!!!!!!!!!!######################
 ##Create a csv of just canadian responses for Megan
 #Canada<-survey[survey$Country_work=="Canada" | (!(survey$Country_work=="Canada") & 
 #                                                 survey$Country_work=="" & survey$Country=="Canada"),]
