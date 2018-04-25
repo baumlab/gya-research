@@ -405,16 +405,17 @@ part2<-subset(survey, select=c("Country","Country_work", "nation", "gender","wha
 #saved
 
 #### level of partnership that your research currently has outside of academia before and after
-part2.b.a<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group"  , "field_research", "Location", "partnership_outside","partnership_outside_before","id"))
+part2.b.a.all<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group"  , "field_research", "Location", "partnership_outside","partnership_outside_before","id"))
+#saved
 #remove non responses
-part2.b.a<-part2.b.a[!part2.b.a$partnership_outside=="",]
+part2.b.a<-part2.b.a.all[!part2.b.a.all$partnership_outside=="",]
 part2.b.a<-part2.b.a[!part2.b.a$partnership_outside_before=="",]
 #saved
 
 ####Level of partnership change in past 10 yrs
-part2.change<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group"  , "field_research", "Location","partnership_change_10yrs","id"))
+part2.change.all<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group"  , "field_research", "Location","partnership_change_10yrs","id"))
 #remove non responses
-part2.change<-part2.change[!part2.change$partnership_change_10yrs=="",]
+part2.change<-part2.change.all[!part2.change.all$partnership_change_10yrs=="",]
 #saved
 
 ####Reason for change
@@ -423,11 +424,11 @@ part2.reason<-subset(part2, select=c("Country","Country_work", "nation", "gender
 #saved
 
 #### View of Change
-part2.view<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group", "field_research", "Location","view_change_partnership","id"))
+part2.view.all<-subset(part2, select=c("Country","Country_work", "nation", "gender","what_participant_group", "field_research", "Location","view_change_partnership","id"))
 #saved
 
 #remove non responses
-part2.view<-part2.view[!part2.view$view_change_partnership=="",]
+part2.view<-part2.view.all[!part2.view.all$view_change_partnership=="",]
 #saved
 
 ##################
@@ -730,7 +731,9 @@ write.csv(part1.view, file="data/gya-part1.view.csv", row.names = FALSE)
 
 write.csv(survey.part4, file="data/gya-survey-part4.csv", row.names = FALSE)
 
-write.csv(part2.b.a, file="data/gya-part2.before.after.csv", row.names = FALSE)
+write.csv(part2.b.a, file="data/gya-part2.before.after.csv", row.names = FALSE)  # had no response rows removed
+
+write.csv(part2.b.a.all, file="data/gya-part2.before.after.csv", row.names = FALSE)   # same as above just has all of the rows
 
 write.csv(part2.change, file="data/gya-part2.change.csv", row.names = FALSE)
 
@@ -822,40 +825,53 @@ final.survey$next_generation<-survey.part4$next_generation[match(survey.part4$id
 head(final.survey)
 dim(final.survey) # 2918   26   - added 9 columns  - correct
 
-#columns
-head()
-dim()
-final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+#columns  19, 21
+head(part2.b.a.all)
+dim(part2.b.a.all) #2918  
+final.survey$partnership_outside<-part2.b.a.all$partnership_outside[match(part2.b.a.all$id, survey.change$id)]
+final.survey$partnership_outside_before<-part2.b.a.all$partnership_outside_before[match(part2.b.a.all$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) 
+dim(final.survey) # 2818  28 - added 2 columns - correct
+
+#column 20
+head(part2.change.all)
+dim(part2.change.all)  #2918
+final.survey$partnership_change_10yrs<-part2.change.all$partnership_change_10yrs[match(part2.change.all$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) #2918   29  - added 1 column - correct
+
+#columns  22-26
+head(part2.reason)
+dim(part2.reason)  #2918
+final.survey$reason_partnership_change_interest<-part2.reason$reason_partnership_change_interest[match(part2.reason$id, survey.change$id)]
+final.survey$reason_partnership_change_career<-part2.reason$reason_partnership_change_career[match(part2.reason$id, survey.change$id)]
+final.survey$reason_partnership_change_socially<-part2.reason$reason_partnership_change_socially[match(part2.reason$id, survey.change$id)]
+final.survey$reason_partnership_change_funding<-part2.reason$reason_partnership_change_funding[match(part2.reason$id, survey.change$id)]
+final.survey$reason_partnership_change_other<-part2.reason$reason_partnership_change_other[match(part2.reason$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) # 2918   34   - added 5 columns - correct
+
+#column 28
+head(part2.view.all)
+dim(part2.view.all) # 2918
+final.survey$view_change_partnership<-part2.view.all$view_change_partnership[match(part2.view.all$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) #2918  35  - added 1 column - correct
 
 #columns
-head()
-dim()
-final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+head(part3.grants.long)
+dim(part3.grants.long)  #17508    - in long format
+part3.grants.long.wide <- spread(part3.grants.long, type.grant, number)
+head(part3.grants.long.wide)
+dim(part3.grants.long.wide)  #2918  
+final.survey$external_pi_grant_11_15_applied<-part3.grants.long.wide$external_pi_grant_11_15_applied[match(part3.grants.long.wide$id, survey.change$id)]
+final.survey$external_pi_grant_11_15_fundamental<-part3.grants.long.wide$external_pi_grant_11_15_fundamental[match(part3.grants.long.wide$id, survey.change$id)]
+final.survey$external_pi_grant_11_15_use<-part3.grants.long.wide$external_pi_grant_11_15_use[match(part3.grants.long.wide$id, survey.change$id)]
+final.survey$external_pi_grant_6_10_applied<-part3.grants.long.wide$external_pi_grant_6_10_applied[match(part3.grants.long.wide$id, survey.change$id)]
+final.survey$external_pi_grant_6_10_fundamental<-part3.grants.long.wide$external_pi_grant_6_10_fundamental[match(part3.grants.long.wide$id, survey.change$id)]
+final.survey$external_pi_grant_6_10_use<-part3.grants.long.wide$external_pi_grant_6_10_use[match(part3.grants.long.wide$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) 
-
-#columns
-head()
-dim()
-final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
-head(final.survey)
-dim(final.survey) 
-
-#columns
-head()
-dim()
-final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
-head(final.survey)
-dim(final.survey) 
-
-#columns
-head()
-dim()
-final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
-head(final.survey)
-dim(final.survey) 
+dim(final.survey) #2918  41  - added 6 columns - correct
 
 #columns
 head()
@@ -896,6 +912,7 @@ dim(final.survey)
 
 
 #columns  17, 27, 50, 56, 65, 70, 75  (comment columns)
+#but need to put them in the right places
 
 
 
