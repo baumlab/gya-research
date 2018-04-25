@@ -319,46 +319,56 @@ survey.type$percent_Applied_Research_past[survey.type$percent_Applied_Research_p
 survey.type$percent_Use_inspired_Research_past[survey.type$percent_Use_inspired_Research_past==""]<-0
 
 #remove surveys that skipped this question
-survey.type<-survey.type[!is.na(survey.type$percent_Fundamental_Research_past),]
-survey.type<-survey.type[!(survey.type$percent_Fundamental_Research_past==0 & survey.type$percent_Applied_Research_past==0 & survey.type$percent_Use_inspired_Research_past==0),]
+survey.type.noblank<-survey.type[!is.na(survey.type$percent_Fundamental_Research_past),]
+survey.type.wvalue<-survey.type.noblank[!(survey.type.noblank$percent_Fundamental_Research_past==0 & survey.type.noblank$percent_Applied_Research_past==0 & survey.type.noblank$percent_Use_inspired_Research_past==0),]
+
+#keep the empty ones to add in later
+
+
 #remove if they skipped the 'past' part of the question so we can see only the the ones that changed
-survey.type<-survey.type[!is.na(survey.type$percent_fundemental_research_current),]
-survey.type<-survey.type[!(survey.type$percent_fundemental_research_current==0 & survey.type$percent_Applied_Research_current==0 & survey.type$percent_Use_inspired_Research_current==0),]
+survey.type.bothtime<-survey.type.wvalue[!is.na(survey.type.wvalue$percent_fundemental_research_current),]
+survey.type.bothtime.values<-survey.type.bothtime[!(survey.type.bothtime$percent_fundemental_research_current==0 & survey.type.bothtime$percent_Applied_Research_current==0 & survey.type.bothtime$percent_Use_inspired_Research_current==0),]
+
+#keep the just current ones to add back in later
 
 ## 3. Standardise % values > 100 in total
 
-survey.type$percent_Applied_Research_current<-as.numeric(survey.type$percent_Applied_Research_current)
-survey.type$percent_fundemental_research_current<-as.numeric(survey.type$percent_fundemental_research_current)
-survey.type$percent_Use_inspired_Research_current<-as.numeric(survey.type$percent_Use_inspired_Research_current)
-colnames(survey.type)
-survey.type$total_research<-rowSums(survey.type[,9:11])
+survey.type.bothtime.values$percent_Applied_Research_current<-as.numeric(survey.type.bothtime.values$percent_Applied_Research_current)
+survey.type.bothtime.values$percent_fundemental_research_current<-as.numeric(survey.type.bothtime.values$percent_fundemental_research_current)
+survey.type.bothtime.values$percent_Use_inspired_Research_current<-as.numeric(survey.type.bothtime.values$percent_Use_inspired_Research_current)
+colnames(survey.type.bothtime.values)
+survey.type.bothtime.values$total_research<-rowSums(survey.type.bothtime.values[,9:11])
 
-head(survey.type[survey.type$total_research>100,])
+head(survey.type.bothtime.values[survey.type.bothtime.values$total_research>100,])
 
-survey.type$percent_Applied_Research_past<-as.numeric(survey.type$percent_Applied_Research_past)
-survey.type$percent_Fundamental_Research_past<-as.numeric(survey.type$percent_Fundamental_Research_past)
-survey.type$percent_Use_inspired_Research_past<-as.numeric(survey.type$percent_Use_inspired_Research_past)
-colnames(survey.type)
-survey.type$total_research<-rowSums(survey.type[,12:14])
+survey.type.bothtime.values$percent_Applied_Research_past<-as.numeric(survey.type.bothtime.values$percent_Applied_Research_past)
+survey.type.bothtime.values$percent_Fundamental_Research_past<-as.numeric(survey.type.bothtime.values$percent_Fundamental_Research_past)
+survey.type.bothtime.values$percent_Use_inspired_Research_past<-as.numeric(survey.type.bothtime.values$percent_Use_inspired_Research_past)
+colnames(survey.type.bothtime.values)
+survey.type.bothtime.values$total_research<-rowSums(survey.type.bothtime.values[,12:14])
 
-head(survey.type[survey.type$total_research>100,])
+head(survey.type.bothtime.values[survey.type.bothtime.values$total_research>100,])
 ## need to change surveys that are over 100%
-survey.type$percent_Applied_Research_current<-ifelse(survey.type$total_research>100,(survey.type$percent_Applied_Research_current/survey.type$total_research)*100, survey.type$percent_Applied_Research_current)
-survey.type$percent_fundemental_research_current<-ifelse(survey.type$total_research>100,(survey.type$percent_fundemental_research_current/survey.type$total_research)*100, survey.type$percent_fundemental_research_current)
-survey.type$percent_Use_inspired_Research_current<-ifelse(survey.type$total_research>100,(survey.type$percent_Use_inspired_Research_current/survey.type$total_research)*100, survey.type$percent_Use_inspired_Research_current)
+survey.type.bothtime.values$percent_Applied_Research_current<-ifelse(survey.type.bothtime.values$total_research>100,(survey.type.bothtime.values$percent_Applied_Research_current/survey.type.bothtime.values$total_research)*100, survey.type.bothtime.values$percent_Applied_Research_current)
+survey.type.bothtime.values$percent_fundemental_research_current<-ifelse(survey.type.bothtime.values$total_research>100,(survey.type.bothtime.values$percent_fundemental_research_current/survey.type.bothtime.values$total_research)*100, survey.type.bothtime.values$percent_fundemental_research_current)
+survey.type.bothtime.values$percent_Use_inspired_Research_current<-ifelse(survey.type.bothtime.values$total_research>100,(survey.type.bothtime.values$percent_Use_inspired_Research_current/survey.type.bothtime.values$total_research)*100, survey.type.bothtime.values$percent_Use_inspired_Research_current)
 
-survey.type$percent_Applied_Research_past<-ifelse(survey.type$total_research>100,(survey.type$percent_Applied_Research_past/survey.type$total_research)*100, survey.type$percent_Applied_Research_past)
-survey.type$percent_Fundamental_Research_past<-ifelse(survey.type$total_research>100,(survey.type$percent_Fundamental_Research_past/survey.type$total_research)*100, survey.type$percent_Fundamental_Research_past)
-survey.type$percent_Use_inspired_Research_past<-ifelse(survey.type$total_research>100,(survey.type$percent_Use_inspired_Research_past/survey.type$total_research)*100, survey.type$percent_Use_inspired_Research_past)
+survey.type.bothtime.values$percent_Applied_Research_past<-ifelse(survey.type.bothtime.values$total_research>100,(survey.type.bothtime.values$percent_Applied_Research_past/survey.type.bothtime.values$total_research)*100, survey.type.bothtime.values$percent_Applied_Research_past)
+survey.type.bothtime.values$percent_Fundamental_Research_past<-ifelse(survey.type.bothtime.values$total_research>100,(survey.type.bothtime.values$percent_Fundamental_Research_past/survey.type.bothtime.values$total_research)*100, survey.type.bothtime.values$percent_Fundamental_Research_past)
+survey.type.bothtime.values$percent_Use_inspired_Research_past<-ifelse(survey.type.bothtime.values$total_research>100,(survey.type.bothtime.values$percent_Use_inspired_Research_past/survey.type.bothtime.values$total_research)*100, survey.type.bothtime.values$percent_Use_inspired_Research_past)
 
-head(survey.type[survey.type$total_research>100,])
+head(survey.type.bothtime.values[survey.type.bothtime.values$total_research>100,])
 
-dim(survey.type)
+dim(survey.type.bothtime.values)
 ## switch to long format
-survey.long<-gather(survey.type, type, percent, -Location, -gender, -id, -nation, -Country_work, -Country, -what_participant_group, -field_research, -total_research)
+survey.long<-gather(survey.type.bothtime.values, type, percent, -Location, -gender, -id, -nation, -Country_work, -Country, -what_participant_group, -field_research, -total_research)
 tail(survey.long)
 
 #saved
+
+# now need to add back in the rows that did not have answers so can add to master final dataset
+
+
 
 #### yes/no have the portions changed and why
 
@@ -594,16 +604,19 @@ part3.funding$survey<-c(1:dim(part3.funding)[1])
 ## 1. remove responses where a person said new researcher in the 2006-2010 section (some people selected new researcher for one category but then a percentage for another so I had to get rid more than I thought)
 part3.funding<-gather(part3.funding, question, value, -Country, -gender, -nation, -Country_work, -Location, -survey, -what_participant_group, -field_research, -id)
 part3.funding$year<-ifelse(grepl("11_15", part3.funding$question), "11_15", "6_10")
-
 part3.funding$info<-ifelse((part3.funding$year=="6_10" & part3.funding$value=="New researcher (no funding in these years)"),"remove", "keep")
 survey.remove<-part3.funding$survey[part3.funding$info=="remove"]
-part3.funding<-part3.funding[!(part3.funding$year=="6_10" & part3.funding$survey %in% survey.remove),]
-part3.funding<-spread(part3.funding, question, value)
+part3.funding.nonew<-part3.funding[!(part3.funding$year=="6_10" & part3.funding$survey %in% survey.remove),]
+part3.funding.nonew<-spread(part3.funding.nonew, question, value)
 
+# keep these to add them back in later for the final big dataset
+part3.funding.new<-part3.funding[(part3.funding$year=="6_10" & part3.funding$info =="remove"),]  
+part3.funding.new<-spread(part3.funding.new, question, value)
 
-p3_6.10<-part3.funding[part3.funding$year=="6_10",]
+# split the two years so they can be standardized
+p3_6.10<-part3.funding.nonew[part3.funding.nonew$year=="6_10",]
 p3_6.10<-p3_6.10[,c(1:11, 17:21)]
-p3_11.15<-part3.funding[part3.funding$year=="11_15",]
+p3_11.15<-part3.funding.nonew[part3.funding.nonew$year=="11_15",]
 p3_11.15<-p3_11.15[,c(1:16)]
 
 ## 2. if every category is blank, turn to NA
@@ -651,57 +664,64 @@ p3_6.10$distriution_funding_6_10_nongov[p3_6.10$distriution_funding_6_10_nongov=
 p3_6.10$distriution_funding_6_10_other[p3_6.10$distriution_funding_6_10_other==""]<-0
 
 # remove NAs
-p3_11.15<-p3_11.15[!(is.na(p3_11.15$distribution_funding_11_15_internal)& is.na(p3_11.15$distriution_funding_11_15_government) & is.na(p3_11.15$distriution_funding_11_15_for_profit) &
+p3_11.15.nona<-p3_11.15[!(is.na(p3_11.15$distribution_funding_11_15_internal)& is.na(p3_11.15$distriution_funding_11_15_government) & is.na(p3_11.15$distriution_funding_11_15_for_profit) &
                            is.na(p3_11.15$distriution_funding_11_15_nongov) & is.na(p3_11.15$distriution_funding_11_15_other)),]
-p3_6.10<-p3_6.10[!(is.na(p3_6.10$distriution_funding_6_10_internal)& is.na(p3_6.10$distriution_funding_6_10_government) & is.na(p3_6.10$distriution_funding_6_10_for_profit) &
+p3_6.10.nona<-p3_6.10[!(is.na(p3_6.10$distriution_funding_6_10_internal)& is.na(p3_6.10$distriution_funding_6_10_government) & is.na(p3_6.10$distriution_funding_6_10_for_profit) &
                                  is.na(p3_6.10$distriution_funding_6_10_nongov) & is.na(p3_6.10$distriution_funding_6_10_other)),]
 
+# keep the NAs to put back in later for the final big dataset
+p3.11.15.na<-p3_11.15[(is.na(p3_11.15$distribution_funding_11_15_internal)& is.na(p3_11.15$distriution_funding_11_15_government) & is.na(p3_11.15$distriution_funding_11_15_for_profit) &
+                             is.na(p3_11.15$distriution_funding_11_15_nongov) & is.na(p3_11.15$distriution_funding_11_15_other)),]
+p3_6.10.na<-p3_6.10[(is.na(p3_6.10$distriution_funding_6_10_internal)& is.na(p3_6.10$distriution_funding_6_10_government) & is.na(p3_6.10$distriution_funding_6_10_for_profit) &
+                           is.na(p3_6.10$distriution_funding_6_10_nongov) & is.na(p3_6.10$distriution_funding_6_10_other)),]
+
+
 ## 4. Standardise % values > 100 in total
-p3_11.15$distribution_funding_11_15_internal<-as.numeric((p3_11.15$distribution_funding_11_15_internal))
-p3_11.15$distriution_funding_11_15_government<-as.numeric((p3_11.15$distriution_funding_11_15_government))
-p3_11.15$distriution_funding_11_15_for_profit<-as.numeric((p3_11.15$distriution_funding_11_15_for_profit))
-p3_11.15$distriution_funding_11_15_nongov<-as.numeric((p3_11.15$distriution_funding_11_15_nongov))
-p3_11.15$distriution_funding_11_15_other<-as.numeric((p3_11.15$distriution_funding_11_15_other))
-p3_6.10$distriution_funding_6_10_internal<-as.numeric((p3_6.10$distriution_funding_6_10_internal))
-p3_6.10$distriution_funding_6_10_government<-as.numeric((p3_6.10$distriution_funding_6_10_government))
-p3_6.10$distriution_funding_6_10_for_profit<-as.numeric((p3_6.10$distriution_funding_6_10_for_profit))
-p3_6.10$distriution_funding_6_10_nongov<-as.numeric((p3_6.10$distriution_funding_6_10_nongov))
-p3_6.10$distriution_funding_6_10_other<-as.numeric((p3_6.10$distriution_funding_6_10_other))
+p3_11.15.nona$distribution_funding_11_15_internal<-as.numeric((p3_11.15.nona$distribution_funding_11_15_internal))
+p3_11.15.nona$distriution_funding_11_15_government<-as.numeric((p3_11.15.nona$distriution_funding_11_15_government))
+p3_11.15.nona$distriution_funding_11_15_for_profit<-as.numeric((p3_11.15.nona$distriution_funding_11_15_for_profit))
+p3_11.15.nona$distriution_funding_11_15_nongov<-as.numeric((p3_11.15.nona$distriution_funding_11_15_nongov))
+p3_11.15.nona$distriution_funding_11_15_other<-as.numeric((p3_11.15.nona$distriution_funding_11_15_other))
+p3_6.10.nona$distriution_funding_6_10_internal<-as.numeric((p3_6.10.nona$distriution_funding_6_10_internal))
+p3_6.10.nona$distriution_funding_6_10_government<-as.numeric((p3_6.10.nona$distriution_funding_6_10_government))
+p3_6.10.nona$distriution_funding_6_10_for_profit<-as.numeric((p3_6.10.nona$distriution_funding_6_10_for_profit))
+p3_6.10.nona$distriution_funding_6_10_nongov<-as.numeric((p3_6.10.nona$distriution_funding_6_10_nongov))
+p3_6.10.nona$distriution_funding_6_10_other<-as.numeric((p3_6.10.nona$distriution_funding_6_10_other))
 
 ## need to change surveys that are over 100%
-p3_11.15$total.funding<-rowSums(p3_11.15[,12:16])
-p3_6.10$total.funding<-rowSums(p3_6.10[,12:16])
+p3_11.15.nona$total.funding<-rowSums(p3_11.15.nona[,12:16])
+p3_6.10.nona$total.funding<-rowSums(p3_6.10.nona[,12:16])
 
-head(p3_11.15[p3_11.15$total.funding>100,])
+head(p3_11.15.nona[p3_11.15.nona$total.funding>100,])
 
-p3_11.15$distribution_funding_11_15_internal<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distribution_funding_11_15_internal/p3_11.15$total.funding)*100, p3_11.15$distribution_funding_11_15_internal)
-p3_11.15$distriution_funding_11_15_government<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_government/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_government)
-p3_11.15$distriution_funding_11_15_for_profit<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_for_profit/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_for_profit)
-p3_11.15$distriution_funding_11_15_nongov<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_nongov/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_nongov)
-p3_11.15$distriution_funding_11_15_other<-ifelse(p3_11.15$total.funding>100,(p3_11.15$distriution_funding_11_15_other/p3_11.15$total.funding)*100, p3_11.15$distriution_funding_11_15_other)
-p3_6.10$distriution_funding_6_10_internal<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_internal/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_internal)
-p3_6.10$distriution_funding_6_10_government<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_government/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_government)
-p3_6.10$distriution_funding_6_10_for_profit<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_for_profit/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_for_profit)
-p3_6.10$distriution_funding_6_10_nongov<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_nongov/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_nongov)
-p3_6.10$distriution_funding_6_10_other<-ifelse(p3_6.10$total.funding>100,(p3_6.10$distriution_funding_6_10_other/p3_6.10$total.funding)*100, p3_6.10$distriution_funding_6_10_other)
+p3_11.15.nona$distribution_funding_11_15_internal<-ifelse(p3_11.15.nona$total.funding>100,(p3_11.15.nona$distribution_funding_11_15_internal/p3_11.15.nona$total.funding)*100, p3_11.15.nona$distribution_funding_11_15_internal)
+p3_11.15.nona$distriution_funding_11_15_government<-ifelse(p3_11.15.nona$total.funding>100,(p3_11.15.nona$distriution_funding_11_15_government/p3_11.15.nona$total.funding)*100, p3_11.15.nona$distriution_funding_11_15_government)
+p3_11.15.nona$distriution_funding_11_15_for_profit<-ifelse(p3_11.15.nona$total.funding>100,(p3_11.15.nona$distriution_funding_11_15_for_profit/p3_11.15.nona$total.funding)*100, p3_11.15.nona$distriution_funding_11_15_for_profit)
+p3_11.15.nona$distriution_funding_11_15_nongov<-ifelse(p3_11.15.nona$total.funding>100,(p3_11.15.nona$distriution_funding_11_15_nongov/p3_11.15.nona$total.funding)*100, p3_11.15.nona$distriution_funding_11_15_nongov)
+p3_11.15.nona$distriution_funding_11_15_other<-ifelse(p3_11.15.nona$total.funding>100,(p3_11.15.nona$distriution_funding_11_15_other/p3_11.15.nona$total.funding)*100, p3_11.15.nona$distriution_funding_11_15_other)
+p3_6.10.nona$distriution_funding_6_10_internal<-ifelse(p3_6.10.nona$total.funding>100,(p3_6.10.nona$distriution_funding_6_10_internal/p3_6.10.nona$total.funding)*100, p3_6.10.nona$distriution_funding_6_10_internal)
+p3_6.10.nona$distriution_funding_6_10_government<-ifelse(p3_6.10.nona$total.funding>100,(p3_6.10.nona$distriution_funding_6_10_government/p3_6.10.nona$total.funding)*100, p3_6.10.nona$distriution_funding_6_10_government)
+p3_6.10.nona$distriution_funding_6_10_for_profit<-ifelse(p3_6.10.nona$total.funding>100,(p3_6.10.nona$distriution_funding_6_10_for_profit/p3_6.10.nona$total.funding)*100, p3_6.10.nona$distriution_funding_6_10_for_profit)
+p3_6.10.nona$distriution_funding_6_10_nongov<-ifelse(p3_6.10.nona$total.funding>100,(p3_6.10.nona$distriution_funding_6_10_nongov/p3_6.10.nona$total.funding)*100, p3_6.10.nona$distriution_funding_6_10_nongov)
+p3_6.10.nona$distriution_funding_6_10_other<-ifelse(p3_6.10.nona$total.funding>100,(p3_6.10.nona$distriution_funding_6_10_other/p3_6.10.nona$total.funding)*100, p3_6.10.nona$distriution_funding_6_10_other)
 
-head(p3_6.10[p3_6.10$total.funding>100,])
+head(p3_6.10.nona[p3_6.10.nona$total.funding>100,])
 
-colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_for_profit"]<-"For-Profit"
-colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_government"]<-"Government"
-colnames(p3_11.15)[colnames(p3_11.15)=="distribution_funding_11_15_internal"]<-"Internal"
-colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_nongov"]<-"Non-governmental"
-colnames(p3_11.15)[colnames(p3_11.15)=="distriution_funding_11_15_other"]<-"Other"
+colnames(p3_11.15.nona)[colnames(p3_11.15.nona)=="distriution_funding_11_15_for_profit"]<-"For-Profit"
+colnames(p3_11.15.nona)[colnames(p3_11.15.nona)=="distriution_funding_11_15_government"]<-"Government"
+colnames(p3_11.15.nona)[colnames(p3_11.15.nona)=="distribution_funding_11_15_internal"]<-"Internal"
+colnames(p3_11.15.nona)[colnames(p3_11.15.nona)=="distriution_funding_11_15_nongov"]<-"Non-governmental"
+colnames(p3_11.15.nona)[colnames(p3_11.15.nona)=="distriution_funding_11_15_other"]<-"Other"
 
-colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_for_profit"]<-"For-Profit"
-colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_government"]<-"Government"
-colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_internal"]<-"Internal"
-colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_nongov"]<-"Non-governmental"
-colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_other"]<-"Other"
+colnames(p3_6.10.nona)[colnames(p3_6.10.nona)=="distriution_funding_6_10_for_profit"]<-"For-Profit"
+colnames(p3_6.10.nona)[colnames(p3_6.10.nona)=="distriution_funding_6_10_government"]<-"Government"
+colnames(p3_6.10.nona)[colnames(p3_6.10.nona)=="distriution_funding_6_10_internal"]<-"Internal"
+colnames(p3_6.10.nona)[colnames(p3_6.10.nona)=="distriution_funding_6_10_nongov"]<-"Non-governmental"
+colnames(p3_6.10.nona)[colnames(p3_6.10.nona)=="distriution_funding_6_10_other"]<-"Other"
 
-head(p3_6.10)
+head(p3_6.10.nona)
 
-p3_master<-rbind(p3_6.10, p3_11.15)
+p3_master<-rbind(p3_6.10.nona, p3_11.15.nona)
 
 head(p3_master)
 
@@ -712,174 +732,127 @@ head(p3_master.long)
 
 #saved
 
-##now do the same thing but leave in the no responses for the final data set
-part3.funding.all<-subset(part3, select = c("Country", "Country_work", "gender", "nation", "Location","what_participant_group", "field_research","distribution_funding_11_15_internal" ,       "distriution_funding_11_15_government" ,     
-                                        "distriution_funding_11_15_for_profit",       "distriution_funding_11_15_nongov" ,         
-                                        "distriution_funding_11_15_other"   ,      
-                                        "distriution_funding_6_10_internal" ,         "distriution_funding_6_10_government" ,      
-                                        "distriution_funding_6_10_for_profit" ,       "distriution_funding_6_10_nongov"  ,         
-                                        "distriution_funding_6_10_other","id"))
+## now going to get this data ready to be added back to the rest of the data for a final big dataset
+# fix the year back into the title
+p3_master.long$type.year <- paste("distribution_funding",p3_master.long$year, p3_master.long$type,  sep = "_")
 
-## 1. change all relevant variables to characters.......
-part3.funding.all$distribution_funding_11_15_internal<-as.character(part3.funding.all$distribution_funding_11_15_internal)
-part3.funding.all$distriution_funding_11_15_government<-as.character(part3.funding.all$distriution_funding_11_15_government)
-part3.funding.all$distriution_funding_11_15_for_profit<-as.character(part3.funding.all$distriution_funding_11_15_for_profit)
-part3.funding.all$distriution_funding_11_15_nongov<-as.character(part3.funding.all$distriution_funding_11_15_nongov)
-part3.funding.all$distriution_funding_11_15_other<-as.character(part3.funding.all$distriution_funding_11_15_other)
-part3.funding.all$distriution_funding_6_10_internal<-as.character(part3.funding.all$distriution_funding_6_10_internal)
-part3.funding.all$distriution_funding_6_10_government<-as.character(part3.funding.all$distriution_funding_6_10_government)
-part3.funding.all$distriution_funding_6_10_for_profit<-as.character(part3.funding.all$distriution_funding_6_10_for_profit)
-part3.funding.all$distriution_funding_6_10_nongov<-as.character(part3.funding.all$distriution_funding_6_10_nongov)
-part3.funding.all$distriution_funding_6_10_other<-as.character(part3.funding.all$distriution_funding_6_10_other)
+head(p3_master.long)
 
-## remove all % symbols
-part3.funding.all$distribution_funding_11_15_internal<-str_replace_all(part3.funding.all$distribution_funding_11_15_internal, "[%]", "")
-part3.funding.all$distriution_funding_11_15_government<-str_replace_all(part3.funding.all$distriution_funding_11_15_government, "[%]", "")
-part3.funding.all$distriution_funding_11_15_for_profit<-str_replace_all(part3.funding.all$distriution_funding_11_15_for_profit, "[%]", "")
-part3.funding.all$distriution_funding_11_15_nongov<-str_replace_all(part3.funding.all$distriution_funding_11_15_nongov, "[%]", "")
-part3.funding.all$distriution_funding_11_15_other<-str_replace_all(part3.funding.all$distriution_funding_11_15_other, "[%]", "")
-part3.funding.all$distriution_funding_6_10_internal<-str_replace_all(part3.funding.all$distriution_funding_6_10_internal, "[%]", "")
-part3.funding.all$distriution_funding_6_10_government<-str_replace_all(part3.funding.all$distriution_funding_6_10_government, "[%]", "")
-part3.funding.all$distriution_funding_6_10_for_profit<-str_replace_all(part3.funding.all$distriution_funding_6_10_for_profit, "[%]", "")
-part3.funding.all$distriution_funding_6_10_nongov<-str_replace_all(part3.funding.all$distriution_funding_6_10_nongov, "[%]", "")
-part3.funding.all$distriution_funding_6_10_other<-str_replace_all(part3.funding.all$distriution_funding_6_10_other, "[%]", "")
+#get rid of columns that might confusing the spreading
+p3_master.long$'year' <- NULL
+p3_master.long$'type' <- NULL
+p3_master.long$'info' <- NULL
+p3_master.long$'total.funding' <- NULL
+p3_master.long$'survey' <- NULL
 
-### now we are going to standardise the % for each survey
+head(p3_master.long)
 
-## add unique survey ID to dataframe
-part3.funding.all$survey<-c(1:dim(part3.funding.all)[1])
-## 1. remove responses where a person said new researcher in the 2006-2010 section (some people selected new researcher for one category but then a percentage for another so I had to get rid more than I thought)
-part3.funding.all<-gather(part3.funding.all, question, value, -Country, -gender, -nation, -Country_work, -Location, -what_participant_group, -field_research, -id, -survey)
-part3.funding.all$year<-ifelse(grepl("11_15", part3.funding.all$question), "11_15", "6_10")
-part3.funding.all$info<-ifelse((part3.funding.all$year=="6_10" & part3.funding.all$value=="New researcher (no funding in these years)"),"remove", "keep")
-survey.remove<-part3.funding.all$survey[part3.funding.all$info=="remove"]
-part3.funding.all.nonew<-part3.funding.all[!(part3.funding.all$year=="6_10" & part3.funding.all$survey %in% survey.remove),]
-part3.funding.new<-part3.funding.all[(part3.funding.all$year=="6_10" & part3.funding.all$info =="remove"),]  # keep these to add them back in later
-part3.funding.all.nonew<-spread(part3.funding.all.nonew, question, value)
-part3.funding.new<-spread(part3.funding.new, question, value)
+#spread it back out
+p3.master.wide <- spread(p3_master.long, type.year, percent)
 
+head(p3.master.wide)
 
-p3_6.10.all<-part3.funding.all.nonew[part3.funding.all.nonew$year=="6_10",]
-p3_6.10.all<-p3_6.10.all[,c(1:11, 17:21)]
-p3_11.15.all<-part3.funding.all.nonew[part3.funding.all.nonew$year=="11_15",]
-p3_11.15.all<-p3_11.15.all[,c(1:16)]
+## now add back in the new researcher responses and na's
+#compare column names
+colnames(p3.master.wide)
+colnames(part3.funding.new)
+colnames(p3_6.10.na)
+colnames(p3.11.15.na)
 
-## 2. if every category is blank, turn to NA
-p3_11.15.all$distribution_funding_11_15_internal[p3_11.15.all$distribution_funding_11_15_internal=="" & 
-                                               p3_11.15.all$distriution_funding_11_15_government=="" & p3_11.15.all$distriution_funding_11_15_for_profit=="" &
-                                               p3_11.15.all$distriution_funding_11_15_nongov=="" & p3_11.15.all$distriution_funding_11_15_other==""]<-NA
-p3_11.15.all$distriution_funding_11_15_government[is.na(p3_11.15.all$distribution_funding_11_15_internal) & 
-                                                p3_11.15.all$distriution_funding_11_15_government=="" & p3_11.15.all$distriution_funding_11_15_for_profit=="" &
-                                                p3_11.15.all$distriution_funding_11_15_nongov=="" & p3_11.15.all$distriution_funding_11_15_other==""]<-NA
-p3_11.15.all$distriution_funding_11_15_for_profit[is.na(p3_11.15.all$distribution_funding_11_15_internal) & 
-                                                is.na(p3_11.15.all$distriution_funding_11_15_government) & p3_11.15.all$distriution_funding_11_15_for_profit=="" &
-                                                p3_11.15.all$distriution_funding_11_15_nongov=="" & p3_11.15.all$distriution_funding_11_15_other==""]<-NA
-p3_11.15.all$distriution_funding_11_15_nongov[is.na(p3_11.15.all$distribution_funding_11_15_internal) & 
-                                            is.na(p3_11.15.all$distriution_funding_11_15_government) & is.na(p3_11.15.all$distriution_funding_11_15_for_profit) &
-                                            p3_11.15.all$distriution_funding_11_15_nongov=="" & p3_11.15.all$distriution_funding_11_15_other==""]<-NA
-p3_11.15.all$distriution_funding_11_15_other[is.na(p3_11.15.all$distribution_funding_11_15_internal) & 
-                                           is.na(p3_11.15.all$distriution_funding_11_15_government) & is.na(p3_11.15.all$distriution_funding_11_15_for_profit) &
-                                           is.na(p3_11.15.all$distriution_funding_11_15_nongov) & p3_11.15.all$distriution_funding_11_15_other==""]<-NA
-p3_6.10.all$distriution_funding_6_10_internal[p3_6.10.all$distriution_funding_6_10_internal=="" & 
-                                            p3_6.10.all$distriution_funding_6_10_government=="" & p3_6.10.all$distriution_funding_6_10_for_profit=="" &
-                                            p3_6.10.all$distriution_funding_6_10_nongov=="" & p3_6.10.all$distriution_funding_6_10_other==""]<-NA
-p3_6.10.all$distriution_funding_6_10_government[is.na(p3_6.10.all$distriution_funding_6_10_internal) & 
-                                              p3_6.10.all$distriution_funding_6_10_government=="" & p3_6.10.all$distriution_funding_6_10_for_profit=="" &
-                                              p3_6.10.all$distriution_funding_6_10_nongov=="" & p3_6.10.all$distriution_funding_6_10_other==""]<-NA
-p3_6.10.all$distriution_funding_6_10_for_profit[is.na(p3_6.10.all$distriution_funding_6_10_internal) & 
-                                              is.na(p3_6.10.all$distriution_funding_6_10_government) & p3_6.10.all$distriution_funding_6_10_for_profit=="" &
-                                              p3_6.10.all$distriution_funding_6_10_nongov=="" & p3_6.10.all$distriution_funding_6_10_other==""]<-NA
-p3_6.10.all$distriution_funding_6_10_nongov[is.na(p3_6.10.all$distriution_funding_6_10_internal) & 
-                                          is.na(p3_6.10.all$distriution_funding_6_10_government) & is.na(p3_6.10.all$distriution_funding_6_10_for_profit) &
-                                          p3_6.10.all$distriution_funding_6_10_nongov=="" & p3_6.10.all$distriution_funding_6_10_other==""]<-NA
-p3_6.10.all$distriution_funding_6_10_other[is.na(p3_6.10.all$distriution_funding_6_10_internal) & 
-                                         is.na(p3_6.10.all$distriution_funding_6_10_government) & is.na(p3_6.10.all$distriution_funding_6_10_for_profit) &
-                                         is.na(p3_6.10.all$distriution_funding_6_10_nongov) & p3_6.10.all$distriution_funding_6_10_other==""]<-NA
+#need to change the column names to match
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_11_15_For-Profit"]<-"distriution_funding_11_15_for_profit"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_11_15_Government"]<-"distriution_funding_11_15_government"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_11_15_Internal"]<-"distribution_funding_11_15_internal"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_11_15_Non-governmental"]<-"distriution_funding_11_15_nongov"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_11_15_Other"]<-"distriution_funding_11_15_other"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_6_10_For-Profit"]<-"distriution_funding_6_10_for_profit"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_6_10_Government"]<-"distriution_funding_6_10_government"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_6_10_Internal"]<-"distriution_funding_6_10_internal"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_6_10_Non-governmental"]<-"distriution_funding_6_10_nongov"
+colnames(p3.master.wide)[colnames(p3.master.wide)=="distribution_funding_6_10_Other"]<-"distriution_funding_6_10_other"
 
-## 3. categories with answers and blanks, turn blanks to 0
-p3_11.15.all$distribution_funding_11_15_internal[p3_11.15.all$distribution_funding_11_15_internal==""]<-0
-p3_11.15.all$distriution_funding_11_15_government[p3_11.15.all$distriution_funding_11_15_government==""]<-0
-p3_11.15.all$distriution_funding_11_15_for_profit[p3_11.15.all$distriution_funding_11_15_for_profit==""]<-0
-p3_11.15.all$distriution_funding_11_15_nongov[p3_11.15.all$distriution_funding_11_15_nongov==""]<-0
-p3_11.15.all$distriution_funding_11_15_other[p3_11.15.all$distriution_funding_11_15_other==""]<-0
-p3_6.10.all$distriution_funding_6_10_internal[p3_6.10.all$distriution_funding_6_10_internal==""]<-0
-p3_6.10.all$distriution_funding_6_10_government[p3_6.10.all$distriution_funding_6_10_government==""]<-0
-p3_6.10.all$distriution_funding_6_10_for_profit[p3_6.10.all$distriution_funding_6_10_for_profit==""]<-0
-p3_6.10.all$distriution_funding_6_10_nongov[p3_6.10.all$distriution_funding_6_10_nongov==""]<-0
-p3_6.10.all$distriution_funding_6_10_other[p3_6.10.all$distriution_funding_6_10_other==""]<-0
+colnames(p3.master.wide)
 
-# remove NAs
-p3_11.15.all.nona<-p3_11.15.all[!(is.na(p3_11.15.all$distribution_funding_11_15_internal)& is.na(p3_11.15.all$distriution_funding_11_15_government) & is.na(p3_11.15.all$distriution_funding_11_15_for_profit) &
-                       is.na(p3_11.15.all$distriution_funding_11_15_nongov) & is.na(p3_11.15.all$distriution_funding_11_15_other)),]
-p3_6.10.all.nona<-p3_6.10.all[!(is.na(p3_6.10.all$distriution_funding_6_10_internal)& is.na(p3_6.10.all$distriution_funding_6_10_government) & is.na(p3_6.10.all$distriution_funding_6_10_for_profit) &
-                     is.na(p3_6.10.all$distriution_funding_6_10_nongov) & is.na(p3_6.10.all$distriution_funding_6_10_other)),]
+#get rid of extra columns
+colnames(part3.funding.new)
+part3.funding.new$'survey' <- NULL
+part3.funding.new$'year' <- NULL
+part3.funding.new$'info' <- NULL
 
-# keep the NAs to put back in later
-p3.11.15.na<-p3_11.15.all[(is.na(p3_11.15.all$distribution_funding_11_15_internal)& is.na(p3_11.15.all$distriution_funding_11_15_government) & is.na(p3_11.15.all$distriution_funding_11_15_for_profit) &
-                              is.na(p3_11.15.all$distriution_funding_11_15_nongov) & is.na(p3_11.15.all$distriution_funding_11_15_other)),]
-p3_6.10.na<-p3_6.10.all[(is.na(p3_6.10.all$distriution_funding_6_10_internal)& is.na(p3_6.10.all$distriution_funding_6_10_government) & is.na(p3_6.10.all$distriution_funding_6_10_for_profit) &
-                                  is.na(p3_6.10.all$distriution_funding_6_10_nongov) & is.na(p3_6.10.all$distriution_funding_6_10_other)),]
+colnames(p3_6.10.na)
+p3_6.10.na$'survey' <- NULL
+p3_6.10.na$'year' <- NULL
+p3_6.10.na$'info' <- NULL
 
+colnames(p3.11.15.na)
+p3.11.15.na$'survey' <- NULL
+p3.11.15.na$'year' <- NULL
+p3.11.15.na$'info' <- NULL
 
+#check
+dim(p3.master.wide)   #2883  18
+dim(part3.funding.new)  #1055  13
+dim(p3_6.10.na)  #126   13
+dim(p3.11.15.na)  #39  13
 
-## 4. Standardise % values > 100 in total
-p3_11.15.all.nona$distribution_funding_11_15_internal<-as.numeric((p3_11.15.all.nona$distribution_funding_11_15_internal))
-p3_11.15.all.nona$distriution_funding_11_15_government<-as.numeric((p3_11.15.all.nona$distriution_funding_11_15_government))
-p3_11.15.all.nona$distriution_funding_11_15_for_profit<-as.numeric((p3_11.15.all.nona$distriution_funding_11_15_for_profit))
-p3_11.15.all.nona$distriution_funding_11_15_nongov<-as.numeric((p3_11.15.all.nona$distriution_funding_11_15_nongov))
-p3_11.15.all.nona$distriution_funding_11_15_other<-as.numeric((p3_11.15.all.nona$distriution_funding_11_15_other))
+#they are different types so need to make the percents into characters so they can be joined
+p3.master.wide$distribution_funding_11_15_internal<-as.character((p3.master.wide$distribution_funding_11_15_internal))
+p3.master.wide$distriution_funding_11_15_government<-as.character((p3.master.wide$distriution_funding_11_15_government))
+p3.master.wide$distriution_funding_11_15_for_profit<-as.character((p3.master.wide$distriution_funding_11_15_for_profit))
+p3.master.wide$distriution_funding_11_15_nongov<-as.character((p3.master.wide$distriution_funding_11_15_nongov))
+p3.master.wide$distriution_funding_11_15_other<-as.character((p3.master.wide$distriution_funding_11_15_other))
+p3.master.wide$distriution_funding_6_10_internal<-as.character((p3.master.wide$distriution_funding_6_10_internal))
+p3.master.wide$distriution_funding_6_10_government<-as.character((p3.master.wide$distriution_funding_6_10_government))
+p3.master.wide$distriution_funding_6_10_for_profit<-as.character((p3.master.wide$distriution_funding_6_10_for_profit))
+p3.master.wide$distriution_funding_6_10_nongov<-as.character((p3.master.wide$distriution_funding_6_10_nongov))
+p3.master.wide$distriution_funding_6_10_other<-as.character((p3.master.wide$distriution_funding_6_10_other))
 
-p3_6.10.all.nona$distriution_funding_6_10_internal<-as.numeric((p3_6.10.all.nona$distriution_funding_6_10_internal))
-p3_6.10.all.nona$distriution_funding_6_10_government<-as.numeric((p3_6.10.all.nona$distriution_funding_6_10_government))
-p3_6.10.all.nona$distriution_funding_6_10_for_profit<-as.numeric((p3_6.10.all.nona$distriution_funding_6_10_for_profit))
-p3_6.10.all.nona$distriution_funding_6_10_nongov<-as.numeric((p3_6.10.all.nona$distriution_funding_6_10_nongov))
-p3_6.10.all.nona$distriution_funding_6_10_other<-as.numeric((p3_6.10.all.nona$distriution_funding_6_10_other))
-
-## need to change surveys that are over 100%
-p3_11.15.all.nona$total.funding<-rowSums(p3_11.15.all.nona[,12:16])
-p3_6.10.all.nona$total.funding<-rowSums(p3_6.10.all.nona[,12:16])
-
-head(p3_6.10.all.nona[p3_6.10.all.nona$total.funding>100,])
-head(p3_11.15.all.nona[p3_11.15.all.nona$total.funding>100,])
-
-p3_11.15.all.nona$distribution_funding_11_15_internal<-ifelse(p3_11.15.all.nona$total.funding>100,(p3_11.15.all.nona$distribution_funding_11_15_internal/p3_11.15.all.nona$total.funding)*100, p3_11.15.all.nona$distribution_funding_11_15_internal)
-p3_11.15.all.nona$distriution_funding_11_15_government<-ifelse(p3_11.15.all.nona$total.funding>100,(p3_11.15.all.nona$distriution_funding_11_15_government/p3_11.15.all.nona$total.funding)*100, p3_11.15.all.nona$distriution_funding_11_15_government)
-p3_11.15.all.nona$distriution_funding_11_15_for_profit<-ifelse(p3_11.15.all.nona$total.funding>100,(p3_11.15.all.nona$distriution_funding_11_15_for_profit/p3_11.15.all.nona$total.funding)*100, p3_11.15.all.nona$distriution_funding_11_15_for_profit)
-p3_11.15.all.nona$distriution_funding_11_15_nongov<-ifelse(p3_11.15.all.nona$total.funding>100,(p3_11.15.all.nona$distriution_funding_11_15_nongov/p3_11.15.all.nona$total.funding)*100, p3_11.15.all.nona$distriution_funding_11_15_nongov)
-p3_11.15.all.nona$distriution_funding_11_15_other<-ifelse(p3_11.15.all.nona$total.funding>100,(p3_11.15.all.nona$distriution_funding_11_15_other/p3_11.15.all.nona$total.funding)*100, p3_11.15.all.nona$distriution_funding_11_15_other)
-p3_6.10.all.nona$distriution_funding_6_10_internal<-ifelse(p3_6.10.all.nona$total.funding>100,(p3_6.10.all.nona$distriution_funding_6_10_internal/p3_6.10.all.nona$total.funding)*100, p3_6.10.all.nona$distriution_funding_6_10_internal)
-p3_6.10.all.nona$distriution_funding_6_10_government<-ifelse(p3_6.10.all.nona$total.funding>100,(p3_6.10.all.nona$distriution_funding_6_10_government/p3_6.10.all.nona$total.funding)*100, p3_6.10.all.nona$distriution_funding_6_10_government)
-p3_6.10.all.nona$distriution_funding_6_10_for_profit<-ifelse(p3_6.10.all.nona$total.funding>100,(p3_6.10.all.nona$distriution_funding_6_10_for_profit/p3_6.10.all.nona$total.funding)*100, p3_6.10.all.nona$distriution_funding_6_10_for_profit)
-p3_6.10.all.nona$distriution_funding_6_10_nongov<-ifelse(p3_6.10.all.nona$total.funding>100,(p3_6.10.all.nona$distriution_funding_6_10_nongov/p3_6.10.all.nona$total.funding)*100, p3_6.10.all.nona$distriution_funding_6_10_nongov)
-p3_6.10.all.nona$distriution_funding_6_10_other<-ifelse(p3_6.10.all.nona$total.funding>100,(p3_6.10.all.nona$distriution_funding_6_10_other/p3_6.10.all.nona$total.funding)*100, p3_6.10.all.nona$distriution_funding_6_10_other)
-
-head(p3_6.10.all.nona[p3_6.10.all.nona$total.funding>100,])
-head(p3_11.15.all.nona[p3_11.15.all.nona$total.funding>100,])
-
-# 
-# colnames(p3_11.15.all)[colnames(p3_11.15.all)=="distriution_funding_11_15_for_profit"]<-"For-Profit"
-# colnames(p3_11.15.all)[colnames(p3_11.15.all)=="distriution_funding_11_15_government"]<-"Government"
-# colnames(p3_11.15.all)[colnames(p3_11.15.all)=="distribution_funding_11_15_internal"]<-"Internal"
-# colnames(p3_11.15.all)[colnames(p3_11.15.all)=="distriution_funding_11_15_nongov"]<-"Non-governmental"
-# colnames(p3_11.15.all)[colnames(p3_11.15.all)=="distriution_funding_11_15_other"]<-"Other"
-# 
-# colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_for_profit"]<-"For-Profit"
-# colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_government"]<-"Government"
-# colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_internal"]<-"Internal"
-# colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_nongov"]<-"Non-governmental"
-# colnames(p3_6.10)[colnames(p3_6.10)=="distriution_funding_6_10_other"]<-"Other"
-
-## add back in the new researcher responses and na's
+# now add in the 'new researcher' rows
 head(part3.funding.new)
+tail(part3.funding.new)
+dim(part3.funding.new)  #1055  13
+#only has 6-10 columns 
+
+require(plyr)
+p3.master.withnew<-join_all(list(p3.master.wide, part3.funding.new), by = "id", type = "full", match = "first")
+dim(p3.master.withnew)  #2886   30
+head(p3.master.withnew)
+colnames(p3.master.withnew)
+n_occur <- data.frame(table(p3.master.withnew$id))
+dup<-n_occur[n_occur$Freq > 1,] 
+
+# combine the 6-10 columns to the 11-15 df
 head(p3_6.10.na)
 head(p3.11.15.na)
 
+#compared to see how many surveys are the same one in each one
+unique(p3_6.10.na$id)
+unique(p3.11.15.na$id)
+# ones that are in 11-15 and not in 6-10
+# 6, 7, 38, 293, 334, 2441, 2854  so it should add 7 rows
 
-head(p3_6.10.all.nona)
+require(dplyr)
+p3_bothtime_na <- full_join(p3_6.10.na, p3.11.15.na)
+dim(p3_bothtime_na) #133  18   - added 7 rows!
+#looked at the data and it looks like it worked
+ 
+#now add them into the master file
+p3.master.all<-join_all(list(p3.master.withnew, p3_bothtime_na), by = "id", type = "full", match = "first")
 
-p3_master<-rbind(p3_6.10.all.nona, p3_11.15.all.nona)
+dim(p3.master.all)  # 2918  18   - added 133 rows
+colnames(p3.master.all)
+head(p3.master.all)  #looks good
+tail(p3.master.all)  # looks good
+n_occur.all <- data.frame(table(p3.master.all$id))
+dup.all<-n_occur.all[n_occur.all$Freq > 1,] 
+#all looks good
 
-head(p3_master)
+#check number of rows with master before cleaning
+dim(part3.)  #2918   39
+dim(p3.master.all)  # 2918  18
+
+
+
 
 
 
@@ -903,7 +876,7 @@ write.csv(survey.what, file="data/gya-country-responses.csv", row.names = FALSE)
 
 write.csv(survey.long, file="data/gya-surveys-cleaned-research.csv", row.names = FALSE)
 
-write.csv(survey.type, file="data/gya-research-cleaned.csv", row.names = FALSE)
+write.csv(survey.type.bothtime.values, file="data/gya-research-cleaned.csv", row.names = FALSE)
 
 #write.csv(survey.long.past, file="data/gya-surveys-cleaned-research-past.csv", row.names = FALSE)
 
@@ -960,12 +933,12 @@ final.survey <- survey.what
 ##each data set will be added in one by one
 
 #columns 5,6,7,9,10,11
-head(survey.long)
-dim(survey.long)  #7140   11    - in the long format so need to widen it
-survey.long.wide <- spread(survey.long, type, percent)
-head(survey.long.wide)
-dim(survey.long.wide)   #1190   15  is only the responses that did have a change in proportion
-##########!!!!!!!!!nto done
+# head(survey.long)
+# dim(survey.long)  #7140   11    - in the long format so need to widen it
+# survey.long.wide <- spread(survey.long, type, percent)
+# head(survey.long.wide)
+# dim(survey.long.wide)   #1190   15  is only the responses that did have a change in proportion
+# ##########!!!!!!!!!nto done
 
 #<------------------------->
 #!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -985,27 +958,17 @@ final.survey$Main_reason_change_Other<-survey.change$Main_reason_change_Other[ma
 head(final.survey)
 dim(final.survey)  #2918   16   - added 6 columns which is right
 
+#columns  17  (comment column)
+final.survey$Main_reason_change_Other_text<-survey$Main_reason_change_Other_text[match(part1.view$id, survey$id)]
+head(final.survey)
+dim(final.survey)
+
 #column  18
 head(part1.view)
 dim(part1.view)    #2918    
 final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
 head(final.survey)
 dim(final.survey)   #2918   17   - added 1 column - correct
-
-#columns  60-69
-head(survey.part4)
-dim(survey.part4)    #2918
-final.survey$opinion_fundamental_important<-survey.part4$opinion_fundamental_important[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_fundamental<-survey.part4$high_priority_fundamental[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_use_inspired<-survey.part4$high_priority_use_inspired[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_applied<-survey.part4$high_priority_applied[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_no_change<-survey.part4$high_priority_no_change[match(survey.part4$id, survey.change$id)]
-final.survey$available_funding_fundamental<-survey.part4$available_funding_fundamental[match(survey.part4$id, survey.change$id)]
-final.survey$available_funding_use_inspired<-survey.part4$available_funding_use_inspired[match(survey.part4$id, survey.change$id)]
-final.survey$available_funding_applied<-survey.part4$available_funding_applied[match(survey.part4$id, survey.change$id)]
-final.survey$next_generation<-survey.part4$next_generation[match(survey.part4$id, survey.change$id)]
-head(final.survey)
-dim(final.survey) # 2918   26   - added 9 columns  - correct
 
 #columns  19, 21
 head(part2.b.a.all)
@@ -1033,6 +996,11 @@ final.survey$reason_partnership_change_other<-part2.reason$reason_partnership_ch
 head(final.survey)
 dim(final.survey) # 2918   34   - added 5 columns - correct
 
+#columns  27  (comment column)
+final.survey$reason_partnership_change_other_text<-survey$reason_partnership_change_other_text[match(part1.view$id, survey$id)]
+head(final.survey)
+dim(final.survey)
+
 #column 28
 head(part2.view.all)
 dim(part2.view.all) # 2918
@@ -1054,15 +1022,6 @@ final.survey$external_pi_grant_6_10_fundamental<-part3.grants.long.wide$external
 final.survey$external_pi_grant_6_10_use<-part3.grants.long.wide$external_pi_grant_6_10_use[match(part3.grants.long.wide$id, survey.change$id)]
 head(final.survey)
 dim(final.survey) #2918  41  - added 6 columns - correct
-
-#columns  57 - 59
-head(part3.change)
-dim(part3.change)  #2918
-final.survey$success_change_10yrs_fundamental<-part3.change$success_change_10yrs_fundamental[match(part3.change$id, survey.change$id)]
-final.survey$success_change_10yrs_use<-part3.change$success_change_10yrs_use[match(part3.change$id, survey.change$id)]
-final.survey$success_change_10yrs_applied<-part3.change$success_change_10yrs_applied[match(part3.change$id, survey.change$id)]
-head(final.survey)
-dim(final.survey) #2918  44  - added 3 columns - correct
 
 #columns  35-40
 head(part3.success.all)
@@ -1092,26 +1051,58 @@ final.survey$include_nonacademia_partners_success_6_10<-part3.part$include_nonac
 head(final.survey)
 dim(final.survey) #2918  54  - added two columns - correct
 
-#columns
-head(p3_master)
-dim(p3_master)
-final.survey$view_change_of_type<-p3_master$view_change_of_type[match(p3_master$id, survey.change$id)]
+#columns  45-56
+head(p3.master.all)
+dim(p3.master.all) #2918
+final.survey$distriution_funding_11_15_for_profit<-p3.master.all$distriution_funding_11_15_for_profit[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_11_15_government<-p3.master.all$distriution_funding_11_15_government[match(final.survey$id, p3.master.all$id)]
+final.survey$distribution_funding_11_15_internal<-p3.master.all$distribution_funding_11_15_internal[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_11_15_nongov<-p3.master.all$distriution_funding_11_15_nongov[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_11_15_other<-p3.master.all$distriution_funding_11_15_other[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_6_10_for_profit<-p3.master.all$distriution_funding_6_10_for_profit[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_6_10_government<-p3.master.all$distriution_funding_6_10_government[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_6_10_internal<-p3.master.all$distriution_funding_6_10_internal[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_6_10_nongov<-p3.master.all$distriution_funding_6_10_nongov[match(final.survey$id, p3.master.all$id)]
+final.survey$distriution_funding_6_10_other<-p3.master.all$distriution_funding_6_10_other[match(final.survey$id, p3.master.all$id)]
 head(final.survey)
-dim(final.survey) 
+dim(final.survey) # 2918   64   - added 10 columns - correct
 
-
-
-
-#columns  17, 27, 50, 56, 65, 70, 75  (comment columns)
-#but need to put them in the right places
-
-
-#columns
-head()
-dim()
-final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+#columns  50, 56  (comment columns)
+final.survey$distriution_funding_11_15_other_text<-survey$distriution_funding_11_15_other_text[match(part1.view$id, survey$id)]
+final.survey$distriution_funding_6_10_other_text<-survey$distriution_funding_6_10_other_text[match(part1.view$id, survey$id)]
 head(final.survey)
-dim(final.survey) 
+dim(final.survey)
+
+#columns  57 - 59
+head(part3.change)
+dim(part3.change)  #2918
+final.survey$success_change_10yrs_fundamental<-part3.change$success_change_10yrs_fundamental[match(part3.change$id, survey.change$id)]
+final.survey$success_change_10yrs_use<-part3.change$success_change_10yrs_use[match(part3.change$id, survey.change$id)]
+final.survey$success_change_10yrs_applied<-part3.change$success_change_10yrs_applied[match(part3.change$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) #2918  44  - added 3 columns - correct
+
+#columns  60-69
+head(survey.part4)
+dim(survey.part4)    #2918
+final.survey$opinion_fundamental_important<-survey.part4$opinion_fundamental_important[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_fundamental<-survey.part4$high_priority_fundamental[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_use_inspired<-survey.part4$high_priority_use_inspired[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_applied<-survey.part4$high_priority_applied[match(survey.part4$id, survey.change$id)]
+final.survey$high_priority_no_change<-survey.part4$high_priority_no_change[match(survey.part4$id, survey.change$id)]
+final.survey$available_funding_fundamental<-survey.part4$available_funding_fundamental[match(survey.part4$id, survey.change$id)]
+final.survey$available_funding_use_inspired<-survey.part4$available_funding_use_inspired[match(survey.part4$id, survey.change$id)]
+final.survey$available_funding_applied<-survey.part4$available_funding_applied[match(survey.part4$id, survey.change$id)]
+final.survey$next_generation<-survey.part4$next_generation[match(survey.part4$id, survey.change$id)]
+head(final.survey)
+dim(final.survey) # 2918   26   - added 9 columns  - correct
+
+#columns 65, 70, 75  (comment columns)
+final.survey$high_priority_comments<-survey$high_priority_comments[match(part1.view$id, survey$id)]
+final.survey$next_generation_Comments<-survey$next_generation_Comments[match(part1.view$id, survey$id)]
+final.survey$final_comments<-survey$final_comments[match(part1.view$id, survey$id)]
+head(final.survey)
+dim(final.survey)
 
 
 
