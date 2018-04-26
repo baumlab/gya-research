@@ -657,20 +657,55 @@ res.port.dev$majority_past <- ifelse((res.port.dev$percent_Use_inspired_Research
 
 head(res.port.dev)
 
+#save as csv
+write.csv(res.port.dev, file = "data/developing_research_direction_change.csv", row.names = FALSE)
+
+#now aggregate
 pastmajor <- aggregate(gender ~ majority_past, res.port.dev, length)
 pastmajor
-colnames(pastmajor) <- c("major.fund", "gender")
+# change the column names so they can be joined
+colnames(pastmajor) <- c("major.research", "gender")
 pastmajor
+# add in basic colors for now  - just going to do past and current
+pastmajor$color <- "darkturquoise"
+pastmajor
+
 currentmajor <- aggregate(gender ~ majority_current, res.port.dev, length)
 currentmajor
-colnames(currentmajor) <- c("major.fund", "gender")
+colnames(currentmajor) <- c("major.research", "gender")
 currentmajor
-
+# add in basic colors for now  - just going to do past and current
+currentmajor$color <- "paleturquoise"
+currentmajor
+# join them 
 majority <- full_join(pastmajor, currentmajor)
 majority
 
 
-ggplot(majority, aes(major.fund, gender)) + geom_bar(stat='identity')
+
+# change the order 
+str(majority$major.research)
+majority$major.research <- as.factor(majority$major.research)
+levels(majority$major.research)
+majority$major.research <- factor(majority$major.research, levels(majority$major.research)[c(6,5,8,7,11,10,9,2,1,4,3)])
+
+# graph the aggregates
+
+#pdf(file="figures/developing/4.3.3_ResearchProportion_DirectionChange.pdf", width = 11, height= 7)
+
+ggplot(majority, aes(major.research, gender, fill = color)) + geom_bar(stat='identity')  + labs(x = "Majority of type of research", y = "Number of responses", title = "Respondent's major proportion of research type\n(Developing countries)") + guides(fill =FALSE) +
+  theme(axis.text.x = element_text(angle = 90), plot.title = element_text(hjust = 0.5))
+
+#dev.off()
+
+#what about graphing the individuals and their switch
+head(res.port.dev)
+
+res.port.dev.long <- gather(res.port.dev, time, what, - Location, -nation, -id, -Country, -Country_work, -gender, -what_participant_group, -field_research, -total_research, -percent_Applied_Research_current, -percent_Applied_Research_past, -percent_Fundamental_Research_past, -percent_fundemental_research_current, -percent_Use_inspired_Research_current, -percent_Use_inspired_Research_past, -changed)
+
+head(res.port.dev.long)
+
+#hmm not sure right now
 
 ```
 

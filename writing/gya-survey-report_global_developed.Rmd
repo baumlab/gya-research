@@ -535,7 +535,6 @@ grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 #dev.off()
 ```
 
-
 ```{r, echo=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
 #selecting for developed countries
 research.change.devp<-research.change[research.change$nation%in% developed,]
@@ -589,6 +588,128 @@ grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 
 #dev.off()
 ```
+
+```{r, echo=FALSE}
+## looking to see what direction respondents research changed (when it did)
+##data frame with the research proportions data
+#selecting for developed countries
+res.devp<-research[research$nation%in% developed,]
+head(res.devp)
+dim(res.devp)     #6354  11
+
+##data frame with whether or not they changed 
+#selecting for developing nations
+research.change.devp <- research.change[research.change$nation%in% developed,]
+head(research.change.devp)
+dim(research.change.devp)   #2641 14
+
+## the data frame that has the info on the proportions of research is in the long format so that is why it is so much longer than the other data frame
+# make it not long format
+res.port.devp <- spread(res.devp, type, percent)
+head(res.port.devp)
+dim(res.port.devp)  #1059   16   - this is just the ones that had answers for both current and past research proportions (there was only one person that answered 'yes' to if their research type had changed but did not provide 'past' proportions)
+
+##add in the yes/no response to the proportions data frame using the survey id
+#remove 'no' and 'can't comment' first
+yes.devp<- research.change.devp[!research.change.devp$changed_10yrs == "No",]
+yes.devp<- yes.devp[!yes.devp$changed_10yrs == "Can't comment (new researcher)",]
+yes.devp<- yes.devp[!yes.devp$changed_10yrs == "",]
+yes.devp<- droplevels(yes.devp)
+dim(yes.devp)  # 1064 14   
+head(yes.devp)
+
+res.port.devp$changed<-yes.devp$changed_10yrs[match(res.port.devp$id, yes.devp$id)]
+head(res.port.devp)
+colnames(res.port.devp)
+str(res.port.devp)
+dim(res.port.devp)
+
+##### ok have the data - now we have to see how people's research changed
+# idea - so do a 3 axis box with one set of points for 6-10 and another for 11-15 with arrow between like in the one figure for platy
+# might be a bit busy but we will see
+# arrow between - geom path
+
+
+# or just look at what their majority was for the two time points
+head(res.port.devp)
+#add a column indicating which was the majority currently
+res.port.devp$majority_current <- "fund.current"
+head(res.port.devp)
+res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current >= 50), "app.current", res.port.devp$majority_current)
+res.port.devp$majority_current <- ifelse((res.port.devp$percent_Use_inspired_Research_current >= 50), "use.current", res.port.devp$majority_current)
+
+
+#now past
+res.port.devp$majority_past <- "fund.past"
+head(res.port.devp)
+res.port.devp$majority_past <- ifelse((res.port.devp$percent_Applied_Research_past >= 50), "app.past", res.port.devp$majority_past)
+res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past >= 50), "use.past", res.port.devp$majority_past)
+
+head(res.port.devp)
+
+#now deal with the 50%
+res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current == 50 & res.port.devp$percent_fundemental_research_current == 50), "fund.app.half.current", res.port.devp$majority_current)
+res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current == 50 & res.port.devp$percent_Use_inspired_Research_current == 50), "use.app.half.current", res.port.devp$majority_current)
+res.port.devp$majority_current <- ifelse((res.port.devp$percent_Use_inspired_Research_current == 50 & res.port.devp$percent_fundemental_research_current == 50), "fund.use.half.current", res.port.devp$majority_current)
+
+res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & res.port.devp$percent_Applied_Research_past == 50), "fund.app.half.past", res.port.devp$majority_past)
+res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & res.port.devp$percent_Use_inspired_Research_past == 50), "fund.use.half.past", res.port.devp$majority_past)
+res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past == 50 & res.port.devp$percent_Applied_Research_past == 50), "use.app.half.past", res.port.devp$majority_past)
+
+head(res.port.devp)
+
+#save as csv
+write.csv(res.port.devp, file = "data/developed_research_direction_change.csv", row.names = FALSE)
+
+#now aggregate
+pastmajor <- aggregate(gender ~ majority_past, res.port.devp, length)
+pastmajor
+# change the column names so they can be joined
+colnames(pastmajor) <- c("major.research", "gender")
+pastmajor
+# add in basic colors for now  - just going to do past and current
+pastmajor$color <- "darkturquoise"
+pastmajor
+
+currentmajor <- aggregate(gender ~ majority_current, res.port.devp, length)
+currentmajor
+colnames(currentmajor) <- c("major.research", "gender")
+currentmajor
+# add in basic colors for now  - just going to do past and current
+currentmajor$color <- "paleturquoise"
+currentmajor
+# join them 
+majority <- full_join(pastmajor, currentmajor)
+majority
+
+
+
+# change the order 
+str(majority$major.research)
+majority$major.research <- as.factor(majority$major.research)
+levels(majority$major.research)
+majority$major.research <- factor(majority$major.research, levels(majority$major.research)[c(6,5,8,7,12,11,10,9,2,1,4,3)])
+
+# graph the aggregates
+
+#pdf(file="figures/developed/4.3.3_ResearchProportion_DirectionChange.pdf", width = 11, height= 7)
+
+ggplot(majority, aes(major.research, gender, fill = color)) + geom_bar(stat='identity') + labs(x = "Majority type of research", y = "Number of responses", title = "Respondent's major proportion of research type\n(Developed countries)") + guides(fill =FALSE) +
+  theme(axis.text.x = element_text(angle = 90), plot.title = element_text(hjust = 0.5))
+
+#dev.off()
+
+#what about graphing the individuals and their switch
+head(res.port.devp)
+
+res.port.devp.long <- gather(res.port.devp, time, what, - Location, -nation, -id, -Country, -Country_work, -gender, -what_participant_group, -field_research, -total_research, -percent_Applied_Research_current, -percent_Applied_Research_past, -percent_Fundamental_Research_past, -percent_fundemental_research_current, -percent_Use_inspired_Research_current, -percent_Use_inspired_Research_past, -changed)
+
+head(res.port.devp.long)
+
+#hmm not sure right now
+
+```
+
 
 ```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
 n.gbl.devp<-survey[survey$nation%in% developed,]
