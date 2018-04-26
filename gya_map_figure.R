@@ -265,6 +265,34 @@ red <-colorRampPalette(c("#67000d","#fc9272"))
 mycols = c(brewer.pal(9,"Blues"), brewer.pal(9, "Reds"))
 
 
+#<------------------------------------------>
+# ok for now I am going to just make two maps and overlay them in photoshop
+gg <- ggplot()
+gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
+#gg <- gg + geom_map(data=nations.devlp, map=wrld, aes(map_id=nation, fill=gender),  color="#7f7f7f", size=0.25)
+#gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Responses from\ndeveloped nations")
+gg <- gg + geom_map(data=nations.dev, map=wrld, aes(map_id=nation, fill=gender),  color="#7f7f7f", size=0.25)
+gg <- gg + scale_fill_continuous(high = "#67000d", low = "#fcbba1", name="Responses from\ndeveloping nations")
+gg <- gg + coord_map()
+gg <- gg + labs(x="", y="")
+gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
+                 panel.border = element_blank(),
+                 panel.background = element_rect(fill = "transparent", colour = NA),
+                 panel.grid = element_blank(),
+                 axis.text = element_blank(),
+                 axis.ticks = element_blank(),
+                 legend.position = "bottom",
+                 legend.text = element_text(angle = 90))
+
+#pdf(file="figures/map_proper.coords_revcolor_developed.pdf", width=11, height= 7)
+pdf(file="figures/map_proper.coords_revcolor_developing.pdf", width=11, height= 7)
+#pdf(file="figures/map_proper.coords_revcolor.pdf", width=11, height= 7)
+gg
+
+dev.off()
+
+
+
 
 ##asking question
 
@@ -286,13 +314,31 @@ wrld_simpl@data$id <- wrld_simpl@data$NAME
 wrld <- fortify(wrld_simpl, region="id")
 wrld <- subset(wrld, id != "Antarctica")
 
+# 
+# gg <- ggplot()
+# gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
+# gg <- gg + geom_map(data=df, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25)
+# gg <- gg + geom_map(aes(alpha = ..responses..), fill = area) 
+# #gg <- gg + geom_map(data=na, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "blue")
+# #gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\nNorth America")
+# #gg <- gg + geom_map(data=euro, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "red")
+# #gg <- gg + scale_fill_continuous(high = "#67000d", low = "#fcbba1", name="Number of\nresponses\nEurope")
+# gg <- gg + coord_map()
+# gg <- gg + labs(x="", y="")
+# gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
+#                  panel.border = element_blank(),
+#                  panel.background = element_rect(fill = "transparent", colour = NA),
+#                  panel.grid = element_blank(),
+#                  axis.text = element_blank(),
+#                  axis.ticks = element_blank(),
+#                  legend.position = "right")
+# gg
+
 
 gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
-gg <- gg + geom_map(data=df, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25)
-gg <- gg + geom_map(aes(alpha = ..responses..), fill = area) 
-#gg <- gg + geom_map(data=na, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "blue")
-#gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\nNorth America")
+gg <- gg + geom_map(data=na, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25)
+gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\nNorth America")
 #gg <- gg + geom_map(data=euro, map=wrld, aes(map_id=country, fill=responses),  color="white", size=0.25, fill = "red")
 #gg <- gg + scale_fill_continuous(high = "#67000d", low = "#fcbba1", name="Number of\nresponses\nEurope")
 gg <- gg + coord_map()
@@ -306,6 +352,5 @@ gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = N
                  legend.position = "right")
 gg
 
-
-
-
+gg+geom_map(data = euro, map = wrld, stat = "identity", aes(map_id=country, fill = responses))+scale_fill_gradient2(high = "#67000d", low = "#fcbba1", space = "Lab", guide = "colourbar")
+gg
