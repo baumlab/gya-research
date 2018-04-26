@@ -8,7 +8,7 @@ dev.off()
 
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research")
 
-require(plyr); require(stringr); require(tidyr)
+require(plyr); require(stringr); require(tidyr); require(plyr)
 
 ## read data
 
@@ -286,7 +286,7 @@ part1$percent_Use_inspired_Research_past<-str_replace_all(part1$percent_Use_insp
 survey.type<-subset(part1, select = c("Location", "nation","id", "Country","Country_work",  "gender","what_participant_group"  , "field_research","percent_fundemental_research_current"  ,     "percent_Use_inspired_Research_current"   ,  
                                       "percent_Applied_Research_current"   ,      "percent_Fundamental_Research_past"         ,
                                       "percent_Use_inspired_Research_past"  ,       "percent_Applied_Research_past"))
-
+dim(survey.type)  #2918   14
 #survey.type<-subset(part1, select=c("Location","Country","Country_work",  "gender", "percent_fundemental_research_current", "percent_Applied_Research_current", "percent_Use_inspired_Research_current"))
 
 #fundemental<-aggregate(Location ~ percent_fundemental_research_current, survey.type, length)
@@ -317,19 +317,26 @@ survey.type$percent_Use_inspired_Research_current[survey.type$percent_Use_inspir
 survey.type$percent_Fundamental_Research_past[survey.type$percent_Fundamental_Research_past==""]<-0
 survey.type$percent_Applied_Research_past[survey.type$percent_Applied_Research_past==""]<-0
 survey.type$percent_Use_inspired_Research_past[survey.type$percent_Use_inspired_Research_past==""]<-0
-
+dim(survey.type)  #2918   14
 #remove surveys that skipped this question
+#remove if they skipped the 'past' part of the question so we can see only the the ones that changed
 survey.type.noblank<-survey.type[!is.na(survey.type$percent_Fundamental_Research_past),]
 survey.type.wvalue<-survey.type.noblank[!(survey.type.noblank$percent_Fundamental_Research_past==0 & survey.type.noblank$percent_Applied_Research_past==0 & survey.type.noblank$percent_Use_inspired_Research_past==0),]
-
+dim(survey.type.wvalue)   #1190   14   - 1728 rows removed
 #keep the empty ones to add in later
+survey.napast <- survey.type[is.na(survey.type$percent_Fundamental_Research_past),]
+dim(survey.napast)  #1726
+survey.pastblank <- survey.type.noblank[(survey.type.noblank$percent_Fundamental_Research_past==0 & survey.type.noblank$percent_Applied_Research_past==0 & survey.type.noblank$percent_Use_inspired_Research_past==0),]
+dim(survey.pastblank)  # 2  
 
-
-#remove if they skipped the 'past' part of the question so we can see only the the ones that changed
-survey.type.bothtime<-survey.type.wvalue[!is.na(survey.type.wvalue$percent_fundemental_research_current),]
-survey.type.bothtime.values<-survey.type.bothtime[!(survey.type.bothtime$percent_fundemental_research_current==0 & survey.type.bothtime$percent_Applied_Research_current==0 & survey.type.bothtime$percent_Use_inspired_Research_current==0),]
-
+#now current
+survey.type.bothtime<-survey.type.wvalue[!is.na(survey.type.wvalue$percent_fundemental_research_current),]  
+dim(survey.type.bothtime)  #1190  no rows removed
+survey.type.bothtime.values<-survey.type.bothtime[!(survey.type.bothtime$percent_fundemental_research_current==0 & survey.type.bothtime$percent_Applied_Research_current==0 & survey.type.bothtime$percent_Use_inspired_Research_current==0),]  # didnt remove any rows
+dim(survey.type.bothtime.values)  #1190
 #keep the just current ones to add back in later
+#no rows were removed from above code so nothing the save to put back in
+
 
 ## 3. Standardise % values > 100 in total
 
@@ -366,8 +373,32 @@ tail(survey.long)
 
 #saved
 
-# now need to add back in the rows that did not have answers so can add to master final dataset
+### now need to add back in the rows that did not have answers so can add to master final dataset
+survey.wide <- spread(survey.long, type, percent)
+head(survey.wide)
+dim(survey.wide)  #1190   15
+colnames(survey.wide)
 
+head(survey.napast)
+colnames(survey.wide)
+
+part1.survey.wnapast<-join_all(list(survey.wide, survey.napast), by = "id", type = "full", match = "first")
+dim(part1.survey.wnapast)  #2916   15
+head(part1.survey.wnapast)
+colnames(part1.survey.wnapast)
+n_occur <- data.frame(table(part1.survey.wnapast$id))
+dup<-n_occur[n_occur$Freq > 1,] 
+
+head(survey.pastblank)
+colnames(survey.pastblank)
+dim(survey.pastblank)  #2  14
+
+part1.survey.all<-join_all(list(part1.survey.wnapast, survey.pastblank), by = "id", type = "full", match = "first")
+dim(part1.survey.all)  #2918   15
+head(part1.survey.all)
+colnames(part1.survey.all)
+n_occur <- data.frame(table(part1.survey.all$id))
+dup<-n_occur[n_occur$Freq > 1,] 
 
 
 #### yes/no have the portions changed and why
@@ -933,18 +964,16 @@ final.survey <- survey.what
 ##each data set will be added in one by one
 
 #columns 5,6,7,9,10,11
-# head(survey.long)
-# dim(survey.long)  #7140   11    - in the long format so need to widen it
-# survey.long.wide <- spread(survey.long, type, percent)
-# head(survey.long.wide)
-# dim(survey.long.wide)   #1190   15  is only the responses that did have a change in proportion
-# ##########!!!!!!!!!nto done
-
-#<------------------------->
-#!!!!!!!!!!!!!!!!!!!!!!!!!
-# need to add in all of the answeres for this section
-#!!!!!!!!!!!!!!!!!!!!!!!!
-#<--------------------------->
+head(part1.survey.all)
+dim(part1.survey.all)  #2918
+final.survey$percent_Applied_Research_current<-part1.survey.all$percent_Applied_Research_current[match(final.survey$id, part1.survey.all$id)]
+final.survey$percent_Applied_Research_past<-part1.survey.all$percent_Applied_Research_past[match(final.survey$id, part1.survey.all$id)]
+final.survey$percent_fundemental_research_current<-part1.survey.all$percent_fundemental_research_current[match(final.survey$id, part1.survey.all$id)]
+final.survey$percent_Fundamental_Research_past<-part1.survey.all$percent_Fundamental_Research_past[match(final.survey$id, part1.survey.all$id)]
+final.survey$percent_Use_inspired_Research_current<-part1.survey.all$percent_Use_inspired_Research_current[match(final.survey$id, part1.survey.all$id)]
+final.survey$percent_Use_inspired_Research_past<-part1.survey.all$percent_Use_inspired_Research_past[match(final.survey$id, part1.survey.all$id)]
+head(final.survey)
+dim(final.survey)  #2918   16 - added 6 columns -correct
 
 #columns 8, 12-17
 head(survey.change)
@@ -956,19 +985,19 @@ final.survey$Main_reason_change_Funding_related<-survey.change$Main_reason_chang
 final.survey$Main_reason_change_Socially_related<-survey.change$Main_reason_change_Socially_related[match(final.survey$id, survey.change$id)]
 final.survey$Main_reason_change_Other<-survey.change$Main_reason_change_Other[match(final.survey$id, survey.change$id)]
 head(final.survey)
-dim(final.survey)  #2918   16   - added 6 columns which is right
+dim(final.survey)  #2918   22   - added 6 columns which is right
 
 #columns  17  (comment column)
 final.survey$Main_reason_change_Other_text<-survey$Main_reason_change_Other_text[match(part1.view$id, survey$id)]
 head(final.survey)
-dim(final.survey)
+dim(final.survey)  #2918  23 - added 1 column
 
 #column  18
 head(part1.view)
 dim(part1.view)    #2918    
 final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
 head(final.survey)
-dim(final.survey)   #2918   17   - added 1 column - correct
+dim(final.survey)   #2918   24   - added 1 column - correct
 
 #columns  19, 21
 head(part2.b.a.all)
@@ -976,14 +1005,14 @@ dim(part2.b.a.all) #2918
 final.survey$partnership_outside<-part2.b.a.all$partnership_outside[match(part2.b.a.all$id, survey.change$id)]
 final.survey$partnership_outside_before<-part2.b.a.all$partnership_outside_before[match(part2.b.a.all$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) # 2818  28 - added 2 columns - correct
+dim(final.survey) # 2818  26 - added 2 columns - correct
 
 #column 20
 head(part2.change.all)
 dim(part2.change.all)  #2918
 final.survey$partnership_change_10yrs<-part2.change.all$partnership_change_10yrs[match(part2.change.all$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) #2918   29  - added 1 column - correct
+dim(final.survey) #2918   27  - added 1 column - correct
 
 #columns  22-26
 head(part2.reason)
@@ -994,19 +1023,19 @@ final.survey$reason_partnership_change_socially<-part2.reason$reason_partnership
 final.survey$reason_partnership_change_funding<-part2.reason$reason_partnership_change_funding[match(part2.reason$id, survey.change$id)]
 final.survey$reason_partnership_change_other<-part2.reason$reason_partnership_change_other[match(part2.reason$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) # 2918   34   - added 5 columns - correct
+dim(final.survey) # 2918   32   - added 5 columns - correct
 
 #columns  27  (comment column)
 final.survey$reason_partnership_change_other_text<-survey$reason_partnership_change_other_text[match(part1.view$id, survey$id)]
 head(final.survey)
-dim(final.survey)
+dim(final.survey)   # 2918  33 - 1 column added
 
 #column 28
 head(part2.view.all)
 dim(part2.view.all) # 2918
 final.survey$view_change_partnership<-part2.view.all$view_change_partnership[match(part2.view.all$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) #2918  35  - added 1 column - correct
+dim(final.survey) #2918  34  - added 1 column - correct
 
 #columns  29 - 34
 head(part3.grants.long)
@@ -1021,7 +1050,7 @@ final.survey$external_pi_grant_6_10_applied<-part3.grants.long.wide$external_pi_
 final.survey$external_pi_grant_6_10_fundamental<-part3.grants.long.wide$external_pi_grant_6_10_fundamental[match(part3.grants.long.wide$id, survey.change$id)]
 final.survey$external_pi_grant_6_10_use<-part3.grants.long.wide$external_pi_grant_6_10_use[match(part3.grants.long.wide$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) #2918  41  - added 6 columns - correct
+dim(final.survey) #2918  40  - added 6 columns - correct
 
 #columns  35-40
 head(part3.success.all)
@@ -1033,7 +1062,7 @@ final.survey$successful_grants_6_10_fundamental<-part3.success.all$successful_gr
 final.survey$successful_grants_6_10_use<-part3.success.all$successful_grants_6_10_use[match(part3.success.all$id, survey.change$id)]
 final.survey$successful_grants_6_10_applied<-part3.success.all$successful_grants_6_10_applied[match(part3.success.all$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) #2918   50 - added 6 columns - correct
+dim(final.survey) #2918   46 - added 6 columns - correct
 
 #columns  41,42
 head(part3.prac.app)
@@ -1041,7 +1070,7 @@ dim(part3.prac.app) #2918
 final.survey$practical_applications_important_11_15<-part3.prac.app$practical_applications_important_11_15[match(part3.prac.app$id, survey.change$id)]
 final.survey$practical_applications_important_6_10<-part3.prac.app$practical_applications_important_6_10[match(part3.prac.app$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) #2918  52   - added two columns - correct
+dim(final.survey) #2918  48   - added two columns - correct
 
 #columns  43, 44
 head(part3.part)
@@ -1049,7 +1078,7 @@ dim(part3.part)  #2918
 final.survey$include_nonacademia_partners_success_11_15<-part3.part$include_nonacademia_partners_success_11_15[match(part3.part$id, survey.change$id)]
 final.survey$include_nonacademia_partners_success_6_10<-part3.part$include_nonacademia_partners_success_6_10[match(part3.part$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) #2918  54  - added two columns - correct
+dim(final.survey) #2918  50  - added two columns - correct
 
 #columns  45-56
 head(p3.master.all)
@@ -1065,13 +1094,13 @@ final.survey$distriution_funding_6_10_internal<-p3.master.all$distriution_fundin
 final.survey$distriution_funding_6_10_nongov<-p3.master.all$distriution_funding_6_10_nongov[match(final.survey$id, p3.master.all$id)]
 final.survey$distriution_funding_6_10_other<-p3.master.all$distriution_funding_6_10_other[match(final.survey$id, p3.master.all$id)]
 head(final.survey)
-dim(final.survey) # 2918   64   - added 10 columns - correct
+dim(final.survey) # 2918   60   - added 10 columns - correct
 
 #columns  50, 56  (comment columns)
 final.survey$distriution_funding_11_15_other_text<-survey$distriution_funding_11_15_other_text[match(part1.view$id, survey$id)]
 final.survey$distriution_funding_6_10_other_text<-survey$distriution_funding_6_10_other_text[match(part1.view$id, survey$id)]
 head(final.survey)
-dim(final.survey)
+dim(final.survey)  #2918   62 - 2 columns added
 
 #columns  57 - 59
 head(part3.change)
@@ -1080,7 +1109,7 @@ final.survey$success_change_10yrs_fundamental<-part3.change$success_change_10yrs
 final.survey$success_change_10yrs_use<-part3.change$success_change_10yrs_use[match(part3.change$id, survey.change$id)]
 final.survey$success_change_10yrs_applied<-part3.change$success_change_10yrs_applied[match(part3.change$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) #2918  44  - added 3 columns - correct
+dim(final.survey) #2918  65  - added 3 columns - correct
 
 #columns  60-69
 head(survey.part4)
@@ -1095,14 +1124,53 @@ final.survey$available_funding_use_inspired<-survey.part4$available_funding_use_
 final.survey$available_funding_applied<-survey.part4$available_funding_applied[match(survey.part4$id, survey.change$id)]
 final.survey$next_generation<-survey.part4$next_generation[match(survey.part4$id, survey.change$id)]
 head(final.survey)
-dim(final.survey) # 2918   26   - added 9 columns  - correct
+dim(final.survey) # 2918   74   - added 9 columns  - correct
 
 #columns 65, 70, 75  (comment columns)
 final.survey$high_priority_comments<-survey$high_priority_comments[match(part1.view$id, survey$id)]
 final.survey$next_generation_Comments<-survey$next_generation_Comments[match(part1.view$id, survey$id)]
 final.survey$final_comments<-survey$final_comments[match(part1.view$id, survey$id)]
 head(final.survey)
-dim(final.survey)
+dim(final.survey)  #2918  77  3 columns added
+
+
+
+#ok now check to make sure everything is there
+colnames(final.survey)
+
+#looks like it 
+#so now lets fix some of the column names (spelling errors - oops, making them more clear, etc)
+colnames(final.survey)[colnames(final.survey)=="percent_Applied_Research_current"]<-"percent_applied_research_current"
+colnames(final.survey)[colnames(final.survey)=="percent_Applied_Research_past"]<-"percent_applied_research_past"
+colnames(final.survey)[colnames(final.survey)=="percent_fundemental_research_current"]<-"percent_fundamental_research_current"
+colnames(final.survey)[colnames(final.survey)=="percent_Fundamental_Research_past"]<-"percent_fundamental_research_past"
+colnames(final.survey)[colnames(final.survey)=="percent_Use_inspired_Research_current"]<-"percent_use_inspired_research_current"
+colnames(final.survey)[colnames(final.survey)=="percent_Use_inspired_Research_past"]<-"percent_use_inspired_research_past"
+colnames(final.survey)[colnames(final.survey)=="Main_reason_change_interest_related"]<-"main_reason_change_interest_related"
+colnames(final.survey)[colnames(final.survey)=="Main_reason_change_Career_related"]<-"main_reason_change_career_related"
+colnames(final.survey)[colnames(final.survey)=="percent_Applied_Research_current"]<-"percent_applied_research_current"
+colnames(final.survey)[colnames(final.survey)=="Main_reason_change_Funding_related"]<-"main_reason_change_funding_related"
+colnames(final.survey)[colnames(final.survey)=="Main_reason_change_Socially_related"]<-"main_reason_change_socially_related"
+colnames(final.survey)[colnames(final.survey)=="Main_reason_change_Other"]<-"main_reason_change_other"
+colnames(final.survey)[colnames(final.survey)=="partnership_outside"]<-"partnership_outside_current"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_11_15_for_profit"]<-"distribution_funding_11_15_for_profit"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_11_15_government"]<-"distribution_funding_11_15_government"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_11_15_nongov"]<-"distribution_funding_11_15_nongov"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_11_15_other"]<-"distribution_funding_11_15_other"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_6_10_for_profit"]<-"distribution_funding_6_10_for_profit"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_6_10_government"]<-"distribution_funding_6_10_government"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_6_10_internal"]<-"distribution_funding_6_10_internal"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_6_10_nongov"]<-"distribution_funding_6_10_nongov"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_6_10_other"]<-"distribution_funding_6_10_other"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_11_15_other_text"]<-"distribution_funding_11_15_other_text"
+colnames(final.survey)[colnames(final.survey)=="distriution_funding_6_10_other_text"]<-"distribution_funding_6_10_other_text"
+colnames(final.survey)[colnames(final.survey)=="next_generation_Comments"]<-"next_generation_comments"
+
+colnames(final.survey)
+
+# save it!
+
+write.csv(final.survey, "data/gya_survey_clean_final.csv", row.names = FALSE)
 
 
 
