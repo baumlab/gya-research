@@ -629,23 +629,48 @@ dim(res.port.dev)
 # arrow between - geom path
 
 
-# or just see what the each persons majority was before and after
-fund.before <-res.port.dev[res.port.dev$percent_Fundamental_Research_past>=50,]
-head(fund.before)
+# or just look at what their majority was for the two time points
+head(res.port.dev)
+#add a column indicating which was the majority currently
+res.port.dev$majority_current <- "fund.current"
+head(res.port.dev)
+res.port.dev$majority_current <- ifelse((res.port.dev$percent_Applied_Research_current >= 50), "app.current", res.port.dev$majority_current)
+res.port.dev$majority_current <- ifelse((res.port.dev$percent_Use_inspired_Research_current >= 50), "use.current", res.port.dev$majority_current)
 
-#so either go that route or maybe
-res.port.dev.long<-gather(res.port.dev, type, percent, -Location, -nation, -id, -Country, -Country_work, -gender, -what_participant_group, -field_research, -total_research, -changed)
-head(res.port.dev.long)
 
-res.port.dev.long$majority <- "fund.current"
-head(res.port.dev.long)
-res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Applied_Research_current" & res.port.dev.long$percent >= 50), "app.current", res.port.dev.long$majority)
-res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Applied_Research_past" & res.port.dev.long$percent >= 50), "app.past", res.port.dev.long$majority)
-res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Use_inspired_Research_current" & res.port.dev.long$percent >= 50), "use.current", res.port.dev.long$majority)
-res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Use_inspired_Research_past" & res.port.dev.long$percent >= 50), "use.past", res.port.dev.long$majority)
-res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Fundamental_Research_past" & res.port.dev.long$percent >= 50), "fund.past", res.port.dev.long$majority)
-head(res.port.dev.long)
+#now past
+res.port.dev$majority_past <- "fund.past"
+head(res.port.dev)
+res.port.dev$majority_past <- ifelse((res.port.dev$percent_Applied_Research_past >= 50), "app.past", res.port.dev$majority_past)
+res.port.dev$majority_past <- ifelse((res.port.dev$percent_Use_inspired_Research_past >= 50), "use.past", res.port.dev$majority_past)
 
+head(res.port.dev)
+
+#now deal with the 50%
+res.port.dev$majority_current <- ifelse((res.port.dev$percent_Applied_Research_current == 50 & res.port.dev$percent_fundemental_research_current == 50), "fund.app.half.current", res.port.dev$majority_current)
+res.port.dev$majority_current <- ifelse((res.port.dev$percent_Applied_Research_current == 50 & res.port.dev$percent_Use_inspired_Research_current == 50), "use.app.half.current", res.port.dev$majority_current)
+res.port.dev$majority_current <- ifelse((res.port.dev$percent_Use_inspired_Research_current == 50 & res.port.dev$percent_fundemental_research_current == 50), "fund.use.half.current", res.port.dev$majority_current)
+
+res.port.dev$majority_past <- ifelse((res.port.dev$percent_Fundamental_Research_past == 50 & res.port.dev$percent_Applied_Research_past == 50), "fund.app.half.past", res.port.dev$majority_past)
+res.port.dev$majority_past <- ifelse((res.port.dev$percent_Fundamental_Research_past == 50 & res.port.dev$percent_Use_inspired_Research_past == 50), "fund.use.half.past", res.port.dev$majority_past)
+res.port.dev$majority_past <- ifelse((res.port.dev$percent_Use_inspired_Research_past == 50 & res.port.dev$percent_Applied_Research_past == 50), "use.app.half.past", res.port.dev$majority_past)
+
+head(res.port.dev)
+
+pastmajor <- aggregate(gender ~ majority_past, res.port.dev, length)
+pastmajor
+colnames(pastmajor) <- c("major.fund", "gender")
+pastmajor
+currentmajor <- aggregate(gender ~ majority_current, res.port.dev, length)
+currentmajor
+colnames(currentmajor) <- c("major.fund", "gender")
+currentmajor
+
+majority <- full_join(pastmajor, currentmajor)
+majority
+
+
+ggplot(majority, aes(major.fund, gender)) + geom_bar(stat='identity')
 
 ```
 
