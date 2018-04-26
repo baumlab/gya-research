@@ -214,11 +214,12 @@ table$class <- ifelse(table$nation%in%developed, "Developed", "Developing")
 
 # change column names
 tablenames <- c("Country", "Number of Responses", "OECD Category", "Collapsed Category")
-colnames(table)<-tablenames
-table
+table.final<-table
+colnames(table.final)<-tablenames
+table.final
 
 #save csv
-write.csv(table, "data/category_&_responses_table.csv")
+write.csv(table.final, "data/category_&_responses_table.csv")
 
 
 ################!!!!!!!!!!!!!!!!!!!!######################
@@ -988,52 +989,52 @@ head(final.survey)
 dim(final.survey)  #2918   22   - added 6 columns which is right
 
 #columns  17  (comment column)
-final.survey$Main_reason_change_Other_text<-survey$Main_reason_change_Other_text[match(part1.view$id, survey$id)]
+final.survey$Main_reason_change_Other_text<-survey$Main_reason_change_Other_text[match(final.survey$id, survey$id)]
 head(final.survey)
 dim(final.survey)  #2918  23 - added 1 column
 
 #column  18
 head(part1.view)
 dim(part1.view)    #2918    
-final.survey$view_change_of_type<-part1.view$view_change_of_type[match(part1.view$id, survey.change$id)]
+final.survey$view_change_of_type<-part1.view$view_change_of_type[match(final.survey$id, part1.view$id)]
 head(final.survey)
 dim(final.survey)   #2918   24   - added 1 column - correct
 
 #columns  19, 21
 head(part2.b.a.all)
 dim(part2.b.a.all) #2918  
-final.survey$partnership_outside<-part2.b.a.all$partnership_outside[match(part2.b.a.all$id, survey.change$id)]
-final.survey$partnership_outside_before<-part2.b.a.all$partnership_outside_before[match(part2.b.a.all$id, survey.change$id)]
+final.survey$partnership_outside<-part2.b.a.all$partnership_outside[match(part2.b.a.all$id, final.survey$id)]
+final.survey$partnership_outside_before<-part2.b.a.all$partnership_outside_before[match(part2.b.a.all$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) # 2818  26 - added 2 columns - correct
 
 #column 20
 head(part2.change.all)
 dim(part2.change.all)  #2918
-final.survey$partnership_change_10yrs<-part2.change.all$partnership_change_10yrs[match(part2.change.all$id, survey.change$id)]
+final.survey$partnership_change_10yrs<-part2.change.all$partnership_change_10yrs[match(part2.change.all$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) #2918   27  - added 1 column - correct
 
 #columns  22-26
 head(part2.reason)
 dim(part2.reason)  #2918
-final.survey$reason_partnership_change_interest<-part2.reason$reason_partnership_change_interest[match(part2.reason$id, survey.change$id)]
-final.survey$reason_partnership_change_career<-part2.reason$reason_partnership_change_career[match(part2.reason$id, survey.change$id)]
-final.survey$reason_partnership_change_socially<-part2.reason$reason_partnership_change_socially[match(part2.reason$id, survey.change$id)]
-final.survey$reason_partnership_change_funding<-part2.reason$reason_partnership_change_funding[match(part2.reason$id, survey.change$id)]
-final.survey$reason_partnership_change_other<-part2.reason$reason_partnership_change_other[match(part2.reason$id, survey.change$id)]
+final.survey$reason_partnership_change_interest<-part2.reason$reason_partnership_change_interest[match(part2.reason$id, final.survey$id)]
+final.survey$reason_partnership_change_career<-part2.reason$reason_partnership_change_career[match(part2.reason$id, final.survey$id)]
+final.survey$reason_partnership_change_socially<-part2.reason$reason_partnership_change_socially[match(part2.reason$id, final.survey$id)]
+final.survey$reason_partnership_change_funding<-part2.reason$reason_partnership_change_funding[match(part2.reason$id, final.survey$id)]
+final.survey$reason_partnership_change_other<-part2.reason$reason_partnership_change_other[match(part2.reason$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) # 2918   32   - added 5 columns - correct
 
 #columns  27  (comment column)
-final.survey$reason_partnership_change_other_text<-survey$reason_partnership_change_other_text[match(part1.view$id, survey$id)]
+final.survey$reason_partnership_change_other_text<-survey$reason_partnership_change_other_text[match(final.survey$id, survey$id)]
 head(final.survey)
 dim(final.survey)   # 2918  33 - 1 column added
 
 #column 28
 head(part2.view.all)
 dim(part2.view.all) # 2918
-final.survey$view_change_partnership<-part2.view.all$view_change_partnership[match(part2.view.all$id, survey.change$id)]
+final.survey$view_change_partnership<-part2.view.all$view_change_partnership[match(part2.view.all$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) #2918  34  - added 1 column - correct
 
@@ -1043,40 +1044,40 @@ dim(part3.grants.long)  #17508    - in long format
 part3.grants.long.wide <- spread(part3.grants.long, type.grant, number)
 head(part3.grants.long.wide)
 dim(part3.grants.long.wide)  #2918  
-final.survey$external_pi_grant_11_15_applied<-part3.grants.long.wide$external_pi_grant_11_15_applied[match(part3.grants.long.wide$id, survey.change$id)]
-final.survey$external_pi_grant_11_15_fundamental<-part3.grants.long.wide$external_pi_grant_11_15_fundamental[match(part3.grants.long.wide$id, survey.change$id)]
-final.survey$external_pi_grant_11_15_use<-part3.grants.long.wide$external_pi_grant_11_15_use[match(part3.grants.long.wide$id, survey.change$id)]
-final.survey$external_pi_grant_6_10_applied<-part3.grants.long.wide$external_pi_grant_6_10_applied[match(part3.grants.long.wide$id, survey.change$id)]
-final.survey$external_pi_grant_6_10_fundamental<-part3.grants.long.wide$external_pi_grant_6_10_fundamental[match(part3.grants.long.wide$id, survey.change$id)]
-final.survey$external_pi_grant_6_10_use<-part3.grants.long.wide$external_pi_grant_6_10_use[match(part3.grants.long.wide$id, survey.change$id)]
+final.survey$external_pi_grant_11_15_applied<-part3.grants.long.wide$external_pi_grant_11_15_applied[match(part3.grants.long.wide$id, final.survey$id)]
+final.survey$external_pi_grant_11_15_fundamental<-part3.grants.long.wide$external_pi_grant_11_15_fundamental[match(part3.grants.long.wide$id, final.survey$id)]
+final.survey$external_pi_grant_11_15_use<-part3.grants.long.wide$external_pi_grant_11_15_use[match(part3.grants.long.wide$id, final.survey$id)]
+final.survey$external_pi_grant_6_10_applied<-part3.grants.long.wide$external_pi_grant_6_10_applied[match(part3.grants.long.wide$id, final.survey$id)]
+final.survey$external_pi_grant_6_10_fundamental<-part3.grants.long.wide$external_pi_grant_6_10_fundamental[match(part3.grants.long.wide$id, final.survey$id)]
+final.survey$external_pi_grant_6_10_use<-part3.grants.long.wide$external_pi_grant_6_10_use[match(part3.grants.long.wide$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) #2918  40  - added 6 columns - correct
 
 #columns  35-40
 head(part3.success.all)
 dim(part3.success.all)  #2981
-final.survey$successful_grants_11_15_fundamental<-part3.success.all$successful_grants_11_15_fundamental[match(part3.success.all$id, survey.change$id)]
-final.survey$successful_grants_11_15_use<-part3.success.all$successful_grants_11_15_use[match(part3.success.all$id, survey.change$id)]
-final.survey$successful_grants_11_15_applied<-part3.success.all$successful_grants_11_15_applied[match(part3.success.all$id, survey.change$id)]
-final.survey$successful_grants_6_10_fundamental<-part3.success.all$successful_grants_6_10_fundamental[match(part3.success.all$id, survey.change$id)]
-final.survey$successful_grants_6_10_use<-part3.success.all$successful_grants_6_10_use[match(part3.success.all$id, survey.change$id)]
-final.survey$successful_grants_6_10_applied<-part3.success.all$successful_grants_6_10_applied[match(part3.success.all$id, survey.change$id)]
+final.survey$successful_grants_11_15_fundamental<-part3.success.all$successful_grants_11_15_fundamental[match(part3.success.all$id, final.survey$id)]
+final.survey$successful_grants_11_15_use<-part3.success.all$successful_grants_11_15_use[match(part3.success.all$id, final.survey$id)]
+final.survey$successful_grants_11_15_applied<-part3.success.all$successful_grants_11_15_applied[match(part3.success.all$id, final.survey$id)]
+final.survey$successful_grants_6_10_fundamental<-part3.success.all$successful_grants_6_10_fundamental[match(part3.success.all$id, final.survey$id)]
+final.survey$successful_grants_6_10_use<-part3.success.all$successful_grants_6_10_use[match(part3.success.all$id, final.survey$id)]
+final.survey$successful_grants_6_10_applied<-part3.success.all$successful_grants_6_10_applied[match(part3.success.all$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) #2918   46 - added 6 columns - correct
 
 #columns  41,42
 head(part3.prac.app)
 dim(part3.prac.app) #2918
-final.survey$practical_applications_important_11_15<-part3.prac.app$practical_applications_important_11_15[match(part3.prac.app$id, survey.change$id)]
-final.survey$practical_applications_important_6_10<-part3.prac.app$practical_applications_important_6_10[match(part3.prac.app$id, survey.change$id)]
+final.survey$practical_applications_important_11_15<-part3.prac.app$practical_applications_important_11_15[match(part3.prac.app$id, final.survey$id)]
+final.survey$practical_applications_important_6_10<-part3.prac.app$practical_applications_important_6_10[match(part3.prac.app$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) #2918  48   - added two columns - correct
 
 #columns  43, 44
 head(part3.part)
 dim(part3.part)  #2918
-final.survey$include_nonacademia_partners_success_11_15<-part3.part$include_nonacademia_partners_success_11_15[match(part3.part$id, survey.change$id)]
-final.survey$include_nonacademia_partners_success_6_10<-part3.part$include_nonacademia_partners_success_6_10[match(part3.part$id, survey.change$id)]
+final.survey$include_nonacademia_partners_success_11_15<-part3.part$include_nonacademia_partners_success_11_15[match(part3.part$id, final.survey$id)]
+final.survey$include_nonacademia_partners_success_6_10<-part3.part$include_nonacademia_partners_success_6_10[match(part3.part$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) #2918  50  - added two columns - correct
 
@@ -1097,43 +1098,47 @@ head(final.survey)
 dim(final.survey) # 2918   60   - added 10 columns - correct
 
 #columns  50, 56  (comment columns)
-final.survey$distriution_funding_11_15_other_text<-survey$distriution_funding_11_15_other_text[match(part1.view$id, survey$id)]
-final.survey$distriution_funding_6_10_other_text<-survey$distriution_funding_6_10_other_text[match(part1.view$id, survey$id)]
+final.survey$distriution_funding_11_15_other_text<-survey$distriution_funding_11_15_other_text[match(final.survey$id, survey$id)]
+final.survey$distriution_funding_6_10_other_text<-survey$distriution_funding_6_10_other_text[match(final.survey$id, survey$id)]
 head(final.survey)
 dim(final.survey)  #2918   62 - 2 columns added
 
 #columns  57 - 59
 head(part3.change)
 dim(part3.change)  #2918
-final.survey$success_change_10yrs_fundamental<-part3.change$success_change_10yrs_fundamental[match(part3.change$id, survey.change$id)]
-final.survey$success_change_10yrs_use<-part3.change$success_change_10yrs_use[match(part3.change$id, survey.change$id)]
-final.survey$success_change_10yrs_applied<-part3.change$success_change_10yrs_applied[match(part3.change$id, survey.change$id)]
+final.survey$success_change_10yrs_fundamental<-part3.change$success_change_10yrs_fundamental[match(part3.change$id, final.survey$id)]
+final.survey$success_change_10yrs_use<-part3.change$success_change_10yrs_use[match(part3.change$id, final.survey$id)]
+final.survey$success_change_10yrs_applied<-part3.change$success_change_10yrs_applied[match(part3.change$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) #2918  65  - added 3 columns - correct
 
 #columns  60-69
 head(survey.part4)
 dim(survey.part4)    #2918
-final.survey$opinion_fundamental_important<-survey.part4$opinion_fundamental_important[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_fundamental<-survey.part4$high_priority_fundamental[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_use_inspired<-survey.part4$high_priority_use_inspired[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_applied<-survey.part4$high_priority_applied[match(survey.part4$id, survey.change$id)]
-final.survey$high_priority_no_change<-survey.part4$high_priority_no_change[match(survey.part4$id, survey.change$id)]
-final.survey$available_funding_fundamental<-survey.part4$available_funding_fundamental[match(survey.part4$id, survey.change$id)]
-final.survey$available_funding_use_inspired<-survey.part4$available_funding_use_inspired[match(survey.part4$id, survey.change$id)]
-final.survey$available_funding_applied<-survey.part4$available_funding_applied[match(survey.part4$id, survey.change$id)]
-final.survey$next_generation<-survey.part4$next_generation[match(survey.part4$id, survey.change$id)]
+final.survey$opinion_fundamental_important<-survey.part4$opinion_fundamental_important[match(survey.part4$id, final.survey$id)]
+final.survey$high_priority_fundamental<-survey.part4$high_priority_fundamental[match(survey.part4$id, final.survey$id)]
+final.survey$high_priority_use_inspired<-survey.part4$high_priority_use_inspired[match(survey.part4$id, final.survey$id)]
+final.survey$high_priority_applied<-survey.part4$high_priority_applied[match(survey.part4$id, final.survey$id)]
+final.survey$high_priority_no_change<-survey.part4$high_priority_no_change[match(survey.part4$id, final.survey$id)]
+final.survey$available_funding_fundamental<-survey.part4$available_funding_fundamental[match(survey.part4$id, final.survey$id)]
+final.survey$available_funding_use_inspired<-survey.part4$available_funding_use_inspired[match(survey.part4$id, final.survey$id)]
+final.survey$available_funding_applied<-survey.part4$available_funding_applied[match(survey.part4$id, final.survey$id)]
+final.survey$next_generation<-survey.part4$next_generation[match(survey.part4$id, final.survey$id)]
 head(final.survey)
 dim(final.survey) # 2918   74   - added 9 columns  - correct
 
 #columns 65, 70, 75  (comment columns)
-final.survey$high_priority_comments<-survey$high_priority_comments[match(part1.view$id, survey$id)]
-final.survey$next_generation_Comments<-survey$next_generation_Comments[match(part1.view$id, survey$id)]
-final.survey$final_comments<-survey$final_comments[match(part1.view$id, survey$id)]
+final.survey$high_priority_comments<-survey$high_priority_comments[match(final.survey$id, survey$id)]
+final.survey$next_generation_Comments<-survey$next_generation_Comments[match(final.survey$id, survey$id)]
+final.survey$final_comments<-survey$final_comments[match(final.survey$id, survey$id)]
 head(final.survey)
 dim(final.survey)  #2918  77  3 columns added
 
 
+#add OCED category
+table
+final.survey$OCED_category<-table$oecd[match(final.survey$nation, table$nation)]
+colnames(final.survey)
 
 #ok now check to make sure everything is there
 colnames(final.survey)
