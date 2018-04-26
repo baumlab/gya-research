@@ -619,13 +619,32 @@ head(yes.dev)
 
 res.port.dev$changed<-yes.dev$changed_10yrs[match(res.port.dev$id, yes.dev$id)]
 head(res.port.dev)
+colnames(res.port.dev)
+str(res.port.dev)
+dim(res.port.dev)
 
 ##### ok have the data - now we have to see how people's research changed
+# idea - so do a 3 axis box with one set of points for 6-10 and another for 11-15 with arrow between like in the one figure for platy
+# might be a bit busy but we will see
+# arrow between - geom path
 
 
+# or just see what the each persons majority was before and after
+fund.before <-res.port.dev[res.port.dev$percent_Fundamental_Research_past>=50,]
+head(fund.before)
 
+#so either go that route or maybe
+res.port.dev.long<-gather(res.port.dev, type, percent, -Location, -nation, -id, -Country, -Country_work, -gender, -what_participant_group, -field_research, -total_research, -changed)
+head(res.port.dev.long)
 
-
+res.port.dev.long$majority <- "fund.current"
+head(res.port.dev.long)
+res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Applied_Research_current" & res.port.dev.long$percent >= 50), "app.current", res.port.dev.long$majority)
+res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Applied_Research_past" & res.port.dev.long$percent >= 50), "app.past", res.port.dev.long$majority)
+res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Use_inspired_Research_current" & res.port.dev.long$percent >= 50), "use.current", res.port.dev.long$majority)
+res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Use_inspired_Research_past" & res.port.dev.long$percent >= 50), "use.past", res.port.dev.long$majority)
+res.port.dev.long$majority <- ifelse((res.port.dev.long$type == "percent_Fundamental_Research_past" & res.port.dev.long$percent >= 50), "fund.past", res.port.dev.long$majority)
+head(res.port.dev.long)
 
 
 ```
