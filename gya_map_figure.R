@@ -9,7 +9,7 @@ library(RColorBrewer)
 library(maptools)
 library(mapproj)
 library(rgdal)
-
+library(rgeos)
 
 
 #map.world <- map_data(map="world")
@@ -185,9 +185,11 @@ gg
 #dev.off()
 
 
-
-
+########################################################################################
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #<---------------Now going to make the map with two different scales ------------------>
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+########################################################################################
 #one scale with developing and one with developed
 
 #re read in full data
@@ -215,30 +217,13 @@ developing<-c("Brazil","South Africa", "Mauritius", "Uruguay","Turkey","Indonesi
               "China", "Serbia",  "Kenya",  "Central African Republic", "Chad", "Chile","Argentina",  "Mexico", "Nepal","Benin", "Ethiopia","Lesotho", "Nicaragua","Philippines", "Colombia",                
               "Mozambique", "Dominican Republic", "Lebanon","Gabon", "Cameroon", "Uganda", "Iran", "Sudan", "Thailand", "Marshall Islands" ) 
 nations$class <- ifelse(nations$nation%in%developed, "developed", "developing")
+head(nations)
 
-
-# now do it with the color scheme switched - darker = more responses
 gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
-gg <- gg + geom_map(data=nations.devlp, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25, fill = "blue")
-gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\ndeveloped nations")
-gg <- gg + geom_map(data=nations.dev, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25, fill = "red")
-gg <- gg + scale_color_identity(high = "#67000d", low = "#fcbba1", name="Number of\nresponses\ndeveloping nations")
-
-gg <- gg + geom_map(data=nations.devlp, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
-gg <- gg + scale_fill_continuous(aes = "developed", high = "#132B43", low = "#56B1F7", name="Number of\nresponses\ndeveloped nations")
-gg <- gg + geom_map(data=nations.dev, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
-gg <- gg + scale_fill_continuous(aes = "developing", high = "#67000d", low = "#fb6a4a", name="Number of\nresponses\ndeveloping nations")
-
-
-#   gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender), fill = class , color="white", size=0.25)
-#  # gg <- gg + scale_color_manual(values = c())
-# gg <- gg + scale_fill_continuous(values= c(blue, red), name="Number of\nresponses")
-
-
-#gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
-#gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses")
-#gg <- gg + scale_fill_continuous(values = , name="Number of\nresponses")
+gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=class, alpha = gender),  color="white", size=0.25) 
+gg <- gg + scale_fill_manual(values = c("#132B43", "#67000d")) 
+gg <- gg + scale_alpha_continuous(range = c(0.4, 1))
 gg <- gg + coord_map()
 gg <- gg + labs(x="", y="")
 gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
@@ -249,21 +234,48 @@ gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = N
                  axis.ticks = element_blank(),
                  legend.position = "right")
 
-#pdf(file="figures/map_proper.coords_revcolor.pdf", width=11, height= 7)
+#pdf(file="figures/map_proper.coords_revcolor_both_alpha.pdf", width=11, height= 7)
 gg
 
 #dev.off()
 
 
 
-# new attempt
+# ggplot() +
+#   geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat),      fill="white", color="#7f7f7f", size=0.25) +
+#   geom_map(data=df, map=wrld, aes(map_id=country, fill=area, alpha = responses),  color="white", size=0.25) +
+#   scale_fill_manual(values = c("#132B43", "#67000d")) + 
+#   scale_alpha_continuous(range = c(0.3, 1)) + 
+#   coord_map() +
+#   labs(x="", y="") +
+#   theme(plot.background = element_rect(fill = "transparent", colour = NA),
+#         panel.border = element_blank(),
+#         panel.background = element_rect(fill = "transparent", colour = NA),
+#         panel.grid = element_blank(),
+#         axis.text = element_blank(),
+#         axis.ticks = element_blank(),
+#         legend.position = "right"
 
-devlp_color = brewer.pal(9, "Blues")
-blue<- colorRampPalette(c("#132B43", "#56B1F7"))
-dev_color = brewer.pal(9, "Reds")
-red <-colorRampPalette(c("#67000d","#fc9272"))
-mycols = c(brewer.pal(9,"Blues"), brewer.pal(9, "Reds"))
 
+# gg <- gg + geom_map(data=nations.devlp, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25, fill = "blue")
+# gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses\ndeveloped nations")
+# gg <- gg + geom_map(data=nations.dev, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25, fill = "red")
+# gg <- gg + scale_color_identity(high = "#67000d", low = "#fcbba1", name="Number of\nresponses\ndeveloping nations")
+# 
+# gg <- gg + geom_map(data=nations.devlp, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+# gg <- gg + scale_fill_continuous(aes = "developed", high = "#132B43", low = "#56B1F7", name="Number of\nresponses\ndeveloped nations")
+# gg <- gg + geom_map(data=nations.dev, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+# gg <- gg + scale_fill_continuous(aes = "developing", high = "#67000d", low = "#fb6a4a", name="Number of\nresponses\ndeveloping nations")
+
+
+#   gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender), fill = class , color="white", size=0.25)
+#  # gg <- gg + scale_color_manual(values = c())
+# gg <- gg + scale_fill_continuous(values= c(blue, red), name="Number of\nresponses")
+
+
+#gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=gender),  color="white", size=0.25)
+#gg <- gg + scale_fill_continuous(high = "#132B43", low = "#56B1F7", name="Number of\nresponses")
+#gg <- gg + scale_fill_continuous(values = , name="Number of\nresponses")
 
 #<------------------------------------------>
 # ok for now I am going to just make two maps and overlay them in photoshop
