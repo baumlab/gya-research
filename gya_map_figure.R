@@ -219,11 +219,12 @@ developing<-c("Brazil","South Africa", "Mauritius", "Uruguay","Turkey","Indonesi
 nations$class <- ifelse(nations$nation%in%developed, "developed", "developing")
 head(nations)
 
+
 gg <- ggplot()
 gg <- gg + geom_map(data=wrld, map=wrld, aes(map_id=id, x=long, y=lat), fill="white", color="#7f7f7f", size=0.25)
 gg <- gg + geom_map(data=nations, map=wrld, aes(map_id=nation, fill=class, alpha = gender),  color="white", size=0.25) 
-gg <- gg + scale_fill_manual(values = c("#132B43", "#67000d")) 
-gg <- gg + scale_alpha_continuous(range = c(0.4, 1))
+gg <- gg + scale_fill_manual(values = c("#132B43", "#67000d"), name = "") 
+gg <- gg + scale_alpha_continuous(range = c(0.4, 1), name = "Responses")
 gg <- gg + coord_map()
 gg <- gg + labs(x="", y="")
 gg <- gg + theme(plot.background = element_rect(fill = "transparent", colour = NA),
