@@ -100,7 +100,7 @@ n.ssh <- n.gbl.dev[n.gbl.dev$field_research=="Social Science / Humanities",]
 percent.ssh <- ((dim(n.ssh)[1])/(dim(n.gbl.dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable);require(dplyr)
 
 
 ```
@@ -657,6 +657,14 @@ res.port.dev$majority_past <- ifelse((res.port.dev$percent_Use_inspired_Research
 
 head(res.port.dev)
 
+# now add in a column with the applied + use added together and negative
+res.port.dev$app.use.fund.current <- ifelse((res.port.dev$majority_current == "use.current" | res.port.dev$majority_current == "app.current"), (-(res.port.dev$percent_Use_inspired_Research_current  + res.port.dev$percent_Applied_Research_current)), res.port.dev$percent_fundemental_research_current)
+
+res.port.dev$app.use.fund.past <- ifelse((res.port.dev$majority_past == "use.past" | res.port.dev$majority_past == "app.past"), (-(res.port.dev$percent_Use_inspired_Research_past  + res.port.dev$percent_Applied_Research_past)), res.port.dev$percent_Fundamental_Research_past)
+
+head(res.port.dev)
+
+
 #save as csv
 write.csv(res.port.dev, file = "data/developing_research_direction_change.csv", row.names = FALSE)
 
@@ -697,6 +705,45 @@ ggplot(majority, aes(major.research, gender, fill = color)) + geom_bar(stat='ide
   theme(axis.text.x = element_text(angle = 90), plot.title = element_text(hjust = 0.5))
 
 #dev.off()
+
+
+# do a plot with centraly y axis
+#need to make it long version 
+
+res.port.dev.long <- gather(res.port.dev, curr.past, overall.per, -Location, -nation, -id, -Country, -Country_work, -gender, -what_participant_group, -field_research, -total_research, -percent_Applied_Research_current, -percent_Applied_Research_past, -percent_Fundamental_Research_past, -percent_fundemental_research_current, -percent_Use_inspired_Research_current, -percent_Use_inspired_Research_past, -changed, -majority_current, -majority_past)
+
+head(res.port.dev.long)
+
+# add colours to res.plot
+mycols<-c("blue", "red")
+mycols<-as.data.frame(mycols)
+mycols$curr.past<-c("app.use.fund.current", "app.use.fund.past")
+res.port.dev.long$col<-mycols$mycols[match(res.port.dev.long$curr.past, mycols$curr.past)]
+#res.port.dev.long$col<-factor(res.port.dev.long$col, levels(res.port.dev.long$col)[c(3,1,4,2,6,5)])
+mycols<-as.character(unique(res.port.dev.long$col))
+colScale <- scale_fill_manual(name = "curr.past",values =mycols)
+
+#!!!!!!!!!!!!!!!!  dont think it is working right !!!!!!!!!!!!!!!!
+
+ggplot() + geom_histogram(data = 
+                          res.port.dev.long[res.port.dev.long$overall.per < 0, ],
+                          aes(x = overall.per, y = -..count.., fill = curr.past), binwidth=10, bins=seq(0, 100, 10), position='dodge') +
+           geom_histogram(data = 
+                          res.port.dev.long[res.port.dev.long$overall.per > 0, ],
+                          aes(x = overall.per, y = ..count.., fill = curr.past),  binwidth=10, bins=seq(0, 100, 10), position='dodge') +colScale
+# 
+# ggplot(res.plot, aes(percent, fill=ID)) +
+#     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+#     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+#     labs(x="Percent", y="Number of responses", title="Reseach type by proportion (Developing nations)")+
+#     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
+#           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
+#           strip.text.y = element_text(size=12, face="bold", color="black"),
+#           strip.background = element_rect(colour="white", fill="white"),
+#           legend.position=c(0.7, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
+#           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) + colScale + 
+#   scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,65),breaks=c(0,10,20,30,40,50,60))
+
 
 #what about graphing the individuals and their switch
 head(res.port.dev)
