@@ -667,10 +667,13 @@ res.port.devp$curr_past.fund <- (res.port.devp$percent_fundemental_research_curr
 
 head(res.port.devp)
 
-# going to average the current - past columns for each to plot
+# going to calculate average and sd for the current - past columns for each to plot
 res.port.devp$app_mean <- mean(res.port.devp$curr_past.app)
+res.port.devp$app_sd <- sd(res.port.devp$curr_past.app)
 res.port.devp$use_mean <- mean(res.port.devp$curr_past.use)
+res.port.devp$use_sd <- sd(res.port.devp$curr_past.use)
 res.port.devp$fund_mean <- mean(res.port.devp$curr_past.fund)
+res.port.devp$fund_sd <- sd(res.port.devp$curr_past.fund)
 
 head(res.port.devp)
 
@@ -688,10 +691,18 @@ head(change)
 colnames(change) <- c("app_mean" = "Applied", "use_mean" = "Use-inspired", "fund_mean" = "Fundamental")
 
 change.long <- gather(change, type, aver)
+#change.long <- gather(change.long, type_sd, sd, -type, -aver)
 head(change.long)
 dim(change.long)
 change.long <- change.long[-c(2:1059, 1061:3176),]
 change.long
+
+#add in sd
+change.long$sd <- 1
+change.long$sd <- ifelse(change.long$type == "Applied", res.port.devp$app_sd, change.long$sd)
+change.long$sd <- ifelse(change.long$type == "Use-inspired", res.port.devp$use_sd, change.long$sd)
+change.long$sd <- ifelse(change.long$type == "Fundamental", res.port.devp$fund_sd, change.long$sd)
+head(change.long)
 
 # change the order 
 str(change.long$type)
@@ -713,9 +724,11 @@ mycols<-as.character(unique(change.long$col))
 #pdf(file="figures/developed/4.3.4_ResearchProportion_DirectionChange.pdf", width = 11, height= 7)
 #pdf(file="figures/developed/4.3.4_ResearchProportion_DirectionChange_coordflip.pdf", width = 11, height= 7)
 
-ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +scale_fill_manual(values = mycols)+ guides(fill = FALSE) +
+ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymax = aver+sd, ymin = aver-sd))+
+  scale_fill_manual(values = mycols)+ guides(fill = FALSE) +
   labs(x = "", y = "Average change", fill = "", title ="Reseach type change (Developed nations)") +
-  scale_y_continuous(breaks = seq(-20,10, 2))+
+  scale_y_continuous(breaks = seq(-45,35, 5))+
   theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
           strip.text.y = element_text(size=12, face="bold", color="black"),

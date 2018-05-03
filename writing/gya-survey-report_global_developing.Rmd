@@ -672,10 +672,14 @@ res.port.dev$curr_past.fund <- (res.port.dev$percent_fundemental_research_curren
 
 head(res.port.dev)
 
-# going to average the current - past columns for each to plot
+# going to calculate average and sd for the current - past columns for each to plot
 res.port.dev$app_mean <- mean(res.port.dev$curr_past.app)
+res.port.dev$app_sd <- sd(res.port.dev$curr_past.app)
 res.port.dev$use_mean <- mean(res.port.dev$curr_past.use)
+res.port.dev$use_sd <- sd(res.port.dev$curr_past.use)
 res.port.dev$fund_mean <- mean(res.port.dev$curr_past.fund)
+res.port.dev$fund_sd <- sd(res.port.dev$curr_past.fund)
+
 
 head(res.port.dev)
 
@@ -697,6 +701,13 @@ head(change.long)
 change.long <- change.long[-c(2:130, 132:389),]
 change.long
 
+#add in sd
+change.long$sd <- 1
+change.long$sd <- ifelse(change.long$type == "Applied", res.port.dev$app_sd, change.long$sd)
+change.long$sd <- ifelse(change.long$type == "Use-inspired", res.port.dev$use_sd, change.long$sd)
+change.long$sd <- ifelse(change.long$type == "Fundamental", res.port.dev$fund_sd, change.long$sd)
+head(change.long)
+
 # change the order 
 str(change.long$type)
 change.long$type <- as.factor(change.long$type)
@@ -717,7 +728,10 @@ mycols<-as.character(unique(change.long$col))
 #pdf(file="figures/developing/4.3.4_ResearchProportion_DirectionChange.pdf", width = 11, height= 7)
 #pdf(file="figures/developing/4.3.4_ResearchProportion_DirectionChange_coordflip.pdf", width = 11, height= 7)
 
-ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +scale_fill_manual(values = mycols)+ guides(fill = FALSE) +
+ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymax = aver+sd, ymin = aver-sd)) +
+  scale_fill_manual(values = mycols)+ guides(fill = FALSE) +
+  scale_y_continuous(breaks = seq(-35, 30, 5)) +
   labs(x = "", y = "Average change", fill = "", title ="Reseach type change (Developing nations)") +
   theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
@@ -725,9 +739,9 @@ ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +
           strip.background = element_rect(colour="white", fill="white"),
            axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), 
-        title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) + coord_flip()
+        title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) #+ coord_flip()
 
-#dev.off()
+dev.off()
 
 #<---------------------------->
 #########now aggregate
