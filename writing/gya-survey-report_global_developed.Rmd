@@ -658,9 +658,76 @@ res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Resear
 
 head(res.port.devp)
 
+
+
+# add in column with current - past for each type
+res.port.devp$curr_past.app <- (res.port.devp$percent_Applied_Research_current - res.port.devp$percent_Applied_Research_past)
+res.port.devp$curr_past.use <- (res.port.devp$percent_Use_inspired_Research_current - res.port.devp$percent_Use_inspired_Research_past)
+res.port.devp$curr_past.fund <- (res.port.devp$percent_fundemental_research_current - res.port.devp$percent_Fundamental_Research_past)
+
+head(res.port.devp)
+
+# going to average the current - past columns for each to plot
+res.port.devp$app_mean <- mean(res.port.devp$curr_past.app)
+res.port.devp$use_mean <- mean(res.port.devp$curr_past.use)
+res.port.devp$fund_mean <- mean(res.port.devp$curr_past.fund)
+
+head(res.port.devp)
+
 #save as csv
 write.csv(res.port.devp, file = "data/developed_research_direction_change.csv", row.names = FALSE)
 
+
+#<--------------------------------->
+###################################
+# now going to plot the means of the changes 
+
+change <- subset(res.port.devp, select = c("app_mean", "use_mean", "fund_mean"))
+head(change)
+
+colnames(change) <- c("app_mean" = "Applied", "use_mean" = "Use-inspired", "fund_mean" = "Fundamental")
+
+change.long <- gather(change, type, aver)
+head(change.long)
+dim(change.long)
+change.long <- change.long[-c(2:1059, 1061:3176),]
+change.long
+
+# change the order 
+str(change.long$type)
+change.long$type <- as.factor(change.long$type)
+levels(change.long$type)
+change.long$type <- factor(change.long$type, levels(change.long$type)[c(2,3,1)])
+
+
+# add colours 
+mycols<-c('#e31a1c','#33a02c', '#1f78b4')   #'#a6cee3', tried -'#fb9a99', '#e31a1c','#b2df8a'
+mycols<-as.data.frame(mycols)
+mycols$type<-levels(change.long$type)
+change.long$col<-mycols$mycols[match(change.long$type, mycols$type)]
+#change.long$col<-factor(change.long$col, levels(change.long$col)[c(1,2,3)])
+mycols<-as.character(unique(change.long$col))
+#colScale <- scale_fill_manual(name = "Type",values =mycols)
+#table(res.plot$type, res.plot$time, res.plot$col)
+
+#pdf(file="figures/developed/4.3.4_ResearchProportion_DirectionChange.pdf", width = 11, height= 7)
+#pdf(file="figures/developed/4.3.4_ResearchProportion_DirectionChange_coordflip.pdf", width = 11, height= 7)
+
+ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +scale_fill_manual(values = mycols)+ guides(fill = FALSE) +
+  labs(x = "", y = "Average change", fill = "", title ="Reseach type change (Developed nations)") +
+  scale_y_continuous(breaks = seq(-20,10, 2))+
+  theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
+          strip.text.y = element_text(size=12, face="bold", color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+           axis.title.y=element_text(size=11),
+          axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), 
+        title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) #+ coord_flip()
+
+#dev.off()
+
+#<--------------------------------->
+###################################
 #now aggregate
 pastmajor <- aggregate(gender ~ majority_past, res.port.devp, length)
 pastmajor
