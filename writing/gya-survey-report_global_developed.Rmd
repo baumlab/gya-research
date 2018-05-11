@@ -816,8 +816,9 @@ head(res.port.devp)
 
 #now select for the ones that had 25% + decrease in Fundamental
 str(res.port.devp)
+dim(res.port.devp)
 fund.dec <- res.port.devp[(res.port.devp$curr_past.fund <= -25),]
-
+dim(fund.dec)  # only 353 had a 25% decrease in fundamental
 head(fund.dec)
 
 
@@ -831,9 +832,9 @@ fund.dec.view.change<-droplevels(fund.dec.view.change)
 head(fund.dec.view.change)
 
 #now select for just the ones that had a decrease in fund as above
-
+dim(fund.dec.view.change)
 fund.dec.view.change <- fund.dec.view.change[fund.dec.view.change$id %in% fund.dec$id,]
-
+dim(fund.dec.view.change)
 head(fund.dec.view.change)
 dim(fund.dec.view.change)
 dim(fund.dec.view.change)
