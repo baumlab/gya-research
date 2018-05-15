@@ -850,13 +850,13 @@ fund.dec.view$view_change_of_type<-factor(fund.dec.view$view_change_of_type,
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
-#pdf(file="figures/developed/4.5.2_ViewFieldChange_FundDecrease.pdf", width = 11, height= 7)
+pdf(file="figures/developed/4.5.2_ViewFieldChange_FundDecrease.pdf", width = 11, height= 7)
 
 ggplot(fund.dec.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type\nwhen Fundamental research decreased by 25%+ (developed nations)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,108))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type\nwhen Fundamental research decreased by 25%+ (developed nations)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,108))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.4,103, label= sum(fund.dec.view$gender), size=5) +annotate('text', 5.15,103, label= "n = ", size=5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
-#dev.off()
+dev.off()
 
 
 #### now look at why they changed
