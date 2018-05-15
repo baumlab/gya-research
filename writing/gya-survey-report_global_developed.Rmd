@@ -896,6 +896,176 @@ ggplot(sum.fund.dec, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')
 ```
 
 
+```{r}
+### now do it for the increase in Fundamental
+
+#now select for the ones that had 25% + increase in Fundamental
+head(res.port.devp)
+fund.inc <- res.port.devp[(res.port.devp$curr_past.fund >= 25),]
+
+head(fund.inc)
+dim(fund.inc)
+
+#now read in data that has the view on change and why
+head(n.gbl.devp)
+colnames(n.gbl.devp)
+fund.inc.view.change <- n.gbl.devp[,c(4,12:18, 74, 77:79)]
+fund.inc.view.change<-fund.inc.view.change[!fund.inc.view.change$view_change_of_type=="",]
+fund.inc.view.change<-droplevels(fund.inc.view.change)
+head(fund.inc.view.change)
+
+#now select for just the ones that had a decrease in fund as above
+
+fund.inc.view.change <- fund.inc.view.change[fund.inc.view.change$id %in% fund.inc$id,]
+
+head(fund.inc.view.change)
+dim(fund.inc)
+dim(fund.inc.view.change)
+# One has 42 and the other 41 so one of the surveys must not of answered the why and view questions
+
+#now follow the same code to make the figure as in the next code chunk (figure 4.5)
+fund.inc.view<-aggregate(gender~ view_change_of_type, fund.inc.view.change, length)
+fund.inc.view
+fund.inc.view <- droplevels(fund.inc.view)
+# change order of the levels
+fund.inc.view$view_change_of_type<-factor(fund.inc.view$view_change_of_type, 
+                                        levels(fund.inc.view$view_change_of_type)[c(5,3,1,2,4)])
+
+myColors.view<-(brewer.pal(9, "Blues"))
+myColors.view<-myColors.view[c(4,4,4,4,4)]
+
+#pdf(file="figures/developed/4.5.3_ViewFieldChange_increaseFund.pdf", width = 11, height= 7)
+
+ggplot(fund.inc.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type when\nFundamental research increased by 25%+ (Developed nations)")+geom_text(aes(label=gender), vjust=-0.5, size=4)+scale_y_continuous(expand = c(0, 0), limits = c(0,24))+scale_fill_manual(name='view_change_of_type', values=myColors.view)+annotate('text', 5.45,22, label= sum(fund.inc.view$gender), size=5) +annotate('text', 5.3,22, label= "n = ", size=5)
+
+#dev.off()
+
+
+#### now look at why they changed
+####reason for change  
+fund.inc.change<-subset(fund.inc.view.change, select=c("nation", "gender", "Main_reason_change_interest_related",
+                                       "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
+
+# switch to long format
+require(tidyr)
+fund.inc.change.long<-gather(fund.inc.change, reason.change.fund.inc, yes, -nation, -gender)
+# using table to count cases of each category
+sum.fund.inc<-data.frame(table(fund.inc.change.long$reason.change.fund.inc, fund.inc.change.long$yes))
+#remove non-response
+sum.fund.inc<-sum.fund.inc[!sum.fund.inc$Var1=="",]
+sum.fund.inc
+
+sum.fund.inc$Var1<-revalue(sum.fund.inc$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
+# change order of the levels
+sum.fund.inc$Var1<-factor(sum.fund.inc$Var1,levels(sum.fund.inc$Var1)[c(2,3,1,5,4)])
+
+myColors.why<-(brewer.pal(9, "Blues"))
+myColors.why<-myColors.why[c(9, 8,7,6,5,3)]
+
+#pdf(file="figures/developed/4.4.3_ReasonForFieldChange_FundIncrease.pdf", width = 11, height= 7)
+
+ggplot(sum.fund.inc, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
+  scale_fill_manual(name = "Var1",values = myColors.why)+
+  labs(y="Number of responses", title="Reason for change in research type\nwhen Fundamental research increased by 25%+ \n(Developed nations)")+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 26))+annotate('text', 5.35,84, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+#+
+#  annotate('text', 5.45,21, label= sum(sum.fund.dec$Freq), size=5) +annotate('text', 5.25,21, label= "n = ", size=5)
+
+#dev.off()
+
+
+
+
+```
+
+```{r}
+### now do it for the increase in applied and use
+
+#now select for the ones that had 25% + increase in use or applied
+head(res.port.devp)
+app.inc<- res.port.devp[((res.port.devp$curr_past.app >= 25)|(res.port.devp$curr_past.use >= 25)),]
+
+head(app.inc)
+dim(app.inc)
+
+#now read in data that has the view on change and why
+head(n.gbl.devp)
+colnames(n.gbl.devp)
+app.inc.view.change <- n.gbl.devp[,c(4,12:18, 74, 77:79)]
+app.inc.view.change<-app.inc.view.change[!app.inc.view.change$view_change_of_type=="",]
+app.inc.view.change<-droplevels(app.inc.view.change)
+head(app.inc.view.change)
+
+#now select for just the ones that had a decrease in fund as above
+
+app.inc.view.change <- app.inc.view.change[app.inc.view.change$id %in% app.inc$id,]
+
+head(app.inc.view.change)
+dim(app.inc.view.change)
+dim(app.inc)
+# one has 342 and one has 344 so some one may not have answered the why or view questions
+
+#now follow the same code to make the figure as in the next code chunk (figure 4.5)
+app.inc.view<-aggregate(gender~ view_change_of_type, app.inc.view.change, length)
+app.inc.view
+# change order of the levels
+app.inc.view$view_change_of_type<-factor(app.inc.view$view_change_of_type, 
+                                        levels(app.inc.view$view_change_of_type)[c(5,3,1,2,4)])
+
+myColors.view<-(brewer.pal(9, "Blues"))
+myColors.view<-myColors.view[c(4,4,4,4,4,4)]
+
+#pdf(file="figures/developed/4.5.4_ViewFieldChange_increasedApp.pdf", width = 11, height= 7)
+
+ggplot(app.inc.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
+  theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type when\nUse-inspired or Applied research increased by 25%+ (Developed nations)")+geom_text(aes(label=gender), vjust=-0.5, size=4)+scale_y_continuous(expand = c(0, 0), limits = c(0,108))+scale_fill_manual(name='view_change_of_type', values=myColors.view)+annotate('text', 5.4,105, label= sum(app.inc.view$gender), size=5) +annotate('text', 5.23, 105, label= "n = ", size=5)
+
+#dev.off()
+
+
+#### now look at why they changed
+####reason for change  
+app.inc.change<-subset(app.inc.view.change, select=c("nation", "gender", "Main_reason_change_interest_related",
+                                       "Main_reason_change_Career_related","Main_reason_change_Funding_related", "Main_reason_change_Socially_related","Main_reason_change_Other"))
+
+# switch to long format
+require(tidyr)
+app.inc.change.long<-gather(app.inc.change, reason.change.app.inc, yes, -nation, -gender)
+# using table to count cases of each category
+sum.app.inc<-data.frame(table(app.inc.change.long$reason.change.app.inc, app.inc.change.long$yes))
+#remove non-response
+sum.app.inc<-sum.app.inc[!sum.app.inc$Var1=="",]
+sum.app.inc
+
+sum.app.inc$Var1<-revalue(sum.app.inc$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
+# change order of the levels
+sum.app.inc$Var1<-factor(sum.app.inc$Var1,levels(sum.app.inc$Var1)[c(2,3,1,5,4)])
+
+myColors.why<-(brewer.pal(9, "Blues"))
+myColors.why<-myColors.why[c(9, 8,7,6,5,3)]
+
+#pdf(file="figures/developed/4.4.4_ReasonForFieldChange_IncreasedApp.pdf", width = 11, height= 7)
+
+ggplot(sum.app.inc, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
+  scale_fill_manual(name = "Var1",values = myColors.why)+
+  labs(y="Number of responses", title="Reason for change in research type when\nUse-inspired or Applied research increased by 25%+ \n(Developed nations)")+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 284))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+#+
+#  annotate('text', 5.45,21, label= sum(sum.fund.dec$Freq), size=5) +annotate('text', 5.25,21, label= "n = ", size=5)
+
+#dev.off()
+
+
+```
+
+
 ```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
 n.gbl.devp<-survey[survey$nation%in% developed,]
 
