@@ -1022,8 +1022,15 @@ myColors.view<-myColors.view[c(4,4,4,4,4,4)]
 #pdf(file="figures/developed/4.5.4_ViewFieldChange_increasedApp.pdf", width = 11, height= 7)
 
 ggplot(app.inc.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
-  theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type when\nUse-inspired or Applied research increased by 25%+ (Developed nations)")+geom_text(aes(label=gender), vjust=-0.5, size=4)+scale_y_continuous(expand = c(0, 0), limits = c(0,108))+scale_fill_manual(name='view_change_of_type', values=myColors.view)+annotate('text', 5.4,105, label= sum(app.inc.view$gender), size=5) +annotate('text', 5.23, 105, label= "n = ", size=5)
+  theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
+  guides(fill=FALSE)+
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ 
+  labs(x="", y="Number of responses", title="Opinion of change in research type when\nUse-inspired or Applied research increased by 25%+ (Developed nations)")+
+  geom_text(aes(label=gender), vjust=-0.5, size=4)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,108))+
+  scale_fill_manual(name='view_change_of_type', values=myColors.view)+
+  annotate('text', 5.4,105, label= sum(app.inc.view$gender), size=5) +
+  annotate('text', 5.23, 105, label= "n = ", size=5)
 
 #dev.off()
 
