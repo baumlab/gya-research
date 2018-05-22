@@ -1,0 +1,171 @@
+---
+title: "gya-survey-report_developed&developing"
+author: "Kristina Tietjen"
+output: 
+  pdf_document: 
+    fig_caption: yes
+editor_options: 
+  chunk_output_type: console
+header-includes: 
+- \usepackage{placeins}
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+rm(list=ls())
+
+dev.off()
+
+## load packages
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(knitr)
+
+## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
+
+## load in survey data
+survey<-read.csv(file="../data/gya-without-incomplete.csv")
+#Count how many responses from  researchers
+survey.what<-read.csv(file="../data/gya-country-responses.csv")
+research<-read.csv(file="../data/gya-surveys-cleaned-research.csv")
+#research.past<-read.csv(file="data/gya-surveys-cleaned-research-past.csv")
+research.change<-read.csv(file="../data/gya-change-reason.csv")
+part4<-read.csv(file="../data/gya-survey-part4.csv")
+part2.b.a<-read.csv(file="../data/gya-part2.before.after.csv")
+part2.change<-read.csv(file="../data/gya-part2.change.csv")
+part2.reason<-read.csv(file="../data/gya-part2.reason.csv")
+part2.view<-read.csv(file="../data/gya-part2.view.csv")
+part1.view<-read.csv(file="../data/gya-part1.view.csv")
+part3.change<-read.csv(file="../data/gya-part3.change.csv")
+part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
+part3.success.long<-read.csv(file="../data/gya-part3.success.long.csv")
+part3.prac.long<-read.csv(file="../data/gya-part3.prac.long.csv")
+part3.part.long<-read.csv(file="../data/gya-part3.part.long.csv")
+p3_master.long<-read.csv(file="../data/gya-p3_master.long.csv")
+p3_master <- read.csv(file="../data/gya-p3_master.csv")
+
+
+####now for select for the developed and developing countries seperately
+
+##selecting for developed countries
+devp<-c("Canada","Australia", "Israel", "Barbados","Russia","Germany", "United Kingdom", "Netherlands", "Japan","United States", "Taiwan","New Zealand","France", "Switzerland", "Poland",              
+ "Portugal", "Italy",  "Belgium",  "Norway", "Finland", "Greece","Cyprus",  "Hungary", "Spain","Singapore", "Korea, South","Romania", "Denmark","Austria", "Sweden",                
+ "Estonia", "Malta" )
+
+developed<-survey[survey$nation%in% devp,]
+
+
+##selecting for developing countries
+dev<-c("Brazil","South Africa", "Mauritius", "Uruguay","Turkey","Indonesia", "Morocco", "India", "Bangladesh","Ghana", "Malaysia","Vietnam","Nigeria", "Egypt", "Montenegro",              
+ "China", "Serbia",  "Kenya",  "Central African Republic", "Chad", "Chile","Argentina",  "Mexico", "Nepal","Benin", "Ethiopia","Lesotho", "Nicaragua","Philippines", "Colombia",                
+ "Mozambique", "Dominican Republic", "Lebanon","Gabon", "Cameroon", "Uganda", "Iran", "Sudan", "Thailand", "Marshall Islands" ) 
+
+developing<-survey[survey$nation%in% dev,]
+
+```
+
+##Number of responses by country  
+
+```{r, echo=FALSE, fig.cap="Number of responses from developed countries", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed/responses_country_10+&10-_gapplot.pdf")
+
+```
+  
+```{r, echo=FALSE, fig.cap="Number of responses from developing countries", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/responses_country_10+&10-_gapplot.pdf")
+
+```
+  
+\FloatBarrier
+
+##Reason for Change  
+
+```{r, echo=FALSE, fig.cap="Reason for change in developed countries - Fundamental decreased 25%+", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed/4.4.2_ReasonForFieldChange_FundDecrease.pdf")
+
+```
+  
+```{r, echo=FALSE, fig.cap="Reason for change in developing countries - Fundamental decreased 25%+", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.4.2_ReasonForFieldChange_FundDecrease.pdf")
+
+```
+
+\FloatBarrier
+
+```{r, echo=FALSE, fig.cap="Reason for change in developed countries (Fundamental increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed/4.4.3_ReasonForFieldChange_FundIncrease.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="Reason for change in developing countries (Fundamental increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.4.3_ReasonForFieldChange_FundIncrease.pdf")
+
+```
+
+\FloatBarrier
+
+```{r, echo=FALSE, fig.cap="Reason for change in developed countries (Applied+Use-inspired increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed/4.4.4_ReasonForFieldChange_IncreasedApp.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="Reason for change in developing countries (Applied+Use-inspired increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.4.4_ReasonForFieldChange_IncreasedApp.pdf")
+
+```
+
+\FloatBarrier
+
+\newpage
+
+##View of Change
+
+```{r, echo=FALSE, fig.cap="View of change in developed countries (Fundamental decreased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed/4.5.2_ViewFieldChange_FundDecrease.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="View of change in developing countries (Fundamental decreased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.5.2_ViewFieldChange_decreasedFund.pdf")
+
+```
+
+\FloatBarrier
+
+```{r, echo=FALSE, fig.cap="View of change in developed countries (Fundamental increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed/4.5.3_ViewFieldChange_increaseFund.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="View of change in developing countries (Fundamental increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.5.3_ViewFieldChange_increaseFund.pdf")
+
+```
+
+\FloatBarrier
+
+```{r, echo=FALSE, fig.cap="View of change in developed countries (Applied+Use-inspired increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed/4.5.4_ViewFieldChange_increasedApp.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="View of change in developing countries (Applied+Use-inspired increased 25%+)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.5.4_ViewFieldChange_increasedApp.pdf")
+
+```
+
+
+
+

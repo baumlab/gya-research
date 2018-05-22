@@ -210,7 +210,7 @@ barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$
             ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
 box()
 
-#dev.off()
+dev.off()
 
 ```
 
