@@ -66,7 +66,7 @@ developing<-survey[survey$nation%in% dev,]
 
 ```{r, echo=FALSE, fig.cap="Number of responses from developed countries", out.width = '100%'}
 
-knitr::include_graphics("Figures/developed/responses_country_10+&10-_gapplot.pdf")
+knitr::include_graphics("Figures/developed/responses_country_10+&10-_gapplot_randCA.pdf")
 
 ```
   
@@ -76,13 +76,14 @@ knitr::include_graphics("Figures/developing/responses_country_10+&10-_gapplot.pd
 
 ```
   
+  
 \FloatBarrier
 
 ##Reason for Change  
 
 ```{r, echo=FALSE, fig.cap="Reason for change in developed countries - Fundamental decreased 25%+", out.width = '100%'}
 
-knitr::include_graphics("Figures/developed/4.4.2_ReasonForFieldChange_FundDecrease.pdf")
+knitr::include_graphics("Figures/developed/4.4.2_ReasonForFieldChange_FundDecrease_randCA.pdf")
 
 ```
   
@@ -96,7 +97,7 @@ knitr::include_graphics("Figures/developing/4.4.2_ReasonForFieldChange_FundDecre
 
 ```{r, echo=FALSE, fig.cap="Reason for change in developed countries (Fundamental increased 25%+)", out.width = '100%'}
 
-knitr::include_graphics("Figures/developed/4.4.3_ReasonForFieldChange_FundIncrease.pdf")
+knitr::include_graphics("Figures/developed/4.4.3_ReasonForFieldChange_FundIncrease_randCA.pdf")
 
 ```
 
@@ -110,7 +111,7 @@ knitr::include_graphics("Figures/developing/4.4.3_ReasonForFieldChange_FundIncre
 
 ```{r, echo=FALSE, fig.cap="Reason for change in developed countries (Applied+Use-inspired increased 25%+)", out.width = '100%'}
 
-knitr::include_graphics("Figures/developed/4.4.4_ReasonForFieldChange_IncreasedApp.pdf")
+knitr::include_graphics("Figures/developed/4.4.4_ReasonForFieldChange_IncreasedApp_randCA.pdf")
 
 ```
 
@@ -128,7 +129,7 @@ knitr::include_graphics("Figures/developing/4.4.4_ReasonForFieldChange_Increased
 
 ```{r, echo=FALSE, fig.cap="View of change in developed countries (Fundamental decreased 25%+)", out.width = '100%'}
 
-knitr::include_graphics("Figures/developed/4.5.2_ViewFieldChange_FundDecrease.pdf")
+knitr::include_graphics("Figures/developed/4.5.2_ViewFieldChange_FundDecrease_randCA.pdf")
 
 ```
 
@@ -142,7 +143,7 @@ knitr::include_graphics("Figures/developing/4.5.2_ViewFieldChange_decreasedFund.
 
 ```{r, echo=FALSE, fig.cap="View of change in developed countries (Fundamental increased 25%+)", out.width = '100%'}
 
-knitr::include_graphics("Figures/developed/4.5.3_ViewFieldChange_increaseFund.pdf")
+knitr::include_graphics("Figures/developed/4.5.3_ViewFieldChange_increaseFund_randCA.pdf")
 
 ```
 
@@ -156,7 +157,7 @@ knitr::include_graphics("Figures/developing/4.5.3_ViewFieldChange_increaseFund.p
 
 ```{r, echo=FALSE, fig.cap="View of change in developed countries (Applied+Use-inspired increased 25%+)", out.width = '100%'}
 
-knitr::include_graphics("Figures/developed/4.5.4_ViewFieldChange_increasedApp.pdf")
+knitr::include_graphics("Figures/developed/4.5.4_ViewFieldChange_increasedApp_randCA.pdf")
 
 ```
 
