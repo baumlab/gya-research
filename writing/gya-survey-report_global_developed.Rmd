@@ -100,7 +100,7 @@ n.ssh <- n.gbl.devp[n.gbl.devp$field_research=="Social Science / Humanities",]
 percent.ssh <- ((dim(n.ssh)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(dplyr)
 
 
 ```
@@ -594,20 +594,20 @@ grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 ##data frame with the research proportions data
 #selecting for developed countries
 res.devp<-research[research$nation%in% developed,]
-head(res.devp)
-dim(res.devp)     #6354  11
+#head(res.devp)
+#dim(res.devp)     #6354  11
 
 ##data frame with whether or not they changed 
 #selecting for developing nations
 research.change.devp <- research.change[research.change$nation%in% developed,]
-head(research.change.devp)
-dim(research.change.devp)   #2641 14
+#head(research.change.devp)
+#dim(research.change.devp)   #2641 14
 
 ## the data frame that has the info on the proportions of research is in the long format so that is why it is so much longer than the other data frame
 # make it not long format
 res.port.devp <- spread(res.devp, type, percent)
-head(res.port.devp)
-dim(res.port.devp)  #1059   16   - this is just the ones that had answers for both current and past research proportions (there was only one person that answered 'yes' to if their research type had changed but did not provide 'past' proportions)
+#head(res.port.devp)
+#dim(res.port.devp)  #1059   16   - this is just the ones that had answers for both current and past research proportions (there was only one person that answered 'yes' to if their research type had changed but did not provide 'past' proportions)
 
 ##add in the yes/no response to the proportions data frame using the survey id
 #remove 'no' and 'can't comment' first
@@ -615,14 +615,14 @@ yes.devp<- research.change.devp[!research.change.devp$changed_10yrs == "No",]
 yes.devp<- yes.devp[!yes.devp$changed_10yrs == "Can't comment (new researcher)",]
 yes.devp<- yes.devp[!yes.devp$changed_10yrs == "",]
 yes.devp<- droplevels(yes.devp)
-dim(yes.devp)  # 1064 14   
-head(yes.devp)
+#dim(yes.devp)  # 1064 14   
+#head(yes.devp)
 
 res.port.devp$changed<-yes.devp$changed_10yrs[match(res.port.devp$id, yes.devp$id)]
-head(res.port.devp)
-colnames(res.port.devp)
-str(res.port.devp)
-dim(res.port.devp)
+#head(res.port.devp)
+#colnames(res.port.devp)
+#str(res.port.devp)
+#dim(res.port.devp)
 
 ##### ok have the data - now we have to see how people's research changed
 # idea - so do a 3 axis box with one set of points for 6-10 and another for 11-15 with arrow between like in the one figure for platy
@@ -631,21 +631,21 @@ dim(res.port.devp)
 
 
 # or just look at what their majority was for the two time points
-head(res.port.devp)
+#head(res.port.devp)
 #add a column indicating which was the majority currently
 res.port.devp$majority_current <- "fund.current"
-head(res.port.devp)
+#head(res.port.devp)
 res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current >= 50), "app.current", res.port.devp$majority_current)
 res.port.devp$majority_current <- ifelse((res.port.devp$percent_Use_inspired_Research_current >= 50), "use.current", res.port.devp$majority_current)
 
 
 #now past
 res.port.devp$majority_past <- "fund.past"
-head(res.port.devp)
+#head(res.port.devp)
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Applied_Research_past >= 50), "app.past", res.port.devp$majority_past)
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past >= 50), "use.past", res.port.devp$majority_past)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 #now deal with the 50%
 res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current == 50 & res.port.devp$percent_fundemental_research_current == 50), "fund.app.half.current", res.port.devp$majority_current)
@@ -656,7 +656,7 @@ res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Researc
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & res.port.devp$percent_Use_inspired_Research_past == 50), "fund.use.half.past", res.port.devp$majority_past)
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past == 50 & res.port.devp$percent_Applied_Research_past == 50), "use.app.half.past", res.port.devp$majority_past)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 
 
@@ -665,7 +665,7 @@ res.port.devp$curr_past.app <- (res.port.devp$percent_Applied_Research_current -
 res.port.devp$curr_past.use <- (res.port.devp$percent_Use_inspired_Research_current - res.port.devp$percent_Use_inspired_Research_past)
 res.port.devp$curr_past.fund <- (res.port.devp$percent_fundemental_research_current - res.port.devp$percent_Fundamental_Research_past)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 # going to calculate average and sd for the current - past columns for each to plot
 res.port.devp$app_mean <- mean(res.port.devp$curr_past.app)
@@ -675,7 +675,7 @@ res.port.devp$use_sd <- sd(res.port.devp$curr_past.use)
 res.port.devp$fund_mean <- mean(res.port.devp$curr_past.fund)
 res.port.devp$fund_sd <- sd(res.port.devp$curr_past.fund)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 #save as csv
 write.csv(res.port.devp, file = "data/developed_research_direction_change.csv", row.names = FALSE)
@@ -686,28 +686,28 @@ write.csv(res.port.devp, file = "data/developed_research_direction_change.csv", 
 # now going to plot the means of the changes 
 
 change <- subset(res.port.devp, select = c("app_mean", "use_mean", "fund_mean"))
-head(change)
+#head(change)
 
-colnames(change) <- c("app_mean" = "Applied", "use_mean" = "Use-inspired", "fund_mean" = "Fundamental")
+#colnames(change) <- c("app_mean" = "Applied", "use_mean" = "Use-inspired", "fund_mean" = "Fundamental")
 
 change.long <- gather(change, type, aver)
 #change.long <- gather(change.long, type_sd, sd, -type, -aver)
-head(change.long)
-dim(change.long)
+#head(change.long)
+#dim(change.long)
 change.long <- change.long[-c(2:1059, 1061:3176),]
-change.long
+#change.long
 
 #add in sd
 change.long$sd <- 1
 change.long$sd <- ifelse(change.long$type == "Applied", res.port.devp$app_sd, change.long$sd)
 change.long$sd <- ifelse(change.long$type == "Use-inspired", res.port.devp$use_sd, change.long$sd)
 change.long$sd <- ifelse(change.long$type == "Fundamental", res.port.devp$fund_sd, change.long$sd)
-head(change.long)
+#head(change.long)
 
 # change the order 
-str(change.long$type)
+#str(change.long$type)
 change.long$type <- as.factor(change.long$type)
-levels(change.long$type)
+#levels(change.long$type)
 change.long$type <- factor(change.long$type, levels(change.long$type)[c(2,3,1)])
 
 
@@ -793,7 +793,7 @@ head(res.port.devp.long)
 ```{r}
 ## going to subset for those responses that had a 25%+ decrease in Fundamental and then look too see what they thought of the change
 # use res.port.dev
-head(res.port.devp)
+#head(res.port.devp)
 
 #get rid of columns that we dont need so it is easier to work with
 colnames(res.port.devp)
@@ -812,37 +812,37 @@ res.port.devp$"Location"  <- NULL
 res.port.devp$"app.use.fund.past"  <- NULL
 res.port.devp$"app.use.fund.past"  <- NULL
 
-head(res.port.devp)
+#head(res.port.devp)
 
 #now select for the ones that had 25% + decrease in Fundamental
-str(res.port.devp)
-dim(res.port.devp)
+#str(res.port.devp)
+#dim(res.port.devp)
 fund.dec <- res.port.devp[(res.port.devp$curr_past.fund <= -25),]
-dim(fund.dec)  # only 353 had a 25% decrease in fundamental
-head(fund.dec)
+#dim(fund.dec)  # only 353 had a 25% decrease in fundamental
+#head(fund.dec)
 
 
 #now read in data that has the view on change and why
 n.gbl.devp<-survey[survey$nation%in% developed,]
-head(n.gbl.devp)
-colnames(n.gbl.devp)
+#head(n.gbl.devp)
+#colnames(n.gbl.devp)
 fund.dec.view.change <- n.gbl.devp[,c(12:18, 74, 77:79)]
 fund.dec.view.change<-fund.dec.view.change[!fund.dec.view.change$view_change_of_type=="",]
 fund.dec.view.change<-droplevels(fund.dec.view.change)
-head(fund.dec.view.change)
+#head(fund.dec.view.change)
 
 #now select for just the ones that had a decrease in fund as above
-dim(fund.dec.view.change)
+#dim(fund.dec.view.change)
 fund.dec.view.change <- fund.dec.view.change[fund.dec.view.change$id %in% fund.dec$id,]
-dim(fund.dec.view.change)
-head(fund.dec.view.change)
-dim(fund.dec.view.change)
-dim(fund.dec.view.change)
+#dim(fund.dec.view.change)
+#head(fund.dec.view.change)
+#dim(fund.dec.view.change)
+#dim(fund.dec.view.change)
 # they both have 353 rows
 
 #now follow the same code to make the figure as in the next code chunk (figure 4.5)
 fund.dec.view<-aggregate(gender~ view_change_of_type, fund.dec.view.change, length)
-fund.dec.view
+#fund.dec.view
 # change order of the levels
 fund.dec.view$view_change_of_type<-factor(fund.dec.view$view_change_of_type, 
                                         levels(fund.dec.view$view_change_of_type)[c(5,3,1,2,4)])
@@ -900,32 +900,32 @@ ggplot(sum.fund.dec, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')
 ### now do it for the increase in Fundamental
 
 #now select for the ones that had 25% + increase in Fundamental
-head(res.port.devp)
+#head(res.port.devp)
 fund.inc <- res.port.devp[(res.port.devp$curr_past.fund >= 25),]
 
-head(fund.inc)
-dim(fund.inc)
+#head(fund.inc)
+#dim(fund.inc)
 
 #now read in data that has the view on change and why
-head(n.gbl.devp)
-colnames(n.gbl.devp)
+#head(n.gbl.devp)
+#colnames(n.gbl.devp)
 fund.inc.view.change <- n.gbl.devp[,c(4,12:18, 74, 77:79)]
 fund.inc.view.change<-fund.inc.view.change[!fund.inc.view.change$view_change_of_type=="",]
 fund.inc.view.change<-droplevels(fund.inc.view.change)
-head(fund.inc.view.change)
+#head(fund.inc.view.change)
 
 #now select for just the ones that had a decrease in fund as above
 
 fund.inc.view.change <- fund.inc.view.change[fund.inc.view.change$id %in% fund.inc$id,]
 
-head(fund.inc.view.change)
-dim(fund.inc)
-dim(fund.inc.view.change)
+#head(fund.inc.view.change)
+#dim(fund.inc)
+#dim(fund.inc.view.change)
 # One has 42 and the other 41 so one of the surveys must not of answered the why and view questions
 
 #now follow the same code to make the figure as in the next code chunk (figure 4.5)
 fund.inc.view<-aggregate(gender~ view_change_of_type, fund.inc.view.change, length)
-fund.inc.view
+#fund.inc.view
 fund.inc.view <- droplevels(fund.inc.view)
 # change order of the levels
 fund.inc.view$view_change_of_type<-factor(fund.inc.view$view_change_of_type, 
@@ -986,32 +986,32 @@ ggplot(sum.fund.inc, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')
 ### now do it for the increase in applied and use
 
 #now select for the ones that had 25% + increase in use or applied
-head(res.port.devp)
+#head(res.port.devp)
 app.inc<- res.port.devp[((res.port.devp$curr_past.app >= 25)|(res.port.devp$curr_past.use >= 25)),]
 
-head(app.inc)
-dim(app.inc)
+#head(app.inc)
+#dim(app.inc)
 
 #now read in data that has the view on change and why
-head(n.gbl.devp)
-colnames(n.gbl.devp)
+#head(n.gbl.devp)
+#colnames(n.gbl.devp)
 app.inc.view.change <- n.gbl.devp[,c(4,12:18, 74, 77:79)]
 app.inc.view.change<-app.inc.view.change[!app.inc.view.change$view_change_of_type=="",]
 app.inc.view.change<-droplevels(app.inc.view.change)
-head(app.inc.view.change)
+#head(app.inc.view.change)
 
 #now select for just the ones that had a decrease in fund as above
 
 app.inc.view.change <- app.inc.view.change[app.inc.view.change$id %in% app.inc$id,]
 
-head(app.inc.view.change)
-dim(app.inc.view.change)
-dim(app.inc)
+#head(app.inc.view.change)
+#dim(app.inc.view.change)
+#dim(app.inc)
 # one has 342 and one has 344 so some one may not have answered the why or view questions
 
 #now follow the same code to make the figure as in the next code chunk (figure 4.5)
 app.inc.view<-aggregate(gender~ view_change_of_type, app.inc.view.change, length)
-app.inc.view
+#app.inc.view
 # change order of the levels
 app.inc.view$view_change_of_type<-factor(app.inc.view$view_change_of_type, 
                                         levels(app.inc.view$view_change_of_type)[c(5,3,1,2,4)])
@@ -1455,10 +1455,7 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 ```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
 part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
 #selecting for developed countries
-n.gbl.devp<-survey[survey$nation%in% developed,]
-#remove CA responses
-part3.grants.long <- part3.grants.long[part3.grants.long$nation!="Canada",]
-
+part3.grants.long<-part3.grants.long[part3.grants.long$nation%in% developed,]
 
 part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
 
@@ -1511,7 +1508,7 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.81, 0.91), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + 
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1200), breaks = c(0,200,400,600,800,1000,1200))
+scale_y_continuous(expand = c(0, 0), limits = c(0,1900), breaks = seq(0,1800, 200))
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
@@ -1754,15 +1751,25 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
 ```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", message=FALSE, warning=FALSE}
 #selecting for developed countries
-p3_master.long<-p3_master.long[p3_master.long$nation%in% developed,]
+p3_master.long.devp<-p3_master.long[p3_master.long$nation%in% developed,]
+
+p3_master.long.devp$year <- ifelse(grepl("11_15", p3_master.long.devp$type.year), "11_15", "6_10")
+#head(p3_master.long.devp)
+
+p3_master.long.devp$type <- 1
+p3_master.long.devp$type <- ifelse(grepl("For-Profit", p3_master.long.devp$type.year), "For-Profit", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Government", p3_master.long.devp$type.year), "Government", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Internal", p3_master.long.devp$type.year), "Internal", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Non-governmental", p3_master.long.devp$type.year), "Non-governmental", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Other", p3_master.long.devp$type.year), "Other", p3_master.long.devp$type)
 
 ##revalue the year values
-p3_master.long$year<- revalue(p3_master.long$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
+p3_master.long.devp$year<- revalue(p3_master.long.devp$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
 #change order of levels
-p3_master.long$year<-factor(p3_master.long$year, levels(p3_master.long$year)[c(2,1)])
+#p3_master.long.devp$year<-factor(p3_master.long.devp$year, levels(p3_master.long.devp$year)[c(2,1)])
 
 ##For-Profit
-fp<-p3_master.long[p3_master.long$type=="For-Profit",]
+fp<-p3_master.long.devp[p3_master.long.devp$type=="For-Profit",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1782,7 +1789,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
 
 
 ##Government
-gov<-p3_master.long[p3_master.long$type=="Government",]
+gov<-p3_master.long.devp[p3_master.long.devp$type=="Government",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1804,7 +1811,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Internal
 
-int<-p3_master.long[p3_master.long$type=="Internal",]
+int<-p3_master.long.devp[p3_master.long.devp$type=="Internal",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1826,7 +1833,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Non-Governmental
 
-ngov<-p3_master.long[p3_master.long$type=="Non-governmental",]
+ngov<-p3_master.long.devp[p3_master.long.devp$type=="Non-governmental",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1847,7 +1854,7 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
 
 ## Other
 
-other<-p3_master.long[p3_master.long$type=="Other",]
+other<-p3_master.long.devp[p3_master.long.devp$type=="Other",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])

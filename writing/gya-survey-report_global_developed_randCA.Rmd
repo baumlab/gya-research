@@ -1,7 +1,7 @@
 ---
-title: "Developed countries online survey on fundamental research"
+title: "Developed countries online survey on fundamental research (only 340 Canadian)"
 author: ''
-date: "4 Jan 2018"
+date: " 2018"
 output:
   pdf_document: null
   fig_width: 18
@@ -22,7 +22,7 @@ The online survey was open from the end of May through xxxxxxx , and ran on the 
 Survey Data Analysis  
 
 **Note that numbers not all the same because respondents did not always answer every question**
-```{r, echo=FALSE, message=FALSE, loading_data, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE, loading_data, warning=FALSE, paged.print=FALSE}
 rm(list=ls())
 
 dev.off()
@@ -60,9 +60,47 @@ developed<-c("Canada","Australia", "Israel", "Barbados","Russia","Germany", "Uni
  "Estonia", "Malta" )
 
 n.gbl.devp<-survey[survey$nation%in% developed,]
+#dim(n.gbl.devp)  #2641  79
 
 
-#Count how many responses from researchers w/out CA
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- n.gbl.devp[n.gbl.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- n.gbl.devp[!n.gbl.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   16
+#dim(ca)   #1331  16   subtracted 991
+
+#now combine them back together
+n.gbl.devp <- rbind(randca, other)
+#head(n.gbl.devp)
+#dim(n.gbl.devp)  # 1650   16    991 subtracted so we are good to go
+
+#Count how many responses from researchers 
 
 #Gender:
 n.gbl.res.men <- n.gbl.devp[n.gbl.devp$gender=="Male",]               #Count how many responses from  male researchers
@@ -118,32 +156,8 @@ Researchers from many different disciplines were represented in the survey. Almo
 ```{r echo=FALSE, fig.cap="Number of responses by country", message=FALSE, warning=FALSE}
 
 #data
-head(n.gbl.devp)
-dim(n.gbl.devp)  #2641
-
-## now to randomly select for 340 canadian surveys so it does not scew the data 
-#create two data frames 1:Canadian   2: non Canadian
-#1: Canadian
-ca <- n.gbl.devp[n.gbl.devp$nation == "Canada",]
-head(ca)
-ca<-droplevels(ca)
-unique(ca$nation)
-
-#2: others
-other <- n.gbl.devp[!n.gbl.devp$nation == "Canada",]
-head(other)
-other<- droplevels(other)
-unique(other$nation)
-
-#now randomly select 340 Canadian
-dim(ca) #1331   16
-randca <- ca[sample(nrow(ca), 340), ]
-dim(randca)  #340  16     991 subtracted
-
-#now combine them back together
-n.gbl.devp <- rbind(randca, other)
-head(n.gbl.devp)
-dim(n.gbl.devp)  # 1650   16    991 subtracted so we are good to go
+#head(n.gbl.devp)
+#dim(n.gbl.devp)  #2641
 
 
 ###create figures
@@ -246,10 +260,8 @@ box()
 ```
 
 <!-- Generate  career stage figure -->
-```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of survey respondents from developed nations by career stage", warning=FALSE, fig.width=14}
+```{r echo=FALSE, fig.cap="Figure 4.1 Number of survey respondents from developed nations by career stage", fig.width=14, message=FALSE, warning=FALSE}
 
-
-theme_set(theme_bw())
 ## setting colour scale to keep colours identical between similar plots
 ## myColors <- brewer.pal(6,"Set1")
 
@@ -257,7 +269,7 @@ experience<-data.frame(table(n.gbl.devp$what_participant_group))
 experience<-experience[!experience$Var1=="",]
 experience<-droplevels(experience)
 
-experience$Var1<-revalue(experience$Var1, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with > 10 years of experience" = "Non-academic research >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with > 10 years of experience applying for research grants" = "Senior academic researcher"))
+experience$Var1<-revalue(experience$Var1, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic researcher", "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Non-academic research >10 yrs experience", "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Non-academic researcher <10 yrs experience", "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA", "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic researcher"))
 experience$Var1<-reorder(experience$Var1, experience$Freq)
 
 # assign colour scale
@@ -266,13 +278,13 @@ myColors1<-myColors1[-c(1:2)]
 names(myColors1)<- levels(experience$Var1)
 colScale <- scale_fill_manual(name = "Var1",values = myColors1)
 
-#pdf(file="figures/developed/4.1_CareerStage.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.1_CareerStage.pdf", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_x_discrete(labels=c("Senior academic", "Early career\nacademic", "Postdoc or RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
-  labs(y="Number of responses", x="", title="Responses by career stage (developed nations)") +
+  labs(y="Number of responses", x="", title="Responses by career stage (developed nations, 340 CA)") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(aspect.ratio=1/2,legend.title=element_blank(), 
         legend.text=element_text(size=10), 
@@ -282,13 +294,13 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,1750))
+  scale_y_continuous(expand = c(0,0), limits = c(0,1100))
 #dev.off()
 
 ```
 
 <!-- Generate  research discipline figure -->
-```{r, echo=FALSE, fig.cap="Figure 4.2 survey responses by field of research", fig.width=14, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.2 survey responses by field of research", fig.width=14, message=FALSE, warning=FALSE}
 field<-data.frame(table(n.gbl.devp$field_research))
 field<-field[!field$Var1=="",]
 field$Var1<-reorder(field$Var1, field$Freq)
@@ -300,11 +312,11 @@ myColors2<-myColors2[-c(1)]
 names(myColors2) <- levels(field$field_research)
 colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/developed/4.2_FieldofResearch.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.2_FieldofResearch.pdf", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  labs(y="Number of responses",x="", title="Responses by field of research (developed nations)")  +
+  labs(y="Number of responses",x="", title="Responses by field of research (developed nations, 340 CA)")  +
   scale_x_discrete(labels=c("Physical\n Science", "Natural\n Science", "Medicine &\nLife Science", "Engineering", "Social Science/\nHumanities","Interdisciplinary\nScience",  "Other")) +
   geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
@@ -313,12 +325,12 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
          panel.grid.major = element_blank(),
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,760))
+  scale_y_continuous(expand = c(0,0), limits = c(0,445))
 
 #dev.off()
 ```
 
-```{r, eval=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", message=FALSE, warning=FALSE, include=FALSE}
 ##plot1
 
 # assign colour scale
@@ -375,12 +387,50 @@ grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
 <!--**4.1 Type of Research Conducted**  -->
 
 <!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
-```{r, echo=FALSE, fig.cap="Figure 4.3 Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 #selecting for developed countries
-n.gbl.devp<-research[research$nation%in% developed,]
+research.devp<-research[research$nation%in% developed,]
+#dim(research.devp)   #6354  11
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- research.devp[research.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- research.devp[!research.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #2040   11
+#dim(ca)   #3168  11    1128 substracted
+
+#now combine them back together
+research.devp <- rbind(randca, other)
+#head(research.devp)
+#dim(research.devp)  # 5226   11    1128 subtracted so we are good to go
 
 ## make sure that Use-inspired is the middle level in the legend
-res.plot<-subset(n.gbl.devp, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
+res.plot<-subset(research.devp, type%in%c("percent_fundemental_research_current",  "percent_Applied_Research_current" , "percent_Use_inspired_Research_current","percent_Applied_Research_past",  "percent_Fundamental_Research_past" , "percent_Use_inspired_Research_past"))
 
 res.plot$percent<-str_replace_all(res.plot$percent, "%", "")
 res.plot$percent<-as.numeric(as.character(res.plot$percent))
@@ -432,19 +482,19 @@ mycols<-as.character(unique(res.plot$col))
 colScale <- scale_fill_manual(name = "ID",values =mycols, labels=c("2006-2010 Fundamental", "2011-2015 Fundamental","2006-2010 Use-inspired", "2011-2015 Use-inspired","2006-2010 Applied", "2011-2015 Applied"))
 #table(res.plot$type, res.plot$time, res.plot$col)
 
-#pdf(file="figures/developed/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.3.1_ResearchProportion.pdf", width = 11, height= 7)
 
 ggplot(res.plot, aes(percent, fill=ID)) +
     geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-    labs(x="Percent", y="Number of responses", title="Reseach type by proportion (developed nations)")+
+    labs(x="Percent", y="Number of responses", title="Reseach type by proportion (developed nations, 340 CA)")+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
           strip.text.y = element_text(size=12, face="bold", color="black"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.7, 0.92), legend.margin=unit(100,"cm"), axis.title.y=element_text(size=11),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12), plot.title = element_text(hjust = 0.5)) + colScale + 
-  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,570),breaks=seq(0,550,50))
+  scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,475),breaks=seq(0,475,50))
 
 #dev.off()
 
@@ -471,7 +521,7 @@ ggplot(res.plot, aes(percent, fill=ID)) +
   
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.3 (different layout) Respondents type of research describe in proportal amounts of fundamental, use-inspired and applied research. Reseachers were questioned about the percentage of funding allocated to Fundamental, Use-inspired or Applied research in the past and in their current research.", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Figure 4.3 (different layout)", warning=FALSE, include=FALSE, message=FALSE}
 #selecting for developed countries
 n.gbl.devp<-research[research$nation%in% developed,]
 
@@ -566,9 +616,47 @@ grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.4a&b Change in research type proportions and the reasons. Researchers were asked to answer yes, no, or can't comment on if their type of research had changed in the last 10 years and to select what reasons for the change applied to them.", message=FALSE, warning=FALSE, fig.width=10}
+```{r eval=FALSE, fig.cap="Figure 4.4a&b", fig.width=10, warning=FALSE, include=FALSE, message=FALSE}
 #selecting for developed countries
 research.change.devp<-research.change[research.change$nation%in% developed,]
+#dim(research.change.devp)    #2641
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- research.change.devp[research.change.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- research.change.devp[!research.change.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   16
+#dim(ca)   #1331  16   subtracted  991
+
+#now combine them back together
+research.change.devp <- rbind(randca, other)
+#head(research.change.devp)
+#dim(research.change.devp)  # 1650    991 subtracted so we are good to go
 
 #Change yes or no
 yes.no<-subset(research.change.devp, select=c("Location","Country", "Country_work",  "gender", "changed_10yrs"))
@@ -578,7 +666,7 @@ global.yes.no<-global.yes.no[!global.yes.no$changed_10yrs=="",]
 
 p1<-ggplot(data=global.yes.no, aes(x=changed_10yrs, y=gender, fill=gender))+ geom_bar(stat='identity') + guides(fill=FALSE)+
   theme(panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5))+geom_text(aes(label=gender), vjust=-0.5)+labs(y="Number of responses", title="Change in research type\n(developed nations)")+ scale_y_continuous(expand = c(0, 0), limits = c(0,1370))+ annotate('text', 0.5,1335, label="(a)", size=5)
+          panel.grid.minor = element_blank(), axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5))+geom_text(aes(label=gender), vjust=-0.5)+labs(y="Number of responses", title="Change in research type\n(developed nations, 340 CA)")+ scale_y_continuous(expand = c(0, 0), limits = c(0,910))+ annotate('text', 0.5,900, label="(a)", size=5)
   
 ####reason for change  
 reason<-subset(research.change.devp, select=c("Location","Country","Country_work",  "gender", "Main_reason_change_interest_related",
@@ -603,42 +691,42 @@ p2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity
   theme( axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
-  labs(y="Number of responses", title="Reason for change in research type\n(developed nations)")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 820))+annotate('text', 5.4,795, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  labs(y="Number of responses", title="Reason for change in research type\n(developed nations, 340 CA)")+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 660))+annotate('text', 5.4,650, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
-#pdf(file="figures/developed/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.4_ReasonForFieldChange.pdf", width = 11, height= 7)
 
 #print(p2)
 
 #dev.off()
 
-#pdf(file="figures/developed/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.4a&b_ReasonForFieldChange.pdf", width = 11, height= 7)
 
 grid.arrange(p1, p2, widths=c(0.5, 0.5), nrow=1)
 
 #dev.off()
 ```
 
-```{r, echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 ## looking to see what direction respondents research changed (when it did)
 ##data frame with the research proportions data
 #selecting for developed countries
 res.devp<-research[research$nation%in% developed,]
-head(res.devp)
-dim(res.devp)     #6354  11
+#head(res.devp)
+#dim(res.devp)     #6354  11
 
 ##data frame with whether or not they changed 
 #selecting for developing nations
 research.change.devp <- research.change[research.change$nation%in% developed,]
-head(research.change.devp)
-dim(research.change.devp)   #2641 14
+#head(research.change.devp)
+#dim(research.change.devp)   #2641 14
 
 ## the data frame that has the info on the proportions of research is in the long format so that is why it is so much longer than the other data frame
 # make it not long format
 res.port.devp <- spread(res.devp, type, percent)
-head(res.port.devp)
-dim(res.port.devp)  #1059   16   - this is just the ones that had answers for both current and past research proportions (there was only one person that answered 'yes' to if their research type had changed but did not provide 'past' proportions)
+#head(res.port.devp)
+#dim(res.port.devp)  #1059   16   - this is just the ones that had answers for both current and past research proportions (there was only one person that answered 'yes' to if their research type had changed but did not provide 'past' proportions)
 
 ##add in the yes/no response to the proportions data frame using the survey id
 #remove 'no' and 'can't comment' first
@@ -646,39 +734,51 @@ yes.devp<- research.change.devp[!research.change.devp$changed_10yrs == "No",]
 yes.devp<- yes.devp[!yes.devp$changed_10yrs == "Can't comment (new researcher)",]
 yes.devp<- yes.devp[!yes.devp$changed_10yrs == "",]
 yes.devp<- droplevels(yes.devp)
-dim(yes.devp)  # 1064 14   
-head(yes.devp)
+#dim(yes.devp)  # 1064 14   
+#head(yes.devp)
 
 res.port.devp$changed<-yes.devp$changed_10yrs[match(res.port.devp$id, yes.devp$id)]
-head(res.port.devp)
-colnames(res.port.devp)
-str(res.port.devp)
-dim(res.port.devp)   #1059  16
+#head(res.port.devp)
+#colnames(res.port.devp)
+#str(res.port.devp)
+#dim(res.port.devp)   #1059  16
 
 ## now to randomly select for 340 canadian surveys so it does not scew the data 
 #create two data frames 1:Canadian   2: non Canadian
 #1: Canadian
 ca <- res.port.devp[res.port.devp$nation == "Canada",]
-head(ca)
+#head(ca)
 ca<-droplevels(ca)
-unique(ca$nation)
+#unique(ca$nation)
 
 #2: others
 other <- res.port.devp[!res.port.devp$nation == "Canada",]
-head(other)
+#head(other)
 other<- droplevels(other)
-unique(other$nation)
+#unique(other$nation)
 
 #now randomly select 340 Canadian
 # dim(ca) #528   16
 # randca <- ca[sample(nrow(ca), 340), ]
 # dim(randca)  #340  16     188 subtracted
-randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   16
+#dim(ca)   #528  16
 
 #now combine them back together
 res.port.devp <- rbind(randca, other)
-head(res.port.devp)
-dim(res.port.devp)  # 871   16    188 subtracted so we are good to go
+#head(res.port.devp)
+#dim(res.port.devp)  # 871   16    188 subtracted so we are good to go
 
 ##### ok have the data - now we have to see how people's research changed
 # idea - so do a 3 axis box with one set of points for 6-10 and another for 11-15 with arrow between like in the one figure for platy
@@ -687,21 +787,21 @@ dim(res.port.devp)  # 871   16    188 subtracted so we are good to go
 
 
 # or just look at what their majority was for the two time points
-head(res.port.devp)
+#head(res.port.devp)
 #add a column indicating which was the majority currently
 res.port.devp$majority_current <- "fund.current"
-head(res.port.devp)
+#head(res.port.devp)
 res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current >= 50), "app.current", res.port.devp$majority_current)
 res.port.devp$majority_current <- ifelse((res.port.devp$percent_Use_inspired_Research_current >= 50), "use.current", res.port.devp$majority_current)
 
 
 #now past
 res.port.devp$majority_past <- "fund.past"
-head(res.port.devp)
+#head(res.port.devp)
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Applied_Research_past >= 50), "app.past", res.port.devp$majority_past)
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past >= 50), "use.past", res.port.devp$majority_past)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 #now deal with the 50%
 res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current == 50 & res.port.devp$percent_fundemental_research_current == 50), "fund.app.half.current", res.port.devp$majority_current)
@@ -712,7 +812,7 @@ res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Researc
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & res.port.devp$percent_Use_inspired_Research_past == 50), "fund.use.half.past", res.port.devp$majority_past)
 res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past == 50 & res.port.devp$percent_Applied_Research_past == 50), "use.app.half.past", res.port.devp$majority_past)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 
 
@@ -721,7 +821,7 @@ res.port.devp$curr_past.app <- (res.port.devp$percent_Applied_Research_current -
 res.port.devp$curr_past.use <- (res.port.devp$percent_Use_inspired_Research_current - res.port.devp$percent_Use_inspired_Research_past)
 res.port.devp$curr_past.fund <- (res.port.devp$percent_fundemental_research_current - res.port.devp$percent_Fundamental_Research_past)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 # going to calculate average and sd for the current - past columns for each to plot
 res.port.devp$app_mean <- mean(res.port.devp$curr_past.app)
@@ -731,7 +831,7 @@ res.port.devp$use_sd <- sd(res.port.devp$curr_past.use)
 res.port.devp$fund_mean <- mean(res.port.devp$curr_past.fund)
 res.port.devp$fund_sd <- sd(res.port.devp$curr_past.fund)
 
-head(res.port.devp)
+#head(res.port.devp)
 
 #save as csv
 write.csv(res.port.devp, file = "data/developed_research_direction_change.csv", row.names = FALSE)
@@ -742,28 +842,28 @@ write.csv(res.port.devp, file = "data/developed_research_direction_change.csv", 
 # now going to plot the means of the changes 
 
 change <- subset(res.port.devp, select = c("app_mean", "use_mean", "fund_mean"))
-head(change)
+#head(change)
 
 colnames(change) <- c("app_mean" = "Applied", "use_mean" = "Use-inspired", "fund_mean" = "Fundamental")
 
 change.long <- gather(change, type, aver)
 #change.long <- gather(change.long, type_sd, sd, -type, -aver)
-head(change.long)
-dim(change.long)
+#head(change.long)
+#dim(change.long)
 change.long <- change.long[-c(2:1741, 1744:2613),]
-change.long
+#change.long
 
 #add in sd
 change.long$sd <- 1
 change.long$sd <- ifelse(change.long$type == "Applied", res.port.devp$app_sd, change.long$sd)
 change.long$sd <- ifelse(change.long$type == "Use-inspired", res.port.devp$use_sd, change.long$sd)
 change.long$sd <- ifelse(change.long$type == "Fundamental", res.port.devp$fund_sd, change.long$sd)
-head(change.long)
+#head(change.long)
 
 # change the order 
-str(change.long$type)
+#str(change.long$type)
 change.long$type <- as.factor(change.long$type)
-levels(change.long$type)
+#levels(change.long$type)
 change.long$type <- factor(change.long$type, levels(change.long$type)[c(2,3,1)])
 
 
@@ -799,31 +899,31 @@ ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +
 ###################################
 #now aggregate
 pastmajor <- aggregate(gender ~ majority_past, res.port.devp, length)
-pastmajor
+#pastmajor
 # change the column names so they can be joined
 colnames(pastmajor) <- c("major.research", "gender")
-pastmajor
+#pastmajor
 # add in basic colors for now  - just going to do past and current
 pastmajor$color <- "darkturquoise"
-pastmajor
+#pastmajor
 
 currentmajor <- aggregate(gender ~ majority_current, res.port.devp, length)
-currentmajor
+#currentmajor
 colnames(currentmajor) <- c("major.research", "gender")
-currentmajor
+#currentmajor
 # add in basic colors for now  - just going to do past and current
 currentmajor$color <- "paleturquoise"
-currentmajor
+#currentmajor
 # join them 
 majority <- full_join(pastmajor, currentmajor)
-majority
+#majority
 
 
 
 # change the order 
-str(majority$major.research)
+#str(majority$major.research)
 majority$major.research <- as.factor(majority$major.research)
-levels(majority$major.research)
+#levels(majority$major.research)
 majority$major.research <- factor(majority$major.research, levels(majority$major.research)[c(6,5,8,7,12,11,10,9,2,1,4,3)])
 
 # graph the aggregates
@@ -836,24 +936,24 @@ ggplot(majority, aes(major.research, gender, fill = color)) + geom_bar(stat='ide
 #dev.off()
 
 #what about graphing the individuals and their switch
-head(res.port.devp)
+#head(res.port.devp)
 
 res.port.devp.long <- gather(res.port.devp, time, what, - Location, -nation, -id, -Country, -Country_work, -gender, -what_participant_group, -field_research, -total_research, -percent_Applied_Research_current, -percent_Applied_Research_past, -percent_Fundamental_Research_past, -percent_fundemental_research_current, -percent_Use_inspired_Research_current, -percent_Use_inspired_Research_past, -changed)
 
-head(res.port.devp.long)
+#head(res.port.devp.long)
 
 #hmm not sure right now
 
 ```
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ## going to subset for those responses that had a 25%+ decrease in Fundamental and then look too see what they thought of the change
 # use res.port.dev
-head(res.port.devp)
-dim(res.port.devp)  #871
+#head(res.port.devp)
+#dim(res.port.devp)  #871
 
 #get rid of columns that we dont need so it is easier to work with
-colnames(res.port.devp)
+#colnames(res.port.devp)
 res.port.devp$"app_mean" <- NULL
 res.port.devp$"app_sd"  <- NULL
 res.port.devp$"use_mean"  <- NULL
@@ -869,37 +969,37 @@ res.port.devp$"Location"  <- NULL
 res.port.devp$"app.use.fund.past"  <- NULL
 res.port.devp$"app.use.fund.past"  <- NULL
 
-head(res.port.devp)
+#head(res.port.devp)
 
 #now select for the ones that had 25% + decrease in Fundamental
-str(res.port.devp)
-dim(res.port.devp)
+#str(res.port.devp)
+#dim(res.port.devp)
 fund.dec <- res.port.devp[(res.port.devp$curr_past.fund <= -25),]
-dim(fund.dec)  # only 279 had a 25% decrease in fundamental
-head(fund.dec)
+#dim(fund.dec)  # only 279 had a 25% decrease in fundamental
+#head(fund.dec)
 
 
 #now read in data that has the view on change and why
 n.gbl.devp<-survey[survey$nation%in% developed,]
-dim(n.gbl.devp)
-head(n.gbl.devp)
-colnames(n.gbl.devp)
+#dim(n.gbl.devp)
+#head(n.gbl.devp)
+#colnames(n.gbl.devp)
 fund.dec.view.change <- n.gbl.devp[,c(12:18, 74, 77:79)]
 fund.dec.view.change<-fund.dec.view.change[!fund.dec.view.change$view_change_of_type=="",]
 fund.dec.view.change<-droplevels(fund.dec.view.change)
-head(fund.dec.view.change)
+#head(fund.dec.view.change)
 
 #now select for just the ones that had a decrease in fund as above with matching surveys from rand select of ca
-dim(fund.dec.view.change)  #1059
+#dim(fund.dec.view.change)  #1059
 fund.dec.view.change <- fund.dec.view.change[fund.dec.view.change$id %in% fund.dec$id,]
-dim(fund.dec.view.change)  #279
-head(fund.dec.view.change)
-dim(fund.dec)
+#dim(fund.dec.view.change)  #279
+#head(fund.dec.view.change)
+#dim(fund.dec)
 # they both have 279 rows
 
 #now follow the same code to make the figure as in the next code chunk (figure 4.5)
 fund.dec.view<-aggregate(gender~ view_change_of_type, fund.dec.view.change, length)
-fund.dec.view
+#fund.dec.view
 # change order of the levels
 fund.dec.view$view_change_of_type<-factor(fund.dec.view$view_change_of_type, 
                                         levels(fund.dec.view$view_change_of_type)[c(5,3,1,2,4)])
@@ -911,7 +1011,7 @@ myColors5<-myColors5[c(4,4,4,4,4,4)]
 
 ggplot(fund.dec.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type\nwhen Fundamental research decreased by 25%+ (developed nations, 340 CA)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,95))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.4,90, label= sum(fund.dec.view$gender), size=5) +annotate('text', 5.15,90, label= "n = ", size=5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type\nwhen Fundamental research decreased by 25%+ (developed nations, 340 CA)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,85))+scale_fill_manual(name='view_change_of_type', values=myColors5)+annotate('text', 5.4,82, label= sum(fund.dec.view$gender), size=5) +annotate('text', 5.15,82, label= "n = ", size=5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
 #dev.off()
 
@@ -928,7 +1028,7 @@ fund.dec.change.long<-gather(fund.dec.change, reason.change.fund.dec, yes, -nati
 sum.fund.dec<-data.frame(table(fund.dec.change.long$reason.change.fund.dec, fund.dec.change.long$yes))
 #remove non-response
 sum.fund.dec<-sum.fund.dec[!sum.fund.dec$Var1=="",]
-sum.fund.dec
+#sum.fund.dec
 
 sum.fund.dec$Var1<-revalue(sum.fund.dec$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
 # change order of the levels
@@ -944,7 +1044,7 @@ ggplot(sum.fund.dec, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors4)+
   labs(y="Number of responses", title="Reason for change in research type\nwhen Fundamental research decreased by 25%+ \n(developed nations, 340 CA)")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 250))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 240))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
 #dev.off()
@@ -952,37 +1052,36 @@ ggplot(sum.fund.dec, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')
 
 ```
 
-
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ### now do it for the increase in Fundamental
 
 #now select for the ones that had 25% + increase in Fundamental
-head(res.port.devp)
+#head(res.port.devp)
 fund.inc <- res.port.devp[(res.port.devp$curr_past.fund >= 25),]
 
-head(fund.inc)
-dim(fund.inc)
+#head(fund.inc)
+#dim(fund.inc)
 
 #now read in data that has the view on change and why
-head(n.gbl.devp)
-colnames(n.gbl.devp)
+#head(n.gbl.devp)
+#colnames(n.gbl.devp)
 fund.inc.view.change <- n.gbl.devp[,c(4,12:18, 74, 77:79)]
 fund.inc.view.change<-fund.inc.view.change[!fund.inc.view.change$view_change_of_type=="",]
 fund.inc.view.change<-droplevels(fund.inc.view.change)
-head(fund.inc.view.change)
+#head(fund.inc.view.change)
 
 #now select for just the ones that had a decrease in fund as above
 
 fund.inc.view.change <- fund.inc.view.change[fund.inc.view.change$id %in% fund.inc$id,]
 
-head(fund.inc.view.change)
-dim(fund.inc)  #38
-dim(fund.inc.view.change)
+#head(fund.inc.view.change)
+#dim(fund.inc)  #38
+#dim(fund.inc.view.change)
 # One has 38 and the other 37 so one of the surveys must not of answered the why and view questions
 
 #now follow the same code to make the figure as in the next code chunk (figure 4.5)
 fund.inc.view<-aggregate(gender~ view_change_of_type, fund.inc.view.change, length)
-fund.inc.view
+#fund.inc.view
 fund.inc.view <- droplevels(fund.inc.view)
 # change order of the levels
 fund.inc.view$view_change_of_type<-factor(fund.inc.view$view_change_of_type, 
@@ -995,7 +1094,7 @@ myColors.view<-myColors.view[c(4,4,4,4,4)]
 
 ggplot(fund.inc.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type when\nFundamental research increased by 25%+ (Developed nations, 340 CA)")+geom_text(aes(label=gender), vjust=-0.5, size=4)+scale_y_continuous(expand = c(0, 0), limits = c(0,15))+scale_fill_manual(name='view_change_of_type', values=myColors.view)+annotate('text', 5.45,14.5, label= sum(fund.inc.view$gender), size=5) +annotate('text', 5.3,14.5, label= "n = ", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type when\nFundamental research increased by 25%+ (Developed nations, 340 CA)")+geom_text(aes(label=gender), vjust=-0.5, size=4)+scale_y_continuous(expand = c(0, 0), limits = c(0,22))+scale_fill_manual(name='view_change_of_type', values=myColors.view)+annotate('text', 5.45,20.5, label= sum(fund.inc.view$gender), size=5) +annotate('text', 5.3,20.5, label= "n = ", size=5)
 
 #dev.off()
 
@@ -1012,7 +1111,7 @@ fund.inc.change.long<-gather(fund.inc.change, reason.change.fund.inc, yes, -nati
 sum.fund.inc<-data.frame(table(fund.inc.change.long$reason.change.fund.inc, fund.inc.change.long$yes))
 #remove non-response
 sum.fund.inc<-sum.fund.inc[!sum.fund.inc$Var1=="",]
-sum.fund.inc
+#sum.fund.inc
 
 sum.fund.inc$Var1<-revalue(sum.fund.inc$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
 # change order of the levels
@@ -1028,7 +1127,7 @@ ggplot(sum.fund.inc, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors.why)+
   labs(y="Number of responses", title="Reason for change in research type\nwhen Fundamental research increased by 25%+ \n(Developed nations, 340 CA)")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 20))+annotate('text', 5.35,84, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 23))+annotate('text', 5.35,84, label="(b)", size=5)+geom_text(aes(label=Freq), vjust=-0.5, size=3)
 #+
 #  annotate('text', 5.45,21, label= sum(sum.fund.dec$Freq), size=5) +annotate('text', 5.25,21, label= "n = ", size=5)
 
@@ -1039,36 +1138,36 @@ ggplot(sum.fund.inc, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')
 
 ```
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ### now do it for the increase in applied and use
 
 #now select for the ones that had 25% + increase in use or applied
-head(res.port.devp)
+#head(res.port.devp)
 app.inc<- res.port.devp[((res.port.devp$curr_past.app >= 25)|(res.port.devp$curr_past.use >= 25)),]
 
-head(app.inc)
-dim(app.inc)
+#head(app.inc)
+#dim(app.inc)
 
 #now read in data that has the view on change and why
-head(n.gbl.devp)
-colnames(n.gbl.devp)
+#head(n.gbl.devp)
+#colnames(n.gbl.devp)
 app.inc.view.change <- n.gbl.devp[,c(4,12:18, 74, 77:79)]
 app.inc.view.change<-app.inc.view.change[!app.inc.view.change$view_change_of_type=="",]
 app.inc.view.change<-droplevels(app.inc.view.change)
-head(app.inc.view.change)
+#head(app.inc.view.change)
 
 #now select for just the ones that had a decrease in fund as above
 
 app.inc.view.change <- app.inc.view.change[app.inc.view.change$id %in% app.inc$id,]
 
-head(app.inc.view.change)
-dim(app.inc.view.change)
-dim(app.inc)
+#head(app.inc.view.change)
+#dim(app.inc.view.change)
+#dim(app.inc)
 # one has 291 and one has 292 so some one may not have answered the why or view questions
 
 #now follow the same code to make the figure as in the next code chunk (figure 4.5)
 app.inc.view<-aggregate(gender~ view_change_of_type, app.inc.view.change, length)
-app.inc.view
+#app.inc.view
 # change order of the levels
 app.inc.view$view_change_of_type<-factor(app.inc.view$view_change_of_type, 
                                         levels(app.inc.view$view_change_of_type)[c(5,3,1,2,4)])
@@ -1084,10 +1183,10 @@ ggplot(app.inc.view, aes(x=view_change_of_type, y=gender, fill=view_change_of_ty
   theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ 
   labs(x="", y="Number of responses", title="Opinion of change in research type when\nUse-inspired or Applied research increased by 25%+ (Developed nations, 340 CA)")+
   geom_text(aes(label=gender), vjust=-0.5, size=4)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,95))+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,87))+
   scale_fill_manual(name='view_change_of_type', values=myColors.view)+
-  annotate('text', 5.4,93, label= sum(app.inc.view$gender), size=5) +
-  annotate('text', 5.23, 93, label= "n = ", size=5)
+  annotate('text', 5.4,85, label= sum(app.inc.view$gender), size=5) +
+  annotate('text', 5.23, 85, label= "n = ", size=5)
 
 #dev.off()
 
@@ -1104,7 +1203,7 @@ app.inc.change.long<-gather(app.inc.change, reason.change.app.inc, yes, -nation,
 sum.app.inc<-data.frame(table(app.inc.change.long$reason.change.app.inc, app.inc.change.long$yes))
 #remove non-response
 sum.app.inc<-sum.app.inc[!sum.app.inc$Var1=="",]
-sum.app.inc
+#sum.app.inc
 
 sum.app.inc$Var1<-revalue(sum.app.inc$Var1, c("Main_reason_change_Career_related" = "Career", "Main_reason_change_Funding_related" = "Funding", "Main_reason_change_interest_related" = "Interest", "Main_reason_change_Other" = "Other", "Main_reason_change_Socially_related"  = "Social"))
 # change order of the levels
@@ -1120,7 +1219,7 @@ ggplot(sum.app.inc, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),axis.title.x=element_blank(), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE) +
   scale_fill_manual(name = "Var1",values = myColors.why)+
   labs(y="Number of responses", title="Reason for change in research type when\nUse-inspired or Applied research increased by 25%+ \n(Developed nations, 340 CA)")+
-  scale_y_continuous(expand = c(0, 0), limits = c(0, 235))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 230))+geom_text(aes(label=Freq), vjust=-0.5, size=3)
 #+
 #  annotate('text', 5.45,21, label= sum(sum.fund.dec$Freq), size=5) +annotate('text', 5.25,21, label= "n = ", size=5)
 
@@ -1130,7 +1229,7 @@ ggplot(sum.app.inc, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
 ```
 
 
-```{r, echo=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", message=FALSE, warning=FALSE, fig.width=10}
+```{r eval=FALSE, fig.cap="Figure 4.5 View of change in proportion of research. Researchers were asked how they viewed the change in the type of research they conduct/supervise.", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
 n.gbl.devp<-survey[survey$nation%in% developed,]
 
 view.propor<-n.gbl.devp[!n.gbl.devp$view_change_of_type=="",]
@@ -1143,16 +1242,16 @@ change.view.devp$view_change_of_type<-factor(change.view.devp$view_change_of_typ
 myColors5<-(brewer.pal(9, "Blues"))
 myColors5<-myColors5[c(4,4,4,4,4,4)]
 
-#pdf(file="figures/developed/4.5_ViewFieldChange.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.5_ViewFieldChange.pdf", width = 11, height= 7)
 
 ggplot(change.view.devp, aes(x=view_change_of_type, y=gender, fill=view_change_of_type)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9), axis.text.y = element_text(size = 9), axis.title.y = element_text(size = 11), axis.title.x = element_text(size = 11), plot.title = element_text(hjust = 0.5)) +guides(fill=FALSE)+
-  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type (developed nations)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,330))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
+  theme(panel.grid.major = element_blank(),legend.text=element_text(size = 9), panel.grid.minor = element_blank())+ labs(x="", y="Number of responses", title="Opinion of change in research type (developed nations, 340 CA)")+geom_text(aes(label=gender), vjust=-0.5, size=3)+scale_y_continuous(expand = c(0, 0), limits = c(0,330))+scale_fill_manual(name='view_change_of_type', values=myColors5)#+annotate('text', 5.4,133, label="(c)", size=5)
 
 #dev.off()
 ```
 
-```{r, eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Figure Type of research (4.3, 4.4, 4.5 )", fig.width=10, message=FALSE, warning=FALSE, include=FALSE}
 
 ##plot 1
 
@@ -1284,7 +1383,7 @@ multiplot(g1, g2, g3, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 <!--Part 2 - External Partnerships-->
 <!--**4.2 External Partnerships**   -->
 
-```{r, echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.6 Current vs past level of partnership outside of academia. Researchers indicated the level of partnership that their current and past (10 years ago) research program had outside of academia).", message=FALSE, warning=FALSE}
 
 b.part<-data.frame(table(n.gbl.devp$partnership_outside_before))
 b.part<-b.part[!b.part$Var1=="",]
@@ -1304,24 +1403,24 @@ myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors6)
 
-#pdf(file="figures/developed/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.6_LevelsOfPartnership.pdf", width = 11, height= 7)
 
 ggplot(part, aes(x=Var1, y=Freq, fill = time),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
   geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
-  labs(x="", y="Number of responses", fill="", title="Level of partnership outside of academia (developed nations)")+
+  labs(x="", y="Number of responses", fill="", title="Level of partnership outside of academia (developed nations, 340 CA)")+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         legend.key=element_blank(),legend.text=element_text(size = 9),
         axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9), axis.title=element_text(size = 11), 
         legend.position=c(0.08, 0.94), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1150))
+  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,710))
 
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.7a&b Did it change and reasons for change in level of external research partnerships over the past decade.", message=FALSE, warning=FALSE}
 
 ### was there change
 
@@ -1334,19 +1433,57 @@ myColors<-myColors[c(9, 7,5)]
 g1<-ggplot(data=change.part.glb, aes(x=Var1, y=Freq, fill=Var1))+ 
     geom_bar(stat='identity') + 
     guides(fill=FALSE) + 
-    labs(x="", y="Number of responses",title="Change in level of external partnerships (developed nations)")+
+    labs(x="", y="Number of responses",title="Change in level of external partnerships (developed nations, 340 CA)")+
   geom_text(aes(label=Freq), vjust=-0.5)+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   scale_fill_manual(name = "Var1",values = myColors) +
   #annotate('text', 3.25,606, label="(a)", size=7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1430))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,840))
 
 ### reason
 #selecting for developed countries
 part2.reason.devp<-part2.reason[part2.reason$nation%in% developed,]
+#dim(part2.reason.devp)   #2641
 
-reason.pt.long<-gather(part2.reason.devp, change.reason, yes, -Country,-Country_work, -nation, -gender, -Location, -what_participant_group, -field_research)
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part2.reason.devp[part2.reason.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part2.reason.devp[!part2.reason.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   16
+#dim(ca)   #1331  16     991 subtracted
+
+#now combine them back together
+part2.reason.devp <- rbind(randca, other)
+#head(part2.reason.devp)
+#dim(part2.reason.devp)  # 1650   16    991 subtracted so we are good to go
+
+reason.pt.long<-gather(part2.reason.devp, change.reason, yes, -Country,-Country_work, -nation, -gender, -Location, -what_participant_group, -field_research, -id)
 sum.global<-data.frame(table(reason.pt.long$change.reason, reason.pt.long$yes))
 
 sum.global$Var1<-revalue(sum.global$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
@@ -1363,12 +1500,12 @@ g2<-ggplot(sum.global, aes(x=Var1, y=Freq, fill=Var1)) +
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   geom_text(aes(label=Freq), vjust=-0.5, size=3)+
-  labs(x="", y="Number of responses", title="Reason for change in level of external partnerships (developed nations)")+scale_fill_manual(name = "Var1",values = myColors7)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,810))
+  labs(x="", y="Number of responses", title="Reason for change in level of external partnerships (developed nations, 340 CA)")+scale_fill_manual(name = "Var1",values = myColors7)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,570))
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-#pdf(file="figures/developed/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.7a&b_PartnershipChange&Reason.pdf", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
 
@@ -1376,7 +1513,7 @@ grid.arrange(g1, g2, ncol=1)
 
 ```
 
-```{r, echo=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Figure 4.8 View of change in external partnerships. Researchers were asked how they viewed the change in the level of partnership with external groups.", message=FALSE, warning=FALSE}
 
 view<-data.frame(table(n.gbl.devp$view_change_partnership))
 view<-view[!view$Var1=="",]
@@ -1389,7 +1526,7 @@ myColors8<-(brewer.pal(9, "Blues"))
 myColors8<-myColors8[c(4,4,4,4,4)]
 colScale <- scale_fill_manual(name = "Var1",values = myColors8)
 
-#pdf(file="figures/developed/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.8_ViewChangePartnership.pdf", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
@@ -1397,13 +1534,13 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(aspect.ratio=3/4, panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.text.x = element_text(angle=0, vjust=0, size=9), axis.text.y=element_text(size = 9), axis.title.y=element_text(size=11), plot.title = element_text(hjust = 0.5)) + 
-  labs(x="", y="Number of responses", title="Opinion of change in level of external partnerships (developed nations)") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,330), breaks = seq(0,330,50))
+  labs(x="", y="Number of responses", title="Opinion of change in level of external partnerships (developed nations, 340 CA)") + colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,240), breaks = seq(0,240,50))
 
 #dev.off()
 
 ```
  
-```{r, eval=FALSE, fig.cap="Figure ( 4.6 + 4.7 + 4.8 ) External Research Partnerships. ", warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Figure ( 4.6 + 4.7 + 4.8 ) External Research Partnerships. ", warning=FALSE, include=FALSE}
 ###4.6
 myColors6<-(brewer.pal(9, "Blues"))
 myColors6<-rev(myColors6[c(9, 5)])
@@ -1509,29 +1646,65 @@ multiplot(p4, p5, p6, layout = matrix(c(1,1,2,3),nrow=2, byrow=TRUE))
 <!--**4.3 Research Grants**  -->
 
 
-```{r, echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig. 4.9 Number of research grant applications by research category in 2006-2010 and 2011-2015.", fig.height=12, message=FALSE, warning=FALSE}
 part3.grants.long<-read.csv(file="../data/gya-part3.grants.long.csv")
+
 #selecting for developed countries
-n.gbl.devp<-survey[survey$nation%in% developed,]
-#remove CA responses
-part3.grants.long <- part3.grants.long[part3.grants.long$nation!="Canada",]
+part3.grants.long.devp<-part3.grants.long[part3.grants.long$nation%in% developed,]
+#dim(part3.grants.long.devp)   #15846
 
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part3.grants.long.devp[part3.grants.long.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
 
-part3.grants.long$type.grant<-as.character(part3.grants.long$type.grant)
+#2: others
+other <- part3.grants.long.devp[!part3.grants.long.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #2040  
+#dim(ca)   #7986   subtracted 5946
+
+#now combine them back together
+part3.grants.long.devp <- rbind(randca, other)
+#head(n.gbl.devp)
+#dim(part3.grants.long.devp)  # 9900     5946 subtracted so we are good to go
+
+part3.grants.long.devp$type.grant<-as.character(part3.grants.long.devp$type.grant)
 
 
 #add time variable
-part3.grants.long$time<-ifelse(grepl("11_15", part3.grants.long$type.grant), "2011-2015", "2006-2010")
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
-part3.grants.long$type.grant[part3.grants.long$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
-
-grants.gbl<-data.frame(with(part3.grants.long, table(type.grant,time,number)))
+part3.grants.long.devp$time<-ifelse(grepl("11_15", part3.grants.long.devp$type.grant), "2011-2015", "2006-2010")
+part3.grants.long.devp$type.grant[part3.grants.long.devp$type.grant=="external_pi_grant_11_15_fundamental"]<-"Fundamental"
+part3.grants.long.devp$type.grant[part3.grants.long.devp$type.grant=="external_pi_grant_6_10_fundamental"]<-"Fundamental"
+part3.grants.long.devp$type.grant[part3.grants.long.devp$type.grant=="external_pi_grant_11_15_use"]<-"Use-Inspired"
+part3.grants.long.devp$type.grant[part3.grants.long.devp$type.grant=="external_pi_grant_6_10_use"]<-"Use-Inspired"
+part3.grants.long.devp$type.grant[part3.grants.long.devp$type.grant=="external_pi_grant_11_15_applied"]<-"Applied"
+part3.grants.long.devp$type.grant[part3.grants.long.devp$type.grant=="external_pi_grant_6_10_applied"]<-"Applied"
+#dim(part3.grants.long.devp)
+grants.gbl<-data.frame(with(part3.grants.long.devp, table(type.grant,time,number)))
 grants.gbl$type.grant<-as.factor(grants.gbl$type.grant)
-
+#dim(grants.gbl)
 
 #change order of levels
 grants.gbl$number<-factor(grants.gbl$number, levels(grants.gbl$number)[c(1,2,6,7,3,4,5)])
@@ -1551,7 +1724,7 @@ grants.gbl$ID<-factor(grants.gbl$ID, levels(grants.gbl$ID)[c(4,3,6,5,2,1)])
 ## add colors
 mycols<-c('#33a02c','#a6cee3','#fb9a99','#1f78b4', '#e31a1c','#b2df8a')
 
-#pdf(file="figures/developed/4.9_NumberGrantApps.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.9_NumberGrantApps.pdf", height=7, width =11)
 
 
 #####add (a)
@@ -1568,7 +1741,7 @@ p1 <- ggplot(xs$Fundamental, aes(number, Freq, fill=time), width=0.7) +
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.81, 0.91), legend.text=element_text(size = 9), axis.title.x=element_text(size = 11),
           axis.title.y=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9)) + 
-  colScale+scale_y_continuous(expand = c(0, 0), limits = c(0,1200), breaks = c(0,200,400,600,800,1000,1200))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,1200), breaks = c(0,200,400,600,800,1000,1200))
 
 p2 <- p1 %+% xs$`Use-Inspired`
 p3 <- p1 %+% xs$Applied
@@ -1576,18 +1749,56 @@ p1<-p1+scale_fill_manual(name = "ID",values =mycols[c(2,4)], labels=c("2006-2010
 p2<-p2+scale_fill_manual(name = "ID",values =mycols[c(6,1)], labels=c("2006-2010", "2011-2015"))+labs(title="Use-inspired")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
 p3<-p3+scale_fill_manual(name = "ID",values =mycols[c(3,5)], labels=c("2006-2010", "2011-2015"))+labs(title="Applied")+ theme(plot.title = element_text(size=12, hjust=0.5, face = "bold"))
 
-grid.arrange(p1,p2,p3, nrow=1, top=textGrob("Number of research grant applications (developed nations)",gp=gpar(fontsize=17)))
+grid.arrange(p1,p2,p3, nrow=1, top=textGrob("Number of research grant applications\n(developed nations, 340 CA)",gp=gpar(fontsize=17)))
 
 #dev.off()
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.10 Research grant application success over the past 10 years. Researchers were asked to estimate the percentage of their research grant applications that were successful in 2006-2010 and in 2011-2015. Respondents also had the choice to answer No need for applications for this research type.", message=FALSE, warning=FALSE}
 
 part3.success.long<-read.csv(file="../data/gya-part3.success.long.csv")
 
 #selecting for developed countries
 part3.success.long<-part3.success.long[part3.success.long$nation%in% developed,]
+#dim(part3.success.long)   #8934
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part3.success.long[part3.success.long$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part3.success.long[!part3.success.long$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #1379  
+#dim(ca)   #4584     3205  subtracted
+
+#now combine them back together
+part3.success.long <- rbind(randca, other)
+#head(part3.success.long)
+#dim(part3.success.long)  # 5729     3205 subtracted so we are good to go
 
 part3.success.long$type<-as.character(part3.success.long$type)
 
@@ -1620,7 +1831,7 @@ mycols10$id<-levels(success.gbl$id)
 success.gbl$col<-mycols10$mycols10[match(success.gbl$id, mycols10$id)]
 success.gbl$col<-factor(success.gbl$col, levels(success.gbl$col)[c(3,1,4,2,6,5)])
 
-#pdf(file="figures/developed/4.10_GrantAppSuccess.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.10_GrantAppSuccess.pdf", height=7, width =11)
 
 out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
   n <- droplevels(n)
@@ -1638,19 +1849,57 @@ out2<-by(data = success.gbl, INDICES = success.gbl$type, FUN = function(n){
           strip.background = element_rect(colour="white", fill="white"),
            axis.title.y=element_text(size=11),plot.title = element_text(size=12, face="bold", hjust=0.5),
           axis.title.x=element_text(size=11), axis.text.x=element_text(size=9), axis.text.y=element_text(size=9), title=element_text(size = 12)) + colScale +
-    scale_y_continuous(expand=c(0,0), limits=c(0,380))
+    scale_y_continuous(expand=c(0,0), limits=c(0,280), breaks = seq(0, 280, 50))
  })
 do.call(grid.arrange, out2)
 
-
+#dev.off()
 ```
  
-```{r, echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years  for each research category.", message=FALSE, warning=FALSE,warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.11 Change in grant success rates over the past 10 years. Researchers were asked if they thought that grant sucecss rates have changed in the past 10 years  for each research category.", message=FALSE, warning=FALSE}
 #selecting for developed countries
 part3.change.devp<-part3.change[part3.change$nation%in% developed,]
+#dim(part3.change.devp)  #2641
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part3.change.devp[part3.change.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part3.change.devp[!part3.change.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   
+#dim(ca)   #1331    991 subtracted
+
+#now combine them back together
+part3.change.devp <- rbind(randca, other)
+#head(part3.change.devp)
+#dim(part3.change.devp)  # 1650  991 subtracted so we are good to go
 
 ##switch to long format
-change.long.gbl<-gather(part3.change.devp, type, level, -Location, -nation, -gender, -Country, -Country_work, -what_participant_group, -field_research)
+change.long.gbl<-gather(part3.change.devp, type, level, -Location, -nation, -gender, -Country, -Country_work, -what_participant_group, -field_research, -id)
 success.change<-with(change.long.gbl, data.frame(table(type, level)))
 #remove no response
 success.change<-success.change[!success.change$level=="",]
@@ -1666,7 +1915,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/developed/4.11_ChangeSuccessRate.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.11_ChangeSuccessRate.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -1681,17 +1930,55 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   geom_text(aes(label=Freq, vjust=-0.4),size=3) +
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
-  labs(x="", y="Number of responses", fill="", title="Change in grant success rate (developed nations)")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1140))
+  labs(x="", y="Number of responses", fill="", title="Change in grant success rate (developed nations, 340 CA)")+ colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,700))
 
 #dev.off()
 
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful in 2006-2010 and in 2011-2015.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.12 Importance of practical application of research over the past 10 years. Researchers were asked how important it was to suggest practical applications of their research to ensure that the grant was successful in 2006-2010 and in 2011-2015.", message=FALSE, warning=FALSE}
 #selecting for developed countries
 part3.prac.long<-part3.prac.long[part3.prac.long$nation%in% developed,]
+#dim(part3.prac.long)    #5148
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part3.prac.long[part3.prac.long$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part3.prac.long[!part3.prac.long$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #671   
+#dim(ca)   #2589  1918 subtracted
+
+#now combine them back together
+part3.prac.long <- rbind(randca, other)
+#head(part3.prac.long)
+#dim(part3.prac.long)  # 3230    1918 subtracted so we are good to go
 
 part3.prac.long$year<-as.character(part3.prac.long$year)
 
@@ -1708,7 +1995,7 @@ myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors12)
 
-#pdf(file="figures/developed/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.12_ImportancePracticalApplication.pdf", height=7, width =11)
 
 ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
@@ -1720,15 +2007,53 @@ ggplot(prac.gbl, aes(Var2, Freq, fill=Var1)) +
         axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
-  labs(x="Importance of suggesting practical research applications", y="Number of responses", title="Importance of practical application for grant success (developed nations)")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,860))
+  labs(x="Importance of suggesting practical research applications", y="Number of responses", title="Importance of practical application for grant success (developed nations, 340 CA)")+ colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,550))
   
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful in 2006-2010 and in 2011-2015.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.13 Importance of including partners from for-profit or non-governmental sectors in grant success. Researchers were asked how important it was to include external partnerships in their research to ensure that the grant was successful in 2006-2010 and in 2011-2015.", message=FALSE, warning=FALSE}
 #selecting for developed countries
 part3.part.long<-part3.part.long[part3.part.long$nation%in% developed,]
+#dim(part3.part.long)  #5126
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part3.part.long[part3.part.long$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part3.part.long[!part3.part.long$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #667
+#dim(ca)   #2577     1910  subtracted
+
+#now combine them back together
+part3.part.long <- rbind(randca, other)
+#head(part3.part.long)
+#dim(part3.part.long)  # 3216  1910 subtracted so we are good to go
 
 part3.part.long$year<-as.character(part3.part.long$year)
 
@@ -1744,24 +2069,24 @@ myColors13<-(brewer.pal(9, "Blues"))
 myColors13<-rev(myColors13[c(9, 5)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors13)
 
-#pdf(file="figures/developed/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.13_ImportancePartnersApplication.pdf", height=7, width =11)
 
 ggplot(part.gbl, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
-    labs(x="Importance of external partnerships", y="Number of responses", title="Importance of external partnership to the success of grants (developed nations)")+
+    labs(x="Importance of external partnerships", y="Number of responses", title="Importance of external partnership to the success of grants (developed nations, 340 CA)")+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(aspect.ratio=3/4, panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 9),
           legend.key=element_blank(),
           legend.position=c(0.11, 0.93), axis.text.x=element_text(size = 9), axis.text.y=element_text(size=9),
           axis.title.x=element_text(size = 11), axis.title.y=element_text(size = 11), plot.title = element_text(hjust = 0.5)) + colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,865))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,510))
 
 #dev.off()
 ```
 
-```{r, eval=FALSE, fig.cap="Fig (4.12+4.13) Importance of practical applications and external partnerships.", warning=FALSE, include=FALSE}
+```{r eval=FALSE, fig.cap="Fig (4.12+4.13) Importance of practical applications and external partnerships.", warning=FALSE, include=FALSE}
 ###4.12
 myColors12<-(brewer.pal(9, "Blues"))
 myColors12<-rev(myColors12[c(9, 5)])
@@ -1801,7 +2126,7 @@ p11<-ggplot(part.is, aes(Var2, Freq, fill=Var1))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,60))+annotate('text', 0.65,460, label="(b)", size=5)
 p11
 
-#pdf(file="figures/developed/4.3_13Apr.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_randCA/4.3_13Apr.pdf", width = 11, height= 7)
 
 grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
@@ -1809,17 +2134,66 @@ grid.arrange(p10,p11, heights=c(0.5,0.5), ncol=1)
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.14 Distribution of research funding over the past 10 years. Researchers were asked to estimate the distribution of their research funding sources in 2006-2010 and 2011-2015.", message=FALSE, warning=FALSE}
 #selecting for developed countries
-p3_master.long<-p3_master.long[p3_master.long$nation%in% developed,]
+p3_master.long.devp<-p3_master.long[p3_master.long$nation%in% developed,]
+#dim(p3_master.long.devp)  #20855
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- p3_master.long.devp[p3_master.long.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- p3_master.long.devp[!p3_master.long.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #2800
+#dim(ca)   #10470     7670 subtracted
+
+#now combine them back together
+p3_master.long.devp <- rbind(randca, other)
+#head(p3_master.long.devp)
+#dim(p3_master.long.devp)  # 13185   7670 subtracted so we are good to go
+
+p3_master.long.devp$year <- ifelse(grepl("11_15", p3_master.long.devp$type.year), "11_15", "6_10")
+#head(p3_master.long.devp)
+
+p3_master.long.devp$type <- 1
+p3_master.long.devp$type <- ifelse(grepl("For-Profit", p3_master.long.devp$type.year), "For-Profit", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Government", p3_master.long.devp$type.year), "Government", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Internal", p3_master.long.devp$type.year), "Internal", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Non-governmental", p3_master.long.devp$type.year), "Non-governmental", p3_master.long.devp$type)
+p3_master.long.devp$type <- ifelse(grepl("Other", p3_master.long.devp$type.year), "Other", p3_master.long.devp$type)
 
 ##revalue the year values
-p3_master.long$year<- revalue(p3_master.long$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
+p3_master.long.devp$year<- revalue(p3_master.long.devp$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
+
 #change order of levels
-p3_master.long$year<-factor(p3_master.long$year, levels(p3_master.long$year)[c(2,1)])
+#p3_master.long.devp$year<-factor(p3_master.long.devp$year, levels(p3_master.long.devp$year)[c(2,1)])
 
 ##For-Profit
-fp<-p3_master.long[p3_master.long$type=="For-Profit",]
+fp<-p3_master.long.devp[p3_master.long.devp$type=="For-Profit",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1833,13 +2207,13 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(list(title= "Industry", x="", y = "Number of responses"))+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 500))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 500))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
 
 ##Government
-gov<-p3_master.long[p3_master.long$type=="Government",]
+gov<-p3_master.long.devp[p3_master.long.devp$type=="Government",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1853,7 +2227,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Government", x="", y = "")+
-  scale_y_continuous(expand =c(0,0),limits=c(0,2500), breaks=seq(0, 2500, 500))+
+  scale_y_continuous(expand =c(0,0),limits=c(0,1600), breaks=seq(0, 1600, 500))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1861,7 +2235,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Internal
 
-int<-p3_master.long[p3_master.long$type=="Internal",]
+int<-p3_master.long.devp[p3_master.long.devp$type=="Internal",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1875,7 +2249,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Internal",x="% research funding", y = "Number of responses")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 500))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 500))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1883,7 +2257,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
 
 ##Non-Governmental
 
-ngov<-p3_master.long[p3_master.long$type=="Non-governmental",]
+ngov<-p3_master.long.devp[p3_master.long.devp$type=="Non-governmental",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1897,14 +2271,14 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Non-governmental", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0),limits=c(0,2500), breaks=seq(0, 2500, 500))+
+  scale_y_continuous(expand =c(0,0),limits=c(0,1600), breaks=seq(0, 1600, 500))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
 
 ## Other
 
-other<-p3_master.long[p3_master.long$type=="Other",]
+other<-p3_master.long.devp[p3_master.long.devp$type=="Other",]
 
 myColors14<-(brewer.pal(9, "Blues"))
 myColors14<-rev(myColors14[c(9, 5)])
@@ -1918,7 +2292,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           panel.grid.minor = element_blank(), axis.text.x=element_text(size = 9), axis.text.y=element_text(size = 9), legend.key=element_blank(),
           axis.title.x=element_text(size=11), axis.title.y=element_text(size = 11)) +
   labs(title="Other", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,2500), breaks=seq(0, 2500, 500))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 500))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -1927,12 +2301,12 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-#pdf(file="figures/developed/4.14_DistributionFunding.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.14_DistributionFunding.pdf", height=7, width =11)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
                          p5,
-                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (developed nations)",gp=gpar(fontsize=17)))
+                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (developed nations, 340 CA)",gp=gpar(fontsize=17)))
 
 #dev.off()
 
@@ -1942,9 +2316,47 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
 <!--Part 4 - Funding Trends in your country of work-->
 <!--**4.4 Perspectives on the State of Fundamental Research**-->
 
-```{r, echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.15 Perceived importance of fundamental research to their government. Researchers were asked how important they thought fundamental research was to the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
 #selecting for developed countries
 part4.devp<-part4[part4$nation%in% developed,]
+#dim(part4.devp)   #2641
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part4.devp[part4.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part4.devp[!part4.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   
+#dim(ca)   #1331  991 subtract
+
+#now combine them back together
+part4.devp <- rbind(randca, other)
+#head(part4.devp)
+#dim(part4.devp)  # 1650    991 subtracted so we are good to go
 
 ## order bars from very important (left) to can't comment (right)
 important<-subset(part4.devp, select=c("Location","Country",'Country_work', "gender","opinion_fundamental_important"))
@@ -1963,24 +2375,62 @@ myColors15<-(brewer.pal(9, "Blues"))
 myColors15<-(myColors15[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors15)
 
-#pdf(file="figures/developed/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.15_PerceivedImportanceFundamentalGovernment.pdf", height=7, width =11)
 
 ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
-      labs(x="", y="Number of responses", fill="", title="Perceived importance of fundamental research to their government (developed nations)")+
+      labs(x="", y="Number of responses", fill="", title="Perceived importance of fundamental research to their government (developed nations, 340 CA)")+
       scale_x_discrete(labels=c("Very\n important", "Somewhat\n important", 'Not very\n important', 'Not at all\n important', "Can't\n comment"))+
       geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,1000)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,585)) + colScale
 
 #dev.off()
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.16 Perceived change in research priority by their government. Researchers were asked whether any types of research had become higher priority for the their government. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
 #selecting for developed countries
 part4.devp<-part4[part4$nation%in% developed,]
+#dim(part4.devp)    #2641
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part4.devp[part4.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part4.devp[!part4.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   
+#dim(ca)   #1331    991  subtracted
+
+#now combine them back together
+part4.devp <- rbind(randca, other)
+#head(part4.devp)
+#dim(part4.devp)  # 1650   16    991 subtracted so we are good to go
 
 ## order bars into applied > use > fundamental > no change
 priority<-subset(part4.devp, select=c("Location","Country",'nation','Country_work', "gender", "high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
@@ -1999,7 +2449,7 @@ myColors16<-(brewer.pal(9, "Blues"))
 myColors16<-(myColors16[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
-#pdf(file="figures/developed/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
 
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
@@ -2007,17 +2457,55 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
               axis.text.x = element_text(angle=0, vjust=0.4, size=9),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
-        labs(x="", y="Number of responses", fill="", title="Perceived change in research priority by their government (developed nations)") +
+        labs(x="", y="Number of responses", fill="", title="Perceived change in research priority by their government (developed nations, 340 CA)") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,2245))+ colScale
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1340))+ colScale
 
 #dev.off()
 ```
 
 
-```{r, echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.17 Anticipated change in research funding in next five years. Researchers were asked whether the availability of research funding would change in the next five years.", message=FALSE, warning=FALSE}
 #selecting for developed countries
 part4.devp<-part4[part4$nation%in% developed,]
+#dim(part4.devp)   #2641
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part4.devp[part4.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part4.devp[!part4.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340 
+#dim(ca)   #1331   991  subtracting
+
+#now combine them back together
+part4.devp <- rbind(randca, other)
+#head(part4.devp)
+#dim(part4.devp)  # 1650    991 subtracted so we are good to go
 
 ## change in funding on the x-axis, and colours = type of research
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
@@ -2047,7 +2535,7 @@ availability.gbl$what.type<-revalue(availability.gbl$what.type, c("available_fun
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
-#pdf(file="figures/developed/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
 
 ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
     geom_bar(stat="identity", position="dodge")+
@@ -2058,21 +2546,59 @@ ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.8, 0.2), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
     guides(fill=FALSE)+
-    labs(x="", y="Number of responses", fill="", title="Anticipated change in funding (developed nations)")+
+    labs(x="", y="Number of responses", fill="", title="Anticipated change in funding (developed nations, 340 CA)")+
     scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,910), breaks = seq(0,900,100))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,620), breaks = seq(0,600,100))
 
 #dev.off()
 
 
 ```
 
-```{r, echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="Fig 4.18 Effect of change in research funding on research careers of next generation. Researchers were asked if they though that changes in funding availability would influence the likelihood of the next generation pursuing careers in research. Responses were/were not significantly different between genders.", message=FALSE, warning=FALSE}
 #selecting for developed countries
 part4.devp<-part4[part4$nation%in% developed,]
+#dim(part4.devp)    #2641
+
+## now to randomly select for 340 canadian surveys so it does not scew the data 
+#create two data frames 1:Canadian   2: non Canadian
+#1: Canadian
+ca <- part4.devp[part4.devp$nation == "Canada",]
+#head(ca)
+ca<-droplevels(ca)
+#unique(ca$nation)
+
+#2: others
+other <- part4.devp[!part4.devp$nation == "Canada",]
+#head(other)
+other<- droplevels(other)
+#unique(other$nation)
+
+#now randomly select 340 Canadian
+# dim(ca) #528   16
+# randca <- ca[sample(nrow(ca), 340), ]
+# dim(randca)  #340  16     188 subtracted
+# randcaid<-unique(randca$id)  # now use this to select from for all future so it doesnt change everytime i run the code
+#write a csv (then comment it out) with the data so it stays permanent
+#write.csv(randcaid, "data/gya_survey_response_developed_randCA_IDs.csv", row.names = FALSE)
+
+#now read in the csv so it will be the same random surveys from here on out
+randcaid <- read.csv("data/gya_survey_response_developed_randCA_IDs.csv", col.names = TRUE)
+randid <- unique(randcaid$TRUE.)
+#head(randid)
+
+randca <- ca[ca$id %in% randid,]
+#head(randca)
+#dim(randca)  #340   
+#dim(ca)   #1331    991 subtracted
+
+#now combine them back together
+part4.devp <- rbind(randca, other)
+#head(part4.devp)
+#dim(part4.devp)  # 1650   991 subtracted so we are good to go
 
 ## order bars into increase considerably (left) to decrease considerably (right), then no comment at the far right
 next.generation<-subset(part4.devp, select=c("Location", "Country","Country_work", "gender","next_generation"))
@@ -2093,20 +2619,20 @@ myColors18<-(brewer.pal(9, "Blues"))
 myColors18<-(myColors18[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors18)
 
-#pdf(file="figures/developed/4.18_EffectNextGeneration.pdf", height=7, width =11)
+#pdf(file="figures/developed_randCA/4.18_EffectNextGeneration.pdf", height=7, width =11)
 
 ggplot(data=impact, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +
         scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     guides(fill=FALSE) +
- labs(x="", y="Number of responses", title="Effect of funding changes on the next generation of researchers (developed nations)")+
+ labs(x="", y="Number of responses", title="Effect of funding changes on the next generation of researchers (developed nations, 340 CA)")+
   theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.5, size=9),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
           axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5))+
   geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,775))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,530))+colScale
 
 #dev.off()
 ```
