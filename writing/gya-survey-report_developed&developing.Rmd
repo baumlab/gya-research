@@ -246,7 +246,31 @@ knitr::include_graphics("Figures/developing/4.17_AnticipatedChangeFunding.pdf")
 ## 4.3.3
 
 
+```{r, echo=FALSE, fig.cap="4.3.3 current (developed, 340 CA)", out.width = '100%'}
 
+knitr::include_graphics("Figures/developed_randCA/4.3.3_ResearchProportion_Current.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.3.3 past (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.3.3_ResearchProportion_Past.pdf")
+
+```
+
+\FloatBarrier
+
+```{r, echo=FALSE, fig.cap="4.3.3 current (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.3.3_ResearchProportion_Current.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.3.3 past (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.3.3_ResearchProportion_Past.pdf")
+
+```
 
 
 

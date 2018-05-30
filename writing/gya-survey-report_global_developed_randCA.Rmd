@@ -804,13 +804,13 @@ res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Resear
 #head(res.port.devp)
 
 #now deal with the 50%
-res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current == 50 & res.port.devp$percent_fundemental_research_current == 50), "fund.app.half.current", res.port.devp$majority_current)
-res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current == 50 & res.port.devp$percent_Use_inspired_Research_current == 50), "use.app.half.current", res.port.devp$majority_current)
-res.port.devp$majority_current <- ifelse((res.port.devp$percent_Use_inspired_Research_current == 50 & res.port.devp$percent_fundemental_research_current == 50), "fund.use.half.current", res.port.devp$majority_current)
+res.port.devp$majority_current <- ifelse(((res.port.devp$percent_Applied_Research_current == 50 | res.port.devp$percent_Use_inspired_Research_current == 50) & res.port.devp$percent_fundemental_research_current == 50), "fund.app.half.current", res.port.devp$majority_current)
+res.port.devp$majority_current <- ifelse((res.port.devp$percent_Applied_Research_current == 50 & res.port.devp$percent_Use_inspired_Research_current == 50), "app.current", res.port.devp$majority_current)
+#res.port.devp$majority_current <- ifelse((res.port.devp$percent_Use_inspired_Research_current == 50 & res.port.devp$percent_fundemental_research_current == 50), "fund.use.half.current", res.port.devp$majority_current)
 
-res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & res.port.devp$percent_Applied_Research_past == 50), "fund.app.half.past", res.port.devp$majority_past)
-res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & res.port.devp$percent_Use_inspired_Research_past == 50), "fund.use.half.past", res.port.devp$majority_past)
-res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past == 50 & res.port.devp$percent_Applied_Research_past == 50), "use.app.half.past", res.port.devp$majority_past)
+res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & (res.port.devp$percent_Use_inspired_Research_past == 50 | res.port.devp$percent_Applied_Research_past == 50)), "fund.app.half.past", res.port.devp$majority_past)
+#res.port.devp$majority_past <- ifelse((res.port.devp$percent_Fundamental_Research_past == 50 & res.port.devp$percent_Use_inspired_Research_past == 50), "fund.use.half.past", res.port.devp$majority_past)
+res.port.devp$majority_past <- ifelse((res.port.devp$percent_Use_inspired_Research_past == 50 & res.port.devp$percent_Applied_Research_past == 50), "app.past", res.port.devp$majority_past)
 
 #head(res.port.devp)
 
@@ -841,12 +841,12 @@ write.csv(res.port.devp, file = "data/developed_research_direction_change.csv", 
 ###################################
 # now going to plot the means of the changes 
 
-change <- subset(res.port.devp, select = c("app_mean", "use_mean", "fund_mean"))
+change <- subset(res.port.devp, select = c("app_mean", "use_mean", "fund_mean", "nation", "id"))
 #head(change)
 
-colnames(change) <- c("app_mean" = "Applied", "use_mean" = "Use-inspired", "fund_mean" = "Fundamental")
+colnames(change) <- c("app_mean" = "Applied", "use_mean" = "Use-inspired", "fund_mean" = "Fundamental", "nation"="nation", "id"="id")
 
-change.long <- gather(change, type, aver)
+change.long <- gather(change, type, aver, -nation, -id)
 #change.long <- gather(change.long, type_sd, sd, -type, -aver)
 #head(change.long)
 #dim(change.long)
@@ -901,39 +901,65 @@ ggplot(change.long, aes(type, aver, fill = type))+ geom_bar(stat = "identity") +
 pastmajor <- aggregate(gender ~ majority_past, res.port.devp, length)
 #pastmajor
 # change the column names so they can be joined
-colnames(pastmajor) <- c("major.research", "gender")
+colnames(pastmajor) <- c("major.research.past", "gender")
 #pastmajor
-# add in basic colors for now  - just going to do past and current
-pastmajor$color <- "darkturquoise"
-#pastmajor
+
 
 currentmajor <- aggregate(gender ~ majority_current, res.port.devp, length)
 #currentmajor
-colnames(currentmajor) <- c("major.research", "gender")
+colnames(currentmajor) <- c("major.research.current", "gender")
 #currentmajor
-# add in basic colors for now  - just going to do past and current
-currentmajor$color <- "paleturquoise"
-#currentmajor
-# join them 
-majority <- full_join(pastmajor, currentmajor)
+# join them   not doing this anymore Anina wants two seperate figures
+#majority <- full_join(pastmajor, currentmajor)
 #majority
 
 
 
-# change the order 
-#str(majority$major.research)
-majority$major.research <- as.factor(majority$major.research)
-#levels(majority$major.research)
-majority$major.research <- factor(majority$major.research, levels(majority$major.research)[c(6,5,8,7,12,11,10,9,2,1,4,3)])
+# # change the order 
+# #str(majority$major.research)
+# majority$major.research <- as.factor(majority$major.research)
+# #levels(majority$major.research)
+# majority$major.research <- factor(majority$major.research, levels(majority$major.research)[c(6,5,8,7,12,11,10,9,2,1,4,3)])
 
 # graph the aggregates
 
-#pdf(file="figures/developed/4.3.3_ResearchProportion_DirectionChange.pdf", width = 11, height= 7)
 
-ggplot(majority, aes(major.research, gender, fill = color)) + geom_bar(stat='identity') + labs(x = "Majority type of research", y = "Number of responses", title = "Respondent's major proportion of research type\n(Developed countries)") + guides(fill =FALSE) +
-  theme(axis.text.x = element_text(angle = 90), plot.title = element_text(hjust = 0.5))
+myColors.major<-(brewer.pal(9, "Blues"))
+myColors.major<-myColors.major[c(4,4,4,4)]
+
+pastmajor$major.research.past<-revalue(pastmajor$major.research.past, c("app.past"="Applied", "fund.past"="Fundamental", "use.past"="Use-inspired", "fund.app.half.past"="Half Fundamental\n/Half Applied"))
+pastmajor$major.research.past<-reorder(pastmajor$major.research.past, rev(pastmajor$gender))
+
+#pdf(file="figures/developed_randCA/4.3.3_ResearchProportion_Past.pdf", width = 11, height= 7)
+
+ggplot(pastmajor, aes(major.research.past, gender, fill = major.research.past)) + geom_bar(stat='identity')+
+   geom_text(aes(label=gender), position=position_dodge(width=1), vjust=-0.5, size=4) + labs(x = "Majority type of research", y = "Number of responses", title = "Respondent's major proportion of past research type\n(Developed countries, 340 CA)") + guides(fill =FALSE) +
+  theme(plot.title = element_text(size = 11, hjust = 0.5), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.key=element_blank(),legend.text=element_text(size = 9),
+        axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9))+scale_fill_manual(name='major.research.past', values=myColors.major) +scale_y_continuous(expand = c(0, 0), limits = c(0,670))+ annotate('text', 4.4,625, label= sum(pastmajor$gender), size=5) +
+  annotate('text', 4.23, 625, label= "n = ", size=5)
 
 #dev.off()
+
+### current
+
+currentmajor$major.research.current<-revalue(currentmajor$major.research.current, c("app.current"="Applied", "fund.current"="Fundamental", "use.current"="Use-inspired", "fund.app.half.current"="Half Fundamental\n/Half Applied"))
+currentmajor$major.research.current<-reorder(currentmajor$major.research.current, rev(currentmajor$gender))
+
+
+#pdf(file="figures/developed_randCA/4.3.3_ResearchProportion_Current.pdf", width = 11, height= 7)
+
+ggplot(currentmajor, aes(major.research.current, gender, fill = major.research.current)) + geom_bar(stat='identity') +
+   geom_text(aes(label=gender), position=position_dodge(width=1), vjust=-0.5, size=4) + labs(x = "Majority type of research", y = "Number of responses", title = "Respondent's major proportion of current research type\n(Developed countries, 340 CA)") + guides(fill =FALSE) +
+  theme(plot.title = element_text(size = 11, hjust = 0.5), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.key=element_blank(),legend.text=element_text(size = 9),
+        axis.text.x = element_text(angle=0, size=9), axis.text.y=element_text(size = 9))+scale_fill_manual(name='major.research.current', values=myColors.major)+scale_y_continuous(expand = c(0, 0), limits = c(0,515))+ annotate('text', 4.4,485, label= sum(currentmajor$gender), size=5) +
+  annotate('text', 4.23, 485, label= "n = ", size=5)
+
+#dev.off()
+
 
 #what about graphing the individuals and their switch
 #head(res.port.devp)
