@@ -167,6 +167,86 @@ knitr::include_graphics("Figures/developing/4.5.4_ViewFieldChange_increasedApp.p
 
 ```
 
+\FloatBarrier
+
+##4.11 
+
+
+```{r, echo=FALSE, fig.cap="4.11 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.11_ChangeSuccessRate.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.11 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.11_ChangeSuccessRate.pdf")
+
+```
+
+
+\FloatBarrier
+
+##4.15
+
+
+```{r, echo=FALSE, fig.cap="4.15 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.15_PerceivedImportanceFundamentalGovernment.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.15 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.15_PerceivedImportanceFundamentalGovernment.pdf")
+
+```
+
+
+
+\FloatBarrier
+
+##4.16 
+
+
+```{r, echo=FALSE, fig.cap="4.16 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.16_PerceivedChangeResearchPriorityGovernment.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.16 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.16_PerceivedChangeResearchPriorityGovernment.pdf")
+
+```
+
+
+
+\FloatBarrier
+
+##4.17 
+
+
+```{r, echo=FALSE, fig.cap="4.17 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.17_AnticipatedChangeFunding.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.17 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.17_AnticipatedChangeFunding.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.3.3
+
+
+
 
 
 

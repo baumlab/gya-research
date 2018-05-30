@@ -1915,6 +1915,16 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
+#setting it up to have the n values added to figure
+
+n.use <- with(success.change, sum(Freq[type == "Use-inspired"]))
+n.fund <- with(success.change, sum(Freq[type == "Fundamental"]))
+n.app <- with(success.change, sum(Freq[type == "Applied"]))
+
+success.change$n <- ifelse(success.change$type == "Fundamental", n.fund, 1)
+success.change$n <- ifelse(success.change$type == "Applied", n.app, success.change$n)
+success.change$n <- ifelse(success.change$type == "Use-inspired", n.use, success.change$n)
+
 #pdf(file="figures/developed_randCA/4.11_ChangeSuccessRate.pdf", height=7, width =11)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
@@ -1931,7 +1941,7 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
                                     "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
   labs(x="", y="Number of responses", fill="", title="Change in grant success rate (developed nations, 340 CA)")+ colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,700))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,700))+geom_text(data=success.change, aes(x=6.4, y=650, label=n), colour="black", inherit.aes=FALSE, parse=FALSE, size = 4.5)+annotate('text', 6.09,650, label= "n = ", size=5)
 
 #dev.off()
 
@@ -2385,7 +2395,7 @@ ggplot(data=perceive, aes(x=Var1, y=Freq, fill=Var1)) +
       theme(aspect.ratio=3/4, axis.text.x = element_text(angle=0, vjust=0.4, size=9),
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(), axis.title.y=element_text(size=11), axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,585)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,585)) + colScale + annotate('text', 5.4,555, label= sum(perceive$Freq), size=5) +annotate('text', 5.15,555, label= "n = ", size=5)
 
 #dev.off()
 ```
@@ -2449,6 +2459,7 @@ myColors16<-(brewer.pal(9, "Blues"))
 myColors16<-(myColors16[c(4,4,4,4,4,4)])
 colScale <- scale_fill_manual(name = "Var1",values = myColors16)
 
+
 #pdf(file="figures/developed_randCA/4.16_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
 
 ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
@@ -2459,7 +2470,7 @@ ggplot(data=per.change, aes(x=what.type, higher.priority, fill=what.type))+
               panel.grid.minor = element_blank(), axis.title.y=element_text(size=11),  axis.text.y=element_text(size=9), plot.title = element_text(hjust = 0.5)) +
         labs(x="", y="Number of responses", fill="", title="Perceived change in research priority by their government (developed nations, 340 CA)") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
-  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1340))+ colScale
+  geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +scale_y_continuous(expand = c(0, 0), limits = c(0,1350), breaks = seq(0,1350, 200))+ colScale+ annotate('text', 4.4,1290, label= sum(per.change$higher.priority), size=5) +annotate('text', 4.2,1290, label= "n = ", size=5)
 
 #dev.off()
 ```
@@ -2535,6 +2546,16 @@ availability.gbl$what.type<-revalue(availability.gbl$what.type, c("available_fun
 myColors17<-mycols<-c('#1f78b4','#33a02c','#e31a1c')
 colScale <- scale_fill_manual(name = "what.type",values = myColors17)
 
+#setting it up to have the n values added to figure
+
+n.use <- with(availability.gbl, sum(Freq[what.type == "Use-inspired"]))
+n.fund <- with(availability.gbl, sum(Freq[what.type == "Fundamental"]))
+n.app <- with(availability.gbl, sum(Freq[what.type == "Applied"]))
+
+availability.gbl$n <- ifelse(availability.gbl$what.type == "Fundamental", n.fund, 1)
+availability.gbl$n <- ifelse(availability.gbl$what.type == "Applied", n.app, availability.gbl$n)
+availability.gbl$n <- ifelse(availability.gbl$what.type == "Use-inspired", n.use, availability.gbl$n)
+
 #pdf(file="figures/developed_randCA/4.17_AnticipatedChangeFunding.pdf", height=7, width =11)
 
 ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
@@ -2551,7 +2572,7 @@ ggplot(data=availability.gbl, aes(x=level, Freq, fill=what.type))+
                                     "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~what.type,nrow=3)+
     geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + colScale +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,620), breaks = seq(0,600,100))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,620), breaks = seq(0,600,100)) +annotate('text', 6,580, label= "n = ", size=5)+geom_text(data=availability.gbl, aes(x=6.35, y=580, label=n), colour="black", inherit.aes=FALSE, parse=FALSE, size = 4.5)
 
 #dev.off()
 
