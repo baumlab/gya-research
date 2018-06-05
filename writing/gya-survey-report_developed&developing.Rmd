@@ -79,7 +79,7 @@ knitr::include_graphics("Figures/developing/responses_country_10+&10-_gapplot.pd
   
 \FloatBarrier
 
-##Reason for Change  
+## 4.4b Reason for Change  
 
 ```{r, echo=FALSE, fig.cap="Reason for change in developed countries - Fundamental decreased 25%+", out.width = '100%'}
 
@@ -125,7 +125,7 @@ knitr::include_graphics("Figures/developing/4.4.4_ReasonForFieldChange_Increased
 
 \newpage
 
-##View of Change
+## 4.8 View of Change
 
 ```{r, echo=FALSE, fig.cap="View of change in developed countries (Fundamental decreased 25%+)", out.width = '100%'}
 
@@ -273,4 +273,181 @@ knitr::include_graphics("Figures/developing/4.3.3_ResearchProportion_Past.pdf")
 ```
 
 
+\FloatBarrier
 
+## 4.18 Effect on next generation
+
+
+```{r, echo=FALSE, fig.cap="4.18 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.18_EffectNextGeneration.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.18 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.18_EffectNextGeneration.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.1
+
+
+```{r, echo=FALSE, fig.cap="4.1 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.1_CareerStage.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.1 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.1_CareerStage.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.2
+
+
+```{r, echo=FALSE, fig.cap="4.2 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.2_FieldofResearch.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.2 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.2_FieldofResearch.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.6
+
+
+```{r, echo=FALSE, fig.cap="4.6 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.6_LevelsOfPartnership.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.6 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.6_LevelsOfPartnership.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.7
+
+
+```{r, echo=FALSE, fig.cap="4.7 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.7a&b_PartnershipChange&Reason.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.7 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.7a&b_PartnershipChange&Reason.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.9
+
+
+```{r, echo=FALSE, fig.cap="4.9 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.9_NumberGrantApps.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.9 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.9_NumberGrantApps.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.10
+
+
+```{r, echo=FALSE, fig.cap="4.10 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.10_GrantAppSuccess.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.10 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.10_GrantAppSuccess.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.12
+
+
+```{r, echo=FALSE, fig.cap="4.12 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.12_ImportancePracticalApplication.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.12 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.12_ImportancePracticalApplication.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.13
+
+
+```{r, echo=FALSE, fig.cap="4.13 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.13_ImportancePartnersApplication.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.13 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.13_ImportancePartnersApplication.pdf")
+
+```
+
+
+\FloatBarrier
+
+## 4.14
+
+
+```{r, echo=FALSE, fig.cap="4.14 (developed, 340 CA)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developed_randCA/4.14_DistributionFunding.pdf")
+
+```
+
+```{r, echo=FALSE, fig.cap="4.14 (developing)", out.width = '100%'}
+
+knitr::include_graphics("Figures/developing/4.14_DistributionFunding.pdf")
+
+```
