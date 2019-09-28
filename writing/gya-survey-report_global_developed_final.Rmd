@@ -48,39 +48,39 @@ dim(dev) #1661  86 - perfect
 #Count how many responses from researchers
 
 #Gender:
-n.gbl.res.men <- n.gbl.devp[n.gbl.devp$gender=="Male",]               #Count how many responses from  male researchers
-percent.men<-((dim(n.gbl.res.men)[1])/(dim(n.gbl.devp)[1]))*100      #Calculate the % of responses from  male researchers
-n.gbl.res.women <- n.gbl.devp[n.gbl.devp$gender=="Female",]           #Count how many responses from  female researchers
-percent.women<-((dim(n.gbl.res.women)[1])/(dim(n.gbl.devp)[1]))*100  #Calculate the % of responses from  female researchers
+dev.men <- dev[dev$gender=="Male",]               #Count how many responses from  male researchers
+percent.men<-((dim(dev.men)[1])/(dim(dev)[1]))*100      #Calculate the % of responses from  male researchers
+dev.women <- dev[dev$gender=="Female",]           #Count how many responses from  female researchers
+percent.women<-((dim(dev.women)[1])/(dim(dev)[1]))*100  #Calculate the % of responses from  female researchers
 
 #Career Stage Tabulations:
-#table(n.gbl.devp$what_participant_group)
-n.seniorac <- n.gbl.devp[n.gbl.devp$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
-percent.seniorac<-((dim(n.seniorac)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  senior academic researchers
-n.earlyac <- n.gbl.devp[n.gbl.devp$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
-percent.earlyac<-((dim(n.earlyac)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  early academic researchers
-n.pdf <- n.gbl.devp[n.gbl.devp$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
-percent.pdf<-((dim(n.pdf)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  post-docs
-n.nonACearly <- n.gbl.devp[n.gbl.devp$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
-percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from early career non-academics
-n.nonACsenior <- n.gbl.devp[n.gbl.devp$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
-percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from early career non-academics
-n.unk <- n.gbl.devp[n.gbl.devp$what_participant_group=="",]
-percent.unk<-((dim(n.unk)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from unknown career stage
+#table(dev$what_participant_group)
+n.seniorac <- dev[dev$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
+percent.seniorac<-((dim(n.seniorac)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  senior academic researchers
+n.earlyac <- dev[dev$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
+percent.earlyac<-((dim(n.earlyac)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  early academic researchers
+n.pdf <- dev[dev$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
+percent.pdf<-((dim(n.pdf)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  post-docs
+n.nonACearly <- dev[dev$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
+percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from early career non-academics
+n.nonACsenior <- dev[dev$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
+percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from early career non-academics
+n.unk <- dev[dev$what_participant_group=="",]
+percent.unk<-((dim(n.unk)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from unknown career stage
 
 #Discipline Tabulations:
-n.natural <- n.gbl.devp[n.gbl.devp$field_research=="Natural Science",]
-percent.natural <- ((dim(n.natural)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  natural scientists
-n.physics <- n.gbl.devp[n.gbl.devp$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
-percent.physics <- ((dim(n.physics)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  physical scientists
-n.med <- n.gbl.devp[n.gbl.devp$field_research=="Medicine and Life Science",]
-percent.med <- ((dim(n.med)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  med/life scientists
-n.eng <- n.gbl.devp[n.gbl.devp$field_research=="Engineering",]
-percent.eng <- ((dim(n.eng)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  engineering scientists
-n.int <- n.gbl.devp[n.gbl.devp$field_research=="Interdisciplinary Science",]
-percent.int <- ((dim(n.int)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
-n.ssh <- n.gbl.devp[n.gbl.devp$field_research=="Social Science / Humanities",]
-percent.ssh <- ((dim(n.ssh)[1])/(dim(n.gbl.devp)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.natural <- dev[dev$field_research=="Natural Science",]
+percent.natural <- ((dim(n.natural)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  natural scientists
+n.physics <- dev[dev$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
+percent.physics <- ((dim(n.physics)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  physical scientists
+n.med <- dev[dev$field_research=="Medicine and Life Science",]
+percent.med <- ((dim(n.med)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  med/life scientists
+n.eng <- dev[dev$field_research=="Engineering",]
+percent.eng <- ((dim(n.eng)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  engineering scientists
+n.int <- dev[dev$field_research=="Interdisciplinary Science",]
+percent.int <- ((dim(n.int)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.ssh <- dev[dev$field_research=="Social Science / Humanities",]
+percent.ssh <- ((dim(n.ssh)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
 ## load required packages
 require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(dplyr)
@@ -88,19 +88,31 @@ require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(R
 
 ```
 
+```{r set color scales, include=FALSE}
+
+theme_set(theme_minimal())
+
+# assign colour scale
+myColors1<-c("#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF")
+colScale <- scale_fill_manual(name = "Var1",values = myColors1)
+
+
+```
+
+
 **Results**  
-In total, `r dim(n.gbl.devp)[1]`  researchers from developed countries completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+In total, `r dim(dev)[1]`  researchers from developed countries completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
 
 Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
 
 
 
-```{r echo=FALSE, fig.cap="Number of responses by country", message=FALSE, warning=FALSE}
+```{r eval=FALSE, fig.cap="Number of responses by country", message=FALSE, warning=FALSE, include=FALSE}
 
 ###create figures
 
-locations<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations<-aggregate(gender ~ nation, dev, length)
 locations<-locations[!locations$nation=="",]
 locations<-droplevels(locations)
 
@@ -198,12 +210,11 @@ dev.off()
 ```
 
 <!-- Generate  career stage figure -->
-```{r, echo=FALSE, message=FALSE, fig.cap="Figure 4.1 Number of survey respondents from developed nations by career stage", warning=FALSE, fig.width=14}
+```{r eval=FALSE, fig.cap="Figure 4.1 Number of survey respondents from developed nations by career stage", fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
 
 
 theme_set(theme_bw())
-## setting colour scale to keep colours identical between similar plots
-## myColors <- brewer.pal(6,"Set1")
+
 
 experience<-data.frame(table(n.gbl.devp$what_participant_group))
 experience<-experience[!experience$Var1=="",]
@@ -241,87 +252,30 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
 
 <!-- Generate  research discipline figure -->
 ```{r, echo=FALSE, fig.cap="Figure 4.2 survey responses by field of research", fig.width=14, message=FALSE, warning=FALSE}
-field<-data.frame(table(n.gbl.devp$field_research))
-field<-field[!field$Var1=="",]
+field<-data.frame(table(dev$field_research))
+field<-field[!field$Var1=="0",]
 field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 
-## setting colour scale to keep colours identical between similar plots
-myColors2<-(brewer.pal(9, "Blues"))
-myColors2<-myColors2[-c(1)]
-names(myColors2) <- levels(field$field_research)
-colScale <- scale_fill_manual(name = "field_research",values = myColors2)
 
-#pdf(file="figures/developed/4.2_FieldofResearch.pdf", width = 11, height= 7)
+pdf(file="figures/developed_final/4.1_FieldofResearch_HI.pdf", width = 11, height= 7)
+svg(file="figures/developed_final/4.1_FieldofResearch_HI.svg", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
-    geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  labs(y="Number of responses",x="", title="Responses by field of research (developed nations)")  +
-  scale_x_discrete(labels=c("Physical\n Science", "Natural\n Science", "Medicine &\nLife Science", "Engineering", "Social Science/\nHumanities","Interdisciplinary\nScience",  "Other")) +
-  geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
-  theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
-         axis.text.x=element_text(angle=0, size=9),
-         axis.title=element_text(size=11),
-         panel.grid.major = element_blank(),
+    geom_bar(stat='identity',position = position_dodge(width=0.5), width = 0.5) + 
+  labs(y="Number of responses",x="", title="Responses by field of research (HI)")  +
+  scale_x_discrete(labels=c("Physical Science", "Natural Science", "Medicine & Life Science", "Engineering", "Social Science/ Humanities","Interdisciplinary Science",  "Other")) +
+  #geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
+  theme(axis.text.y=element_text(size=12),
+         axis.text.x=element_text(angle=-45, hjust = 0.1, size=12),
+         axis.title=element_text(size=14),
+         panel.grid.major.y = element_line(linetype = 3),
+        panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5)) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,760))
+  scale_y_continuous(expand = c(0,0), limits = c(0,600))
 
-#dev.off()
-```
-
-```{r, eval=FALSE, fig.cap="Figure 4.1 + 4.2 Career Stage and Field of research", message=FALSE, warning=FALSE, include=FALSE}
-##plot1
-
-# assign colour scale
-myColors1<-(brewer.pal(9, "Blues"))
-myColors1<-myColors1[-c(1:2)]
-names(myColors1)<- levels(experience$Var1)
-colScale <- scale_fill_manual(name = "Var1",values = myColors1)
-
-g4.1<-ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
-  geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  geom_text(aes(label=Freq, vjust=-1), size=3)+
-  scale_x_discrete(labels=c("Senior academic", "Early career\nacademic", "Postdoc or RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
-  labs(y="Number of responses", x="") +
-  guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
-  theme(aspect.ratio=1/2,legend.title=element_blank(), 
-        legend.text=element_text(size=10), 
-        axis.text.y=element_text(size=9),
-        axis.text.x=element_text(angle=0, size=9), 
-        axis.title=element_text(size=11),
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank()) + 
-  colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,150))
-
-
-##plot 2
-
-## setting colour scale to keep colours identical between similar plots
-myColors2<-(brewer.pal(9, "Blues"))
-myColors2<-myColors2[-c(1)]
-names(myColors2) <- levels(field.is$field_research)
-colScale <- scale_fill_manual(name = "field_research",values = myColors2)
-
-g4.2<-ggplot(field.is, aes(x = reorder(field_research, -Freq), Freq, fill=field_research)) + 
-    geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
-  labs(y="Number of responses",x="", title="")  +
-  scale_x_discrete(labels=c("Natural\n Science", "Physical\n Science", "Medicine\n& Life\nScience", "Engineering", "Inter-\ndisciplinary\nScience", "Social\nScience/\nHumanities", "Other")) +
-  geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
-  theme( aspect.ratio=1/2, axis.text.y=element_text(size=9),
-         axis.text.x=element_text(angle=0, size=9),
-         axis.title=element_text(size=11),
-         panel.grid.major = element_blank(),
-         panel.grid.minor = element_blank()) + 
-  guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,100))
-
-#pdf(file="figures/developed/4.1and4.2(old)_CareerStageAndFieldOfResearch.pdf", width = 11, height= 7)
-
-grid.arrange(g4.1,g4.2, heights=c(0.475,0.525), ncol=1)
-
-#dev.off()
+dev.off()
 ```
 
 <!--**4.1 Type of Research Conducted**  -->
