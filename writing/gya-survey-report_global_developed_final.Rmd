@@ -258,11 +258,11 @@ field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 
 
-pdf(file="figures/developed_final/4.1_FieldofResearch_HI.pdf", width = 11, height= 7)
+#pdf(file="figures/developed_final/4.1_FieldofResearch_HI.pdf", width = 11, height= 7)
 svg(file="figures/developed_final/4.1_FieldofResearch_HI.svg", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
-    geom_bar(stat='identity',position = position_dodge(width=0.5), width = 0.5) + 
+    geom_bar(stat='identity',position = position_dodge(width=0.5), width = 0.4) + 
   labs(y="Number of responses",x="", title="Responses by field of research (HI)")  +
   scale_x_discrete(labels=c("Physical Science", "Natural Science", "Medicine & Life Science", "Engineering", "Social Science/ Humanities","Interdisciplinary Science",  "Other")) +
   #geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
