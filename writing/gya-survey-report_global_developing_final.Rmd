@@ -1,0 +1,1042 @@
+---
+title: "Developing countries online survey on fundamental research - using data from André"
+author: ''
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document: null
+  fig_width: 18
+  html_document: default
+  word_document: default
+  fig_height: 4
+---
+
+**Introduction**  
+We developed and ran a quantitative online survey to query researchers about their perceptions of, and experiences with, funding for fundamental research. An important aim of the survey was to provide an understanding researcher's personal experiences and outlook on the research funding landscape. We had an excellent response to the survey, with over xxxx  researchers completing it, suggesting that fundamental research funding is a high priority topic for researchers. Herein, we detail the survey questions and results. 
+
+**Methods**  
+Online Survey  
+The survey was open to researchers from all disciplines (e.g. science, social sciences, humanities, engineering, medicine) and career stages, with the proviso that they had some experience applying for research funding. The survey gathered detailed information in four major areas: 1) the types of research the scholars conduct (fundamental, use-inspired, applied), 2) the extent of external partnerships in their research, 3) their grant success rates, and 4) how important they perceive fundamental research is to the  federal government and its future prospects in . The survey also enquired how each of these factors have changed over time for the researchers. Finally, the survey gathered basic information from each respondent about gender, discipline, career stage and the year their PhD was obtained. The full survey is provided in Appendix 2. 
+
+The online survey was open from the end of May through xxxxxxx , and ran on the Fluid Surveys platform (fluidsurveys.com). Note that the survey was open to researchers from any country in the world because it is was run as part of a global survey through the Global Young Academy. To disseminate the survey to researchers, we gathered email addresses from  university websites for as many faculty members as possible and emailed individual researchers directly. We also shared the survey broadly on social media, as well as through the Global Young Academy network, on scientific list serves, and through personal connections. 
+
+Survey Data Analysis  
+
+**Note that numbers not all the same because respondents did not always answer every question**
+```{r, echo=FALSE, message=FALSE, loading_data, warning=FALSE}
+rm(list=ls())
+
+dev.off()
+
+#<!-- Import Canadian data, calculate sample sizes -->
+ ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
+setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
+
+#load data
+dev <- read.csv("/Users/kristinatietjen/Documents/git_hub/gya-research/data/globalreport_fromAX/gya_survey_clean_final_developing.csv")
+
+dim(dev)  #2913   86
+head(dev)
+
+##in the xcel from AX there was code to select for only developed and random Canadian responses
+#this code blanks out the rows with developing country data so I need to get rid of those blank rows for ease of working with the data. 
+#according to the table in the report already there should be 272 surveys in this develop country part
+unique(dev$Use.)
+dev <- dev[!is.na(dev$Use.),]
+dev <- droplevels(dev)
+dim(dev) #272  86 - perfect
+
+#Count how many responses from researchers
+
+#Gender:
+dev.men <- dev[dev$gender=="Male",]               #Count how many responses from  male researchers
+percent.men<-((dim(dev.men)[1])/(dim(dev)[1]))*100      #Calculate the % of responses from  male researchers
+dev.women <- dev[dev$gender=="Female",]           #Count how many responses from  female researchers
+percent.women<-((dim(dev.women)[1])/(dim(dev)[1]))*100  #Calculate the % of responses from  female researchers
+
+#Career Stage Tabulations:
+#table(dev$what_participant_group)
+n.seniorac <- dev[dev$what_participant_group=="Senior academic researcher with >10 years of experience applying for research grants",]
+percent.seniorac<-((dim(n.seniorac)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  senior academic researchers
+n.earlyac <- dev[dev$what_participant_group=="Early career academic researcher with <10 years experience applying for research grants since completion of PhD",]
+percent.earlyac<-((dim(n.earlyac)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  early academic researchers
+n.pdf <- dev[dev$what_participant_group=="Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future",]
+percent.pdf<-((dim(n.pdf)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  post-docs
+n.nonACearly <- dev[dev$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with <10 years of experience",]
+percent.nonACearly<-((dim(n.nonACearly)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from early career non-academics
+n.nonACsenior <- dev[dev$what_participant_group=="Non-academic researcher conducting or managing research in industry or government with >10 years of experience",]
+percent.nonACsenior<-((dim(n.nonACsenior)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from early career non-academics
+n.unk <- dev[dev$what_participant_group=="",]
+percent.unk<-((dim(n.unk)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from unknown career stage
+
+#Discipline Tabulations:
+n.natural <- dev[dev$field_research=="Natural Science",]
+percent.natural <- ((dim(n.natural)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  natural scientists
+n.physics <- dev[dev$field_research=="Physical Science (eg. math, physics, chemistry, computer science)",]
+percent.physics <- ((dim(n.physics)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  physical scientists
+n.med <- dev[dev$field_research=="Medicine and Life Science",]
+percent.med <- ((dim(n.med)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  med/life scientists
+n.eng <- dev[dev$field_research=="Engineering",]
+percent.eng <- ((dim(n.eng)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  engineering scientists
+n.int <- dev[dev$field_research=="Interdisciplinary Science",]
+percent.int <- ((dim(n.int)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+n.ssh <- dev[dev$field_research=="Social Science / Humanities",]
+percent.ssh <- ((dim(n.ssh)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
+
+## load required packages
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(dplyr); require(tidyr); library(gridExtra)
+
+
+```
+
+```{r set color scales, include=FALSE}
+
+theme_set(theme_minimal())
+
+## assign blue colour 
+myColors1<-c("#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF", "#42A3FF")
+colScale <- scale_fill_manual(name = "Var1",values = myColors1)
+
+
+## for 3 types of research
+
+mycols<-c('#97CCFF','#42A3FF','#C8DF95','#9BC53D','#F0A490','#E55934')
+
+colScale2 <- scale_fill_manual(name = "ID",values = mycols)
+
+#past and current
+myColors14<-c('#97CCFF','#42A3FF')
+colScale7 <- scale_fill_manual(name = "data.year", values = myColors14)
+
+
+```
+
+
+**Results**  
+In total, `r dim(dev)[1]`  researchers from developing countries completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+
+Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
+
+
+
+
+```{r eval=FALSE, fig.cap="Number of responses by country", message=FALSE, warning=FALSE, include=FALSE}
+
+###create figures
+
+locations<-aggregate(gender ~ nation, dev, length)
+locations<-locations[!locations$nation=="",]
+locations<-droplevels(locations)
+
+#pdf(file="figures/developed/responses_country.pdf", width = 11, height= 8)
+
+ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
+  geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
+  #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
+   theme(legend.title=element_text(size=12), 
+                             legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12), plot.title = element_text(hjust = 0.5)) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_y_continuous(expand = c(0,0), limits=c(0, 1450)) 
+
+#dev.off()  
+  
+### responses by country gap plot
+locations<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations<-locations[!locations$nation=="",]
+
+barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+
+#pdf(file="figures/developed/responses_country_gapplot.pdf", height=8, width=11)
+
+par(mar=c(11,4,4,2))
+gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(351,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1300,1350), main = "Responses by country",las=2, col=c(blue2red(29)))
+
+#dev.off()
+
+
+## >10 responses
+
+locations.more<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations.more<-locations.more[!locations.more$nation=="",]
+locations.more$gender<-as.numeric(locations.more$gender)
+locations.more<-locations.more[locations.more$gender>10,]
+barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+
+color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+
+
+#pdf(file="figures/developed/responses_country_10+_gapplot.pdf", height=8, width=11)
+
+par(mar=c(7,4,4,2))
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300,1350), main = "Countries with greater than 10 responses",las=2, col=color1)
+
+#dev.off()
+
+#col=c(blue2red(29))
+
+## <=10 responses
+
+locations.less<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations.less<-locations.less[!locations.less$nation=="",]
+locations.less$gender<-as.numeric(locations.less$gender)
+locations.less<-locations.less[locations.less$gender<=10,]
+barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
+
+color2<-'#1f78b4'
+color2<-rep(color2,55)
+
+#pdf(file="figures/developed/responses_country_10-_gapplot.pdf", height=8, width=11)
+
+par(mar=c(11,4,4,2))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+box()
+
+#dev.off()
+
+#c(blue2red(55)
+
+
+##combine  >10 and <= 10 figures
+
+locations.more<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations.more<-locations.more[!locations.more$nation=="",]
+locations.more$gender<-as.numeric(locations.more$gender)
+locations.more<-locations.more[locations.more$gender>10,]
+barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+
+color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+#pdf(file="figures/developed/responses_country_10+&10-_gapplot.pdf", height=8, width=15)
+layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
+par(mar=c(11,4,4,2))
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(351,1250),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350,1300,1350), main = "Countries with greater\nthan 10 responses",las=2, col=color1)
+par(mar=c(11,2,4,1))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+box()
+
+dev.off()
+
+```
+
+<!-- Generate  research discipline figure -->
+```{r figure 4.1, echo=FALSE, fig.width=14, message=FALSE, warning=FALSE}
+field<-data.frame(table(dev$field_research))
+field<-field[!field$Var1=="0",]
+field$Var1<-reorder(field$Var1, field$Freq)
+field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
+
+
+#pdf(file="figures/developing_final/4.1_FieldofResearch_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.1_FieldofResearch_LMI.svg", width = 11, height= 7)
+
+ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
+    geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  labs(y="Number of respondents",x="", title="Responses by field of research (LMI)")  +
+  scale_x_discrete(labels=c("Physical Science", "Natural Science", "Medicine & Life Science", "Engineering", "Social Science/ Humanities","Interdisciplinary Science",  "Other")) +
+  #geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
+  theme(axis.text.y=element_text(size=12, color = "black"),
+         axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.title=element_text(size=14),
+         panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
+  guides(fill=FALSE) + colScale+
+  scale_y_continuous(expand = c(0,0), limits = c(0,110))
+
+#dev.off()
+```
+
+
+<!-- Generate  career stage figure -->
+```{r 4.2, eval=FALSE, fig.width=14, message=FALSE, warning=FALSE, include=FALSE}
+
+experience<-data.frame(table(dev$what_participant_group))
+experience<-experience[!experience$Var1=="0",]
+experience<-droplevels(experience)
+
+experience$Var1<-revalue(experience$Var1, c("Early career academic researcher with <10 years experience applying for research grants since completion of PhD" = "Early career academic", 
+                                            "Non-academic researcher conducting or managing research in industry or government with >10 years of experience" = "Senior non-academic",
+                                            "Non-academic researcher conducting or managing research in industry or government with <10 years of experience" = "Early career non-academic", 
+                                            "Postdoctoral fellow or research assistant with experience applying for research grants, or anticipating the need to apply for grants in the near future" = "Postdoc or RA",
+                                            "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic"))
+experience$Var1<-reorder(experience$Var1, experience$Freq)
+
+#pdf(file="figures/developing_final/4.2_CareerStage_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.2_CareerStage_LMI.svg", width = 11, height= 7)
+
+ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
+  geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
+  #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
+  #scale_x_discrete(labels=c("Senior academic", "Early career\nacademic", "Postdoc or RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
+  labs(y="Number of respondents", x="", title="Responses by career stage (LMI)") +
+  guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
+  theme(axis.text.y=element_text(size=12, color = "black"),
+         axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.title=element_text(size=14),
+         panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
+  colScale + guides(fill=FALSE)+
+  scale_y_continuous(expand = c(0,0), limits = c(0,150))
+#dev.off()
+
+```
+
+
+
+<!-- Generate figure showing current and past fundamental, use-inspiried, and applied research %s -->
+  
+```{r 4.3, echo=FALSE, message=FALSE, warning=FALSE}
+
+## subset the data
+res.plot<-subset(dev, select = c( "percent_fundamental_research_current",  "percent_applied_research_current" , "percent_use_inspired_research_current","percent_applied_research_past",  "percent_fundamental_research_past" , "percent_use_inspired_research_past"))
+
+#str(res.plot)
+
+#convert to long
+res.plot.l<-gather(res.plot, type, percent)
+
+#str(res.plot.l)
+
+# add time variable
+res.plot.l$time<-ifelse(grepl( "current", res.plot.l$type),"Current", "Past")
+res.plot.l$type[res.plot.l$type=="percent_applied_research_past"]<-"Applied"
+res.plot.l$type[res.plot.l$type=="percent_applied_research_current"]<-"Applied"
+res.plot.l$type[res.plot.l$type=="percent_fundamental_research_past"]<-"Fundamental"
+res.plot.l$type[res.plot.l$type=="percent_fundamental_research_current"]<-"Fundamental"
+res.plot.l$type[res.plot.l$type=="percent_use_inspired_research_past"]<-"Use-inspired"
+res.plot.l$type[res.plot.l$type=="percent_use_inspired_research_current"]<-"Use-inspired"
+
+# change order of the levels
+res.plot.l$time<-as.factor(res.plot.l$time)
+res.plot.l$time<-factor(res.plot.l$time, levels(res.plot.l$time)[c(2,1)])
+
+res.plot.l$type<-as.factor(res.plot.l$type)
+res.plot.l$type<-factor(res.plot.l$type, levels(res.plot.l$type)[c(2,3,1)])
+
+res.plot.l$ID<-paste(res.plot.l$type, res.plot.l$time)
+
+# #count the number of people who responded in each category
+# total <- aggregate(percent ~ ID, data = res.plot.l, FUN = length)
+# 
+# tot.by.proportion <- table(res.plot.l$percent, res.plot.l$ID)
+
+
+# change order of the levels
+res.plot.l$ID<-as.factor(res.plot.l$ID)
+res.plot.l$ID<-factor(res.plot.l$ID, levels(res.plot.l$ID)[c(4,3,6,5,2,1)])
+
+
+
+#####add (a)
+xs <- split(res.plot.l,f = res.plot.l$type)
+p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
+    geom_histogram(position='dodge', binwidth=10, bins=seq(0, 100, 10))  +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    labs(x="", y="Number of respondents", title="")+
+    theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+          panel.grid.minor = element_blank(),
+          strip.text.x = element_text(size=12, color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.5, 0.75 ), legend.spacing=unit(100,"cm"), legend.background = element_rect(color = "white"),
+          axis.text.y=element_text(size=12, color = "black"),
+         axis.text.x=element_text(size=12, color = "black"),
+         )+ 
+    facet_wrap(~type, nrow=3) #+
+ # scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,570),breaks=seq(0,550,100))
+
+p2 <- p1 %+% xs$`Use-inspired`
+p3 <- p1 %+% xs$Applied
+p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("Data/2006-2010", "Data/2011-2015"))+labs(x="", title="Type of research by proportion (LMI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,40),breaks=seq(0,40,20))
+p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("Data/2006-2010", "Data/2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,80),breaks=seq(0,80,20))
+p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("Data/2006-2010", "Data/2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,100),breaks=seq(0,100,20))
+
+
+#pdf(file="figures/developing_final/4.3_ResearchProportion_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.3_ResearchProportion_LMI.svg", width = 11, height= 7)
+
+#grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
+grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
+
+#dev.off()
+```
+
+```{r 4.3b, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE}
+
+## subset the data
+reason<-subset(dev, select=c("main_reason_change_interest_related",
+                                       "main_reason_change_career_related","main_reason_change_funding_related", "main_reason_change_socially_related","main_reason_change_other"))
+
+# switch to long format
+reason.l<-gather(reason, reason.change, yes)
+
+# using table to count cases of each category
+sum.reason<-data.frame(table(reason.l$reason.change, reason.l$yes))
+
+sum.reason$Var1<-revalue(sum.reason$Var1, c("main_reason_change_career_related" = "Career", "main_reason_change_funding_related" = "Funding", "main_reason_change_interest_related" = "Interest", "main_reason_change_other" = "Other", "main_reason_change_socially_related"  = "Social"))
+# change order of the levels
+sum.reason$Var1<-factor(sum.reason$Var1,levels(sum.reason$Var1)[c(2,3,1,5,4)])
+
+#pdf(file="figures/developing_final/4.3b_ReasonForFieldChange_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.3b_ReasonForFieldChange_LMI.svg", width = 11, height= 7)
+
+ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+  theme( axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"), 
+         axis.title=element_text(size = 12), 
+         legend.text=element_text(size = 12),
+         axis.title.x=element_blank(), 
+         plot.title = element_text(hjust = 0.5, size = 14),
+         panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank()) +
+  guides(fill=FALSE) +
+  colScale+
+  labs(y="Number of respondents", title="Reason for change in research type (LMI)")+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 90), breaks = seq(0, 80, 20))#+annotate('text', 5.4,795, label="(b)", size=5)#+geom_text(aes(label=Freq), vjust=-0.5, size=3)
+  
+
+#dev.off()
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10}
+
+view<-data.frame(table(dev$view_change_of_type))
+
+view<-view[!view$Var1=="0",]
+view<-droplevels(view)
+
+# change order of the levels
+view$Var1<-factor(view$Var1,levels(view$Var1)[c(5,3,1,2,4)])
+
+#pdf(file="figures/developing_final/4.3C_ViewFieldChange_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.3C_ViewFieldChange_LMI.svg", width = 11, height= 7)
+
+ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
+  theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"), 
+        axis.title.y = element_text(size = 12), 
+        plot.title = element_text(hjust = 0.5, size = 14), 
+        panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank()) +
+  guides(fill=FALSE)+ 
+  colScale+
+  labs(x="", y="Number of respondents", title="Opinion of research type change (LMI)")+
+  #geom_text(aes(label=gender), vjust=-0.5, size=3)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,70))#+
+   #+annotate('text', 5.4,133, label="(c)", size=5)
+
+#dev.off()
+```
+
+<!--**4.4 Perspectives on the State of Fundamental Research**-->
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+import<-data.frame(table(dev$opinion_fundamental_important))
+
+import<-import[!import$Var1=="0",]
+import<-droplevels(import)
+
+import$Var1<-factor(import$Var1, levels(import$Var1)[c(6,5,4,3,2,1)])
+
+#pdf(file="figures/developing_final/4.4A_PerceivedImportanceFundamentalGovernment_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.4A_PerceivedImportanceFundamentalGovernment_LMI.svg", width = 11, height= 7)
+
+ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) + 
+      geom_bar(stat='identity', position='dodge')+ 
+      labs(x="", y="Number of respondents", fill="", title="Perceived importance of fundamental research to their government (LMI)")+
+      scale_x_discrete(labels=c("Very important", "Somewhat important", 'Not very important', 'Not at all important', "Can't comment"))+
+      #geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
+      theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+            axis.text.y=element_text(size = 12, color = "black"),
+            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+            panel.grid.minor = element_blank(), 
+            axis.title.y=element_text(size=12),
+            plot.title = element_text(hjust = 0.5, size = 14)) + guides(fill=FALSE)+ 
+  scale_y_continuous(expand = c(0, 0), limits = c(0,120), breaks = seq(0, 120, 20)) + colScale
+
+#dev.off()
+```
+  
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+## subset the data
+priority<-subset(dev, select=c("high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
+
+## switch to long format
+priority.long<-gather(priority, what.type, higher.priority)
+
+# using table to count cases of each category
+sum.priority<-data.frame(table(priority.long$what.type, priority.long$higher.priority))
+
+# change order of the levels
+sum.priority$Var1<-factor(sum.priority$Var1, levels(sum.priority$Var1)[c(2,4,1,3)])
+
+#pdf(file="figures/developing_final/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.svg", width = 11, height= 7)
+
+ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
+        geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
+        theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"), 
+              panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+              panel.grid.minor = element_blank(), 
+              axis.title.y=element_text(size=12),  
+        plot.title = element_text(hjust = 0.5, size = 14)) +
+        labs(x="", y="Number of respondents", fill="", title="Perceived change in research priority by their government (LMI)") +
+  scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
+  #geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0,250))+ colScale
+
+#dev.off()
+```
+
+<!--**4.5 Research Grants**  -->
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE,warning=FALSE}
+
+## subset the data
+success<-subset(dev, select=c("success_change_10yrs_fundamental", "success_change_10yrs_use", "success_change_10yrs_applied"))
+
+##switch to long format
+success.l<-gather(success, type, level)
+
+success.change<-with(success.l, data.frame(table(type, level)))
+#remove no response
+success.change<-success.change[!success.change$level=="0",]
+success.change<-droplevels(success.change)
+
+# add colour palette
+myColors11<-c('#42A3FF','#9BC53D','#E55934')
+colScale4 <- scale_fill_manual(name = "type",values = myColors11, labels=c("Fundamental", "Use-inspired", "Applied"))
+
+#change order of levels
+success.change$level<-factor(success.change$level, levels(success.change$level)[c(5,4,6,2,3,1)])
+success.change$type<-factor(success.change$type, levels(success.change$type)[c(2,3,1)])
+success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
+              'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
+
+#pdf(file="figures/developing_final/4.5_ChangeSuccessRate_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.5_ChangeSuccessRate_LMI.svg", width = 11, height= 7)
+
+ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
+  geom_bar(stat="identity", position="dodge")+
+  guides(fill=guide_legend(title=NULL)) +
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 12, color = "black"), 
+        axis.text.y=element_text(size = 12, color = "black"), axis.title.y=element_text(size = 12),
+         panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+         strip.text.x = element_text(size=12, color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+         plot.title = element_text(hjust = 0.5, size = 14))+
+  guides(fill=FALSE)+
+  #geom_text(aes(label=Freq, vjust=-0.4),size=3) +
+  scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
+                                    "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))+
+  labs(x="", y="Number of responses", fill="", title="Change in grant success rate (LMI)")+ colScale4+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,120), breaks = seq(0, 120, 30))
+
+#dev.off()
+
+
+```
+
+
+```{r, echo=FALSE,  message=FALSE, warning=FALSE}
+
+## subset the data
+distribution<-subset(dev, select=c("distribution_funding_11_15_for_profit"  ,   
+ "distribution_funding_11_15_government"  ,    "distribution_funding_11_15_internal"    ,   
+ "distribution_funding_11_15_nongov"  ,        "distribution_funding_11_15_other"   ,       
+          "distribution_funding_6_10_for_profit"   ,   
+ "distribution_funding_6_10_government"   ,    "distribution_funding_6_10_internal"  ,      
+ "distribution_funding_6_10_nongov" ,          "distribution_funding_6_10_other"))
+
+#convert to long format 
+distribution.l <- gather(distribution, type.year, percent)
+
+distribution.l$year <- ifelse(grepl("11_15", distribution.l$type.year), "11_15", "6_10")
+#head(distribution.l)
+
+distribution.l$type <- 1
+distribution.l$type <- ifelse(grepl("for_profit", distribution.l$type.year), "For-Profit", distribution.l$type)
+distribution.l$type <- ifelse(grepl("government", distribution.l$type.year), "Government", distribution.l$type)
+distribution.l$type <- ifelse(grepl("internal", distribution.l$type.year), "Internal", distribution.l$type)
+distribution.l$type <- ifelse(grepl("nongov", distribution.l$type.year), "Non-governmental", distribution.l$type)
+distribution.l$type <- ifelse(grepl("other", distribution.l$type.year), "Other", distribution.l$type)
+
+##revalue the year values
+distribution.l$year<- revalue(distribution.l$year, c("11_15"="2011-2015", "6_10"="2006-2010"))
+#change order of levels
+#distribution.l$year<-factor(distribution.l$year, levels(distribution.l$year)[c(2,1)])
+
+#make a column for the legend key
+distribution.l$data.year <- "blank"
+distribution.l$data.year <- paste("Data", distribution.l$year, sep = "/")
+
+myColors14<-c('#97CCFF','#42A3FF')
+colScale7 <- scale_fill_manual(name = "data.year", values = myColors14)
+
+##For-Profit
+fp<-distribution.l[distribution.l$type=="For-Profit",]
+
+p1<-ggplot(fp, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98), 
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+        legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title= "Industry", x="", y = "Number of respondents")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
+  scale_x_continuous( breaks = seq(0, 100, 10))
+
+
+
+##Government
+gov<-distribution.l[distribution.l$type=="Government",]
+
+
+p2<-ggplot(gov, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.8, 0.91),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Government", x="", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
+  scale_x_continuous( breaks = seq(0, 100, 10))
+
+
+
+
+##Internal
+
+int<-distribution.l[distribution.l$type=="Internal",]
+
+
+p3<-ggplot(int, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Internal",x="% research funding", y = "Number of respondents")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
+  scale_x_continuous( breaks = seq(0, 100, 10))
+
+
+
+
+##Non-Governmental
+
+ngov<-distribution.l[distribution.l$type=="Non-governmental",]
+
+
+p4<-ggplot(ngov, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Non-governmental", x="% research funding", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
+  scale_x_continuous( breaks = seq(0, 100, 10))
+
+
+
+## Other
+
+other<-distribution.l[distribution.l$type=="Other",]
+
+
+p5<-ggplot(other, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.7, 0.91),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Other", x="% research funding", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,250), breaks=seq(0, 250, 50))+
+  scale_x_continuous( breaks = seq(0, 100, 10))
+
+
+##put them all together
+
+legend = gtable_filter(ggplotGrob(p1), "guide-box") 
+grid.draw(legend)
+
+#pdf(file="figures/developing_final/4.6_DistributionFunding_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.6_DistributionFunding_LMI.svg", width = 11, height= 7)
+
+grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+                         p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
+                         p5,
+                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=17)))
+
+#dev.off()
+
+```
+
+
+```{r 4.7, echo=FALSE, message=FALSE, warning=FALSE}
+
+## subset the data
+practical<-subset(dev, select=c("practical_applications_important_11_15", "practical_applications_important_6_10"))
+
+## switch to long format
+practical.l<-gather(practical, year, level)
+
+practical.l$year[practical.l$year=="practical_applications_important_11_15"]<-"Data/2011-2015"
+practical.l$year[practical.l$year=="practical_applications_important_6_10"]<-"Data/2006-2010"
+
+
+prac<-data.frame(table(practical.l$year, practical.l$level))
+
+prac<- prac[!prac$Var2 == "0",]
+prac<-droplevels(prac)
+
+#change order of levels
+prac$Var2<-factor(prac$Var2, levels(prac$Var2)[c(2,6,4,5,3,1)])
+
+#pdf(file="figures/developing_final/4.7A_ImportancePracticalApplication_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.7A_ImportancePracticalApplication_LMI.svg", width = 11, height= 7)
+
+ggplot(prac, aes(Var2, Freq, fill=Var1)) + 
+  geom_bar(stat="identity", position = "dodge")+
+  #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
+  theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.key=element_blank(),legend.text=element_text(size = 12),
+        legend.position=c(0.89, 0.91),
+        axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+        axis.title.x=element_text(size = 12),
+        axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) +
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
+  #scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
+  labs(x="", y="Number of respondents", title="Importance of practical application of research for grant success (LMI)")+ colScale7+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,100))
+  
+#dev.off()
+```
+
+
+```{r 4.7b, echo=FALSE, message=FALSE, warning=FALSE}
+
+## subset the data
+partners<-subset(dev, select=c("include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10"))
+
+## switch to long format
+partners.l<-gather(partners, year, level)
+
+partners.l$year[partners.l$year=="include_nonacademia_partners_success_11_15"]<-"Data/2011-2015"
+partners.l$year[partners.l$year=="include_nonacademia_partners_success_6_10"]<-"Data/2006-2010"
+
+part<-data.frame(table(partners.l$year, partners.l$level))
+part<-part[!part$Var2 == "0",]
+part<-droplevels(part)
+
+#change order of levels
+part$Var2<-factor(part$Var2, levels(part$Var2)[c(2,5,6,4,3,1)])
+
+#pdf(file="figures/developing_final/4.7B_ImportancePartnersApplication_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.7B_ImportancePartnersApplication_LMI.svg", width = 11, height= 7)
+
+ggplot(part, aes(Var2, Freq, fill=Var1))+ 
+  geom_bar(stat="identity", position = "dodge")+
+  #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
+    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+    labs(x="", y="Number of respondents", title="Importance of including partners (non-academia) for the success of grant applications (LMI)")+
+  #scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
+    theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 12),
+          legend.key=element_blank(),
+          legend.position=c(0.11, 0.93), 
+        axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+          axis.title.x=element_text(size = 12), axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) + colScale7+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,100))
+
+#dev.off()
+```
+
+<!--**4.2 External Partnerships**   -->
+
+```{r 4.8, echo=FALSE, message=FALSE, warning=FALSE}
+
+## subset the data
+partner.level<-subset(dev, select=c("partnership_outside_current", "partnership_outside_before"))
+
+## switch to long format
+part.level.l<-gather(partner.level, year, level)
+
+part.level.l$year[part.level.l$year=="partnership_outside_current"]<-"Data/2011-2015"
+part.level.l$year[part.level.l$year=="partnership_outside_before"]<-"Data/2006-2010"
+
+part.level<-data.frame(table(part.level.l$year, part.level.l$level))
+part.level<-part.level[!part.level$Var2 == "0",]
+part.level<-droplevels(part.level)
+
+#change order of levels
+part.level$Var2<-factor(part.level$Var2, levels(part.level$Var2)[c(1,4,3,2)])
+
+
+#pdf(file="figures/developing_final/4.8A_LevelsOfPartnership_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.8A_LevelsOfPartnership_LMI.svg", width = 11, height= 7)
+
+ggplot(part.level, aes(x=Var2, y=Freq, fill = Var1),  ylim(0,375)) + 
+  geom_bar( stat='identity', position="dodge") +
+  #geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
+  labs(x="", y="Number of respondents", fill="", title="Levels of partnerships outside of academia (LMI)")+
+  theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.key=element_blank(),legend.text=element_text(size = 12),
+        axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+        axis.title=element_text(size = 12), 
+        legend.position=c(0.1, 0.9), 
+        legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) +
+  colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,150))
+
+#dev.off()
+```
+
+
+```{r 4.8b, echo=FALSE, message=FALSE, warning=FALSE}
+
+### was there change
+
+part.change<-data.frame(table(dev$partnership_change_10yrs))
+part.change<-part.change[!part.change$Var1=="0",]
+part.change<-droplevels(part.change)
+
+part.change$Var1<-revalue(part.change$Var1, c("Can't comment (new researcher)"="Can't comment"))
+part.change$Var1<-factor(part.change$Var1, levels=c("Yes", "No", "Can't comment"))
+
+
+g1<-ggplot(data=part.change, aes(x=Var1, y=Freq, fill=Var1))+ 
+    geom_bar(stat='identity') + 
+    guides(fill=FALSE) + 
+    labs(x="", y="Number of respondents",title="Change in level of partnerships (LMI)")+
+  #geom_text(aes(label=Freq), vjust=-0.5)+
+  theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(), 
+         axis.text.x=element_text( size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+        plot.title = element_text(hjust = 0.5, size = 14)) + 
+  colScale +
+  #annotate('text', 3.25,606, label="(a)", size=7)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,140), breaks = seq(0,140, 20))
+
+### reason
+
+## subset the data
+change.partner<-subset(dev, select=c("reason_partnership_change_career", "reason_partnership_change_interest", "reason_partnership_change_socially", "reason_partnership_change_funding", "reason_partnership_change_other"))
+
+## switch to long format
+change.part.l<-gather(change.partner, reason, level)
+
+change.part<-data.frame(table(change.part.l$reason, change.part.l$level))
+
+change.part$Var1<-revalue(change.part$Var1, c("reason_partnership_change_career" = "Career", "reason_partnership_change_funding" = "Funding", "reason_partnership_change_interest" = "Interest", "reason_partnership_change_other" = "Other", "reason_partnership_change_socially"  = "Social"))
+change.part$Var1<-reorder(change.part$Var1, -change.part$Freq)
+
+g2<-ggplot(change.part, aes(x=Var1, y=Freq, fill=Var1)) + 
+    geom_bar(stat='identity')+  guides(fill=FALSE) +
+    theme(axis.text.x=element_text( size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+          axis.title.y=element_text(size = 14),
+          legend.position=c(0.8, 0.8), 
+          legend.title=element_blank(),
+          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
+  #geom_text(aes(label=Freq), vjust=-0.5, size=3)+
+  labs(x="", y="Number of respondents", title="Reason for change in level of partnerships (LMI)")+
+  colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,75))
+
+#annotate('text', 5,420, label="(b)", size=7)+ 
+
+#pdf(file="figures/developing_final/4.8B_PartnershipChange&Reason_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.8B_PartnershipChange_LMI.svg", width = 11, height= 7)
+
+grid.arrange(g1, g2, ncol=1)
+
+#dev.off()
+
+```
+
+
+```{r 4.8c, echo=FALSE, message=FALSE, warning=FALSE}
+
+view<-data.frame(table(dev$view_change_partnership))
+view<-view[!view$Var1=="0",]
+view<-droplevels(view)
+
+# change order of the levels
+
+view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
+
+#pdf(file="figures/developing_final/4.8C_ViewChangePartnership_LMI.pdf", width = 11, height= 7)
+#svg(file="figures/developing_final/4.8C_ViewChangePartnership_LMI.svg", width = 11, height= 7)
+
+ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
+  #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
+  guides(fill=FALSE)+
+  theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+         axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+        axis.title.y=element_text(size=12), 
+        plot.title = element_text(hjust = 0.5, size = 14)) + 
+  labs(x="", y="Number of respondents", title="Opinion of change in partnership level (LMI)") + 
+  colScale+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,50), breaks = seq(0,50,10))
+
+#dev.off()
+
+```
+ 
+ 
+```{r 4.9, echo=FALSE, message=FALSE, warning=FALSE}
+
+## subset the data
+anticipated<-subset(dev, select=c("available_funding_fundamental", "available_funding_use_inspired", "available_funding_applied"))
+
+## switch to long format
+anticipated.l<-gather(anticipated, type, level)
+
+anticipated.l$type[anticipated.l$type=="available_funding_fundamental"]<-"Fundamental"
+anticipated.l$type[anticipated.l$type=="available_funding_use_inspired"]<-"Use-inspired"
+anticipated.l$type[anticipated.l$type=="available_funding_applied"]<-"Applied"
+
+ant<-data.frame(table(anticipated.l$type, anticipated.l$level))
+ant<-ant[!ant$Var2 == "0",]
+ant<-droplevels(ant)
+
+## change type to factor with levels
+ant$Var2 <- as.character(levels(ant$Var2))[ant$Var2]
+ant$Var2[ant$Var2=="Will decrease considerably"]<-"Decrease considerably"
+ant$Var2[ant$Var2=="Will decrease slightly"]<-"Decrease slightly"
+ant$Var2[ant$Var2=="Will increase considerably"]<-"Increase considerably"
+ant$Var2[ant$Var2=="Will increase slightly"]<-"Increase slightly"
+ant$Var2[ant$Var2=="Will stay the same"]<-"Stay the same"
+
+ant$Var2<- as.factor(ant$Var2)
+
+## change order of levels
+ant$Var2<-factor(ant$Var2, levels(ant$Var2)[c(4,5,6,3,2,1 )])
+ant$Var1<-factor(ant$Var1, levels(ant$Var1)[c(2,3,1)])
+
+### colour palette
+
+myColors17<-mycols<-c('#E55934','#9BC53D','#42A3FF')
+colScale9 <- scale_fill_manual(name = "what.type",values = rev(myColors17))
+
+#pdf(file="figures/developing_final/4.9_AnticipatedChangeFunding_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.9_AnticipatedChangeFunding_LMI.svg", width = 11, height= 7)
+
+ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
+    geom_bar(stat="identity", position="dodge")+
+    theme( axis.text.x=element_text(size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+          panel.grid.minor = element_blank(),
+           strip.text.x = element_text(size=12, color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.8, 0.2), 
+          axis.title.y=element_text(size=12), 
+          plot.title = element_text(hjust = 0.5, size = 14)) +
+    guides(fill=FALSE)+
+    labs(x="", y="Number of respondents", fill="", title="Anticipated change in research funding (LMI)")+
+    scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
+                                    "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
+    facet_wrap(~Var1,nrow=3)+
+    #geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + 
+  colScale9 +
+  scale_y_continuous(expand = c(0, 0), limits = c(0,100), breaks = seq(0,100,20))
+
+#dev.off()
+
+
+```
+
+
+```{r 4.10, echo=FALSE, message=FALSE, warning=FALSE}
+
+future<-data.frame(table(dev$next_generation))
+future<-future[!future$Var1=="0",]
+future<-droplevels(future)
+
+future$Var1 <- as.character(levels(future$Var1))[future$Var1]
+
+## change type to factor with levels
+future$Var1<-str_replace_all(future$Var1, "Will ", "")
+future$Var1<-as.factor(future$Var1)
+
+## change order of Var1s
+future$Var1<-factor(future$Var1, levels(future$Var1)[c(4,5,6,3,2,1)])
+
+#pdf(file="figures/developing_final/4.10_EffectNextGeneration_LMI.pdf", height=7, width =11)
+#svg(file="figures/developing_final/4.10_EffectNextGeneration_LMI.svg", width = 11, height= 7)
+
+ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+ 
+    geom_bar(stat='identity', position="dodge")  +
+        scale_x_discrete(labels=c("Increase considerably", "Increase slightly", 
+                                    "Stay the same", "Decrease slightly", "Decrease considerably", "Can't comment"))+
+    guides(fill=FALSE) +
+ labs(x="", y="Number of respondents", title="Effect of funding changes on the next generation of researchers (LMI)")+
+  theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+       panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+          axis.title.y=element_text(size=12), 
+        plot.title = element_text(hjust = 0.5, size = 14))+
+  #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,75))+colScale
+
+#dev.off()
+```
