@@ -32,7 +32,7 @@ dev.off()
 setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
 
 #load data
-dev <- read.csv("/Users/kristinatietjen/Documents/git_hub/gya-research/data/globalreport_fromAX/gya_survey_clean_final_developed.csv")
+dev <- read.csv("/Users/kristinatietjen/Documents/git_hub/gya-research/data/globalreport_fromAX/gya_survey_clean_final_all.csv")
 
 dim(dev)  #2913   86
 head(dev)
@@ -112,10 +112,113 @@ colScale7 <- scale_fill_manual(name = "data.year", values = myColors14)
 
 
 **Results**  
-In total, `r dim(dev)[1]`  researchers from developed countries completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
+In total, `r dim(dev)[1]`  researchers from all countries completed the online survey. Of these, almost xxxxx were male (`r ceiling(percent.men)`%) and xxxxx were female (`r round(percent.women)`%); xxxx proportion either did not input their gender or selected other. xxxx of the survey respondents (`r round(sum(percent.seniorac,percent.earlyac))`%) were either senior academics (`r round(percent.seniorac)`%), defined as those researchers with more than ten years experience applying for research grants since completion of their PhD, or early career academics (`r round(percent.earlyac)`%) (Figure 4.1). xxxxx also came from post-doctoral researchers (`r round(percent.pdf)`%), non-academic researchers (`r  round(sum(percent.nonACearly,percent.nonACsenior))`%), or those who did not indicate their career stage (`r round(percent.unk, digits=1)`%).
 
 Researchers from many different disciplines were represented in the survey. Almost xxxx percent of responses came from either the natural or physical sciences (Figure 4.2). The remaining responses were spread amongst the medical and life sciences (`r round(percent.med)`%), engineering (`r round(percent.eng)`%), interdisciplinary research (`r round(percent.int)`%), and social sciences and humanities (`r round(percent.ssh)`%). 
 
+
+
+
+```{r eval=FALSE, fig.cap="Number of responses by country", message=FALSE, warning=FALSE, include=FALSE}
+
+###create figures
+
+locations<-aggregate(gender ~ nation, dev, length)
+locations<-locations[!locations$nation=="",]
+locations<-droplevels(locations)
+
+#pdf(file="figures/developed/responses_country.pdf", width = 11, height= 8)
+
+ggplot(locations, aes(x = reorder(nation, -gender), gender)) + geom_bar(stat='identity',position = position_dodge(width=0.5),fill='#1f78b4') + theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) + labs(y="Number of responses", x="", title="Responses by Country")  + 
+  geom_text(aes(label=gender), angle=90, hjust=-0.5, size=3) +
+  #geom_text(aes(label=Country), angle=90, hjust=-0.5) 
+   theme(legend.title=element_text(size=12), 
+                             legend.text=element_text(size=10), axis.text=element_text(size=8), axis.title=element_text(size=12), plot.title = element_text(hjust = 0.5)) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+scale_y_continuous(expand = c(0,0), limits=c(0, 1450)) 
+
+#dev.off()  
+  
+### responses by country gap plot
+locations<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations<-locations[!locations$nation=="",]
+
+barlabs<-locations$nation[order(locations$gender, decreasing=TRUE)]
+
+#pdf(file="figures/developed/responses_country_gapplot.pdf", height=8, width=11)
+
+par(mar=c(11,4,4,2))
+gap.barplot(sort(locations$gender,decreasing=TRUE), gap=c(351,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1300,1350), main = "Responses by country",las=2, col=c(blue2red(29)))
+
+#dev.off()
+
+
+## >10 responses
+
+locations.more<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations.more<-locations.more[!locations.more$nation=="",]
+locations.more$gender<-as.numeric(locations.more$gender)
+locations.more<-locations.more[locations.more$gender>10,]
+barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+
+color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+
+
+#pdf(file="figures/developed/responses_country_10+_gapplot.pdf", height=8, width=11)
+
+par(mar=c(7,4,4,2))
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(350,1265),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350, 1265,1300,1350), main = "Countries with greater than 10 responses",las=2, col=color1)
+
+#dev.off()
+
+#col=c(blue2red(29))
+
+## <=10 responses
+
+locations.less<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations.less<-locations.less[!locations.less$nation=="",]
+locations.less$gender<-as.numeric(locations.less$gender)
+locations.less<-locations.less[locations.less$gender<=10,]
+barlabs<-locations.less$nation[order(locations.less$gender, decreasing=TRUE)]
+
+color2<-'#1f78b4'
+color2<-rep(color2,55)
+
+#pdf(file="figures/developed/responses_country_10-_gapplot.pdf", height=8, width=11)
+
+par(mar=c(11,4,4,2))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="Number of responses", main = "Countries with 10 or fewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+box()
+
+#dev.off()
+
+#c(blue2red(55)
+
+
+##combine  >10 and <= 10 figures
+
+locations.more<-aggregate(gender ~ nation, n.gbl.devp, length)
+locations.more<-locations.more[!locations.more$nation=="",]
+locations.more$gender<-as.numeric(locations.more$gender)
+locations.more<-locations.more[locations.more$gender>10,]
+barlabs<-locations.more$nation[order(locations.more$gender, decreasing=TRUE)]
+
+color1<-c('#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4','#1f78b4')
+#pdf(file="figures/developed/responses_country_10+&10-_gapplot.pdf", height=8, width=15)
+layout(matrix(c(1,2),1,2, byrow = TRUE), widths=c(0.7,2))
+par(mar=c(11,4,4,2))
+gap.barplot(sort(locations.more$gender,decreasing=TRUE), gap=c(351,1250),horiz=F, xaxlab=barlabs, xlab="     ", 
+            ylab="Number of responses", ytics=c(0,50,100,150,200,250,300,350,1300,1350), main = "Countries with greater\nthan 10 responses",las=2, col=color1)
+par(mar=c(11,2,4,1))
+barplot(sort(locations.less$gender,decreasing=TRUE), names.arg = locations.less$nation[order(locations.less$gender, decreasing=TRUE)] ,horiz=F, xlab="", 
+            ylab="", main = "Countries with 10 or\nfewer responses",las=2, ylim=c(-0.1,10),col=color2, axis.lty="solid", space=0, xaxs="i")
+box()
+
+dev.off()
+
+```
 
 <!-- Generate  research discipline figure -->
 ```{r figure 4.1, echo=FALSE, fig.width=14, message=FALSE, warning=FALSE}
@@ -220,6 +323,7 @@ res.plot.l$ID<-paste(res.plot.l$type, res.plot.l$time)
 # 
 # tot.by.proportion <- table(res.plot.l$percent, res.plot.l$ID)
 
+
 # change order of the levels
 res.plot.l$ID<-as.factor(res.plot.l$ID)
 res.plot.l$ID<-factor(res.plot.l$ID, levels(res.plot.l$ID)[c(4,3,6,5,2,1)])
@@ -276,7 +380,7 @@ sum.reason$Var1<-revalue(sum.reason$Var1, c("main_reason_change_career_related" 
 # change order of the levels
 sum.reason$Var1<-factor(sum.reason$Var1,levels(sum.reason$Var1)[c(2,3,1,5,4)])
 
-pdf(file="figures/HI/4.3b_ReasonForFieldChange_HI.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.3b_ReasonForFieldChange_HI.pdf", width = 11, height= 7)
 #svg(file="figures/HI/4.3b_ReasonForFieldChange_HI.svg", width = 11, height= 7)
 
 ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
@@ -295,7 +399,7 @@ ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 500))#+annotate('text', 5.4,795, label="(b)", size=5)#+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
-dev.off()
+#dev.off()
 
 ```
 
