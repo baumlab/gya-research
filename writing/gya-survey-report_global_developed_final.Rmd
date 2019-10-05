@@ -228,13 +228,13 @@ field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 
 
-#pdf(file="figures/developed_final/4.1_FieldofResearch_HI.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.1_FieldofResearch_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.1_FieldofResearch_HI.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.1_FieldofResearch_HI.svg", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of respondents",x="", title="Responses by field of research (HI)")  +
-  scale_x_discrete(labels=c("Physical Science", "Natural Science", "Medicine & Life Science", "Engineering", "Social Science/ Humanities","Interdisciplinary Science",  "Other")) +
+  scale_x_discrete(labels=c("Physical\nScience", "Natural\nScience", "Medicine &\nLife Science", "Engineering", "Social Science/\nHumanities","Interdisciplinary\nScience",  "Other")) +
   #geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme(axis.text.y=element_text(size=12, color = "black"),
          axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
@@ -263,13 +263,13 @@ experience$Var1<-revalue(experience$Var1, c("Early career academic researcher wi
                                             "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic"))
 experience$Var1<-reorder(experience$Var1, experience$Freq)
 
-#pdf(file="figures/developed_final/4.2_CareerStage_HI.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.2_CareerStage_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.2_CareerStage_HI.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.2_CareerStage_HI.svg", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  #scale_x_discrete(labels=c("Senior academic", "Early career\nacademic", "Postdoc or RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
+  scale_x_discrete(labels=c("Senior\nacademic", "Early career\nacademic", "Postdoc\nor RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
   labs(y="Number of respondents", x="", title="Responses by career stage (HI)") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(axis.text.y=element_text(size=12, color = "black"),
@@ -280,7 +280,7 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
   colScale + guides(fill=FALSE)+
   scale_y_continuous(expand = c(0,0), limits = c(0,1200))
-dev.off()
+#dev.off()
 
 ```
 
@@ -350,13 +350,13 @@ p1 <- ggplot(xs$Fundamental,aes(percent, fill=time)) +
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("Data/2006-2010", "Data/2011-2015"))+labs(x="", title="Type of research by proportion (HI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,330),breaks=seq(0,300,100))
-p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("Data/2006-2010", "Data/2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,550),breaks=seq(0,500,100))
-p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("Data/2006-2010", "Data/2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,680),breaks=seq(0,600,200))
+p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by proportion (HI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,330),breaks=seq(0,300,100))
+p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,550),breaks=seq(0,500,100))
+p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,680),breaks=seq(0,600,200))
 
 
-#pdf(file="figures/developed_final/4.3_ResearchProportion_HI.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.3_ResearchProportion_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.3_ResearchProportion_HI.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.3_ResearchProportion_HI.svg", width = 11, height= 7)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
@@ -364,7 +364,7 @@ grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 #dev.off()
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10}
+```{r 4.3b, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10}
 
 ## subset the data
 reason<-subset(dev, select=c("main_reason_change_interest_related",
@@ -380,8 +380,8 @@ sum.reason$Var1<-revalue(sum.reason$Var1, c("main_reason_change_career_related" 
 # change order of the levels
 sum.reason$Var1<-factor(sum.reason$Var1,levels(sum.reason$Var1)[c(2,3,1,5,4)])
 
-#pdf(file="figures/developed_final/4.3b_ReasonForFieldChange_HI.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.3b_ReasonForFieldChange_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.3b_ReasonForFieldChange_HI.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.3b_ReasonForFieldChange_HI.svg", width = 11, height= 7)
 
 ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme( axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
@@ -403,7 +403,7 @@ ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
 
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10}
+```{r 4.3c, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10}
 
 view<-data.frame(table(dev$view_change_of_type))
 
@@ -413,8 +413,8 @@ view<-droplevels(view)
 # change order of the levels
 view$Var1<-factor(view$Var1,levels(view$Var1)[c(5,3,1,2,4)])
 
-#pdf(file="figures/developed_final/4.3C_ViewFieldChange_HI.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.3C_ViewFieldChange_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.3C_ViewFieldChange_HI.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.3C_ViewFieldChange_HI.svg", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
   theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
@@ -436,7 +436,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
 
 <!--**4.4 Perspectives on the State of Fundamental Research**-->
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.4a, echo=FALSE, message=FALSE, warning=FALSE}
 
 import<-data.frame(table(dev$opinion_fundamental_important))
 
@@ -445,13 +445,13 @@ import<-droplevels(import)
 
 import$Var1<-factor(import$Var1, levels(import$Var1)[c(6,5,4,3,2,1)])
 
-#pdf(file="figures/developed_final/4.4A_PerceivedImportanceFundamentalGovernment_HI.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.4A_PerceivedImportanceFundamentalGovernment_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.4A_PerceivedImportanceFundamentalGovernment_HI.pdf", height=7, width =11)
+#svg(file="figures/HI/4.4A_PerceivedImportanceFundamentalGovernment_HI.svg", width = 11, height= 7)
 
 ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
       labs(x="", y="Number of respondents", fill="", title="Perceived importance of fundamental research to their government (HI)")+
-      scale_x_discrete(labels=c("Very important", "Somewhat important", 'Not very important', 'Not at all important', "Can't comment"))+
+      scale_x_discrete(labels=c("Very\nimportant", "Somewhat\nimportant", 'Not very\nimportant', 'Not at all\nimportant', "Can't\ncomment"))+
       #geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
       theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
             axis.text.y=element_text(size = 12, color = "black"),
@@ -466,7 +466,7 @@ ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) +
 ```
   
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.4b, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## subset the data
 priority<-subset(dev, select=c("high_priority_fundamental", "high_priority_use_inspired", "high_priority_applied", "high_priority_no_change"))
@@ -480,8 +480,8 @@ sum.priority<-data.frame(table(priority.long$what.type, priority.long$higher.pri
 # change order of the levels
 sum.priority$Var1<-factor(sum.priority$Var1, levels(sum.priority$Var1)[c(2,4,1,3)])
 
-#pdf(file="figures/developed_final/4.4B_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.4B_PerceivedChangeResearchPriorityGovernment.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.4B_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+#svg(file="figures/HI/4.4B_PerceivedChangeResearchPriorityGovernment.svg", width = 11, height= 7)
 
 ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
@@ -502,7 +502,7 @@ ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
 
 <!--**4.5 Research Grants**  -->
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE,warning=FALSE}
+```{r 4.5, echo=FALSE, message=FALSE, warning=FALSE,warning=FALSE}
 
 ## subset the data
 success<-subset(dev, select=c("success_change_10yrs_fundamental", "success_change_10yrs_use", "success_change_10yrs_applied"))
@@ -525,8 +525,8 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/developed_final/4.5_ChangeSuccessRate_HI.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.5_ChangeSuccessRate_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.5_ChangeSuccessRate_HI.pdf", height=7, width =11)
+#svg(file="figures/HI/4.5_ChangeSuccessRate_HI.svg", width = 11, height= 7)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
@@ -552,7 +552,7 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
 ```
 
 
-```{r, echo=FALSE,  message=FALSE, warning=FALSE}
+```{r 4.6, echo=FALSE,  message=FALSE, warning=FALSE}
 
 ## subset the data
 distribution<-subset(dev, select=c("distribution_funding_11_15_for_profit"  ,   
@@ -580,17 +580,13 @@ distribution.l$year<- revalue(distribution.l$year, c("11_15"="2011-2015", "6_10"
 #change order of levels
 #distribution.l$year<-factor(distribution.l$year, levels(distribution.l$year)[c(2,1)])
 
-#make a column for the legend key
-distribution.l$data.year <- "blank"
-distribution.l$data.year <- paste("Data", distribution.l$year, sep = "/")
-
 myColors14<-c('#97CCFF','#42A3FF')
 colScale7 <- scale_fill_manual(name = "data.year", values = myColors14)
 
 ##For-Profit
 fp<-distribution.l[distribution.l$type=="For-Profit",]
 
-p1<-ggplot(fp, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.922, 0.98), 
           legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
@@ -611,7 +607,7 @@ p1<-ggplot(fp, aes(percent, fill=data.year))+ geom_histogram(position='dodge', b
 gov<-distribution.l[distribution.l$type=="Government",]
 
 
-p2<-ggplot(gov, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.8, 0.91),
           legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
@@ -634,7 +630,7 @@ p2<-ggplot(gov, aes(percent, fill=data.year))+ geom_histogram(position='dodge', 
 int<-distribution.l[distribution.l$type=="Internal",]
 
 
-p3<-ggplot(int, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.922, 0.98),
           legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
@@ -657,7 +653,7 @@ p3<-ggplot(int, aes(percent, fill=data.year))+ geom_histogram(position='dodge', 
 ngov<-distribution.l[distribution.l$type=="Non-governmental",]
 
 
-p4<-ggplot(ngov, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.922, 0.98),
          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
@@ -679,7 +675,7 @@ p4<-ggplot(ngov, aes(percent, fill=data.year))+ geom_histogram(position='dodge',
 other<-distribution.l[distribution.l$type=="Other",]
 
 
-p5<-ggplot(other, aes(percent, fill=data.year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
+p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.7, 0.91),
          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
@@ -700,8 +696,8 @@ p5<-ggplot(other, aes(percent, fill=data.year))+ geom_histogram(position='dodge'
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-#pdf(file="figures/developed_final/4.6_DistributionFunding_HI.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.6_DistributionFunding_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.6_DistributionFunding_HI.pdf", height=7, width =11)
+#svg(file="figures/HI/4.6_DistributionFunding_HI.svg", width = 11, height= 7)
 
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
@@ -713,7 +709,7 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
 ```
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.7a, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## subset the data
 practical<-subset(dev, select=c("practical_applications_important_11_15", "practical_applications_important_6_10"))
@@ -721,8 +717,8 @@ practical<-subset(dev, select=c("practical_applications_important_11_15", "pract
 ## switch to long format
 practical.l<-gather(practical, year, level)
 
-practical.l$year[practical.l$year=="practical_applications_important_11_15"]<-"Data/2011-2015"
-practical.l$year[practical.l$year=="practical_applications_important_6_10"]<-"Data/2006-2010"
+practical.l$year[practical.l$year=="practical_applications_important_11_15"]<-"2011-2015"
+practical.l$year[practical.l$year=="practical_applications_important_6_10"]<-"2006-2010"
 
 
 prac<-data.frame(table(practical.l$year, practical.l$level))
@@ -733,8 +729,8 @@ prac<-droplevels(prac)
 #change order of levels
 prac$Var2<-factor(prac$Var2, levels(prac$Var2)[c(2,6,4,5,3,1)])
 
-#pdf(file="figures/developed_final/4.7A_ImportancePracticalApplication.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.7A_ImportancePracticalApplication.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.7A_ImportancePracticalApplication.pdf", height=7, width =11)
+#svg(file="figures/HI/4.7A_ImportancePracticalApplication.svg", width = 11, height= 7)
 
 ggplot(prac, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+
@@ -749,7 +745,7 @@ ggplot(prac, aes(Var2, Freq, fill=Var1)) +
         axis.title.x=element_text(size = 12),
         axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
-  #scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
+  scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="", y="Number of respondents", title="Importance of practical application of research for grant success (HI)")+ colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,520))
   
@@ -757,7 +753,7 @@ ggplot(prac, aes(Var2, Freq, fill=Var1)) +
 ```
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.7b, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## subset the data
 partners<-subset(dev, select=c("include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10"))
@@ -765,8 +761,8 @@ partners<-subset(dev, select=c("include_nonacademia_partners_success_11_15", "in
 ## switch to long format
 partners.l<-gather(partners, year, level)
 
-partners.l$year[partners.l$year=="include_nonacademia_partners_success_11_15"]<-"Data/2011-2015"
-partners.l$year[partners.l$year=="include_nonacademia_partners_success_6_10"]<-"Data/2006-2010"
+partners.l$year[partners.l$year=="include_nonacademia_partners_success_11_15"]<-"2011-2015"
+partners.l$year[partners.l$year=="include_nonacademia_partners_success_6_10"]<-"2006-2010"
 
 part<-data.frame(table(partners.l$year, partners.l$level))
 part<-part[!part$Var2 == "0",]
@@ -775,15 +771,15 @@ part<-droplevels(part)
 #change order of levels
 part$Var2<-factor(part$Var2, levels(part$Var2)[c(2,5,6,4,3,1)])
 
-#pdf(file="figures/developed_final/4.7B_ImportancePartnersApplication_HI.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.7B_ImportancePartnersApplication_HI.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.7B_ImportancePartnersApplication_HI.pdf", height=7, width =11)
+#svg(file="figures/HI/4.7B_ImportancePartnersApplication_HI.svg", width = 11, height= 7)
 
 ggplot(part, aes(Var2, Freq, fill=Var1))+ 
   geom_bar(stat="identity", position = "dodge")+
   #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
     labs(x="", y="Number of respondents", title="Importance of including partners (non-academia) for the success of grant applications (HI)")+
-  #scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
+  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(),legend.text=element_text(size = 12),
@@ -799,7 +795,7 @@ ggplot(part, aes(Var2, Freq, fill=Var1))+
 
 <!--**4.2 External Partnerships**   -->
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.8a, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## subset the data
 partner.level<-subset(dev, select=c("partnership_outside_current", "partnership_outside_before"))
@@ -807,8 +803,8 @@ partner.level<-subset(dev, select=c("partnership_outside_current", "partnership_
 ## switch to long format
 part.level.l<-gather(partner.level, year, level)
 
-part.level.l$year[part.level.l$year=="partnership_outside_current"]<-"Data/2011-2015"
-part.level.l$year[part.level.l$year=="partnership_outside_before"]<-"Data/2006-2010"
+part.level.l$year[part.level.l$year=="partnership_outside_current"]<-"2011-2015"
+part.level.l$year[part.level.l$year=="partnership_outside_before"]<-"2006-2010"
 
 part.level<-data.frame(table(part.level.l$year, part.level.l$level))
 part.level<-part.level[!part.level$Var2 == "0",]
@@ -818,8 +814,8 @@ part.level<-droplevels(part.level)
 part.level$Var2<-factor(part.level$Var2, levels(part.level$Var2)[c(1,4,3,2)])
 
 
-#pdf(file="figures/developed_final/4.8A_LevelsOfPartnership.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.8A_LevelsOfPartnership.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.8A_LevelsOfPartnership.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.8A_LevelsOfPartnership.svg", width = 11, height= 7)
 
 ggplot(part.level, aes(x=Var2, y=Freq, fill = Var1),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
@@ -840,7 +836,7 @@ ggplot(part.level, aes(x=Var2, y=Freq, fill = Var1),  ylim(0,375)) +
 ```
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.8b, echo=FALSE, message=FALSE, warning=FALSE}
 
 ### was there change
 
@@ -897,8 +893,8 @@ g2<-ggplot(change.part, aes(x=Var1, y=Freq, fill=Var1)) +
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-#pdf(file="figures/developed_final/4.8B_PartnershipChange&Reason.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.8B_PartnershipChange.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.8B_PartnershipChange&Reason.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.8B_PartnershipChange.svg", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
 
@@ -907,7 +903,7 @@ grid.arrange(g1, g2, ncol=1)
 ```
 
 
-```{r, echo=FALSE,  message=FALSE, warning=FALSE}
+```{r 4.8c, echo=FALSE,  message=FALSE, warning=FALSE}
 
 view<-data.frame(table(dev$view_change_partnership))
 view<-view[!view$Var1=="0",]
@@ -917,8 +913,8 @@ view<-droplevels(view)
 
 view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
 
-#pdf(file="figures/developed_final/4.8C_ViewChangePartnership.pdf", width = 11, height= 7)
-#svg(file="figures/developed_final/4.8C_ViewChangePartnership.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.8C_ViewChangePartnership.pdf", width = 11, height= 7)
+#svg(file="figures/HI/4.8C_ViewChangePartnership.svg", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
@@ -939,7 +935,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
 ```
  
  
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.9, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## subset the data
 anticipated<-subset(dev, select=c("available_funding_fundamental", "available_funding_use_inspired", "available_funding_applied"))
@@ -974,8 +970,8 @@ ant$Var1<-factor(ant$Var1, levels(ant$Var1)[c(2,3,1)])
 myColors17<-mycols<-c('#E55934','#9BC53D','#42A3FF')
 colScale9 <- scale_fill_manual(name = "what.type",values = rev(myColors17))
 
-#pdf(file="figures/developed_final/4.9_AnticipatedChangeFunding.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.9_AnticipatedChangeFunding.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.9_AnticipatedChangeFunding.pdf", height=7, width =11)
+#svg(file="figures/HI/4.9_AnticipatedChangeFunding.svg", width = 11, height= 7)
 
 ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
     geom_bar(stat="identity", position="dodge")+
@@ -1004,7 +1000,7 @@ ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
 ```
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r 4.10, echo=FALSE, message=FALSE, warning=FALSE}
 
 future<-data.frame(table(dev$next_generation))
 future<-future[!future$Var1=="0",]
@@ -1019,13 +1015,13 @@ future$Var1<-as.factor(future$Var1)
 ## change order of Var1s
 future$Var1<-factor(future$Var1, levels(future$Var1)[c(4,5,6,3,2,1)])
 
-#pdf(file="figures/developed_final/4.10_EffectNextGeneration.pdf", height=7, width =11)
-#svg(file="figures/developed_final/4.10_EffectNextGeneration.svg", width = 11, height= 7)
+#pdf(file="figures/HI/4.10_EffectNextGeneration.pdf", height=7, width =11)
+#svg(file="figures/HI/4.10_EffectNextGeneration.svg", width = 11, height= 7)
 
 ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +
-        scale_x_discrete(labels=c("Increase considerably", "Increase slightly", 
-                                    "Stay the same", "Decrease slightly", "Decrease considerably", "Can't comment"))+
+        scale_x_discrete(labels=c("Increase\nconsiderably", "Increase\nslightly", 
+                                    "Stay the\nsame", "Decrease\nslightly", "Decrease\nconsiderably", "Can't\ncomment"))+
     guides(fill=FALSE) +
  labs(x="", y="Number of respondents", title="Effect of funding changes on the next generation of researchers (HI)")+
   theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
