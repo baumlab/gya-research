@@ -276,7 +276,7 @@ sum.reason$Var1<-revalue(sum.reason$Var1, c("main_reason_change_career_related" 
 # change order of the levels
 sum.reason$Var1<-factor(sum.reason$Var1,levels(sum.reason$Var1)[c(2,3,1,5,4)])
 
-pdf(file="figures/HI/4.3b_ReasonForFieldChange_HI.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.3b_ReasonForFieldChange_HI.pdf", width = 11, height= 7)
 #svg(file="figures/HI/4.3b_ReasonForFieldChange_HI.svg", width = 11, height= 7)
 
 ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
@@ -295,7 +295,7 @@ ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 500))#+annotate('text', 5.4,795, label="(b)", size=5)#+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
-dev.off()
+#dev.off()
 
 ```
 
