@@ -83,7 +83,7 @@ n.ssh <- dev[dev$field_research=="Social Science / Humanities",]
 percent.ssh <- ((dim(n.ssh)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(dplyr); require(tidyr); library(gridExtra)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(dplyr); require(tidyr); library(gridExtra);require(reshape2);library(rbin)
 
 
 ```
@@ -365,6 +365,202 @@ grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 
 dev.off()
 ```
+
+
+```{r 4.3 percent data prep, message=FALSE, warning=FALSE, include=FALSE}
+
+## subset the data
+res.plot<-subset(dev, select = c( "percent_fundamental_research_current",  "percent_applied_research_current" , "percent_use_inspired_research_current","percent_applied_research_past",  "percent_fundamental_research_past" , "percent_use_inspired_research_past"))
+
+dim(res.plot)
+
+#count how many total responses there were of current and past
+current <- as.data.frame(length(na.omit(res.plot$percent_fundamental_research_current)))
+colnames(current)<-c("totalcur")
+past <- as.data.frame(length(na.omit(res.plot$percent_fundamental_research_past)))
+colnames(past)<-c("totalpast")
+
+
+## now to count how many responses of each percentage but need to bin them for graphing
+head(res.plot)
+breaks <- c(0, 9.999, 19.999, 29.999, 39.999, 49.999, 59.999, 69.999, 79.999, 89.999, 99.999, 100)
+
+fundcur <- cut(res.plot$percent_fundamental_research_current, breaks = breaks, include.lowest = TRUE)
+fundcur <- as.data.frame(summary(fundcur))
+fundcur
+colnames(fundcur) <- c("freq")
+sum(is.na(res.plot$percent_fundamental_research_current)) #double check the number of NAs
+as.data.frame(table(res.plot$percent_fundamental_research_current)) #double check numbers
+
+fundpast <- cut(res.plot$percent_fundamental_research_past, breaks = breaks, include.lowest = TRUE)
+fundpast <- as.data.frame(summary(fundpast))
+colnames(fundpast) <- c("freq")
+fundpast
+sum(is.na(res.plot$percent_fundamental_research_past)) #double check the number of NAs
+as.data.frame(table(res.plot$percent_fundamental_research_past)) #double check numbers
+
+usecur <- cut(res.plot$percent_use_inspired_research_current, breaks = breaks, include.lowest = TRUE)
+usecur <- as.data.frame(summary(usecur))
+colnames(usecur) <- c("freq")
+usecur
+sum(is.na(res.plot$percent_use_inspired_research_current)) #double check the number of NAs
+as.data.frame(table(res.plot$percent_use_inspired_research_current)) #double check numbers
+
+usepast <- cut(res.plot$percent_use_inspired_research_past, breaks = breaks, include.lowest = TRUE)
+usepast <- as.data.frame(summary(usepast))
+colnames(usepast) <- c("freq")
+usepast
+sum(is.na(res.plot$percent_use_inspired_research_past)) #double check the number of NAs
+as.data.frame(table(res.plot$percent_use_inspired_research_past)) #double check numbers
+
+appcur <- cut(res.plot$percent_applied_research_current, breaks = breaks, include.lowest = TRUE)
+appcur <- as.data.frame(summary(appcur))
+colnames(appcur) <- c("freq")
+appcur
+sum(is.na(res.plot$percent_applied_research_current)) #double check the number of NAs
+as.data.frame(table(res.plot$percent_applied_research_current)) #double check numbers
+
+apppast <- cut(res.plot$percent_applied_research_past, breaks = breaks, include.lowest = TRUE)
+apppast <- as.data.frame(summary(apppast))
+colnames(apppast) <- c("freq")
+apppast
+sum(is.na(res.plot$percent_applied_research_past)) #double check the number of NAs
+as.data.frame(table(res.plot$percent_applied_research_past)) #double check numbers
+
+
+#now stick the total numbers onto those df
+fundcur$totalcur <- current$totalcur
+fundcur
+fundpast$totalpast <- past$totalpast
+fundpast
+usecur$totalcur <- current$totalcur
+usecur
+usepast$totalpast <- past$totalpast
+usepast
+appcur$totalcur <- current$totalcur
+appcur
+apppast$totalpast <- past$totalpast
+apppast
+
+#now calculate percentage
+fundcur$perc <- (fundcur$freq/fundcur$totalcur)*100
+fundcur
+fundpast$perc <- (fundpast$freq/fundpast$totalpast)*100
+fundpast
+usecur$perc <- (usecur$freq/usecur$totalcur)*100
+usecur
+usepast$perc <- (usepast$freq/usepast$totalpast)*100
+usepast
+appcur$perc <- (appcur$freq/appcur$totalcur)*100
+appcur
+apppast$perc <- (apppast$freq/apppast$totalpast)*100
+apppast
+
+#now combine df
+#make a base df with the bin names
+perc.res <- as.data.frame(c("0","10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "NAs"))
+colnames(perc.res) <- "bins"
+perc.res
+perc.res <- cbind(perc.res, fundcur$perc)
+perc.res
+perc.res <- cbind(perc.res, fundpast$perc)
+perc.res
+perc.res <- cbind(perc.res, usecur$perc)
+perc.res
+perc.res <- cbind(perc.res, usepast$perc)
+perc.res
+perc.res <- cbind(perc.res, appcur$perc)
+perc.res
+perc.res <- cbind(perc.res, apppast$perc)
+perc.res
+
+colnames(perc.res) <- c("bins", "perc.fundcur", "perc.fundpast", "perc.usecur", "perc.usepast", "perc.appcur", "perc.apppast")
+perc.res
+perc.res <- perc.res[!perc.res$bins == "NAs",]
+perc.res <- droplevels(perc.res)
+perc.res
+
+#ok make this long
+perc.res.plot.l <- melt(perc.res, na.rm = FALSE, id.vars = c("bins"))
+head(perc.res.plot.l)
+colnames(perc.res.plot.l) <- c("percent.bins", "perc.typetime", "perc.responses")
+perc.res.plot.l
+
+#str(res.plot.l)
+
+# add time variable
+perc.res.plot.l$time<-ifelse(grepl( "cur", perc.res.plot.l$perc.typetime),"Current", "Past")
+perc.res.plot.l
+
+# break out type
+perc.res.plot.l$type <- "Applied"
+perc.res.plot.l$type<-ifelse(grepl( "use", perc.res.plot.l$perc.typetime),"Use-inspired", perc.res.plot.l$type)
+perc.res.plot.l$type<-ifelse(grepl( "fund", perc.res.plot.l$perc.typetime),"Fundamental", perc.res.plot.l$type)
+perc.res.plot.l
+#looks good
+
+str(perc.res.plot.l)
+# change order of the levels
+perc.res.plot.l$time<-as.factor(perc.res.plot.l$time)
+levels(perc.res.plot.l$time)
+perc.res.plot.l$time<-factor(perc.res.plot.l$time, levels(perc.res.plot.l$time)[c(2,1)])
+
+perc.res.plot.l$type<-as.factor(perc.res.plot.l$type)
+levels(perc.res.plot.l$type)
+perc.res.plot.l$type<-factor(perc.res.plot.l$type, levels(perc.res.plot.l$type)[c(2,3,1)])
+
+levels(perc.res.plot.l$percent.bins)
+perc.res.plot.l$percent.bins<-factor(perc.res.plot.l$percent.bins, levels(perc.res.plot.l$percent.bins)[c(1,2,4,5,6,7,8,9,10,11,3)])
+
+
+perc.res.plot.l$ID<-paste(perc.res.plot.l$type, perc.res.plot.l$time)
+
+# change order of the levels
+perc.res.plot.l$ID<-as.factor(perc.res.plot.l$ID)
+levels(perc.res.plot.l$ID)
+perc.res.plot.l$ID<-factor(perc.res.plot.l$ID, levels(perc.res.plot.l$ID)[c(4,3,6,5,2,1)])
+head(perc.res.plot.l)
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#####add (a)
+xs <- split(perc.res.plot.l,f = perc.res.plot.l$type)
+p1 <- ggplot(xs$Fundamental,aes(percent.bins, perc.responses, fill=time)) +
+    geom_bar(position='dodge', stat='identity')  +
+    guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
+    labs(x="", y="Percent of responses", title="")+
+    theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+          panel.grid.minor = element_blank(),
+          strip.text.x = element_text(size=12, color="black"),
+          strip.background = element_rect(colour="white", fill="white"),
+          legend.position=c(0.5, 0.75 ), legend.spacing=unit(100,"cm"), legend.background = element_rect(color = "white"),
+          axis.text.y=element_text(size=12, color = "black"),
+         axis.text.x=element_text(size=12, color = "black"),
+         )+ 
+    facet_wrap(~type, nrow=3) #+
+ # scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,570),breaks=seq(0,550,100))
+
+p2 <- p1 %+% xs$`Use-inspired`
+p3 <- p1 %+% xs$Applied
+p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (LMI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,20),breaks=seq(0,20,5))
+p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,37),breaks=seq(0,35,5))
+p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,45),breaks=seq(0,45,10)) + labs(x = "Percentage of research")
+
+
+#pdf(file="figures/LMI/4.3_ResearchProportion_percent_LMI.pdf", width = 11, height= 7)
+#pdf(file="figures/LMI/4.3_ResearchProportion_percent.narrow_LMI.pdf", width = 7, height= 11)
+
+
+#grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
+grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
+
+#dev.off()
+```
+
 
 ```{r 4.3b, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE}
 
