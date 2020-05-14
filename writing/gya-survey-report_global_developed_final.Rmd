@@ -125,7 +125,7 @@ field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 
 
-#pdf(file="figures/HI/4.1_FieldofResearch_HI.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.1_FieldofResearch_HI.pdf", width = 10, height=11)
 #svg(file="figures/HI/4.1_FieldofResearch_HI.svg", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
@@ -134,13 +134,13 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   scale_x_discrete(labels=c("Physical\nScience", "Natural\nScience", "Medicine &\nLife Science", "Engineering", "Social Science/\nHumanities","Interdisciplinary\nScience",  "Other")) +
   #geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
   theme(axis.text.y=element_text(size=12, color = "black"),
-         axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.x=element_text( size=12, color = "black"),
          axis.title=element_text(size=14),
          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,600))
+  scale_y_continuous(expand = c(0,0), limits = c(0,500))
 
 #dev.off()
 ```
@@ -160,7 +160,7 @@ experience$Var1<-revalue(experience$Var1, c("Early career academic researcher wi
                                             "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic"))
 experience$Var1<-reorder(experience$Var1, experience$Freq)
 
-#pdf(file="figures/HI/4.2_CareerStage_HI.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.2_CareerStage_HI.pdf", width = 7, height= 8)
 #svg(file="figures/HI/4.2_CareerStage_HI.svg", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
@@ -170,13 +170,13 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   labs(y="Number of respondents", x="", title="Responses by career stage (HI)") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(axis.text.y=element_text(size=12, color = "black"),
-         axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.x=element_text(size=12, color = "black"),
          axis.title=element_text(size=14),
          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
   colScale + guides(fill=FALSE)+
-  scale_y_continuous(expand = c(0,0), limits = c(0,1200))
+  scale_y_continuous(expand = c(0,0), limits = c(0,1100))
 #dev.off()
 
 ```
@@ -277,7 +277,7 @@ colnames(past)<-c("totalpast")
 
 ## now to count how many responses of each percentage but need to bin them for graphing
 head(res.plot)
-breaks <- c(0, 9.999, 19.999, 29.999, 39.999, 49.999, 59.999, 69.999, 79.999, 89.999, 99.999, 100)
+breaks <- c(0, 0.01, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
 
 fundcur <- cut(res.plot$percent_fundamental_research_current, breaks = breaks, include.lowest = TRUE)
 fundcur <- as.data.frame(summary(fundcur))
@@ -441,9 +441,9 @@ p1 <- ggplot(xs$Fundamental,aes(percent.bins, perc.responses, fill=time)) +
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (HI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,25),breaks=seq(0,25,5))
-p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,40),breaks=seq(0,40,10))
-p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,55),breaks=seq(0,55,10)) + labs(x = "Percentage of research")
+p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (HI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,25.5),breaks=seq(0,25,5))
+p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,40.5),breaks=seq(0,40,10))
+p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10)) + labs(x = "Percentage of research")
 
 
 #pdf(file="figures/HI/4.3_ResearchProportion_percent_HI.pdf", width = 11, height= 7)
@@ -472,11 +472,11 @@ sum.reason$Var1<-revalue(sum.reason$Var1, c("main_reason_change_career_related" 
 # change order of the levels
 sum.reason$Var1<-factor(sum.reason$Var1,levels(sum.reason$Var1)[c(2,3,1,5,4)])
 
-#pdf(file="figures/HI/4.3b_ReasonForFieldChange_HI.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.3b_ReasonForFieldChange_HI.pdf", width = 7, height= 8)
 #svg(file="figures/HI/4.3b_ReasonForFieldChange_HI.svg", width = 11, height= 7)
 
 ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme( axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+  theme( axis.text.x=element_text( size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"), 
          axis.title=element_text(size = 12), 
          legend.text=element_text(size = 12),
@@ -505,11 +505,11 @@ view<-droplevels(view)
 # change order of the levels
 view$Var1<-factor(view$Var1,levels(view$Var1)[c(5,3,1,2,4)])
 
-#pdf(file="figures/HI/4.3C_ViewFieldChange_HI.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.3C_ViewFieldChange_HI.pdf", width = 7, height= 8)
 #svg(file="figures/HI/4.3C_ViewFieldChange_HI.svg", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
-  theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+  theme(axis.text.x=element_text(size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"), 
         axis.title.y = element_text(size = 12), 
         plot.title = element_text(hjust = 0.5, size = 14), 
@@ -537,7 +537,7 @@ import<-droplevels(import)
 
 import$Var1<-factor(import$Var1, levels(import$Var1)[c(6,5,4,3,2,1)])
 
-#pdf(file="figures/HI/4.4A_PerceivedImportanceFundamentalGovernment_HI.pdf", height=7, width =11)
+#pdf(file="figures/HI/4.4A_PerceivedImportanceFundamentalGovernment_HI.pdf", height=8, width =7)
 #svg(file="figures/HI/4.4A_PerceivedImportanceFundamentalGovernment_HI.svg", width = 11, height= 7)
 
 ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) + 
@@ -545,14 +545,14 @@ ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) +
       labs(x="", y="Number of respondents", fill="", title="Perceived importance of fundamental research to their government (HI)")+
       scale_x_discrete(labels=c("Very\nimportant", "Somewhat\nimportant", 'Not very\nimportant', 'Not at all\nimportant', "Can't\ncomment"))+
       #geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
-      theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+      theme(axis.text.x=element_text(size=12, color = "black"),
             axis.text.y=element_text(size = 12, color = "black"),
             panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
             panel.grid.minor = element_blank(), 
             axis.title.y=element_text(size=12),
             plot.title = element_text(hjust = 0.5, size = 14)) + guides(fill=FALSE)+ 
-  scale_y_continuous(expand = c(0, 0), limits = c(0,600)) + colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,601)) + colScale
 
 #dev.off()
 ```
@@ -572,12 +572,12 @@ sum.priority<-data.frame(table(priority.long$what.type, priority.long$higher.pri
 # change order of the levels
 sum.priority$Var1<-factor(sum.priority$Var1, levels(sum.priority$Var1)[c(2,4,1,3)])
 
-#pdf(file="figures/HI/4.4B_PerceivedChangeResearchPriorityGovernment.pdf", height=7, width =11)
+#pdf(file="figures/HI/4.4B_PerceivedChangeResearchPriorityGovernment.pdf", height=8, width =7)
 #svg(file="figures/HI/4.4B_PerceivedChangeResearchPriorityGovernment.svg", width = 11, height= 7)
 
 ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
-        theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+        theme(axis.text.x=element_text(size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"), 
               panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
@@ -617,7 +617,7 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/HI/4.5_ChangeSuccessRate_HI.pdf", height=7, width =11)
+#pdf(file="figures/HI/4.5_ChangeSuccessRate_HI.pdf", height=11, width =7)
 #svg(file="figures/HI/4.5_ChangeSuccessRate_HI.svg", width = 11, height= 7)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
@@ -690,7 +690,7 @@ p1<-ggplot(fp, aes(percent, fill=year))+ geom_histogram(position='dodge', binwid
           axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
   labs(title= "Industry", x="", y = "Number of respondents")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1601), breaks=seq(0, 1600, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -701,7 +701,7 @@ gov<-distribution.l[distribution.l$type=="Government",]
 
 p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.8, 0.91),
+    theme(legend.position=c(0.78, 0.91),
           legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
@@ -711,7 +711,7 @@ p2<-ggplot(gov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
          legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
   labs(title="Government", x="", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1601), breaks=seq(0, 1600, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -734,7 +734,7 @@ p3<-ggplot(int, aes(percent, fill=year))+ geom_histogram(position='dodge', binwi
           axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
          legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
   labs(title="Internal",x="% research funding", y = "Number of respondents")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1601), breaks=seq(0, 1600, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -747,7 +747,7 @@ ngov<-distribution.l[distribution.l$type=="Non-governmental",]
 
 p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binwidth=10)  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
-    theme(legend.position=c(0.922, 0.98),
+    theme(legend.position=c(0.78, 0.93),
          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
@@ -757,7 +757,7 @@ p4<-ggplot(ngov, aes(percent, fill=year))+ geom_histogram(position='dodge', binw
           axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
          legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
   labs(title="Non-governmental", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1601), breaks=seq(0, 1600, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -779,7 +779,7 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
           axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
          legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
   labs(title="Other", x="% research funding", y = "")+
-  scale_y_continuous(expand =c(0,0), limits=c(0,1600), breaks=seq(0, 1600, 200))+
+  scale_y_continuous(expand =c(0,0), limits=c(0,1601), breaks=seq(0, 1600, 200))+
   scale_x_continuous( breaks = seq(0, 100, 10))
 
 
@@ -788,13 +788,379 @@ p5<-ggplot(other, aes(percent, fill=year))+ geom_histogram(position='dodge', bin
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-#pdf(file="figures/HI/4.6_DistributionFunding_HI.pdf", height=7, width =11)
+#pdf(file="figures/HI/4.6_DistributionFunding_HI.pdf", height=11, width =7)
 #svg(file="figures/HI/4.6_DistributionFunding_HI.svg", width = 11, height= 7)
 
+#for wide view 
+# grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+#                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
+#                          p5,
+#                          layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (HI)",gp=gpar(fontsize=17)))
+
+#for narrow view
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
-                         p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
+                         p3+ theme(legend.position="none"), p4,
                          p5,
-                         layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (HI)",gp=gpar(fontsize=17)))
+                         layout_matrix=rbind(c(1,1,2,2),c(3,3,4,4), c(NA,5,5,NA))), top=textGrob("Distribution of research funding (HI)",gp=gpar(fontsize=17)))
+
+#dev.off()
+
+```
+
+
+```{r 4.6 percent data prep, message=FALSE, warning=FALSE, include=FALSE}
+
+## subset the data
+distribution<-subset(dev, select=c("distribution_funding_11_15_for_profit"  ,   
+ "distribution_funding_11_15_government"  ,    "distribution_funding_11_15_internal"    ,   
+ "distribution_funding_11_15_nongov"  ,        "distribution_funding_11_15_other"   ,       
+          "distribution_funding_6_10_for_profit"   ,   
+ "distribution_funding_6_10_government"   ,    "distribution_funding_6_10_internal"  ,      
+ "distribution_funding_6_10_nongov" ,          "distribution_funding_6_10_other"))
+
+head(distribution)
+
+#count how many total responses there were of current and past
+current.dist <- as.data.frame(length(na.omit(distribution$distribution_funding_11_15_other)))
+colnames(current.dist)<-c("totalcur")
+current.dist
+past.dist <- as.data.frame(length(na.omit(distribution$distribution_funding_6_10_other)))
+colnames(past.dist)<-c("totalpast")
+past.dist
+
+
+## now to count how many responses of each percentage but need to bin them for graphing
+head(distribution)
+breaks <- c(0, 0.01, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
+
+#for profit
+profcur <- cut(distribution$distribution_funding_11_15_for_profit, breaks = breaks, include.lowest = TRUE)
+profcur <- as.data.frame(summary(profcur))
+profcur
+colnames(profcur) <- c("freq")
+sum(is.na(distribution$distribution_funding_11_15_for_profit)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_11_15_for_profit)) #double check numbers
+
+
+profpast <- cut(distribution$distribution_funding_6_10_for_profit, breaks = breaks, include.lowest = TRUE)
+profpast <- as.data.frame(summary(profpast))
+profpast
+colnames(profpast) <- c("freq")
+sum(is.na(distribution$distribution_funding_6_10_for_profit)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_6_10_for_profit)) #double check numbers
+
+#gov
+govcur <- cut(distribution$distribution_funding_11_15_government, breaks = breaks, include.lowest = TRUE)
+govcur <- as.data.frame(summary(govcur))
+govcur
+colnames(govcur) <- c("freq")
+sum(is.na(distribution$distribution_funding_11_15_government)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_11_15_government)) #double check numbers
+
+
+govpast <- cut(distribution$distribution_funding_6_10_government, breaks = breaks, include.lowest = TRUE)
+govpast <- as.data.frame(summary(govpast))
+govpast
+colnames(govpast) <- c("freq")
+sum(is.na(distribution$distribution_funding_6_10_government)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_6_10_government)) #double check numbers
+
+#internal
+intcur <- cut(distribution$distribution_funding_11_15_internal, breaks = breaks, include.lowest = TRUE)
+intcur <- as.data.frame(summary(intcur))
+intcur
+colnames(intcur) <- c("freq")
+sum(is.na(distribution$distribution_funding_11_15_internal)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_11_15_internal)) #double check numbers
+
+
+intpast <- cut(distribution$distribution_funding_6_10_internal, breaks = breaks, include.lowest = TRUE)
+intpast <- as.data.frame(summary(intpast))
+intpast
+colnames(intpast) <- c("freq")
+sum(is.na(distribution$distribution_funding_6_10_internal)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_6_10_internal)) #double check numbers
+
+#non governmental
+nongovcur <- cut(distribution$distribution_funding_11_15_nongov, breaks = breaks, include.lowest = TRUE)
+nongovcur <- as.data.frame(summary(nongovcur))
+nongovcur
+colnames(nongovcur) <- c("freq")
+sum(is.na(distribution$distribution_funding_11_15_nongov)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_11_15_nongov)) #double check numbers
+
+
+nongovpast <- cut(distribution$distribution_funding_6_10_nongov, breaks = breaks, include.lowest = TRUE)
+nongovpast <- as.data.frame(summary(nongovpast))
+nongovpast
+colnames(nongovpast) <- c("freq")
+sum(is.na(distribution$distribution_funding_6_10_nongov)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_6_10_nongov)) #double check numbers
+
+#other
+othcur <- cut(distribution$distribution_funding_11_15_other, breaks = breaks, include.lowest = TRUE)
+othcur <- as.data.frame(summary(othcur))
+othcur
+colnames(othcur) <- c("freq")
+sum(is.na(distribution$distribution_funding_11_15_other)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_11_15_other)) #double check numbers
+
+
+othpast <- cut(distribution$distribution_funding_6_10_other, breaks = breaks, include.lowest = TRUE)
+othpast <- as.data.frame(summary(othpast))
+profpast
+colnames(othpast) <- c("freq")
+sum(is.na(distribution$distribution_funding_6_10_other)) #double check the number of NAs
+as.data.frame(table(distribution$distribution_funding_6_10_other)) #double check numbers
+
+
+#now stick the total numbers onto those df
+profcur$totalcur <- current.dist$totalcur
+profcur
+profpast$totalpast <- past.dist$totalpast
+profpast
+govcur$totalcur <- current.dist$totalcur
+govcur
+govpast$totalpast <- past.dist$totalpast
+govpast
+intcur$totalcur <- current.dist$totalcur
+intcur
+intpast$totalpast <- past.dist$totalpast
+intpast
+nongovcur$totalcur <- current.dist$totalcur
+nongovcur
+nongovpast$totalpast <- past.dist$totalpast
+nongovpast
+othcur$totalcur <- current.dist$totalcur
+othcur
+othpast$totalpast <- past.dist$totalpast
+othpast
+
+#now calculate percentage
+profcur$perc <- (profcur$freq/profcur$totalcur)*100
+profcur
+profpast$perc <- (profpast$freq/profpast$totalpast)*100
+profpast
+govcur$perc <- (govcur$freq/usecur$totalcur)*100
+govcur
+govpast$perc <- (govpast$freq/usepast$totalpast)*100
+govpast
+intcur$perc <- (intcur$freq/intcur$totalcur)*100
+intcur
+intpast$perc <- (intpast$freq/intpast$totalpast)*100
+intpast
+nongovcur$perc <- (nongovcur$freq/nongovcur$totalcur)*100
+nongovcur
+nongovpast$perc <- (nongovpast$freq/nongovpast$totalpast)*100
+nongovpast
+othcur$perc <- (othcur$freq/othcur$totalcur)*100
+othcur
+othpast$perc <- (othpast$freq/othpast$totalpast)*100
+othpast
+
+#now combine df
+#make a base df with the bin names
+perc.fund <- as.data.frame(c("0","10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "NAs"))
+colnames(perc.fund) <- "bins"
+perc.fund
+perc.fund <- cbind(perc.fund, profcur$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, profpast$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, govcur$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, govpast$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, intcur$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, intpast$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, nongovcur$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, nongovpast$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, othcur$perc)
+perc.fund
+perc.fund <- cbind(perc.fund, othpast$perc)
+perc.fund
+
+colnames(perc.fund) <- c("bins", "perc.profcur", "perc.profpast", "perc.govcur", "perc.govpast", "perc.intcur", "perc.intpast", "perc.nongovcur", "perc.nongovpast", "perc.othcur", "perc.othpast")
+perc.fund
+perc.fund <- perc.fund[!perc.fund$bins == "NAs",]
+perc.fund <- droplevels(perc.fund)
+perc.fund
+
+
+#ok make this long
+perc.fund.l <- melt(perc.fund, na.rm = FALSE, id.vars = c("bins"))
+head(perc.fund.l)
+colnames(perc.fund.l) <- c("percent.bins", "perc.typetime", "perc.responses")
+perc.fund.l
+
+str(perc.fund.l)
+
+# add time variable
+perc.fund.l$time<-ifelse(grepl( "cur", perc.fund.l$perc.typetime),"Current", "Past")
+perc.fund.l
+
+# break out type
+perc.fund.l$type <- "Industry"
+perc.fund.l$type<-ifelse(grepl( "gov", perc.fund.l$perc.typetime),"Government", perc.fund.l$type)
+perc.fund.l$type<-ifelse(grepl( "int", perc.fund.l$perc.typetime),"Internal", perc.fund.l$type)
+perc.fund.l$type<-ifelse(grepl( "nongov", perc.fund.l$perc.typetime),"Non-governmental", perc.fund.l$type)
+perc.fund.l$type<-ifelse(grepl( "oth", perc.fund.l$perc.typetime),"Other", perc.fund.l$type)
+perc.fund.l
+#looks good
+
+str(perc.fund.l)
+# change order of the levels
+perc.fund.l$time<-as.factor(perc.fund.l$time)
+levels(perc.fund.l$time)
+perc.fund.l$time<-factor(perc.fund.l$time, levels(perc.fund.l$time)[c(2,1)])
+
+perc.fund.l$type<-as.factor(perc.fund.l$type)
+levels(perc.fund.l$type)
+perc.fund.l$type<-factor(perc.fund.l$type, levels(perc.fund.l$type)[c(2,1,3,4,5)])
+
+levels(perc.fund.l$percent.bins)
+perc.fund.l$percent.bins<-factor(perc.fund.l$percent.bins, levels(perc.fund.l$percent.bins)[c(1,2,4,5,6,7,8,9,10,11,3)])
+
+
+#revalue the year values
+perc.fund.l$time<- revalue(perc.fund.l$time, c("Current"="2011-2015", "Past"="2006-2010"))
+#change order of levels
+#distribution.l$year<-factor(distribution.l$year, levels(distribution.l$year)[c(2,1)])
+perc.fund.l
+
+myColors14<-c('#97CCFF','#42A3FF')
+colScale7 <- scale_fill_manual(name = "data.year", values = myColors14)
+
+```
+
+```{r 4.6 percent, echo=FALSE, message=FALSE, warning=FALSE}
+
+##For-Profit
+fp<-perc.fund.l[perc.fund.l$type=="Industry",]
+
+p1<-ggplot(fp, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98), 
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+        legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title= "Industry", x="", y = "Percent of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+##Government
+gov<-perc.fund.l[perc.fund.l$type=="Government",]
+
+
+p2<-ggplot(gov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.78, 0.91),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Government", x="", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+
+##Internal
+
+int<-perc.fund.l[perc.fund.l$type=="Internal",]
+
+
+p3<-ggplot(int, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Internal",x="% research funding", y = "Percent of responsess")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+
+##Non-Governmental
+
+ngov<-perc.fund.l[perc.fund.l$type=="Non-governmental",]
+
+
+p4<-ggplot(ngov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.78, 0.93),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Non-governmental", x="% research funding", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+## Other
+
+other<-perc.fund.l[perc.fund.l$type=="Other",]
+
+
+p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.7, 0.91),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
+         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+  labs(title="Other", x="% research funding", y = "Percent of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+##put them all together
+
+legend = gtable_filter(ggplotGrob(p1), "guide-box") 
+grid.draw(legend)
+
+#pdf(file="figures/HI/4.6_DistributionFunding_HI_percentnarrow.pdf", height=11, width =7)
+
+#for wide view
+# grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+#                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
+#                          p5,
+#                          layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (HI)",gp=gpar(fontsize=17)))
+
+
+#for narrow view
+grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+                         p3+ theme(legend.position="none"), p4,
+                         p5,
+                         layout_matrix=rbind(c(1,1,2,2),c(3,3,4,4), c(NA,5,5,NA))), top=textGrob("Distribution of research funding (HI)",gp=gpar(fontsize=17)))
 
 #dev.off()
 
@@ -845,6 +1211,112 @@ ggplot(prac, aes(Var2, Freq, fill=Var1)) +
 ```
 
 
+```{r 4.7a percent data prep, message=FALSE, warning=FALSE, include=FALSE}
+
+## subset the data
+practical<-subset(dev, select=c("practical_applications_important_11_15", "practical_applications_important_6_10"))
+
+head(practical)
+
+#count how many total responses there were of current and past
+current.prac <- as.data.frame(length(na.omit(practical$practical_applications_important_11_15)))
+colnames(current.prac)<-c("totalcur")
+current.prac
+current.prac <- current.prac - 18
+current.prac
+past.prac <- as.data.frame(length(na.omit(practical$practical_applications_important_6_10)))
+colnames(past.prac)<-c("totalpast")
+past.prac
+past.prac <- past.prac-62
+past.prac
+
+#now calculate number of each
+
+praccur <- as.data.frame(table(practical$practical_applications_important_11_15))
+praccur
+colnames(praccur) <- c("opinion", "num.opin")
+praccur
+dev[dev$practical_applications_important_11_15 == 0, ] # not sure how they managed to get the 0 but need to take them out of here an the total numbers
+praccur <- praccur[!praccur$opinion == 0, ]
+praccur <- droplevels(praccur)
+praccur
+
+pracpast <- as.data.frame(table(practical$practical_applications_important_6_10))
+pracpast
+colnames(pracpast) <- c("opinion", "num.opin")
+pracpast
+pracpast <- pracpast[!pracpast$opinion == 0, ]
+pracpast <- droplevels(pracpast)
+pracpast
+
+#now stick the total numbers onto those df
+praccur$totalcur <- current.prac$totalcur
+praccur
+
+pracpast$totalpast <- past.prac$totalpast
+pracpast
+
+#now calculate percentage
+praccur$perc <- (praccur$num.opin/praccur$totalcur)*100
+praccur
+pracpast$perc <- (pracpast$num.opin/pracpast$totalpast)*100
+pracpast
+
+#combine
+prac.perc <- praccur
+prac.perc$"num.opin" <- NULL
+prac.perc$"totalcur" <- NULL
+prac.perc
+prac.perc <- cbind(prac.perc, pracpast$perc)
+prac.perc
+colnames(prac.perc) <- c("opinion", "prac.current", "prac.past")
+prac.perc
+
+## switch to long format
+prac.perc.l<-melt(prac.perc, na.rm = FALSE, id.vars = c("opinion"))
+prac.perc.l
+colnames(prac.perc.l) <- c("opinion", "time", "percent")
+prac.perc.l
+
+# add time variable
+prac.perc.l$year<-ifelse(grepl( "current", prac.perc.l$time),"2011-2015", "2006-2010")
+prac.perc.l
+
+str(prac.perc.l)
+
+#change order of levels
+prac.perc.l$year <- as.factor(prac.perc.l$year)
+levels(prac.perc.l$year)
+levels(prac.perc.l$opinion)
+prac.perc.l$opinion<-factor(prac.perc.l$opinion, levels(prac.perc.l$opinion)[c(2,6,4,5,3,1)])
+
+```
+
+```{r 4.7a percent, echo=FALSE, message=FALSE, warning=FALSE}
+#pdf(file="figures/HI/4.7A_ImportancePracticalApplication_HI_percent.pdf", height=8, width =7)
+
+
+ggplot(prac.perc.l, aes(opinion, percent, fill=year)) + 
+  geom_bar(stat="identity", position = "dodge")+
+  #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
+  theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.key=element_blank(),legend.text=element_text(size = 12),
+        legend.position=c(0.89, 0.91),
+        axis.text.x=element_text( size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+        axis.title.x=element_text(size = 12),
+        axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) +
+  guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
+  scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
+  labs(x="", y="Percent of responses", title="Importance of practical application of research for grant success (HI)")+ colScale7+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,33))
+  
+#dev.off()
+```
+
+
 ```{r 4.7b, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## subset the data
@@ -885,6 +1357,113 @@ ggplot(part, aes(Var2, Freq, fill=Var1))+
 #dev.off()
 ```
 
+
+```{r 4.7b percent data prep, message=FALSE, warning=FALSE, include=FALSE}
+
+## subset the data
+partners<-subset(dev, select=c("include_nonacademia_partners_success_11_15", "include_nonacademia_partners_success_6_10"))
+
+head(partners)
+
+#count how many total responses there were of current and past
+current.part <- as.data.frame(length(na.omit(partners$include_nonacademia_partners_success_11_15)))
+colnames(current.part)<-c("totalcur")
+current.part
+current.part <- current.part - 18
+current.part
+past.part <- as.data.frame(length(na.omit(partners$include_nonacademia_partners_success_6_10)))
+colnames(past.part)<-c("totalpast")
+past.part
+past.part <- past.part-79
+past.part
+
+#now calculate number of each
+
+partcur <- as.data.frame(table(partners$include_nonacademia_partners_success_11_15))
+partcur
+colnames(partcur) <- c("opinion", "num.opin")
+partcur
+dev[dev$include_nonacademia_partners_success_11_15 == 0, ] # not sure how they managed to get the 0 but need to take them out of here an the total numbers
+partcur <- partcur[!partcur$opinion == 0, ]
+partcur <- droplevels(partcur)
+partcur
+
+partpast <- as.data.frame(table(partners$include_nonacademia_partners_success_6_10))
+partpast
+colnames(partpast) <- c("opinion", "num.opin")
+partpast
+partpast <- partpast[!partpast$opinion == 0, ]
+partpast <- droplevels(partpast)
+partpast
+
+#now stick the total numbers onto those df
+partcur$totalcur <- current.part$totalcur
+partcur
+
+partpast$totalpast <- past.part$totalpast
+partpast
+
+#now calculate percentage
+partcur$perc <- (partcur$num.opin/partcur$totalcur)*100
+partcur
+partpast$perc <- (partpast$num.opin/partpast$totalpast)*100
+partpast
+
+#combine
+part.perc <- partcur
+part.perc$"num.opin" <- NULL
+part.perc$"totalcur" <- NULL
+part.perc
+part.perc <- cbind(part.perc, partpast$perc)
+part.perc
+colnames(part.perc) <- c("opinion", "part.current", "part.past")
+part.perc
+
+## switch to long format
+part.perc.l<-melt(part.perc, na.rm = FALSE, id.vars = c("opinion"))
+part.perc.l
+colnames(part.perc.l) <- c("opinion", "time", "percent")
+part.perc.l
+
+# add time variable
+part.perc.l$year<-ifelse(grepl( "current", part.perc.l$time),"2011-2015", "2006-2010")
+part.perc.l
+
+str(part.perc.l)
+
+#change order of levels
+part.perc.l$year <- as.factor(part.perc.l$year)
+levels(part.perc.l$year)
+levels(part.perc.l$opinion)
+part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2,6,4,5,3,1)])
+
+
+```
+
+```{r 4.7b percent, echo=FALSE, message=FALSE, warning=FALSE}
+
+pdf(file="figures/HI/4.7B_ImportancePartnersApplication_HI_percent.pdf", height=8, width =7)
+
+ggplot(part.perc.l, aes(opinion, percent, fill=year))+ 
+  geom_bar(stat="identity", position = "dodge")+
+  #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
+    guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
+    labs(x="", y="Percent of responses", title="Importance of including partners (non-academia)\nfor the success of grant applications (HI)")+
+  scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
+    theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 12),
+          legend.key=element_blank(),
+          legend.position=c(0.11, 0.93), 
+        axis.text.x=element_text(size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+          axis.title.x=element_text(size = 12), axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) + colScale7+
+  scale_y_continuous(expand = c(0, 0), limits = c(0,32))
+
+dev.off()
+```
+
+
 <!--**4.2 External Partnerships**   -->
 
 ```{r 4.8a, echo=FALSE, message=FALSE, warning=FALSE}
@@ -923,6 +1502,111 @@ ggplot(part.level, aes(x=Var2, y=Freq, fill = Var1),  ylim(0,375)) +
         legend.position=c(0.1, 0.9), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) +
   colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,800))
+
+#dev.off()
+```
+
+
+```{r 4.8a percent data prep, message=FALSE, warning=FALSE, include=FALSE}
+
+## subset the data
+partner.level<-subset(dev, select=c("partnership_outside_current", "partnership_outside_before"))
+head(partner.level)
+
+
+#count how many total responses there were of current and past
+current.partlevel <- as.data.frame(length(na.omit(partner.level$partnership_outside_current)))
+colnames(current.partlevel)<-c("totalcur")
+current.partlevel
+current.partlevel <- current.partlevel - 7
+current.partlevel
+past.partlevel <- as.data.frame(length(na.omit(partner.level$partnership_outside_before)))
+colnames(past.partlevel)<-c("totalpast")
+past.partlevel
+past.partlevel <- past.partlevel-1016
+past.partlevel
+
+#now calculate number of each
+
+partlevelcur <- as.data.frame(table(partner.level$partnership_outside_current))
+partlevelcur
+colnames(partlevelcur) <- c("level", "num.level")
+partlevelcur
+dev[dev$partnership_outside_current == 0, ] # not sure how they managed to get the 0 but need to take them out of here an the total numbers
+partlevelcur <- partlevelcur[!partlevelcur$level == 0, ]
+partlevelcur <- droplevels(partlevelcur)
+partlevelcur
+
+partlevelpast <- as.data.frame(table(partner.level$partnership_outside_before))
+partlevelpast
+colnames(partlevelpast) <- c("level", "num.level")
+partlevelpast
+partlevelpast <- partlevelpast[!partlevelpast$level == 0, ]
+partlevelpast <- droplevels(partlevelpast)
+partlevelpast
+
+#now stick the total numbers onto those df
+partlevelcur$totalcur <- current.partlevel$totalcur
+partlevelcur
+
+partlevelpast$totalpast <- past.partlevel$totalpast
+partlevelpast
+
+#now calculate percentage
+partlevelcur$perc <- (partlevelcur$num.level/partlevelcur$totalcur)*100
+partlevelcur
+partlevelpast$perc <- (partlevelpast$num.level/partlevelpast$totalpast)*100
+partlevelpast
+
+#combine
+partlevel.perc <- partlevelcur
+partlevel.perc$"num.level" <- NULL
+partlevel.perc$"totalcur" <- NULL
+partlevel.perc
+partlevel.perc <- cbind(partlevel.perc, partlevelpast$perc)
+partlevel.perc
+colnames(partlevel.perc) <- c("level", "partlevel.current", "partlevel.past")
+partlevel.perc
+
+## switch to long format
+partlevel.perc.l<-melt(partlevel.perc, na.rm = FALSE, id.vars = c("level"))
+partlevel.perc.l
+colnames(partlevel.perc.l) <- c("level", "time", "percent")
+partlevel.perc.l
+
+# add time variable
+partlevel.perc.l$year<-ifelse(grepl( "current", partlevel.perc.l$time),"2011-2015", "2006-2010")
+partlevel.perc.l
+
+str(partlevel.perc.l)
+
+#change order of levels
+partlevel.perc.l$year <- as.factor(partlevel.perc.l$year)
+levels(partlevel.perc.l$year)
+levels(partlevel.perc.l$level)
+partlevel.perc.l$level<-factor(partlevel.perc.l$level, levels(partlevel.perc.l$level)[c(1,4,3,2)])
+
+```
+
+```{r 4.8a percent, echo=FALSE, message=FALSE, warning=FALSE}
+
+#pdf(file="figures/HI/4.8A_LevelsOfPartnership_HI_percent.pdf", width = 7, height= 8)
+
+ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) + 
+  geom_bar( stat='identity', position="dodge") +
+  #geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
+  labs(x="", y="Percent of responses", fill="", title="Levels of partnerships outside of academia (HI)")+
+  scale_x_discrete(labels=c("Exlusive\npartnership", "Strong\npartnership", 'Some\npartnership',"No\npartnership"))+
+  theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.key=element_blank(),legend.text=element_text(size = 12),
+        axis.text.x=element_text(angle=0, size=12, color = "black"),
+         axis.text.y=element_text(size = 12, color = "black"),
+        axis.title=element_text(size = 12), 
+        legend.position=c(0.1, 0.9), 
+        legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) +
+  colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,51))
 
 #dev.off()
 ```
@@ -981,11 +1665,11 @@ g2<-ggplot(change.part, aes(x=Var1, y=Freq, fill=Var1)) +
   #geom_text(aes(label=Freq), vjust=-0.5, size=3)+
   labs(x="", y="Number of respondents", title="Reason for change in level of partnerships (HI)")+
   colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,500))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,501))
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-#pdf(file="figures/HI/4.8B_PartnershipChange&Reason.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.8B_PartnershipChange&Reason.pdf", width = 7, height= 11)
 #svg(file="figures/HI/4.8B_PartnershipChange.svg", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
@@ -1005,7 +1689,7 @@ view<-droplevels(view)
 
 view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
 
-#pdf(file="figures/HI/4.8C_ViewChangePartnership.pdf", width = 11, height= 7)
+#pdf(file="figures/HI/4.8C_ViewChangePartnership.pdf", width = 7, height= 8)
 #svg(file="figures/HI/4.8C_ViewChangePartnership.svg", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
@@ -1014,7 +1698,7 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-         axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+         axis.text.x=element_text(size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"),
         axis.title.y=element_text(size=12), 
         plot.title = element_text(hjust = 0.5, size = 14)) + 
@@ -1062,7 +1746,7 @@ ant$Var1<-factor(ant$Var1, levels(ant$Var1)[c(2,3,1)])
 myColors17<-mycols<-c('#E55934','#9BC53D','#42A3FF')
 colScale9 <- scale_fill_manual(name = "what.type",values = rev(myColors17))
 
-#pdf(file="figures/HI/4.9_AnticipatedChangeFunding.pdf", height=7, width =11)
+#pdf(file="figures/HI/4.9_AnticipatedChangeFunding.pdf", height=11, width =7)
 #svg(file="figures/HI/4.9_AnticipatedChangeFunding.svg", width = 11, height= 7)
 
 ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
@@ -1084,7 +1768,7 @@ ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
     facet_wrap(~Var1,nrow=3)+
     #geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + 
   colScale9 +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,600), breaks = seq(0,600,100))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,601), breaks = seq(0,600,100))
 
 #dev.off()
 
@@ -1107,7 +1791,7 @@ future$Var1<-as.factor(future$Var1)
 ## change order of Var1s
 future$Var1<-factor(future$Var1, levels(future$Var1)[c(4,5,6,3,2,1)])
 
-#pdf(file="figures/HI/4.10_EffectNextGeneration.pdf", height=7, width =11)
+#pdf(file="figures/HI/4.10_EffectNextGeneration.pdf", height=8, width =7)
 #svg(file="figures/HI/4.10_EffectNextGeneration.svg", width = 11, height= 7)
 
 ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+ 
@@ -1116,7 +1800,7 @@ ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+
                                     "Stay the\nsame", "Decrease\nslightly", "Decrease\nconsiderably", "Can't\ncomment"))+
     guides(fill=FALSE) +
  labs(x="", y="Number of respondents", title="Effect of funding changes on the next generation of researchers (HI)")+
-  theme(axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
+  theme(axis.text.x=element_text(size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"),
        panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
