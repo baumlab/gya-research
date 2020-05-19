@@ -140,7 +140,7 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
   guides(fill=FALSE) + colScale+
-  scale_y_continuous(expand = c(0,0), limits = c(0,500))
+  scale_y_continuous(expand = c(0,0), limits = c(0,520))
 
 #dev.off()
 ```
@@ -441,8 +441,8 @@ p1 <- ggplot(xs$Fundamental,aes(percent.bins, perc.responses, fill=time)) +
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (HI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,25.5),breaks=seq(0,25,5))
-p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,40.5),breaks=seq(0,40,10))
+p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (HI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10))
+p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,50,10))
 p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10)) + labs(x = "Percentage of research")
 
 
@@ -1311,7 +1311,7 @@ ggplot(prac.perc.l, aes(opinion, percent, fill=year)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="", y="Percent of responses", title="Importance of practical application of research for grant success (HI)")+ colScale7+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,33))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,41))
   
 #dev.off()
 ```
@@ -1442,7 +1442,7 @@ part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2
 
 ```{r 4.7b percent, echo=FALSE, message=FALSE, warning=FALSE}
 
-pdf(file="figures/HI/4.7B_ImportancePartnersApplication_HI_percent.pdf", height=8, width =7)
+#pdf(file="figures/HI/4.7B_ImportancePartnersApplication_HI_percent.pdf", height=8, width =7)
 
 ggplot(part.perc.l, aes(opinion, percent, fill=year))+ 
   geom_bar(stat="identity", position = "dodge")+
@@ -1458,9 +1458,9 @@ ggplot(part.perc.l, aes(opinion, percent, fill=year))+
         axis.text.x=element_text(size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"),
           axis.title.x=element_text(size = 12), axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) + colScale7+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,32))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,35))
 
-dev.off()
+#dev.off()
 ```
 
 
@@ -1596,7 +1596,7 @@ ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) +
   geom_bar( stat='identity', position="dodge") +
   #geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
   labs(x="", y="Percent of responses", fill="", title="Levels of partnerships outside of academia (HI)")+
-  scale_x_discrete(labels=c("Exlusive\npartnership", "Strong\npartnership", 'Some\npartnership',"No\npartnership"))+
+  scale_x_discrete(labels=c("Exclusive\npartnership", "Strong\npartnership", 'Some\npartnership',"No\npartnership"))+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
@@ -1604,9 +1604,9 @@ ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) +
         axis.text.x=element_text(angle=0, size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"),
         axis.title=element_text(size = 12), 
-        legend.position=c(0.1, 0.9), 
+        legend.position=c(0.1, 0.85), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) +
-  colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,51))
+  colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,55))
 
 #dev.off()
 ```
@@ -1808,7 +1808,7 @@ ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+
           axis.title.y=element_text(size=12), 
         plot.title = element_text(hjust = 0.5, size = 14))+
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,600))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,530))+colScale
 
 #dev.off()
 ```

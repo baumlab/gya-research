@@ -546,19 +546,19 @@ p1 <- ggplot(xs$Fundamental,aes(percent.bins, perc.responses, fill=time)) +
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (LMI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,20.5),breaks=seq(0,20,5))
-p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,37),breaks=seq(0,35,5))
-p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,45.5),breaks=seq(0,45,10)) + labs(x = "Percentage of research")
+p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (LMI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10))
+p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10))
+p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10)) + labs(x = "Percentage of research")
 
 
 #pdf(file="figures/LMI/4.3_ResearchProportion_percent_LMI.pdf", width = 11, height= 7)
-pdf(file="figures/LMI/4.3_ResearchProportion_percent.narrow_LMI.pdf", width = 7, height= 11)
+#pdf(file="figures/LMI/4.3_ResearchProportion_percent.narrow_LMI.pdf", width = 7, height= 11)
 
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 
-dev.off()
+#dev.off()
 ```
 
 
@@ -1707,7 +1707,7 @@ ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) +
   geom_bar( stat='identity', position="dodge") +
   #geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
   labs(x="", y="Percent of responses", fill="", title="Levels of partnerships outside of academia (LMI)")+
-  scale_x_discrete(labels=c("Exlusive\npartnership", "Strong\npartnership", 'Some\npartnership',"No\npartnership"))+
+  scale_x_discrete(labels=c("Exclusive\npartnership", "Strong\npartnership", 'Some\npartnership',"No\npartnership"))+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
@@ -1715,7 +1715,7 @@ ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) +
         axis.text.x=element_text(angle=0, size=12, color = "black"),
          axis.text.y=element_text(size = 12, color = "black"),
         axis.title=element_text(size = 12), 
-        legend.position=c(0.1, 0.9), 
+        legend.position=c(0.1, 0.85), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) +
   colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,55))
 
@@ -1919,7 +1919,7 @@ ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+
           axis.title.y=element_text(size=12), 
         plot.title = element_text(hjust = 0.5, size = 14))+
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,75))+colScale
+  scale_y_continuous(expand = c(0, 0), limits = c(0,62))+colScale
 
 #dev.off()
 ```
