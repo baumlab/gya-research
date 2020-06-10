@@ -228,24 +228,25 @@ field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 
 
-#pdf(file="figures/LMI/4.1_FieldofResearch_LMI.pdf", width = 10, height= 11)
+pdf(file="figures/LMI/4.1_FieldofResearch_LMI.pdf", width = 13, height= 8)
+#tiff(file="figures/LMI/4.1_FieldofResearch_LMI.tiff", width = 13, height= 8, units = "in", res = 600)
 #svg(file="figures/LMI/4.1_FieldofResearch_LMI.svg", width = 11, height= 7)
 
 ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of respondents",x="", title="Responses by field of research (LMI)")  +
-  scale_x_discrete(labels=c("Physical\nScience", "Natural\nScience", "Medicine &\nLife Science", "Engineering", "Social Science/\nHumanities","Interdisciplinary\nScience",  "Other")) +
+  scale_x_discrete(labels=c("Physical\nScience", "Natural\nScience", "Medicine\n& Life\nScience", "Engineering", "Social\nScience/\nHumanities","Inter-\ndisciplinary\nScience",  "Other")) +
   #geom_text(aes(label=Freq), vjust=-0.25, size=3) + 
-  theme(axis.text.y=element_text(size=12, color = "black"),
-         axis.text.x=element_text(size=12, color = "black"),
-         axis.title=element_text(size=14),
+  theme(axis.text.y=element_text(size=22, color = "black"),
+         axis.text.x=element_text(size=22, color = "black"),
+         axis.title=element_text(size=28),
          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
-         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
+         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) + 
   guides(fill=FALSE) + colScale+
   scale_y_continuous(expand = c(0,0), limits = c(0,103))
 
-#dev.off()
+dev.off()
 ```
 
 
@@ -263,24 +264,25 @@ experience$Var1<-revalue(experience$Var1, c("Early career academic researcher wi
                                             "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic"))
 experience$Var1<-reorder(experience$Var1, experience$Freq)
 
-#pdf(file="figures/LMI/4.2_CareerStage_LMI.pdf", width = 7, height= 8)
+pdf(file="figures/LMI/4.2_CareerStage_LMI.pdf", width = 8, height= 10)
+#tiff(file="figures/LMI/4.2_CareerStage_LMI.tiff", width = 8, height= 10, units = "in", res = 600)
 #svg(file="figures/LMI/4.2_CareerStage_LMI.svg", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_x_discrete(labels=c("Senior\nacademic", "Early career\nacademic", "Postdoc\nor RA", "Senior\nnon-academic", "Early career\nnon-academic")) +
+  scale_x_discrete(labels=c("Senior\nacademic", "Early\ncareer\nacademic", "Postdoc\nor RA", "Senior\nnon-\nacademic", "Early\ncareer\nnon-\nacademic")) +
   labs(y="Number of respondents", x="", title="Responses by career stage (LMI)") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
-  theme(axis.text.y=element_text(size=12, color = "black"),
-         axis.text.x=element_text( size=12, color = "black"),
-         axis.title=element_text(size=14),
+  theme(axis.text.y=element_text(size=22, color = "black"),
+         axis.text.x=element_text( size=22, color = "black"),
+         axis.title=element_text(size=28),
          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
-         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
+         panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) + 
   colScale + guides(fill=FALSE)+
   scale_y_continuous(expand = c(0,0), limits = c(0,151))
-#dev.off()
+dev.off()
 
 ```
 
@@ -578,26 +580,26 @@ sum.reason$Var1<-revalue(sum.reason$Var1, c("main_reason_change_career_related" 
 # change order of the levels
 sum.reason$Var1<-factor(sum.reason$Var1,levels(sum.reason$Var1)[c(2,3,1,5,4)])
 
-#pdf(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.pdf", width = 7, height= 8)
+pdf(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.pdf", width = 7, height= 8)
+#png(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.png", width = 7, height= 8, units = "in", res = 600)
 #svg(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.svg", width = 11, height= 7)
 
 ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
-  theme( axis.text.x=element_text(size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"), 
-         axis.title=element_text(size = 12), 
-         legend.text=element_text(size = 12),
+  theme( axis.text.x=element_text(size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"), 
+         axis.title=element_text(size = 28), 
          axis.title.x=element_blank(), 
-         plot.title = element_text(hjust = 0.5, size = 14),
+         plot.title = element_text(hjust = 0.5, size = 28),
          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank()) +
   guides(fill=FALSE) +
   colScale+
-  labs(y="Number of respondents", title="Reason for change in research type (LMI)")+
+  labs(y="Number of respondents", title="Reason for change in\nresearch type (LMI)")+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 85), breaks = seq(0, 80, 20))#+annotate('text', 5.4,795, label="(b)", size=5)#+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
-#dev.off()
+dev.off()
 
 ```
 
@@ -611,25 +613,26 @@ view<-droplevels(view)
 # change order of the levels
 view$Var1<-factor(view$Var1,levels(view$Var1)[c(5,3,1,2,4)])
 
-#pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI.pdf", width = 7, height= 8)
+pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI.pdf", width = 8, height= 9)
 #svg(file="figures/LMI/4.3C_ViewFieldChange_LMI.svg", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
-  theme(axis.text.x=element_text(size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"), 
-        axis.title.y = element_text(size = 12), 
-        plot.title = element_text(hjust = 0.5, size = 14), 
+  theme(axis.text.x=element_text(size=22, color = "black"), 
+         axis.text.y=element_text(size = 22, color = "black"), 
+        axis.title.y = element_text(size = 28), 
+        plot.title = element_text(hjust = 0.5, size = 28), 
         panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank()) +
   guides(fill=FALSE)+ 
   colScale+
+  scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", "Neutral", "Slightly\nnegative", "Very\nnegative")) +
   labs(x="", y="Number of respondents", title="Opinion of research type change (LMI)")+
-  #geom_text(aes(label=gender), vjust=-0.5, size=3)+
+  #geom_text(aes(label=gender), vjust=-0.5, size=3)+ 
   scale_y_continuous(expand = c(0, 0), limits = c(0,62))#+
    #+annotate('text', 5.4,133, label="(c)", size=5)
 
-#dev.off()
+dev.off()
 ```
 
 <!--**4.4 Perspectives on the State of Fundamental Research**-->
@@ -1858,30 +1861,31 @@ myColors17<-mycols<-c('#E55934','#9BC53D','#42A3FF')
 colScale9 <- scale_fill_manual(name = "what.type",values = rev(myColors17))
 
 #pdf(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.pdf", height=11, width =7)
+tiff(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.tiff", height=17, width =10, units = "in", res = 600)
 #svg(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.svg", width = 11, height= 7)
 
 ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
     geom_bar(stat="identity", position="dodge")+
-    theme( axis.text.x=element_text(size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
+    theme( axis.text.x=element_text(size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(),
-           strip.text.x = element_text(size=12, color="black"),
+           strip.text.x = element_text(size=22, color="black"),
           strip.background = element_rect(colour="white", fill="white"),
           legend.position=c(0.8, 0.2), 
-          axis.title.y=element_text(size=12), 
-          plot.title = element_text(hjust = 0.5, size = 14)) +
+          axis.title.y=element_text(size=28), 
+          plot.title = element_text(hjust = 0.5, size = 28)) +
     guides(fill=FALSE)+
     labs(x="", y="Number of respondents", fill="", title="Anticipated change in research funding (LMI)")+
     scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
-                                    "Stay the same", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
+                                    "Stay the\nsame", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
     facet_wrap(~Var1,nrow=3)+
     #geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + 
   colScale9 +
   scale_y_continuous(expand = c(0, 0), limits = c(0,101), breaks = seq(0,100,20))
 
-#dev.off()
+dev.off()
 
 
 ```
@@ -1903,6 +1907,7 @@ future$Var1<-as.factor(future$Var1)
 future$Var1<-factor(future$Var1, levels(future$Var1)[c(4,5,6,3,2,1)])
 
 #pdf(file="figures/LMI/4.10_EffectNextGeneration_LMI.pdf", height=8, width =7)
+tiff(file="figures/LMI/4.10_EffectNextGeneration_LMI.tiff", height=11, width =10, units = "in", res = 600)
 #svg(file="figures/LMI/4.10_EffectNextGeneration_LMI.svg", width = 11, height= 7)
 
 ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+ 
@@ -1911,15 +1916,15 @@ ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+
                                     "Stay the\nsame", "Decrease\nslightly", "Decrease\nconsiderably", "Can't\ncomment"))+
     guides(fill=FALSE) +
  labs(x="", y="Number of respondents", title="Effect of funding changes on the next generation of researchers (LMI)")+
-  theme(axis.text.x=element_text(size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
+  theme(axis.text.x=element_text(size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
        panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-          axis.title.y=element_text(size=12), 
-        plot.title = element_text(hjust = 0.5, size = 14))+
+          axis.title.y=element_text(size=28), 
+        plot.title = element_text(hjust = 0.5, size = 28))+
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,62))+colScale
 
-#dev.off()
+dev.off()
 ```
