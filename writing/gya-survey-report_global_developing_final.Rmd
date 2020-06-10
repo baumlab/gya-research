@@ -264,14 +264,16 @@ experience$Var1<-revalue(experience$Var1, c("Early career academic researcher wi
                                             "Senior academic researcher with >10 years of experience applying for research grants" = "Senior academic"))
 experience$Var1<-reorder(experience$Var1, experience$Freq)
 
-pdf(file="figures/LMI/4.2_CareerStage_LMI.pdf", width = 8, height= 10)
+#pdf(file="figures/LMI/4.2_CareerStage_LMI.pdf", width = 10, height= 12)
+pdf(file="figures/LMI/4.2_CareerStage_LMI_wide.pdf", width = 12, height= 6)
 #tiff(file="figures/LMI/4.2_CareerStage_LMI.tiff", width = 8, height= 10, units = "in", res = 600)
 #svg(file="figures/LMI/4.2_CareerStage_LMI.svg", width = 11, height= 7)
 
 ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
-  scale_x_discrete(labels=c("Senior\nacademic", "Early\ncareer\nacademic", "Postdoc\nor RA", "Senior\nnon-\nacademic", "Early\ncareer\nnon-\nacademic")) +
+  #scale_x_discrete(labels=c("Senior\nacademic", "Early\ncareer\nacademic", "Postdoc\nor RA", "Senior\nnon-\nacademic", "Early\ncareer\nnon-\nacademic")) + #narrow
+  scale_x_discrete(labels=c("Senior\nacademic", "Early career\nacademic", "Postdoc\nor RA", "Senior\nnon-academic", "Early career\nnon-academic")) + #wide
   labs(y="Number of respondents", x="", title="Responses by career stage (LMI)") +
   guides(fill=guide_legend(title=NULL, reverse=TRUE, nrow=3)) +  
   theme(axis.text.y=element_text(size=22, color = "black"),
@@ -613,7 +615,8 @@ view<-droplevels(view)
 # change order of the levels
 view$Var1<-factor(view$Var1,levels(view$Var1)[c(5,3,1,2,4)])
 
-pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI.pdf", width = 8, height= 9)
+#pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI.pdf", width = 8, height= 9)
+pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI_wide.pdf", width = 10, height= 7)
 #svg(file="figures/LMI/4.3C_ViewFieldChange_LMI.svg", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
@@ -646,24 +649,25 @@ import<-droplevels(import)
 
 import$Var1<-factor(import$Var1, levels(import$Var1)[c(6,5,4,3,2,1)])
 
-#pdf(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI.pdf", height=8, width =7)
+pdf(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI.pdf", height=11, width =10)
+#pdf(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI_wide.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI.svg", width = 11, height= 7)
 
 ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
-      labs(x="", y="Number of respondents", fill="", title="Perceived importance of fundamental research to their government (LMI)")+
+      labs(x="", y="Number of respondents", fill="", title="Perceived importance of fundamental research\nto their government (LMI)")+
       scale_x_discrete(labels=c("Very\nimportant", "Somewhat\nimportant", 'Not very\nimportant', 'Not at all\nimportant', "Can't\ncomment"))+
       #geom_text(aes(label=Freq, vjust=-0.5), size=3) + guides(fill=FALSE)+
-      theme(axis.text.x=element_text(size=12, color = "black"),
-            axis.text.y=element_text(size = 12, color = "black"),
+      theme(axis.text.x=element_text(size=22, color = "black"),
+            axis.text.y=element_text(size = 22, color = "black"),
             panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
             panel.grid.minor = element_blank(), 
-            axis.title.y=element_text(size=12),
-            plot.title = element_text(hjust = 0.5, size = 14)) + guides(fill=FALSE)+ 
+            axis.title.y=element_text(size=28),
+            plot.title = element_text(hjust = 0.5, size = 28)) + guides(fill=FALSE)+ 
   scale_y_continuous(expand = c(0, 0), limits = c(0,110), breaks = seq(0, 100, 20)) + colScale
 
-#dev.off()
+dev.off()
 ```
   
 
@@ -681,24 +685,25 @@ sum.priority<-data.frame(table(priority.long$what.type, priority.long$higher.pri
 # change order of the levels
 sum.priority$Var1<-factor(sum.priority$Var1, levels(sum.priority$Var1)[c(2,4,1,3)])
 
-#pdf(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.pdf", height=8, width =7)
+pdf(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.pdf", height=11, width =10)
+pdf(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI_wide.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.svg", width = 11, height= 7)
 
 ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
-        theme(axis.text.x=element_text( size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"), 
+        theme(axis.text.x=element_text( size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"), 
               panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
               panel.grid.minor = element_blank(), 
-              axis.title.y=element_text(size=12),  
-        plot.title = element_text(hjust = 0.5, size = 14)) +
-        labs(x="", y="Number of respondents", fill="", title="Perceived change in research priority by their government (LMI)") +
+              axis.title.y=element_text(size=28),  
+        plot.title = element_text(hjust = 0.5, size = 28)) +
+        labs(x="", y="Number of respondents", fill="", title="Perceived change in research priority by\ntheir government (LMI)") +
   scale_x_discrete(labels=c( "Fundamental", "Use-inspired","Applied", "No change"))   +
   #geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,250))+ colScale
 
-#dev.off()
+dev.off()
 ```
 
 <!--**4.5 Research Grants**  -->
@@ -1299,7 +1304,7 @@ prac<-droplevels(prac)
 #change order of levels
 prac$Var2<-factor(prac$Var2, levels(prac$Var2)[c(2,6,4,5,3,1)])
 
-#pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.pdf", height=7, width =11)
+pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.pdf", height=7, width =11)
 #svg(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.svg", width = 11, height= 7)
 
 ggplot(prac, aes(Var2, Freq, fill=Var1)) + 
@@ -1308,18 +1313,18 @@ ggplot(prac, aes(Var2, Freq, fill=Var1)) +
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-        legend.key=element_blank(),legend.text=element_text(size = 12),
+        legend.key=element_blank(),legend.text=element_text(size = 22),
         legend.position=c(0.89, 0.91),
-        axis.text.x=element_text(angle=-45, hjust = 0.1, size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
-        axis.title.x=element_text(size = 12),
-        axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) +
+        axis.text.x=element_text(angle=-45, hjust = 0.1, size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
+        axis.title.x=element_text(size = 28),
+        axis.title.y=element_text(size = 28), plot.title = element_text(hjust = 0.5, size = 28)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="", y="Number of respondents", title="Importance of practical application of research for grant success (LMI)")+ colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,100))
   
-#dev.off()
+dev.off()
 ```
 
 
@@ -1405,7 +1410,7 @@ prac.perc.l$opinion<-factor(prac.perc.l$opinion, levels(prac.perc.l$opinion)[c(2
 ```
 
 ```{r 4.7a percent, echo=FALSE, message=FALSE, warning=FALSE}
-#pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI_percent.pdf", height=8, width =7)
+pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI_percent.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.svg", width = 11, height= 7)
 
 ggplot(prac.perc.l, aes(opinion, percent, fill=year)) + 
@@ -1414,18 +1419,18 @@ ggplot(prac.perc.l, aes(opinion, percent, fill=year)) +
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-        legend.key=element_blank(),legend.text=element_text(size = 12),
+        legend.key=element_blank(),legend.text=element_text(size = 22),
         legend.position=c(0.89, 0.91),
-        axis.text.x=element_text( size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
-        axis.title.x=element_text(size = 12),
-        axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) +
+        axis.text.x=element_text( size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
+        axis.title.x=element_text(size = 28),
+        axis.title.y=element_text(size = 28), plot.title = element_text(hjust = 0.5, size = 28)) +
   guides(fill=guide_legend(title=NULL, reverse=FALSE)) + 
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
-  labs(x="", y="Percent of responses", title="Importance of practical application of research for grant success (LMI)")+ colScale7+
+  labs(x="", y="Percent of responses", title="Importance of practical application of research\nfor grant success (LMI)")+ colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,41))
   
-#dev.off()
+dev.off()
 ```
 
 
@@ -1554,7 +1559,7 @@ part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2
 
 ```{r 4.7b percent, echo=FALSE, message=FALSE, warning=FALSE}
 
-#pdf(file="figures/LMI/4.7B_ImportancePartnersApplication_LMI_percent.pdf", height=8, width =7)
+pdf(file="figures/LMI/4.7B_ImportancePartnersApplication_LMI_percent.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.7B_ImportancePartnersApplication_LMI.svg", width = 11, height= 7)
 
 ggplot(part.perc.l, aes(opinion, percent, fill=year))+ 
@@ -1565,15 +1570,15 @@ ggplot(part.perc.l, aes(opinion, percent, fill=year))+
   scale_x_discrete(labels=c("Mandatory", "Quite\n important", 'Somewhat\n important',"Not very\n important", 'Not at all\n important', "Can't\n comment"))+
     theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
-          panel.grid.minor = element_blank(),legend.text=element_text(size = 12),
+          panel.grid.minor = element_blank(),legend.text=element_text(size = 22),
           legend.key=element_blank(),
-          legend.position=c(0.11, 0.93), 
-        axis.text.x=element_text(size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
-          axis.title.x=element_text(size = 12), axis.title.y=element_text(size = 12), plot.title = element_text(hjust = 0.5, size = 14)) + colScale7+
+          legend.position=c(0.11, 0.89), 
+        axis.text.x=element_text(size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
+          axis.title.x=element_text(size = 28), axis.title.y=element_text(size = 28), plot.title = element_text(hjust = 0.5, size = 28)) + colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,35))
 
-#dev.off()
+dev.off()
 ```
 
 
@@ -1703,7 +1708,8 @@ partlevel.perc.l$level<-factor(partlevel.perc.l$level, levels(partlevel.perc.l$l
 
 ```{r 4.8a percent, echo=FALSE, message=FALSE, warning=FALSE}
 
-#pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent.pdf", width = 7, height= 8)
+pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent.pdf", width = 10, height= 12)
+pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent_wide.pdf", width = 10, height= 6)
 #svg(file="figures/LMI/4.8A_LevelsOfPartnership_LMI.svg", width = 11, height= 7)
 
 ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) + 
@@ -1714,15 +1720,15 @@ ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) +
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-        legend.key=element_blank(),legend.text=element_text(size = 12),
-        axis.text.x=element_text(angle=0, size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
-        axis.title=element_text(size = 12), 
-        legend.position=c(0.1, 0.85), 
-        legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) +
+        legend.key=element_blank(),legend.text=element_text(size = 22),
+        axis.text.x=element_text(angle=0, size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
+        axis.title=element_text(size = 28), 
+        legend.position=c(0.15, 0.85), 
+        legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) +
   colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,55))
 
-#dev.off()
+dev.off()
 ```
 
 
@@ -1746,9 +1752,10 @@ g1<-ggplot(data=part.change, aes(x=Var1, y=Freq, fill=Var1))+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(), 
-         axis.text.x=element_text( size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
-        plot.title = element_text(hjust = 0.5, size = 14)) + 
+         axis.text.x=element_text( size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
+        axis.title = element_text(size = 28, color = "black"),
+        plot.title = element_text(hjust = 0.5, size = 28)) + 
   colScale +
   #annotate('text', 3.25,606, label="(a)", size=7)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,141), breaks = seq(0,140, 20))
@@ -1768,14 +1775,15 @@ change.part$Var1<-reorder(change.part$Var1, -change.part$Freq)
 
 g2<-ggplot(change.part, aes(x=Var1, y=Freq, fill=Var1)) + 
     geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(axis.text.x=element_text( size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
-          axis.title.y=element_text(size = 14),
+    theme(axis.text.x=element_text( size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
+         axis.title = element_text(size = 28, color = "black"),
+         legend.text = element_text(size = 22),
           legend.position=c(0.8, 0.8), 
           legend.title=element_blank(),
           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
-          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 14)) + 
+          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) + 
   #geom_text(aes(label=Freq), vjust=-0.5, size=3)+
   labs(x="", y="Number of respondents", title="Reason for change in level of partnerships (LMI)")+
   colScale+
@@ -1783,12 +1791,20 @@ g2<-ggplot(change.part, aes(x=Var1, y=Freq, fill=Var1)) +
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-#pdf(file="figures/LMI/4.8B_PartnershipChange&Reason_LMI.pdf", width = 7, height= 11)
+pdf(file="figures/LMI/4.8B_PartnershipChange&Reason_LMI.pdf", width = 10, height= 17)
 #svg(file="figures/LMI/4.8B_PartnershipChange_LMI.svg", width = 11, height= 7)
 
 grid.arrange(g1, g2, ncol=1)
 
-#dev.off()
+dev.off()
+
+
+pdf(file="figures/LMI/4.8B_PartnershipChange&Reason_LMI_wide.pdf", width = 25, height= 10)
+#svg(file="figures/LMI/4.8B_PartnershipChange_LMI.svg", width = 11, height= 7)
+
+grid.arrange(g1, g2, nrow=1)
+
+dev.off()
 
 ```
 
@@ -1803,7 +1819,7 @@ view<-droplevels(view)
 
 view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
 
-#pdf(file="figures/LMI/4.8C_ViewChangePartnership_LMI.pdf", width = 7, height= 8)
+pdf(file="figures/LMI/4.8C_ViewChangePartnership_LMI.pdf", width = 10, height= 12)
 #svg(file="figures/LMI/4.8C_ViewChangePartnership_LMI.svg", width = 11, height= 7)
 
 ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
@@ -1812,15 +1828,16 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-         axis.text.x=element_text(size=12, color = "black"),
-         axis.text.y=element_text(size = 12, color = "black"),
-        axis.title.y=element_text(size=12), 
-        plot.title = element_text(hjust = 0.5, size = 14)) + 
+         axis.text.x=element_text(size=22, color = "black"),
+         axis.text.y=element_text(size = 22, color = "black"),
+        axis.title.y=element_text(size=28), 
+        plot.title = element_text(hjust = 0.5, size = 28)) + 
   labs(x="", y="Number of respondents", title="Opinion of change in partnership level (LMI)") + 
+  scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", "Neutral", "Slightly\nnegative", "Very\nnegative")) +
   colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,50), breaks = seq(0,50,10))
 
-#dev.off()
+dev.off()
 
 ```
  
@@ -1906,8 +1923,8 @@ future$Var1<-as.factor(future$Var1)
 ## change order of Var1s
 future$Var1<-factor(future$Var1, levels(future$Var1)[c(4,5,6,3,2,1)])
 
-#pdf(file="figures/LMI/4.10_EffectNextGeneration_LMI.pdf", height=8, width =7)
-tiff(file="figures/LMI/4.10_EffectNextGeneration_LMI.tiff", height=11, width =10, units = "in", res = 600)
+pdf(file="figures/LMI/4.10_EffectNextGeneration_LMI.pdf", height=7, width =11)
+#tiff(file="figures/LMI/4.10_EffectNextGeneration_LMI.tiff", height=11, width =10, units = "in", res = 600)
 #svg(file="figures/LMI/4.10_EffectNextGeneration_LMI.svg", width = 11, height= 7)
 
 ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+ 
@@ -1915,7 +1932,7 @@ ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+
         scale_x_discrete(labels=c("Increase\nconsiderably", "Increase\nslightly", 
                                     "Stay the\nsame", "Decrease\nslightly", "Decrease\nconsiderably", "Can't\ncomment"))+
     guides(fill=FALSE) +
- labs(x="", y="Number of respondents", title="Effect of funding changes on the next generation of researchers (LMI)")+
+ labs(x="", y="Number of respondents", title="Effect of funding changes on the next\ngeneration of researchers (LMI)")+
   theme(axis.text.x=element_text(size=22, color = "black"),
          axis.text.y=element_text(size = 22, color = "black"),
        panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
