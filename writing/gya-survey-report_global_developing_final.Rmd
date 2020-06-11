@@ -83,7 +83,7 @@ n.ssh <- dev[dev$field_research=="Social Science / Humanities",]
 percent.ssh <- ((dim(n.ssh)[1])/(dim(dev)[1]))*100 #Calculate the % of responses from  interdisciplinary scientists
 
 ## load required packages
-require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(dplyr); require(tidyr); library(gridExtra);require(reshape2);library(rbin)
+require(gridExtra); require(tidyr); require(ggplot2); require(stringr);require(RColorBrewer); require(colorRamps); require(plotrix); require(plyr); require(grid);require(gtable); require(dplyr); require(tidyr); library(gridExtra);require(reshape2);library(rbin); require(Rmisc)
 
 
 ```
@@ -513,9 +513,9 @@ perc.res.plot.l$type<-as.factor(perc.res.plot.l$type)
 levels(perc.res.plot.l$type)
 perc.res.plot.l$type<-factor(perc.res.plot.l$type, levels(perc.res.plot.l$type)[c(2,3,1)])
 
+perc.res.plot.l$percent.bins<-as.factor(perc.res.plot.l$percent.bins)
 levels(perc.res.plot.l$percent.bins)
 perc.res.plot.l$percent.bins<-factor(perc.res.plot.l$percent.bins, levels(perc.res.plot.l$percent.bins)[c(1,2,4,5,6,7,8,9,10,11,3)])
-
 
 perc.res.plot.l$ID<-paste(perc.res.plot.l$type, perc.res.plot.l$time)
 
@@ -535,36 +535,34 @@ xs <- split(perc.res.plot.l,f = perc.res.plot.l$type)
 p1 <- ggplot(xs$Fundamental,aes(percent.bins, perc.responses, fill=time)) +
     geom_bar(position='dodge', stat='identity')  +
     guides(fill=guide_legend(title=NULL, reverse=FALSE, nrow=2)) +
-    labs(x="", y="Percent of responses", title="")+
     theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
           panel.grid.minor = element_blank(),
-          strip.text.x = element_text(size=12, color="black"),
           strip.background = element_rect(colour="white", fill="white"),
-          legend.position=c(0.5, 0.75 ), legend.spacing=unit(100,"cm"), legend.background = element_rect(color = "white"),
-          axis.text.y=element_text(size=12, color = "black"),
-         axis.text.x=element_text(size=12, color = "black"),
+          legend.position=c(0.5, 0.75 ), legend.spacing=unit(100,"cm"), legend.background = element_rect(color = "white"), legend.text = element_text(size = 22),
+          axis.text.y=element_text(size=22, color = "black"),
+         axis.text.x=element_text(size=22, color = "black"),
+        axis.title = element_text(size = 28)
          )+ 
     facet_wrap(~type, nrow=3) #+
  # scale_x_continuous(breaks=seq(0,100,10))+scale_y_continuous(expand=c(0,0), limits=c(0,570),breaks=seq(0,550,100))
 
 p2 <- p1 %+% xs$`Use-inspired`
 p3 <- p1 %+% xs$Applied
-p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (LMI)")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 14))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10))
-p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm")) + scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10))
-p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10)) + labs(x = "Percentage of research")
+p1<-p1+scale_fill_manual(name = "ID",values = c('#97CCFF','#42A3FF'), labels=c("2006-2010", "2011-2015"))+labs(x="", title="Type of research by percent (LMI)", y="")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 28),  strip.text.x = element_text(size=24, color='#3b92e5'))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10))
+p2<-p2+scale_fill_manual(name = "ID",values =c('#C8DF95','#9BC53D'), labels=c("2006-2010", "2011-2015"))+labs(x="")+ theme(plot.margin=unit(c(-0.25,1,-0.3,1), "cm"), strip.text.x = element_text(size=24, color='#7c9d30')) + scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10)) + labs(x="", y="Percent of responses", title="")
+p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2006-2010", "2011-2015"))+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"), strip.text.x = element_text(size=24, color='#ce502e'))+ scale_y_continuous(expand=c(0,0), limits=c(0,55.5),breaks=seq(0,55,10)) + labs(x = "Percent of research", y = "")
 
 
 #pdf(file="figures/LMI/4.3_ResearchProportion_percent_LMI.pdf", width = 11, height= 7)
-#pdf(file="figures/LMI/4.3_ResearchProportion_percent.narrow_LMI.pdf", width = 7, height= 11)
+pdf(file="figures/LMI/4.3_ResearchProportion_percent.narrow_LMI.pdf", width = 7, height= 11)
 
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
 grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 
-#dev.off()
+dev.off()
 ```
-
 
 ```{r 4.3b, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE}
 
@@ -731,20 +729,20 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-#pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI.pdf", height=11, width =7)
+pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI.pdf", height=19, width =12)
 #svg(file="figures/LMI/4.5_ChangeSuccessRate_LMI.svg", width = 11, height= 7)
 
 ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
   guides(fill=guide_legend(title=NULL)) +
-  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 12, color = "black"), 
-        axis.text.y=element_text(size = 12, color = "black"), axis.title.y=element_text(size = 12),
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 22, color = "black"), 
+        axis.text.y=element_text(size = 22, color = "black"), axis.title.y=element_text(size = 28),
          panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-         strip.text.x = element_text(size=12, color="black"),
+         strip.text.x = element_text(size=24, color=c("#3b92e5", "#7c9d30", "#ce502e")),
           strip.background = element_rect(colour="white", fill="white"),
-         plot.title = element_text(hjust = 0.5, size = 14))+
+         plot.title = element_text(hjust = 0.5, size = 28))+
   guides(fill=FALSE)+
   #geom_text(aes(label=Freq, vjust=-0.4),size=3) +
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
@@ -752,7 +750,134 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   labs(x="", y="Number of responses", fill="", title="Change in grant success rate (LMI)")+ colScale4+
   scale_y_continuous(expand = c(0, 0), limits = c(0,121), breaks = seq(0, 120, 30))
 
-#dev.off()
+dev.off()
+
+
+```
+
+
+```{r 4.5 vr 2, echo=FALSE, message=FALSE, warning=FALSE,warning=FALSE}
+
+## subset the data
+success<-subset(dev, select=c("success_change_10yrs_fundamental", "success_change_10yrs_use", "success_change_10yrs_applied"))
+
+##switch to long format
+success.l<-gather(success, type, level)
+
+success.change<-with(success.l, data.frame(table(type, level)))
+#remove no response
+success.change<-success.change[!success.change$level=="0",]
+success.change<-droplevels(success.change)
+
+# add colour palette
+myColors11<-c('#42A3FF','#9BC53D','#E55934')
+colScale4 <- scale_fill_manual(name = "type",values = myColors11, labels=c("Fundamental", "Use-inspired", "Applied"))
+
+#change order of levels
+success.change$level<-factor(success.change$level, levels(success.change$level)[c(5,4,6,2,3,1)])
+success.change$type<-factor(success.change$type, levels(success.change$type)[c(2,3,1)])
+success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
+              'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
+
+
+xs <- split(success.change,f = success.change$type)
+p1 <- ggplot(xs$Fundamental, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3) +
+  geom_bar(stat="identity", position="dodge")+
+  guides(fill=guide_legend(title=NULL)) +
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 22, color = "black"), 
+        axis.text.y=element_text(size = 22, color = "black"), axis.title.y=element_text(size = 28),
+         panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+          strip.background = element_rect(colour="white", fill="white"),
+         plot.title = element_text(hjust = 0.5, size = 28))+
+  guides(fill=FALSE)+
+  #geom_text(aes(label=Freq, vjust=-0.4),size=3) +
+  scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
+                                    "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))
+  
+
+p2 <- p1 %+% xs$`Use-inspired`
+p3 <- p1 %+% xs$Applied
+
+p1<-p1+scale_fill_manual(name = "ID",values = "#42A3FF")+labs(x="", title="Change in grant success rate (LMI)", y="Number of responses")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 28), strip.text.x = element_text(size=24, color='#3b92e5'))+ scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30))
+
+p2<-p2+scale_fill_manual(name = "ID",values ="#9BC53D")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"), strip.text.x = element_text(size=24, color='#7c9d30')) + scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30)) + labs(x="  ", y="Number of responses", title="")
+
+p3<-p3+scale_fill_manual(name = "ID",values ="#E55934")+ theme(plot.margin=unit(c(-0.5,1,0.5,1), "cm"), strip.text.x = element_text(size=24, color='#ce502e'))+ scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30)) + labs(x = "", y = "Number of responses")
+
+pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI_2.pdf", height=19, width =12)
+#svg(file="figures/LMI/4.5_ChangeSuccessRate_LMI.svg", width = 11, height= 7)
+
+grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
+
+dev.off()
+
+
+```
+
+
+```{r 4.5 vr 3, echo=FALSE, message=FALSE, warning=FALSE,warning=FALSE}
+
+## subset the data
+success<-subset(dev, select=c("success_change_10yrs_fundamental", "success_change_10yrs_use", "success_change_10yrs_applied"))
+
+##switch to long format
+success.l<-gather(success, type, level)
+
+success.change<-with(success.l, data.frame(table(type, level)))
+#remove no response
+success.change<-success.change[!success.change$level=="0",]
+success.change<-droplevels(success.change)
+
+# add colour palette
+myColors11<-c('#42A3FF','#9BC53D','#E55934')
+colScale4 <- scale_fill_manual(name = "type",values = myColors11, labels=c("Fundamental", "Use-inspired", "Applied"))
+
+#change order of levels
+success.change$level<-factor(success.change$level, levels(success.change$level)[c(5,4,6,2,3,1)])
+success.change$type<-factor(success.change$type, levels(success.change$type)[c(2,3,1)])
+success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
+              'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
+
+
+xs <- split(success.change,f = success.change$type)
+p1 <- ggplot(xs$Fundamental, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=2, ncol = 2) +
+  geom_bar(stat="identity", position="dodge")+
+  guides(fill=guide_legend(title=NULL)) +
+  theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 22, color = "black"), 
+        axis.text.y=element_text(size = 22, color = "black"), axis.title.y=element_text(size = 28),
+         panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor = element_blank(),
+          strip.background = element_rect(colour="white", fill="white"),
+         plot.title = element_text(hjust = 0.5, size = 28))+
+  guides(fill=FALSE)+
+  #geom_text(aes(label=Freq, vjust=-0.4),size=3) +
+  scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
+                                    "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))
+  
+
+p2 <- p1 %+% xs$`Use-inspired`
+p3 <- p1 %+% xs$Applied
+
+p1<-p1+scale_fill_manual(name = "ID",values = "#42A3FF")+labs(x="", title="", y="Number of responses")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"), plot.title = element_text(hjust = 0.5, size = 28), strip.text.x = element_text(size=24, color='#3b92e5'))+ scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30))
+
+p2<-p2+scale_fill_manual(name = "ID",values ="#9BC53D")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"), strip.text.x = element_text(size=24, color='#7c9d30')) + scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30)) + labs(x="  ", y="Number of responses", title="")
+
+p3<-p3+scale_fill_manual(name = "ID",values ="#E55934")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"), strip.text.x = element_text(size=24, color='#ce502e'))+ scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30)) + labs(x = "", y = "Number of responses")
+
+pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI_3.pdf", height=17, width =25)
+#svg(file="figures/LMI/4.5_ChangeSuccessRate_LMI.svg", width = 11, height= 7)
+
+#grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
+
+
+grid.arrange(arrangeGrob(p1, p2, p3, 
+                         layout_matrix=rbind(c(1,1,2,2),
+                                             c(NA,3,3,NA))), top=textGrob("Change in grant success rate (LMI)",gp=gpar(fontsize=28)))
+
+dev.off()
 
 
 ```
@@ -1057,9 +1182,9 @@ profcur$perc <- (profcur$freq/profcur$totalcur)*100
 profcur
 profpast$perc <- (profpast$freq/profpast$totalpast)*100
 profpast
-govcur$perc <- (govcur$freq/usecur$totalcur)*100
+govcur$perc <- (govcur$freq/govcur$totalcur)*100
 govcur
-govpast$perc <- (govpast$freq/usepast$totalpast)*100
+govpast$perc <- (govpast$freq/govpast$totalpast)*100
 govpast
 intcur$perc <- (intcur$freq/intcur$totalcur)*100
 intcur
@@ -1138,6 +1263,7 @@ perc.fund.l$type<-as.factor(perc.fund.l$type)
 levels(perc.fund.l$type)
 perc.fund.l$type<-factor(perc.fund.l$type, levels(perc.fund.l$type)[c(2,1,3,4,5)])
 
+perc.fund.l$percent.bins<-as.factor(perc.fund.l$percent.bins)
 levels(perc.fund.l$percent.bins)
 perc.fund.l$percent.bins<-factor(perc.fund.l$percent.bins, levels(perc.fund.l$percent.bins)[c(1,2,4,5,6,7,8,9,10,11,3)])
 
@@ -1161,14 +1287,14 @@ fp<-perc.fund.l[perc.fund.l$type=="Industry",]
 p1<-ggplot(fp, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.922, 0.98), 
-          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), 
-        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
         legend.key=element_blank(),
-          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
-        legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+          axis.title.x=element_text(size=24), axis.title.y=element_text(size = 28),
+        legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
   labs(title= "Industry", x="", y = "Percent of responses")+
   scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
 
@@ -1181,14 +1307,14 @@ gov<-perc.fund.l[perc.fund.l$type=="Government",]
 p2<-ggplot(gov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.78, 0.91),
-          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), 
-        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
         legend.key=element_blank(),
-          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
-         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+          axis.title.x=element_text(size=24), axis.title.y=element_text(size = 24),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
   labs(title="Government", x="", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
 
@@ -1203,15 +1329,15 @@ int<-perc.fund.l[perc.fund.l$type=="Internal",]
 p3<-ggplot(int, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.922, 0.98),
-          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), 
-        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
         legend.key=element_blank(),
-          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
-         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
-  labs(title="Internal",x="% research funding", y = "Percent of responsess")+
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 28),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
+  labs(title="Internal",x="% research funding", y = "Percent of responses")+
   scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
 
 
@@ -1225,14 +1351,14 @@ ngov<-perc.fund.l[perc.fund.l$type=="Non-governmental",]
 p4<-ggplot(ngov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.78, 0.93),
-         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), 
-        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
         legend.key=element_blank(),
-          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
-         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 24),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
   labs(title="Non-governmental", x="% research funding", y = "")+
   scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
 
@@ -1246,14 +1372,14 @@ other<-perc.fund.l[perc.fund.l$type=="Other",]
 p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
    guides(fill=guide_legend(title=NULL)) +
     theme(legend.position=c(0.7, 0.91),
-         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=12, hjust = 0.5, face="bold"),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
            panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
          panel.grid.minor = element_blank(), 
-        axis.text.x=element_text(size = 12, color= "black"), axis.text.y=element_text(size = 12, color = "black"), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
         legend.key=element_blank(),
-          axis.title.x=element_text(size=12), axis.title.y=element_text(size = 12),
-         legend.text = element_text(size = 14), legend.background = element_rect(color = "white")) +
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 28),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
   labs(title="Other", x="% research funding", y = "Percent of responses")+
   scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
 
@@ -1263,7 +1389,7 @@ p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(positi
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-#pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentnarrow.pdf", height=11, width =7)
+pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentnarrow.pdf", height=17, width =13)
 #svg(file="figures/LMI/4.6_DistributionFunding_LMI.svg", width = 11, height= 7)
 
 #for wide view
@@ -1277,9 +1403,274 @@ grid.draw(legend)
 grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4,
                          p5,
-                         layout_matrix=rbind(c(1,1,2,2),c(3,3,4,4), c(NA,5,5,NA))), top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=17)))
+                         layout_matrix=rbind(c(1,1,2,2),c(3,3,4,4), c(NA,5,5,NA))), top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=28)))
 
-#dev.off()
+dev.off()
+
+```
+
+
+```{r 4.6 percent v2, echo=FALSE, message=FALSE, warning=FALSE}
+
+##For-Profit
+fp<-perc.fund.l[perc.fund.l$type=="Industry",]
+
+p1<-ggplot(fp, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98), 
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=26, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=24), axis.title.y=element_text(size = 28),
+        legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
+  labs(title= "Industry", x="", y = "Percent of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+##Government
+gov<-perc.fund.l[perc.fund.l$type=="Government",]
+
+
+p2<-ggplot(gov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.88, 0.93),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=26, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=24), axis.title.y=element_text(size = 24),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
+  labs(title="Government", x="", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+
+##Internal
+
+int<-perc.fund.l[perc.fund.l$type=="Internal",]
+
+
+p3<-ggplot(int, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.8, 0.93),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=26, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 28),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
+  labs(title="Internal",x="", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+
+##Non-Governmental
+
+ngov<-perc.fund.l[perc.fund.l$type=="Non-governmental",]
+
+
+p4<-ggplot(ngov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.88, 0.93),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=26, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 24),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
+  labs(title="Non-governmental", x="% research funding", y = "Percent of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+## Other
+
+other<-perc.fund.l[perc.fund.l$type=="Other",]
+
+
+p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.8, 0.93),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=26, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 22, color= "black"), axis.text.y=element_text(size = 22, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 28),
+         legend.text = element_text(size = 22), legend.background = element_rect(color = "white")) +
+  labs(title="Other", x="% research funding", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+##put them all together
+
+legend = gtable_filter(ggplotGrob(p1), "guide-box") 
+grid.draw(legend)
+
+pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentwide.pdf", height=10, width =20)
+
+#for wide view
+# grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+#                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
+#                          p5,
+#                          layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=17)))
+
+
+#for narrow view
+grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2 + theme(legend.position="none"),
+                         p3 , p4 +theme(legend.position="none"),
+                         p5,
+                         layout_matrix=rbind(c(1,1,2,2,3,3),
+                                             c(NA,4,4,5,5,NA))), 
+             top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=30)))
+
+dev.off()
+
+```
+
+
+```{r 4.6 percent v3, echo=FALSE, message=FALSE, warning=FALSE}
+
+##For-Profit
+fp<-perc.fund.l[perc.fund.l$type=="Industry",]
+
+p1<-ggplot(fp, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98), 
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 26, color= "black"), axis.text.y=element_text(size = 26, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=24), axis.title.y=element_text(size = 28),
+        legend.text = element_text(size = 26), legend.background = element_rect(color = "white")) +
+  labs(title= "Industry", x="", y = "Percent of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+##Government
+gov<-perc.fund.l[perc.fund.l$type=="Government",]
+
+
+p2<-ggplot(gov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.8, 0.91),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 26, color= "black"), axis.text.y=element_text(size = 26, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=24), axis.title.y=element_text(size = 24),
+         legend.text = element_text(size = 26), legend.background = element_rect(color = "white")) +
+  labs(title="Government", x="", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+
+##Internal
+
+int<-perc.fund.l[perc.fund.l$type=="Internal",]
+
+
+p3<-ggplot(int, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.922, 0.98),
+          legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 26, color= "black"), axis.text.y=element_text(size = 26, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 28),
+         legend.text = element_text(size = 26), legend.background = element_rect(color = "white")) +
+  labs(title="Internal",x="% research funding", y = "Percent of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+
+##Non-Governmental
+
+ngov<-perc.fund.l[perc.fund.l$type=="Non-governmental",]
+
+
+p4<-ggplot(ngov, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity') + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.8, 0.93),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 26, color= "black"), axis.text.y=element_text(size = 26, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 28),
+         legend.text = element_text(size = 26), legend.background = element_rect(color = "white")) +
+  labs(title="Non-governmental", x="% research funding", y = "")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+
+## Other
+
+other<-perc.fund.l[perc.fund.l$type=="Other",]
+
+
+p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(position='dodge', stat='identity')  + colScale7 +
+   guides(fill=guide_legend(title=NULL)) +
+    theme(legend.position=c(0.8, 0.91),
+         legend.key.size = unit(0.3, "cm"), plot.title = element_text(size=28, hjust = 0.5, face="bold"),
+           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
+        panel.grid.major.x = element_blank(),
+         panel.grid.minor = element_blank(), 
+        axis.text.x=element_text(size = 26, color= "black"), axis.text.y=element_text(size = 26, color = "black"), 
+        legend.key=element_blank(),
+          axis.title.x=element_text(size=28), axis.title.y=element_text(size = 28),
+         legend.text = element_text(size = 26), legend.background = element_rect(color = "white")) +
+  labs(title="Other", x="% research funding", y = "Percent of responses")+
+  scale_y_continuous(expand =c(0,0), limits=c(0,101), breaks=seq(0, 100, 20)) 
+
+
+##put them all together
+
+legend = gtable_filter(ggplotGrob(p1), "guide-box") 
+grid.draw(legend)
+
+pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percent_3.pdf", height=17, width =17)
+
+#for wide view
+# grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+#                          p3+ theme(legend.position="none"), p4+ theme(legend.position="none"),
+#                          p5,
+#                          layout_matrix=rbind(c(1,1,1,2,2,2),c(3,3,4,4,5,5))), top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=17)))
+
+
+#for narrow view
+grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+                         p3 +theme(legend.position="none"), p4 ,
+                         p5,
+                         layout_matrix=rbind(c(1,1,2,2),
+                                             c(3,3,4,4), 
+                                             c(NA,5,5,NA))),
+             top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=35)))
+
+dev.off()
 
 ```
 
@@ -1708,7 +2099,7 @@ partlevel.perc.l$level<-factor(partlevel.perc.l$level, levels(partlevel.perc.l$l
 
 ```{r 4.8a percent, echo=FALSE, message=FALSE, warning=FALSE}
 
-pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent.pdf", width = 10, height= 12)
+#pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent.pdf", width = 9.5, height= 11)
 pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent_wide.pdf", width = 10, height= 6)
 #svg(file="figures/LMI/4.8A_LevelsOfPartnership_LMI.svg", width = 11, height= 7)
 
@@ -1720,9 +2111,9 @@ ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) +
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-        legend.key=element_blank(),legend.text=element_text(size = 22),
-        axis.text.x=element_text(angle=0, size=22, color = "black"),
-         axis.text.y=element_text(size = 22, color = "black"),
+        legend.key=element_blank(),legend.text=element_text(size = 24),
+        axis.text.x=element_text(angle=0, size=26, color = "black"),
+         axis.text.y=element_text(size = 24, color = "black"),
         axis.title=element_text(size = 28), 
         legend.position=c(0.15, 0.85), 
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) +
@@ -1752,10 +2143,10 @@ g1<-ggplot(data=part.change, aes(x=Var1, y=Freq, fill=Var1))+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(), 
-         axis.text.x=element_text( size=22, color = "black"),
-         axis.text.y=element_text(size = 22, color = "black"),
-        axis.title = element_text(size = 28, color = "black"),
-        plot.title = element_text(hjust = 0.5, size = 28)) + 
+         axis.text.x=element_text( size=28, color = "black"),
+         axis.text.y=element_text(size = 26, color = "black"),
+        axis.title = element_text(size = 30, color = "black"),
+        plot.title = element_text(hjust = 0.5, size = 32)) + 
   colScale +
   #annotate('text', 3.25,606, label="(a)", size=7)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,141), breaks = seq(0,140, 20))
@@ -1775,19 +2166,19 @@ change.part$Var1<-reorder(change.part$Var1, -change.part$Freq)
 
 g2<-ggplot(change.part, aes(x=Var1, y=Freq, fill=Var1)) + 
     geom_bar(stat='identity')+  guides(fill=FALSE) +
-    theme(axis.text.x=element_text( size=22, color = "black"),
-         axis.text.y=element_text(size = 22, color = "black"),
-         axis.title = element_text(size = 28, color = "black"),
+    theme(axis.text.x=element_text( size=28, color = "black"),
+         axis.text.y=element_text(size = 26, color = "black"),
+         axis.title = element_text(size = 30, color = "black"),
          legend.text = element_text(size = 22),
           legend.position=c(0.8, 0.8), 
           legend.title=element_blank(),
           panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
-          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) + 
+          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 32)) + 
   #geom_text(aes(label=Freq), vjust=-0.5, size=3)+
-  labs(x="", y="Number of respondents", title="Reason for change in level of partnerships (LMI)")+
+  labs(x="", y="Number of respondents", title="Reason for change in level\nof partnerships (LMI)")+
   colScale+
-  scale_y_continuous(expand = c(0, 0), limits = c(0,75))
+  scale_y_continuous(expand = c(0, 0), limits = c(0,71), breaks = seq(0,70,10))
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
@@ -1828,11 +2219,11 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
         panel.grid.major.x = element_blank(),
         panel.grid.minor = element_blank(),
-         axis.text.x=element_text(size=22, color = "black"),
-         axis.text.y=element_text(size = 22, color = "black"),
-        axis.title.y=element_text(size=28), 
-        plot.title = element_text(hjust = 0.5, size = 28)) + 
-  labs(x="", y="Number of respondents", title="Opinion of change in partnership level (LMI)") + 
+         axis.text.x=element_text(size=30, color = "black"),
+         axis.text.y=element_text(size = 30, color = "black"),
+        axis.title.y=element_text(size=32), 
+        plot.title = element_text(hjust = 0.5, size = 34)) + 
+  labs(x="", y="Number of respondents", title="Opinion of change in\npartnership level (LMI)") + 
   scale_x_discrete(labels=c("Very\npositive", "Slightly\npositive", "Neutral", "Slightly\nnegative", "Very\nnegative")) +
   colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,50), breaks = seq(0,50,10))
@@ -1877,11 +2268,9 @@ ant$Var1<-factor(ant$Var1, levels(ant$Var1)[c(2,3,1)])
 myColors17<-mycols<-c('#E55934','#9BC53D','#42A3FF')
 colScale9 <- scale_fill_manual(name = "what.type",values = rev(myColors17))
 
-#pdf(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.pdf", height=11, width =7)
-tiff(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.tiff", height=17, width =10, units = "in", res = 600)
-#svg(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.svg", width = 11, height= 7)
 
-ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
+xs <- split(ant,f = ant$Var1)
+p1 <- ggplot(xs$Fundamental, aes(x=Var2, Freq, fill=Var1))+
     geom_bar(stat="identity", position="dodge")+
     theme( axis.text.x=element_text(size=22, color = "black"),
          axis.text.y=element_text(size = 22, color = "black"),
@@ -1894,13 +2283,30 @@ ggplot(data=ant, aes(x=Var2, Freq, fill=Var1))+
           axis.title.y=element_text(size=28), 
           plot.title = element_text(hjust = 0.5, size = 28)) +
     guides(fill=FALSE)+
-    labs(x="", y="Number of respondents", fill="", title="Anticipated change in research funding (LMI)")+
     scale_x_discrete(labels=c("Increase\n considerably", "Increase\n slightly", 
                                     "Stay the\nsame", "Decrease\n slightly", "Decrease\n considerably", "Can't\n comment"))+
-    facet_wrap(~Var1,nrow=3)+
+    facet_wrap(~Var1,nrow=3)
     #geom_text(aes(label=Freq), vjust=-0.5, size=2.8) + 
-  colScale9 +
-  scale_y_continuous(expand = c(0, 0), limits = c(0,101), breaks = seq(0,100,20))
+
+p2 <- p1 %+% xs$`Use-inspired`
+p3 <- p1 %+% xs$Applied
+
+
+p1<-p1+scale_fill_manual(name = "ID",values = "#42A3FF")+labs(x="", title="Anticipated change in research funding (LMI)", y="Number of responses")+ theme(plot.margin=unit(c(1,1,-0.45,1), "cm"), plot.title = element_text(hjust = 0.5, size = 28), strip.text.x = element_text(size=24, color='#3b92e5'))+ scale_y_continuous(expand=c(0,0), limits = c(0,101), breaks = seq(0,100,20))
+
+p2<-p2+scale_fill_manual(name = "ID",values ="#9BC53D")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"), strip.text.x = element_text(size=24, color='#7c9d30')) + scale_y_continuous(expand=c(0,0), limits = c(0,101), breaks = seq(0,100,20)) + labs(x="  ", y="Number of responses", title="")
+
+p3<-p3+scale_fill_manual(name = "ID",values ="#E55934")+ theme(plot.margin=unit(c(-0.5,1,0.5,1), "cm"), strip.text.x = element_text(size=24, color='#ce502e'))+ scale_y_continuous(expand=c(0,0), limits = c(0,101), breaks = seq(0,100,20)) + labs(x = "", y = "Number of responses")
+
+
+
+
+
+pdf(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.pdf", height=19, width =12)
+#tiff(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.tiff", height=17, width =10, units = "in", res = 600)
+#svg(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.svg", width = 11, height= 7)
+
+grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
 
 dev.off()
 
