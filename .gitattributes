@@ -4,3 +4,5 @@
 *.tiff filter=lfs diff=lfs merge=lfs -text
 *.psd filter=lfs diff=lfs merge=lfs -text
 *.html filter=lfs diff=lfs merge=lfs -text
+writing/Figures/HI/4.10_EffectNextGeneration_HI.tiff filter=lfs diff=lfs merge=lfs -text
+LARGE_FILENAME_HERE filter=lfs diff=lfs merge=lfs -text
