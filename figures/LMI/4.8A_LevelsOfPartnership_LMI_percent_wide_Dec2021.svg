@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='936.00pt' height='504.00pt' viewBox='0 0 936.00 504.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA='>
+    <rect x='0.00' y='0.00' width='936.00' height='504.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA=)'>
+</g>
+<defs>
+  <clipPath id='cpNjYuMTJ8OTMwLjUyfDM3LjIzfDQxMi4wOQ=='>
+    <rect x='66.12' y='37.23' width='864.40' height='374.86' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNjYuMTJ8OTMwLjUyfDM3LjIzfDQxMi4wOQ==)'>
+<polyline points='66.12,412.09 930.52,412.09 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='66.12,343.93 930.52,343.93 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='66.12,275.78 930.52,275.78 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='66.12,207.62 930.52,207.62 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='66.12,139.47 930.52,139.47 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='66.12,71.31 930.52,71.31 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<rect x='189.61' y='407.06' width='92.61' height='5.03' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='807.03' y='153.05' width='92.61' height='259.04' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='601.23' y='72.57' width='92.61' height='339.52' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='395.42' y='334.12' width='92.61' height='77.96' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='96.99' y='405.89' width='92.61' height='6.20' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='714.42' y='145.66' width='92.61' height='266.43' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='508.61' y='52.72' width='92.61' height='359.37' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='302.80' y='362.52' width='92.61' height='49.57' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+</g>
+<g clip-path='url(#cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA=)'>
+<text x='61.19' y='420.70' text-anchor='end' style='font-size: 24.00px; font-family: Arial;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='61.19' y='352.54' text-anchor='end' style='font-size: 24.00px; font-family: Arial;' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>10</text>
+<text x='61.19' y='284.38' text-anchor='end' style='font-size: 24.00px; font-family: Arial;' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>20</text>
+<text x='61.19' y='216.23' text-anchor='end' style='font-size: 24.00px; font-family: Arial;' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>30</text>
+<text x='61.19' y='148.07' text-anchor='end' style='font-size: 24.00px; font-family: Arial;' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>40</text>
+<text x='61.19' y='79.92' text-anchor='end' style='font-size: 24.00px; font-family: Arial;' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>50</text>
+<text x='189.61' y='435.68' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='109.82px' lengthAdjust='spacingAndGlyphs'>Exclusive</text>
+<text x='189.61' y='463.76' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='130.07px' lengthAdjust='spacingAndGlyphs'>partnership</text>
+<text x='395.42' y='435.68' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='76.60px' lengthAdjust='spacingAndGlyphs'>Strong</text>
+<text x='395.42' y='463.76' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='130.07px' lengthAdjust='spacingAndGlyphs'>partnership</text>
+<text x='601.23' y='435.68' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='67.92px' lengthAdjust='spacingAndGlyphs'>Some</text>
+<text x='601.23' y='463.76' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='130.07px' lengthAdjust='spacingAndGlyphs'>partnership</text>
+<text x='807.03' y='435.68' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='33.24px' lengthAdjust='spacingAndGlyphs'>No</text>
+<text x='807.03' y='463.76' text-anchor='middle' style='font-size: 26.00px; font-family: Arial;' textLength='130.07px' lengthAdjust='spacingAndGlyphs'>partnership</text>
+<text transform='translate(25.56,224.66) rotate(-90)' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='264.58px' lengthAdjust='spacingAndGlyphs'>Percent of responses</text>
+<rect x='127.72' y='74.39' width='15.86' height='21.10' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='127.72' y='96.91' width='15.86' height='21.10' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<text x='149.77' y='93.55' style='font-size: 24.00px; font-family: Arial;' textLength='114.78px' lengthAdjust='spacingAndGlyphs'>2006-2010</text>
+<text x='149.77' y='116.07' style='font-size: 24.00px; font-family: Arial;' textLength='114.78px' lengthAdjust='spacingAndGlyphs'>2011-2015</text>
+<text x='498.32' y='25.56' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='605.38px' lengthAdjust='spacingAndGlyphs'>Levels of partnerships outside of academia (LMI)</text>
+</g>
+</svg>

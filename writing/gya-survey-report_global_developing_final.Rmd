@@ -29,10 +29,10 @@ dev.off()
 
 #<!-- Import Canadian data, calculate sample sizes -->
  ## CHANGE WORKING DIRECTORY FOR YOUR LOCAL MACHINE BEFORE KNITTING ##
-setwd("/Users/kristinatietjen/Documents/git_hub/gya-research/writing")
+setwd("/Users/kristinatietjen/Documents/github/gya-research")
 
 #load data
-dev <- read.csv("/Users/kristinatietjen/Documents/git_hub/gya-research/data/globalreport_fromAX/gya_survey_clean_final_developing.csv")
+dev <- read.csv("data/globalreport_fromAX/gya_survey_clean_final_developing.csv")
 
 dim(dev)  #2913   86
 head(dev)
@@ -228,11 +228,11 @@ field$Var1<-reorder(field$Var1, field$Freq)
 field$Var1<-revalue(field$Var1, c("Physical Science (eg. math, physics, chemistry, computer science)" = "Physical Science"))
 
 
-pdf(file="figures/LMI/4.1_FieldofResearch_LMI.pdf", width = 13, height= 8)
+#pdf(file="figures/LMI/4.1_FieldofResearch_LMI.pdf", width = 13, height= 8)
 #tiff(file="figures/LMI/4.1_FieldofResearch_LMI.tiff", width = 13, height= 8, units = "in", res = 600)
 #svg(file="figures/LMI/4.1_FieldofResearch_LMI.svg", width = 11, height= 7)
 
-ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
+f4.1.LMI <- ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
     geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   labs(y="Number of respondents",x="", title="Responses by field of research (LMI)")  +
   scale_x_discrete(labels=c("Physical\nScience", "Natural\nScience", "Medicine\n& Life\nScience", "Engineering", "Social\nScience/\nHumanities","Inter-\ndisciplinary\nScience",  "Other")) +
@@ -246,7 +246,9 @@ ggplot(field, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
   guides(fill=FALSE) + colScale+
   scale_y_continuous(expand = c(0,0), limits = c(0,103))
 
-dev.off()
+#dev.off()
+
+ggsave("4.1_FieldofResearch_LMI_Dec2021.svg", plot = f4.1.LMI, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
 ```
 
 
@@ -265,11 +267,11 @@ experience$Var1<-revalue(experience$Var1, c("Early career academic researcher wi
 experience$Var1<-reorder(experience$Var1, experience$Freq)
 
 #pdf(file="figures/LMI/4.2_CareerStage_LMI.pdf", width = 10, height= 12)
-pdf(file="figures/LMI/4.2_CareerStage_LMI_wide.pdf", width = 12, height= 6)
+#pdf(file="figures/LMI/4.2_CareerStage_LMI_wide.pdf", width = 12, height= 6)
 #tiff(file="figures/LMI/4.2_CareerStage_LMI.tiff", width = 8, height= 10, units = "in", res = 600)
 #svg(file="figures/LMI/4.2_CareerStage_LMI.svg", width = 11, height= 7)
 
-ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
+f4.2.lmi <- ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) + 
   geom_bar(stat='identity',position = position_dodge(width=0.5)) + 
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   #scale_x_discrete(labels=c("Senior\nacademic", "Early\ncareer\nacademic", "Postdoc\nor RA", "Senior\nnon-\nacademic", "Early\ncareer\nnon-\nacademic")) + #narrow
@@ -284,7 +286,9 @@ ggplot(experience, aes(x = reorder(Var1, -Freq), Freq, fill=Var1)) +
          panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) + 
   colScale + guides(fill=FALSE)+
   scale_y_continuous(expand = c(0,0), limits = c(0,151))
-dev.off()
+#dev.off()
+
+ggsave("4.2_CareerStage_LMI_wide_Dec2021.svg", plot = f4.2.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
 
 ```
 
@@ -361,13 +365,16 @@ p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2
 
 #plot.margin=unit(c(-0.25,1,-0.3,1)
 
-pdf(file="figures/LMI/4.3_ResearchProportion_LMI.pdf", width = 11, height= 7)
+#pdf(file="figures/LMI/4.3_ResearchProportion_LMI.pdf", width = 11, height= 7)
 #svg(file="figures/LMI/4.3_ResearchProportion_LMI.svg", width = 11, height= 7)
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
-grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
+f4.3.lmi <- grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 
-dev.off()
+#dev.off()
+
+ggsave("4.3_ResearchProportion_LMI_Dec2021.svg", plot = f4.3.lmi, device = "svg", path = "figures/LMI", height = 21, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 
@@ -555,13 +562,16 @@ p3<-p3+scale_fill_manual(name = "ID",values =c('#F0A490','#E55934'), labels=c("2
 
 
 #pdf(file="figures/LMI/4.3_ResearchProportion_percent_LMI.pdf", width = 11, height= 7)
-pdf(file="figures/LMI/4.3_ResearchProportion_percent.narrow_LMI.pdf", width = 7, height= 11)
+#pdf(file="figures/LMI/4.3_ResearchProportion_percent.narrow_LMI.pdf", width = 7, height= 11)
 
 
 #grid.arrange(p1,p2,p3, left= textGrob("(a)", gp = gpar(fontsize=14), y=0.93, hjust = -.75), heights=c(0.35,0.3,0.35))
-grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
+f4.3.lmi <- grid.arrange(p1,p2,p3, heights=c(0.35,0.3,0.35))
 
-dev.off()
+#dev.off()
+
+ggsave("4.3_ResearchProportion_percent.narrow_LMI_Dec2021.svg", plot = f4.3.lmi, device = "svg", path = "figures/LMI", height = 21, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 ```{r 4.3b, echo=FALSE, fig.width=10, message=FALSE, warning=FALSE}
@@ -580,11 +590,11 @@ sum.reason$Var1<-revalue(sum.reason$Var1, c("main_reason_change_career_related" 
 # change order of the levels
 sum.reason$Var1<-factor(sum.reason$Var1,levels(sum.reason$Var1)[c(2,3,1,5,4)])
 
-pdf(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.pdf", width = 7, height= 8)
+#pdf(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.pdf", width = 7, height= 8)
 #png(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.png", width = 7, height= 8, units = "in", res = 600)
 #svg(file="figures/LMI/4.3b_ReasonForFieldChange_LMI.svg", width = 11, height= 7)
 
-ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
+f4.3b.lmi <- ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+ 
   theme( axis.text.x=element_text(size=22, color = "black"),
          axis.text.y=element_text(size = 22, color = "black"), 
          axis.title=element_text(size = 28), 
@@ -599,7 +609,9 @@ ggplot(sum.reason, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 85), breaks = seq(0, 80, 20))#+annotate('text', 5.4,795, label="(b)", size=5)#+geom_text(aes(label=Freq), vjust=-0.5, size=3)
   
 
-dev.off()
+#dev.off()
+
+ggsave("4.3b_ReasonForFieldChange_LMI_Dec2021.svg", plot = f4.3b.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
 
 ```
 
@@ -614,10 +626,10 @@ view<-droplevels(view)
 view$Var1<-factor(view$Var1,levels(view$Var1)[c(5,3,1,2,4)])
 
 #pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI.pdf", width = 8, height= 9)
-pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI_wide.pdf", width = 10, height= 7)
+#pdf(file="figures/LMI/4.3C_ViewFieldChange_LMI_wide.pdf", width = 10, height= 7)
 #svg(file="figures/LMI/4.3C_ViewFieldChange_LMI.svg", width = 11, height= 7)
 
-ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
+f4.3c.lmi <- ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
   theme(axis.text.x=element_text(size=22, color = "black"), 
          axis.text.y=element_text(size = 22, color = "black"), 
         axis.title.y = element_text(size = 28), 
@@ -633,7 +645,10 @@ ggplot(view, aes(x=Var1, y=Freq, fill = Var1)) + geom_bar(stat='identity')+
   scale_y_continuous(expand = c(0, 0), limits = c(0,62))#+
    #+annotate('text', 5.4,133, label="(c)", size=5)
 
-dev.off()
+#dev.off()
+
+ggsave("4.3C_ViewFieldChange_LMI_wide_Dec2021.svg", plot = f4.3c.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 <!--**4.4 Perspectives on the State of Fundamental Research**-->
@@ -647,11 +662,11 @@ import<-droplevels(import)
 
 import$Var1<-factor(import$Var1, levels(import$Var1)[c(6,5,4,3,2,1)])
 
-pdf(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI.pdf", height=11, width =10)
+#pdf(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI.pdf", height=11, width =10)
 #pdf(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI_wide.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.4A_PerceivedImportanceFundamentalGovernment_LMI.svg", width = 11, height= 7)
 
-ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) + 
+f4.4a.lmi <- ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) + 
       geom_bar(stat='identity', position='dodge')+ 
       labs(x="", y="Number of respondents", fill="", title="Perceived importance of fundamental research\nto their government (LMI)")+
       scale_x_discrete(labels=c("Very\nimportant", "Somewhat\nimportant", 'Not very\nimportant', 'Not at all\nimportant', "Can't\ncomment"))+
@@ -665,7 +680,10 @@ ggplot(data=import, aes(x=Var1, y=Freq, fill=Var1)) +
             plot.title = element_text(hjust = 0.5, size = 28)) + guides(fill=FALSE)+ 
   scale_y_continuous(expand = c(0, 0), limits = c(0,110), breaks = seq(0, 100, 20)) + colScale
 
-dev.off()
+#dev.off()
+
+ggsave("4.4A_PerceivedImportanceFundamentalGovernment_LMI_Dec2021.svg", plot = f4.4a.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```
   
 
@@ -683,11 +701,11 @@ sum.priority<-data.frame(table(priority.long$what.type, priority.long$higher.pri
 # change order of the levels
 sum.priority$Var1<-factor(sum.priority$Var1, levels(sum.priority$Var1)[c(2,4,1,3)])
 
-pdf(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.pdf", height=11, width =10)
-pdf(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI_wide.pdf", height=6, width =10)
+#pdf(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.pdf", height=11, width =10)
+#pdf(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI_wide.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.4B_PerceivedChangeResearchPriorityGovernment_LMI.svg", width = 11, height= 7)
 
-ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
+f4.4b.lmi <- ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
         geom_bar(stat="identity", position='dodge')+ guides(fill=FALSE)+
         theme(axis.text.x=element_text( size=22, color = "black"),
          axis.text.y=element_text(size = 22, color = "black"), 
@@ -701,7 +719,10 @@ ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
   #geom_text(aes(label=higher.priority, vjust=-0.5), size=3) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,250))+ colScale
 
-dev.off()
+#dev.off()
+
+ggsave("4.4B_PerceivedChangeResearchPriorityGovernment_LMI_Dec2021.svg", plot = f4.4b.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 <!--**4.5 Research Grants**  -->
@@ -729,10 +750,10 @@ success.change$type<-factor(success.change$type, levels(success.change$type)[c(2
 success.change$type<-revalue(success.change$type, c("success_change_10yrs_fundamental"="Fundamental",
               'success_change_10yrs_use'='Use-inspired', 'success_change_10yrs_applied' = 'Applied'))
 
-pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI.pdf", height=19, width =12)
+#pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI.pdf", height=19, width =12)
 #svg(file="figures/LMI/4.5_ChangeSuccessRate_LMI.svg", width = 11, height= 7)
 
-ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
+f4.5.lmi <- ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nrow=3)+
   geom_bar(stat="identity", position="dodge")+
   guides(fill=guide_legend(title=NULL)) +
   theme(axis.text.x = element_text(angle=0, vjust=0.5, size = 22, color = "black"), 
@@ -750,7 +771,9 @@ ggplot(data=success.change, aes(x=level, Freq, fill=type))+ facet_wrap(~type, nr
   labs(x="", y="Number of responses", fill="", title="Change in grant success rate (LMI)")+ colScale4+
   scale_y_continuous(expand = c(0, 0), limits = c(0,121), breaks = seq(0, 120, 30))
 
-dev.off()
+#dev.off()
+
+ggsave("4.5_ChangeSuccessRate_LMI_Dec2021.svg", plot = f4.5.lmi, device = "svg", path = "figures/LMI", height = 21, width  = 13 , units = "in", dpi = 500)
 
 
 ```
@@ -806,13 +829,14 @@ p2<-p2+scale_fill_manual(name = "ID",values ="#9BC53D")+ theme(plot.margin=unit(
 
 p3<-p3+scale_fill_manual(name = "ID",values ="#E55934")+ theme(plot.margin=unit(c(-0.5,1,0.5,1), "cm"), strip.text.x = element_text(size=24, color='#ce502e'))+ scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30)) + labs(x = "", y = "Number of responses")
 
-pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI_2.pdf", height=19, width =12)
+#pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI_2.pdf", height=19, width =12)
 #svg(file="figures/LMI/4.5_ChangeSuccessRate_LMI.svg", width = 11, height= 7)
 
-grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
+f4.5.2.lmi <- grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
 
-dev.off()
+#dev.off()
 
+ggsave("4.5_ChangeSuccessRate_LMI_2_Dec2021.svg", plot = f4.5.2.lmi, device = "svg", path = "figures/LMI", height = 21, width  = 13 , units = "in", dpi = 500)
 
 ```
 
@@ -867,18 +891,19 @@ p2<-p2+scale_fill_manual(name = "ID",values ="#9BC53D")+ theme(plot.margin=unit(
 
 p3<-p3+scale_fill_manual(name = "ID",values ="#E55934")+ theme(plot.margin=unit(c(-0.5,1,1,1), "cm"), strip.text.x = element_text(size=24, color='#ce502e'))+ scale_y_continuous(expand=c(0,0), limits=c(0,121),breaks=seq(0,120,30)) + labs(x = "", y = "Number of responses")
 
-pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI_3.pdf", height=17, width =25)
+#pdf(file="figures/LMI/4.5_ChangeSuccessRate_LMI_3.pdf", height=17, width =25)
 #svg(file="figures/LMI/4.5_ChangeSuccessRate_LMI.svg", width = 11, height= 7)
 
 #grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
 
 
-grid.arrange(arrangeGrob(p1, p2, p3, 
+f4.5.3.lmi <- grid.arrange(arrangeGrob(p1, p2, p3, 
                          layout_matrix=rbind(c(1,1,2,2),
                                              c(NA,3,3,NA))), top=textGrob("Change in grant success rate (LMI)",gp=gpar(fontsize=28)))
 
-dev.off()
+#dev.off()
 
+ggsave("4.5_ChangeSuccessRate_LMI_3_Dec2021.svg", plot = f4.5.3.lmi, device = "svg", path = "figures/LMI", height = 14, width  = 26 , units = "in", dpi = 500)
 
 ```
 
@@ -1389,7 +1414,7 @@ p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(positi
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentnarrow.pdf", height=17, width =13)
+#pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentnarrow.pdf", height=17, width =13)
 #svg(file="figures/LMI/4.6_DistributionFunding_LMI.svg", width = 11, height= 7)
 
 #for wide view
@@ -1400,12 +1425,14 @@ pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentnarrow.pdf", height=17,
 
 
 #for narrow view
-grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+f4.6.lmi <- grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3+ theme(legend.position="none"), p4,
                          p5,
                          layout_matrix=rbind(c(1,1,2,2),c(3,3,4,4), c(NA,5,5,NA))), top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=28)))
 
-dev.off()
+#dev.off()
+
+ggsave("4.6_DistributionFunding_LMI_percentnarrow_Dec2021.svg", plot = f4.6.lmi, device = "svg", path = "figures/LMI", height = 21, width  = 26 , units = "in", dpi = 500)
 
 ```
 
@@ -1520,7 +1547,7 @@ p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(positi
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentwide.pdf", height=10, width =20)
+#pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentwide.pdf", height=10, width =20)
 
 #for wide view
 # grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
@@ -1530,14 +1557,16 @@ pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percentwide.pdf", height=10, w
 
 
 #for narrow view
-grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2 + theme(legend.position="none"),
+f4.6.wide.lmi <- grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2 + theme(legend.position="none"),
                          p3 , p4 +theme(legend.position="none"),
                          p5,
                          layout_matrix=rbind(c(1,1,2,2,3,3),
                                              c(NA,4,4,5,5,NA))), 
              top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=30)))
 
-dev.off()
+#dev.off()
+
+ggsave("4.6_DistributionFunding_LMI_percentwide_Dec2021.svg", plot = f4.6.wide.lmi, device = "svg", path = "figures/LMI", height = 14, width  = 39 , units = "in", dpi = 500)
 
 ```
 
@@ -1652,7 +1681,7 @@ p5<-ggplot(other, aes(percent.bins, perc.responses, fill=time))+ geom_bar(positi
 legend = gtable_filter(ggplotGrob(p1), "guide-box") 
 grid.draw(legend)
 
-pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percent_3.pdf", height=17, width =17)
+#pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percent_3.pdf", height=17, width =17)
 
 #for wide view
 # grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
@@ -1662,7 +1691,7 @@ pdf(file="figures/LMI/4.6_DistributionFunding_LMI_percent_3.pdf", height=17, wid
 
 
 #for narrow view
-grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
+f4.6.3.lmi <- grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                          p3 +theme(legend.position="none"), p4 ,
                          p5,
                          layout_matrix=rbind(c(1,1,2,2),
@@ -1670,7 +1699,9 @@ grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2,
                                              c(NA,5,5,NA))),
              top=textGrob("Distribution of research funding (LMI)",gp=gpar(fontsize=35)))
 
-dev.off()
+#dev.off()
+
+ggsave("4.6_DistributionFunding_LMI_percent_3_Dec2021.svg", plot = f4.6.3.lmi, device = "svg", path = "figures/LMI", height = 21, width  = 26 , units = "in", dpi = 500)
 
 ```
 
@@ -1695,10 +1726,10 @@ prac<-droplevels(prac)
 #change order of levels
 prac$Var2<-factor(prac$Var2, levels(prac$Var2)[c(2,6,4,5,3,1)])
 
-pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.pdf", height=7, width =11)
+#pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.pdf", height=7, width =11)
 #svg(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.svg", width = 11, height= 7)
 
-ggplot(prac, aes(Var2, Freq, fill=Var1)) + 
+f4.7a.lmi <- ggplot(prac, aes(Var2, Freq, fill=Var1)) + 
   geom_bar(stat="identity", position = "dodge")+
   #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
@@ -1715,7 +1746,10 @@ ggplot(prac, aes(Var2, Freq, fill=Var1)) +
   labs(x="", y="Number of respondents", title="Importance of practical application of research for grant success (LMI)")+ colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,100))
   
-dev.off()
+#dev.off()
+
+ggsave("4.7A_ImportancePracticalApplication_LMI_Dec2021.svg", plot = f4.7a.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 
@@ -1801,10 +1835,10 @@ prac.perc.l$opinion<-factor(prac.perc.l$opinion, levels(prac.perc.l$opinion)[c(2
 ```
 
 ```{r 4.7a percent, echo=FALSE, message=FALSE, warning=FALSE}
-pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI_percent.pdf", height=6, width =10)
+#pdf(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI_percent.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.7A_ImportancePracticalApplication_LMI.svg", width = 11, height= 7)
 
-ggplot(prac.perc.l, aes(opinion, percent, fill=year)) + 
+f4.7a.2.lmi <- ggplot(prac.perc.l, aes(opinion, percent, fill=year)) + 
   geom_bar(stat="identity", position = "dodge")+
   #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.45, size=3, position = position_dodge(width = 0.95))+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
@@ -1821,7 +1855,10 @@ ggplot(prac.perc.l, aes(opinion, percent, fill=year)) +
   labs(x="", y="Percent of responses", title="Importance of practical application of research\nfor grant success (LMI)")+ colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,41))
   
-dev.off()
+#dev.off()
+
+ggsave("4.7A_ImportancePracticalApplication_LMI_percent_Dec2021.svg", plot = f4.7a.2.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 
@@ -1863,6 +1900,8 @@ ggplot(part, aes(Var2, Freq, fill=Var1))+
   scale_y_continuous(expand = c(0, 0), limits = c(0,100))
 
 #dev.off()
+
+
 ```
 
 
@@ -1950,10 +1989,10 @@ part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2
 
 ```{r 4.7b percent, echo=FALSE, message=FALSE, warning=FALSE}
 
-pdf(file="figures/LMI/4.7B_ImportancePartnersApplication_LMI_percent.pdf", height=6, width =10)
+#pdf(file="figures/LMI/4.7B_ImportancePartnersApplication_LMI_percent.pdf", height=6, width =10)
 #svg(file="figures/LMI/4.7B_ImportancePartnersApplication_LMI.svg", width = 11, height= 7)
 
-ggplot(part.perc.l, aes(opinion, percent, fill=year))+ 
+f4.7b <- ggplot(part.perc.l, aes(opinion, percent, fill=year))+ 
   geom_bar(stat="identity", position = "dodge")+
   #geom_text(aes(label=Freq), vjust=-0.7, hjust=0.5, size=3, position = position_dodge(width = 0.8))+
     guides(fill=guide_legend(title=NULL, reverse=FALSE)) +
@@ -1969,7 +2008,10 @@ ggplot(part.perc.l, aes(opinion, percent, fill=year))+
           axis.title.x=element_text(size = 28), axis.title.y=element_text(size = 28), plot.title = element_text(hjust = 0.5, size = 28)) + colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,35))
 
-dev.off()
+#dev.off()
+
+ggsave("4.7B_ImportancePartnersApplication_LMI_percent_Dec2021.svg", plot = f4.7b, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 
@@ -2013,6 +2055,8 @@ ggplot(part.level, aes(x=Var2, y=Freq, fill = Var1),  ylim(0,375)) +
   colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,150))
 
 #dev.off()
+
+
 ```
 
 
@@ -2100,10 +2144,10 @@ partlevel.perc.l$level<-factor(partlevel.perc.l$level, levels(partlevel.perc.l$l
 ```{r 4.8a percent, echo=FALSE, message=FALSE, warning=FALSE}
 
 #pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent.pdf", width = 9.5, height= 11)
-pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent_wide.pdf", width = 10, height= 6)
+#pdf(file="figures/LMI/4.8A_LevelsOfPartnership_LMI_percent_wide.pdf", width = 10, height= 6)
 #svg(file="figures/LMI/4.8A_LevelsOfPartnership_LMI.svg", width = 11, height= 7)
 
-ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) + 
+f4.8a.lmi <- ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) + 
   geom_bar( stat='identity', position="dodge") +
   #geom_text(aes(label=Freq), position=position_dodge(width=1), vjust=-0.5, size=3) +
   labs(x="", y="Percent of responses", fill="", title="Levels of partnerships outside of academia (LMI)")+
@@ -2119,7 +2163,10 @@ ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim(0,375)) +
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) +
   colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,55))
 
-dev.off()
+#dev.off()
+
+ggsave("4.8A_LevelsOfPartnership_LMI_percent_wide_Dec2021.svg", plot = f4.8a.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```
 
 
@@ -2182,20 +2229,24 @@ g2<-ggplot(change.part, aes(x=Var1, y=Freq, fill=Var1)) +
 
 #annotate('text', 5,420, label="(b)", size=7)+ 
 
-pdf(file="figures/LMI/4.8B_PartnershipChange&Reason_LMI.pdf", width = 10, height= 17)
+#pdf(file="figures/LMI/4.8B_PartnershipChange&Reason_LMI.pdf", width = 10, height= 17)
 #svg(file="figures/LMI/4.8B_PartnershipChange_LMI.svg", width = 11, height= 7)
 
-grid.arrange(g1, g2, ncol=1)
+f4.8b.1.lmi <- grid.arrange(g1, g2, ncol=1)
 
-dev.off()
+#dev.off()
+
+ggsave("4.8B_PartnershipChange&Reason_LMI_Dec2021.svg", plot = f4.8b.1.lmi, device = "svg", path = "figures/LMI", height = 14, width  = 13 , units = "in", dpi = 500)
 
 
-pdf(file="figures/LMI/4.8B_PartnershipChange&Reason_LMI_wide.pdf", width = 25, height= 10)
+#pdf(file="figures/LMI/4.8B_PartnershipChange&Reason_LMI_wide.pdf", width = 25, height= 10)
 #svg(file="figures/LMI/4.8B_PartnershipChange_LMI.svg", width = 11, height= 7)
 
-grid.arrange(g1, g2, nrow=1)
+f4.8b.2.lmi <- grid.arrange(g1, g2, nrow=1)
 
-dev.off()
+#dev.off()
+
+ggsave("4.8B_PartnershipChange&Reason_LMI_wide_Dec2021.svg", plot = f4.8b.2.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 26 , units = "in", dpi = 500)
 
 ```
 
@@ -2210,10 +2261,10 @@ view<-droplevels(view)
 
 view$Var1<-factor(view$Var1, levels(view$Var1)[c(5,3,1,2,4)])
 
-pdf(file="figures/LMI/4.8C_ViewChangePartnership_LMI.pdf", width = 10, height= 12)
+#pdf(file="figures/LMI/4.8C_ViewChangePartnership_LMI.pdf", width = 10, height= 12)
 #svg(file="figures/LMI/4.8C_ViewChangePartnership_LMI.svg", width = 11, height= 7)
 
-ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
+f4.8c.lmi <- ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   guides(fill=FALSE)+
   theme(panel.grid.major.y = element_line(linetype = 3, color = "darkgrey", size = .3),
@@ -2228,7 +2279,9 @@ ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identity')+
   colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,50), breaks = seq(0,50,10))
 
-dev.off()
+#dev.off()
+
+ggsave("4.8C_ViewChangePartnership_LMI_Dec2021.svg", plot = f4.8c.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
 
 ```
  
@@ -2302,14 +2355,15 @@ p3<-p3+scale_fill_manual(name = "ID",values ="#E55934")+ theme(plot.margin=unit(
 
 
 
-pdf(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.pdf", height=19, width =12)
+#pdf(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.pdf", height=19, width =12)
 #tiff(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.tiff", height=17, width =10, units = "in", res = 600)
 #svg(file="figures/LMI/4.9_AnticipatedChangeFunding_LMI.svg", width = 11, height= 7)
 
-grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
+f4.9.lmi <- grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
 
-dev.off()
+#dev.off()
 
+ggsave("4.9_AnticipatedChangeFunding_LMI_Dec2021.svg", plot = f4.9.lmi, device = "svg", path = "figures/LMI", height = 21, width  = 13 , units = "in", dpi = 500)
 
 ```
 
@@ -2329,11 +2383,11 @@ future$Var1<-as.factor(future$Var1)
 ## change order of Var1s
 future$Var1<-factor(future$Var1, levels(future$Var1)[c(4,5,6,3,2,1)])
 
-pdf(file="figures/LMI/4.10_EffectNextGeneration_LMI.pdf", height=7, width =11)
+#pdf(file="figures/LMI/4.10_EffectNextGeneration_LMI.pdf", height=7, width =11)
 #tiff(file="figures/LMI/4.10_EffectNextGeneration_LMI.tiff", height=11, width =10, units = "in", res = 600)
 #svg(file="figures/LMI/4.10_EffectNextGeneration_LMI.svg", width = 11, height= 7)
 
-ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+ 
+f4.10.lmi <- ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+ 
     geom_bar(stat='identity', position="dodge")  +
         scale_x_discrete(labels=c("Increase\nconsiderably", "Increase\nslightly", 
                                     "Stay the\nsame", "Decrease\nslightly", "Decrease\nconsiderably", "Can't\ncomment"))+
@@ -2349,5 +2403,8 @@ ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,62))+colScale
 
-dev.off()
+#dev.off()
+
+ggsave("4.10_EffectNextGeneration_LMI_Dec2021.svg", plot = f4.10.lmi, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+
 ```

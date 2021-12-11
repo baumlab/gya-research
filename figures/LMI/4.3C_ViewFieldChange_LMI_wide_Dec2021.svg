@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='936.00pt' height='504.00pt' viewBox='0 0 936.00 504.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA='>
+    <rect x='0.00' y='0.00' width='936.00' height='504.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA=)'>
+</g>
+<defs>
+  <clipPath id='cpNjMuODl8OTMwLjUyfDM3LjIzfDQzNi4xMQ=='>
+    <rect x='63.89' y='37.23' width='866.63' height='398.88' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNjMuODl8OTMwLjUyfDM3LjIzfDQzNi4xMQ==)'>
+<polyline points='63.89,436.11 930.52,436.11 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='63.89,307.44 930.52,307.44 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='63.89,178.77 930.52,178.77 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='63.89,50.10 930.52,50.10 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<rect x='422.21' y='301.01' width='149.99' height='135.11' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='588.87' y='371.78' width='149.99' height='64.34' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='255.55' y='198.07' width='149.99' height='238.04' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='755.53' y='416.81' width='149.99' height='19.30' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='88.89' y='50.10' width='149.99' height='386.02' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+</g>
+<g clip-path='url(#cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA=)'>
+<text x='58.96' y='444.01' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='58.96' y='315.33' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>20</text>
+<text x='58.96' y='186.66' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>40</text>
+<text x='58.96' y='57.99' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>60</text>
+<text x='163.89' y='456.83' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='45.24px' lengthAdjust='spacingAndGlyphs'>Very</text>
+<text x='163.89' y='480.59' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='74.59px' lengthAdjust='spacingAndGlyphs'>positive</text>
+<text x='330.54' y='456.83' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='70.92px' lengthAdjust='spacingAndGlyphs'>Slightly</text>
+<text x='330.54' y='480.59' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='74.59px' lengthAdjust='spacingAndGlyphs'>positive</text>
+<text x='497.20' y='456.83' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='70.92px' lengthAdjust='spacingAndGlyphs'>Neutral</text>
+<text x='663.86' y='456.83' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='70.92px' lengthAdjust='spacingAndGlyphs'>Slightly</text>
+<text x='663.86' y='480.59' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='83.17px' lengthAdjust='spacingAndGlyphs'>negative</text>
+<text x='830.52' y='456.83' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='45.24px' lengthAdjust='spacingAndGlyphs'>Very</text>
+<text x='830.52' y='480.59' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='83.17px' lengthAdjust='spacingAndGlyphs'>negative</text>
+<text transform='translate(25.56,236.67) rotate(-90)' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='292.59px' lengthAdjust='spacingAndGlyphs'>Number of respondents</text>
+<text x='497.20' y='25.56' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='477.78px' lengthAdjust='spacingAndGlyphs'>Opinion of research type change (LMI)</text>
+</g>
+</svg>
