@@ -11,7 +11,7 @@
     }
   ]]></style>
 </defs>
-<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<rect width='100%' height='100%' style='stroke: none; fill: none;'/>
 <defs>
   <clipPath id='cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA='>
     <rect x='0.00' y='0.00' width='936.00' height='504.00' />
@@ -20,51 +20,46 @@
 <g clip-path='url(#cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA=)'>
 </g>
 <defs>
-  <clipPath id='cpNjMuODl8OTMwLjUyfDY3LjQ3fDQyMC4xNw=='>
-    <rect x='63.89' y='67.47' width='866.63' height='352.70' />
+  <clipPath id='cpNjMuODl8OTMwLjUyfDY3LjQ3fDQ0My45Mw=='>
+    <rect x='63.89' y='67.47' width='866.63' height='376.46' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpNjMuODl8OTMwLjUyfDY3LjQ3fDQyMC4xNw==)'>
-<polyline points='63.89,420.17 930.52,420.17 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
-<polyline points='63.89,334.14 930.52,334.14 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
-<polyline points='63.89,248.12 930.52,248.12 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
-<polyline points='63.89,162.10 930.52,162.10 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
-<polyline points='63.89,76.07 930.52,76.07 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
-<rect x='846.65' y='372.52' width='62.90' height='47.65' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
-<rect x='147.76' y='249.48' width='62.90' height='170.69' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
-<rect x='706.87' y='342.68' width='62.90' height='77.49' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
-<rect x='427.32' y='267.81' width='62.90' height='152.36' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
-<rect x='567.09' y='272.52' width='62.90' height='147.65' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
-<rect x='287.54' y='155.76' width='62.90' height='264.40' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
-<rect x='783.75' y='267.92' width='62.90' height='152.25' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
-<rect x='84.86' y='368.52' width='62.90' height='51.65' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
-<rect x='643.97' y='296.43' width='62.90' height='123.74' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
-<rect x='364.41' y='255.54' width='62.90' height='164.62' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
-<rect x='504.19' y='212.51' width='62.90' height='207.66' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
-<rect x='224.64' y='259.85' width='62.90' height='160.32' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<g clip-path='url(#cpNjMuODl8OTMwLjUyfDY3LjQ3fDQ0My45Mw==)'>
+<polyline points='63.89,443.93 930.52,443.93 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='63.89,352.11 930.52,352.11 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='63.89,260.29 930.52,260.29 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='63.89,168.47 930.52,168.47 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<polyline points='63.89,76.65 930.52,76.65 ' style='stroke-width: 0.64; stroke: #A9A9A9; stroke-dasharray: 1.00,3.00; stroke-linecap: butt;' />
+<rect x='846.65' y='393.07' width='62.90' height='50.85' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='147.76' y='261.74' width='62.90' height='182.18' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='706.87' y='361.22' width='62.90' height='82.71' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='427.32' y='281.30' width='62.90' height='162.62' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='567.09' y='286.33' width='62.90' height='157.59' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='287.54' y='161.71' width='62.90' height='282.22' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<rect x='783.75' y='281.42' width='62.90' height='162.51' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='84.86' y='388.80' width='62.90' height='55.13' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='643.97' y='311.86' width='62.90' height='132.07' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='364.41' y='268.21' width='62.90' height='175.71' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='504.19' y='222.28' width='62.90' height='221.65' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='224.64' y='272.81' width='62.90' height='171.12' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
 </g>
 <g clip-path='url(#cpMC4wMHw5MzYuMDB8MC4wMHw1MDQuMDA=)'>
-<text x='58.96' y='428.06' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>0</text>
-<text x='58.96' y='342.03' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>10</text>
-<text x='58.96' y='256.01' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>20</text>
-<text x='58.96' y='169.99' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>30</text>
-<text x='58.96' y='83.97' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>40</text>
-<text x='147.76' y='440.88' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='103.93px' lengthAdjust='spacingAndGlyphs'>Mandatory</text>
-<text x='287.54' y='440.88' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='45.24px' lengthAdjust='spacingAndGlyphs'>Very</text>
-<text x='287.54' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='97.81px' lengthAdjust='spacingAndGlyphs'> important</text>
-<text x='427.32' y='440.88' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='52.58px' lengthAdjust='spacingAndGlyphs'>Quite</text>
-<text x='427.32' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='97.81px' lengthAdjust='spacingAndGlyphs'> important</text>
-<text x='567.09' y='440.88' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='103.93px' lengthAdjust='spacingAndGlyphs'>Somewhat</text>
-<text x='567.09' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='97.81px' lengthAdjust='spacingAndGlyphs'> important</text>
-<text x='706.87' y='440.88' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='86.82px' lengthAdjust='spacingAndGlyphs'>Not at all</text>
-<text x='706.87' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='97.81px' lengthAdjust='spacingAndGlyphs'> important</text>
-<text x='846.65' y='440.88' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='50.67px' lengthAdjust='spacingAndGlyphs'>Can't</text>
-<text x='846.65' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='96.57px' lengthAdjust='spacingAndGlyphs'> comment</text>
-<text transform='translate(25.56,243.82) rotate(-90)' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='264.58px' lengthAdjust='spacingAndGlyphs'>Percent of responses</text>
-<rect x='771.92' y='82.01' width='15.86' height='19.23' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
-<rect x='771.92' y='102.66' width='15.86' height='19.23' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
-<text x='793.97' y='99.52' style='font-size: 22.00px; font-family: Arial;' textLength='105.19px' lengthAdjust='spacingAndGlyphs'>2006-2010</text>
-<text x='793.97' y='120.17' style='font-size: 22.00px; font-family: Arial;' textLength='105.19px' lengthAdjust='spacingAndGlyphs'>2011-2015</text>
+<text x='58.96' y='451.82' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='12.23px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='58.96' y='360.00' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>10</text>
+<text x='58.96' y='268.18' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>20</text>
+<text x='58.96' y='176.36' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>30</text>
+<text x='58.96' y='84.54' text-anchor='end' style='font-size: 22.00px; font-family: Arial;' textLength='24.47px' lengthAdjust='spacingAndGlyphs'>40</text>
+<text x='147.76' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='103.93px' lengthAdjust='spacingAndGlyphs'>Mandatory</text>
+<text x='287.54' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='143.05px' lengthAdjust='spacingAndGlyphs'>Very important</text>
+<text x='427.32' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='150.39px' lengthAdjust='spacingAndGlyphs'>Quite important</text>
+<text x='567.09' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='201.74px' lengthAdjust='spacingAndGlyphs'>Somewhat important</text>
+<text x='706.87' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='184.63px' lengthAdjust='spacingAndGlyphs'>Not at all important</text>
+<text x='846.65' y='464.64' text-anchor='middle' style='font-size: 22.00px; font-family: Arial;' textLength='147.24px' lengthAdjust='spacingAndGlyphs'>Can't comment</text>
+<text transform='translate(25.56,255.70) rotate(-90)' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='264.58px' lengthAdjust='spacingAndGlyphs'>Percent of responses</text>
+<rect x='771.92' y='84.15' width='15.86' height='19.23' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #97CCFF;' />
+<rect x='771.92' y='104.80' width='15.86' height='19.23' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #42A3FF;' />
+<text x='793.97' y='101.66' style='font-size: 22.00px; font-family: Arial;' textLength='105.19px' lengthAdjust='spacingAndGlyphs'>2006-2010</text>
+<text x='793.97' y='122.31' style='font-size: 22.00px; font-family: Arial;' textLength='105.19px' lengthAdjust='spacingAndGlyphs'>2011-2015</text>
 <text x='497.20' y='25.56' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='572.71px' lengthAdjust='spacingAndGlyphs'>Importance of practical application of research</text>
 <text x='497.20' y='55.80' text-anchor='middle' style='font-size: 28.00px; font-family: Arial;' textLength='267.60px' lengthAdjust='spacingAndGlyphs'>for grant success (HI)</text>
 </g>

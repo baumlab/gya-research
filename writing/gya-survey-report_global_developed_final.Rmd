@@ -626,7 +626,7 @@ f4.4b.hi <- ggplot(data=sum.priority, aes(x=Var1, Freq, fill=Var1))+
 f4.4b.hi
 #dev.off()
 
-ggsave("4.4B_PerceivedChangeResearchPriorityGovernment_HI_Dec2021.svg", plot = f4.4b.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.4B_PerceivedChangeResearchPriorityGovernment_HI_Dec2021.svg", plot = f4.4b.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
 ```
 
 <!--**4.5 Research Grants**  -->
@@ -719,7 +719,7 @@ p1 <- ggplot(xs$Fundamental, aes(x=level, Freq, fill=type))+ facet_wrap(~type, n
   guides(fill=FALSE)+
   #geom_text(aes(label=Freq, vjust=-0.4),size=3) +
   scale_x_discrete(labels=c("Increased\n considerably", "Increased\n slightly", 
-                                    "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))
+                                   "Stayed the\n same", "Decreased\n slightly", "Decreased\n considerably", "Can't\n comment"),limits = (levels(success.change$level)))
   
 
 p2 <- p1 %+% xs$`Use-inspired`
@@ -740,7 +740,7 @@ f4.5.HI
 #dev.off()
 
 
-ggsave("4.5_ChangeSuccessRate_HI_2_Dec2021.svg", plot = f4.5.HI, device = "svg", path = "figures/HI", height = 21, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.5_ChangeSuccessRate_HI_2_Dec2021.svg", plot = f4.5.HI, device = "svg", path = "figures/HI", height = 21, width  = 13 , units = "in", dpi = 500)
 
 ```
 
@@ -805,10 +805,10 @@ p3<-p3+scale_fill_manual(name = "ID",values ="#E55934")+ theme(plot.margin=unit(
 f4.5.3.hi <- grid.arrange(arrangeGrob(p1, p2, p3, 
                          layout_matrix=rbind(c(1,1,2,2),
                                              c(NA,3,3,NA))), top=textGrob("Change in grant success rate (HI)",gp=gpar(fontsize=28)))
-
+f4.5.3.hi
 #dev.off()
 
-ggsave("4.5_ChangeSuccessRate_HI_3_Dec2021.svg", plot = f4.5.3.hi, device = "svg", path = "figures/HI", height = 14, width  = 26 , units = "in", dpi = 500)
+#ggsave("4.5_ChangeSuccessRate_HI_3_Dec2021.svg", plot = f4.5.3.hi, device = "svg", path = "figures/HI", height = 14, width  = 26 , units = "in", dpi = 500)
 
 ```
 
@@ -1333,9 +1333,10 @@ f4.6.narrow.hi <- grid.arrange(arrangeGrob(p1+ theme(legend.position="none"), p2
                          p5,
                          layout_matrix=rbind(c(1,1,2,2),c(3,3,4,4), c(NA,5,5,NA))), top=textGrob("Distribution of research funding (HI)",gp=gpar(fontsize=28)))
 
+f4.6.narrow.hi
 #dev.off()
 
-ggsave("4.6_DistributionFunding_HI_percentnarrow_Dec2021.svg", plot = f4.6.narrow.hi, device = "svg", path = "figures/HI", height = 21, width  = 26 , units = "in", dpi = 500)
+#ggsave("4.6_DistributionFunding_HI_percentnarrow_Dec2021.svg", plot = f4.6.narrow.hi, device = "svg", path = "figures/HI", height = 21, width  = 26 , units = "in", dpi = 500)
 
 ```
 
@@ -1754,10 +1755,11 @@ f4.7a.hi <- ggplot(prac.perc.l, aes(opinion, percent, fill=year)) +
   scale_x_discrete(labels=c("Mandatory", "Very\n important","Quite\n important", 'Somewhat\n important', 'Not at all\n important', "Can't\n comment"))+
   labs(x="", y="Percent of responses", title="Importance of practical application of research\nfor grant success (HI)")+ colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,41))
-  
+
+f4.7a.hi
 #dev.off()
 
-ggsave("4.7A_ImportancePracticalApplication_HI_percent_Dec2021.svg", plot = f4.7a.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.7A_ImportancePracticalApplication_HI_percent_Dec2021.svg", plot = f4.7a.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
 ```
 
 
@@ -1879,7 +1881,7 @@ str(part.perc.l)
 part.perc.l$year <- as.factor(part.perc.l$year)
 levels(part.perc.l$year)
 levels(part.perc.l$opinion)
-part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2,6,4,5,3,1)])
+part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2,5,6,4,3,1)])
 
 
 ```
@@ -1904,9 +1906,10 @@ f4.7b.hi <- ggplot(part.perc.l, aes(opinion, percent, fill=year))+
           axis.title.x=element_text(size = 28), axis.title.y=element_text(size = 28), plot.title = element_text(hjust = 0.5, size = 28)) + colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,35))
 
+f4.7b.hi
 #dev.off()
 
-ggsave("4.7B_ImportancePartnersApplication_HI_percent_Dec2021.svg", plot = f4.7b.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
+ggsave("4.7B_ImportancePartnersApplication_HI_percent_Aug2022.svg", plot = f4.7b.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
 
 ```
 
@@ -2056,9 +2059,10 @@ f4.8a.hi <- ggplot(partlevel.perc.l, aes(x=level, y=percent, fill = year),  ylim
         legend.title=element_blank(), plot.title = element_text(hjust = 0.5, size = 28)) +
   colScale7+scale_y_continuous(expand = c(0, 0), limits = c(0,55))
 
+f4.8a.hi
 #dev.off()
 
-ggsave("4.8A_LevelsOfPartnership_HI_percent_Dec2021.svg", plot = f4.8a.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.8A_LevelsOfPartnership_HI_percent_Dec2021.svg", plot = f4.8a.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
 
 ```
 
@@ -2129,7 +2133,7 @@ f4.8b.hi <- grid.arrange(g1, g2, ncol=1)
 
 dev.off()
 
-ggsave("4.8B_PartnershipChange&Reason_HI_Dec2021.svg", plot = f4.8b.hi, device = "svg", path = "figures/HI", height = 14, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.8B_PartnershipChange&Reason_HI_Dec2021.svg", plot = f4.8b.hi, device = "svg", path = "figures/HI", height = 14, width  = 13 , units = "in", dpi = 500)
 
 
 #pdf(file="figures/HI/4.8B_PartnershipChange&Reason_wide.pdf", width = 25, height= 10)
@@ -2139,7 +2143,7 @@ f4.8b.wide.hi <- grid.arrange(g1, g2, nrow=1)
 
 #dev.off()
 
-ggsave("4.8B_PartnershipChange&Reason_wide_HI_Dec2021.svg", plot = f4.8b.wide.hi, device = "svg", path = "figures/HI", height = 7, width  = 26 , units = "in", dpi = 500)
+#ggsave("4.8B_PartnershipChange&Reason_wide_HI_Dec2021.svg", plot = f4.8b.wide.hi, device = "svg", path = "figures/HI", height = 7, width  = 26 , units = "in", dpi = 500)
 
 ```
 
@@ -2172,9 +2176,10 @@ f4.8c.hi <- ggplot(view, aes(x=Var1, y=Freq, fill=Var1)) + geom_bar(stat='identi
   colScale+
   scale_y_continuous(expand = c(0, 0), limits = c(0,210), breaks = seq(0,200,50))
 
+f4.8c.hi
 #dev.off()
 
-ggsave("4.8C_ViewChangePartnership_HI_Dec2021.svg", plot = f4.8c.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.8C_ViewChangePartnership_HI_Dec2021.svg", plot = f4.8c.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
 
 ```
  
@@ -2253,7 +2258,7 @@ f4.9.hi <- grid.arrange(p1,p2,p3, heights=c(0.33,0.33,0.33))
 
 #dev.off()
 
-ggsave("4.9_AnticipatedChangeFunding_HI_Dec2021.svg", plot = f4.9.hi, device = "svg", path = "figures/HI", height = 21, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.9_AnticipatedChangeFunding_HI_Dec2021.svg", plot = f4.9.hi, device = "svg", path = "figures/HI", height = 21, width  = 13 , units = "in", dpi = 500)
 
 
 ```
@@ -2294,7 +2299,8 @@ f4.10.hi <- ggplot(data=future, aes(x=Var1, Freq, fill=Var1))+
   #geom_text(aes(label=Freq, vjust=-0.5), size=3)+
   scale_y_continuous(expand = c(0, 0), limits = c(0,530))+colScale
 
+f4.10.hi
 #dev.off()
 
-ggsave("4.10_EffectNextGeneration_HI_Dec2021.svg", plot = f4.10.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
+#ggsave("4.10_EffectNextGeneration_HI_Dec2021.svg", plot = f4.10.hi, device = "svg", path = "figures/HI", height = 7, width  = 13 , units = "in", dpi = 500)
 ```

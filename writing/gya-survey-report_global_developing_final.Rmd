@@ -1916,12 +1916,12 @@ head(partners)
 current.part <- as.data.frame(length(na.omit(partners$include_nonacademia_partners_success_11_15)))
 colnames(current.part)<-c("totalcur")
 current.part
-current.part <- current.part - 6
+current.part <- current.part - 6 # remove non responses
 current.part
 past.part <- as.data.frame(length(na.omit(partners$include_nonacademia_partners_success_6_10)))
 colnames(past.part)<-c("totalpast")
 past.part
-past.part <- past.part-28
+past.part <- past.part-28 # remove non responses
 past.part
 
 #now calculate number of each
@@ -1935,6 +1935,7 @@ partcur <- partcur[!partcur$opinion == 0, ]
 partcur <- droplevels(partcur)
 partcur
 
+ 
 partpast <- as.data.frame(table(partners$include_nonacademia_partners_success_6_10))
 partpast
 colnames(partpast) <- c("opinion", "num.opin")
@@ -1953,8 +1954,10 @@ partpast
 #now calculate percentage
 partcur$perc <- (partcur$num.opin/partcur$totalcur)*100
 partcur
+sum(partcur$perc)
 partpast$perc <- (partpast$num.opin/partpast$totalpast)*100
 partpast
+sum(partpast$perc)
 
 #combine
 part.perc <- partcur
@@ -1982,8 +1985,8 @@ str(part.perc.l)
 part.perc.l$year <- as.factor(part.perc.l$year)
 levels(part.perc.l$year)
 levels(part.perc.l$opinion)
-part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2,6,4,5,3,1)])
-
+part.perc.l$opinion<-factor(part.perc.l$opinion, levels(part.perc.l$opinion)[c(2,5,6,4,3,1)])
+head(part.perc.l)
 
 ```
 
@@ -2008,9 +2011,10 @@ f4.7b <- ggplot(part.perc.l, aes(opinion, percent, fill=year))+
           axis.title.x=element_text(size = 28), axis.title.y=element_text(size = 28), plot.title = element_text(hjust = 0.5, size = 28)) + colScale7+
   scale_y_continuous(expand = c(0, 0), limits = c(0,35))
 
+f4.7b
 #dev.off()
 
-ggsave("4.7B_ImportancePartnersApplication_LMI_percent_Dec2021.svg", plot = f4.7b, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
+ggsave("4.7B_ImportancePartnersApplication_LMI_percent_Aug2022.svg", plot = f4.7b, device = "svg", path = "figures/LMI", height = 7, width  = 13 , units = "in", dpi = 500)
 
 ```
 
